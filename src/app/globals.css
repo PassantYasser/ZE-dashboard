@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
+  font-family: "Readex Pro";
   
 }
 
 
 body {
-  
+    font-family: "Readex Pro";
 }
