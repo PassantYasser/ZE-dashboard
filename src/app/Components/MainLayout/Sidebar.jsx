@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import i18n from "../../../language/i18n";
-import Logo from '../../../../public/images/icons/signout.svg'
+
+import Link from 'next/link';
 
 
 function Sidebar() {
@@ -41,7 +41,7 @@ function Sidebar() {
       {/* Navigation */}
       <nav className="">
         <ul className=''>
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 0 ? "bg-[#C69815] text-[#fff] " : ""}`}
+          <li className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 0 ? "bg-[#C69815] text-[#fff] " : ""}`}
               onClick={() => { setActiveIndex(0); setCurrentPath('dashboard'); }}>
             {open?(
             //open 
@@ -60,10 +60,10 @@ function Sidebar() {
             onClick={() => { setActiveIndex(1); setCurrentPath('dashboard'); }}>
             {open?(
             //open 
-              <div className='flex gap-4 items-center'>
+              <Link href={`/login`} className='flex gap-4 items-center'>
                 <img src="/images/icons/Requests.svg" alt="" className={activeIndex === 1 ? "invert" : ""}/>
                 <p>{t('Requests')}</p>
-              </div>
+              </Link>
             ):(
               <div className='flex justify-center items-center'>
                 <img src="/images/icons/Requests.svg" alt="" className={activeIndex === 1 ? "invert" : ""}/>

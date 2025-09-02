@@ -11,8 +11,7 @@ function Homepage() {
     <>
     {/* with navbar and sidebar */}
       <MainLayout> 
-        <h2>Home Page</h2>
-        <p>{t('welcome')}</p>
+      ----
       </MainLayout>
 
       {/* without navbar and sidebar */}
