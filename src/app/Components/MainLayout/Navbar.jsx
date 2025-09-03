@@ -20,12 +20,12 @@ function Navbar() {
     <>
     <header className="h-20 bg-[#fff] border-b border-[#E3E8EF] flex items-center justify-between px-4">
       <div>
-        <p>{t('Welcome back!')} </p>
-        <p>{t('Lets check your update today')}</p>
+        <p className='text-[#4B5565] text-lg font-medium'>{t('Welcome back!')} </p>
+        <p className='text-[#697586] text-sm font-normal'>{t('Lets check your update today')}</p>
       </div>
-    <div className="">
 
-      {/* Language Selector */}
+    <div className="">
+      
       <select
         onChange={handleLangChange}
         value={i18n.language}
@@ -34,8 +34,8 @@ function Navbar() {
         <option value="en">{open ? "English" : "En"}</option>
         <option value="ar">{open ? "العربية" : "ar"}</option>
       </select>
-
     </div>
+    
     </header>
     </>
   )

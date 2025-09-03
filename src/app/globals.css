@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+
+
+/* tablet 768--->1439px
+labtop 1440--->--- */
+
+
+@theme {
+  --breakpoint-md768: 768px;
+  --breakpoint-lg1024: 1024px;
+  --breakpoint-xl1440: 1440px;  
+}
+
 :root {
   font-family: "Readex Pro";
   
