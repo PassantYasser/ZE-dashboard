@@ -3,7 +3,7 @@ import React from 'react'
 import MainLayout from './Components/MainLayout/MainLayout';
 import { useTranslation } from 'react-i18next';
 
-function Homepage() {
+function Homepage({ children }) {
   const {t}= useTranslation();
 
 
@@ -11,10 +11,12 @@ function Homepage() {
     <>
     {/* with navbar and sidebar */}
       <MainLayout> 
-      ----
+        { children }
       </MainLayout>
 
       {/* without navbar and sidebar */}
+
+
       
 
     </>

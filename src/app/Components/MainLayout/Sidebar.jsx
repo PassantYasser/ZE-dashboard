@@ -1,8 +1,11 @@
+"use client";
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 
 
 function Sidebar() {
@@ -10,7 +13,8 @@ function Sidebar() {
   const { t } = useTranslation();
 
   const [activeIndex, setActiveIndex] = useState(null); // track clicked li
-  const [currentPath, setCurrentPath] = useState(""); // store path/name clicked
+
+    const pathname = usePathname();
 
 
 
@@ -41,130 +45,137 @@ function Sidebar() {
       {/* Navigation */}
       <nav className="">
         <ul className=''>
-          <li className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 0 ? "bg-[#C69815] text-[#fff] " : ""}`}
-              onClick={() => { setActiveIndex(0); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/dashboard.svg" alt="" className={activeIndex === 0 ? "invert" : ""}/>
-                <p>{t('dashboard')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/dashboard.svg" alt="" className={activeIndex === 0 ? "invert" : ""}/>
-              </div>
-            )}
+          <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/dashboard" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/dashboard">
+                {open?(
+                //open 
+                  <div  className='flex gap-4 items-center'>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/dashboard" ? "invert" : ""}/>
+                    <p>{t('dashboard')}</p>
+                  </div>
+                ):(
+                  <div className='flex justify-center items-center'>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/dashboard" ? "invert" : ""}/>
+                  </div>
+                )}
+            </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 1 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(1); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <Link href={`/login`} className='flex gap-4 items-center'>
-                <img src="/images/icons/Requests.svg" alt="" className={activeIndex === 1 ? "invert" : ""}/>
-                <p>{t('Requests')}</p>
-              </Link>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/Requests.svg" alt="" className={activeIndex === 1 ? "invert" : ""}/>
-              </div>
-            )}
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/requests" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/requests">
+                {open?(
+                //open 
+                  <div  className='flex gap-4 items-center'>
+                    <img src="/images/icons/Requests.svg" alt="" className={pathname === "/requests" ? "invert" : ""}/>
+                    <p>{t('Requests')}</p>
+                  </div>
+                ):(
+                  <div className='flex justify-center items-center'>
+                    <img src="/images/icons/Requests.svg" alt="" className={pathname === "/requests" ? "invert" : ""}/>
+                  </div>
+                )}
+            </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 2 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(2); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/workers.svg" alt="" className={activeIndex === 2 ? "invert" : ""}/>
-                <p>{t('workers')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/workers.svg" alt="" className={activeIndex === 2 ? "invert" : ""}/>
-              </div>
-            )}
-          </li>
-
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 3 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(3); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/Services.svg" alt="" className={activeIndex === 3 ? "invert" : ""}/>
-                <p>{t('Services')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/Services.svg" alt="" className={activeIndex === 3 ? "invert" : ""}/>
-              </div>
-            )}
-          </li>
-
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 4 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(4); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/conversations.svg" alt="" className={activeIndex === 4 ? "invert" : ""}/>
-                <p>{t('conversations')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/conversations.svg" alt="" className={activeIndex === 4 ? "invert" : ""}/>
-              </div>
-            )}
-          </li>
-
-          <li  className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 5 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(5); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/Finance.svg" alt="" className={activeIndex === 5 ? "invert" : ""}/>
-                <p>{t('Finance')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/Finance.svg" alt="" className={activeIndex === 5 ? "invert" : ""} />
-              </div>
-            )}
-          </li>
-
-          <li className={`cursor-pointer py-4 px-2 rounded ${activeIndex === 6 ? "bg-[#C69815] text-[#fff]" : ""}`}
-            onClick={() => { setActiveIndex(6); setCurrentPath('dashboard'); }}>
-            {open?(
-            //open 
-              <div className='flex gap-4 items-center'>
-                <img src="/images/icons/dashboard.svg" alt="" className={activeIndex === 6 ? "invert" : ""} />
-                <p>{t('technical support')}</p>
-              </div>
-            ):(
-              <div className='flex justify-center items-center'>
-                <img src="/images/icons/dashboard.svg" alt="" className={activeIndex === 6 ? "invert" : ""}/>
-              </div>
-            )}
-          </li>
-
-
-        <div  >
-            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2  ${activeIndex === 7 ? "bg-[#C69815] text-[#fff]" : ""}`}
-              onClick={() => { setActiveIndex(7); setCurrentPath('dashboard'); }}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/workers" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/workers">
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/settings.svg" alt=""className={activeIndex === 7 ? "invert" : ""} />
-                  <p>{t('Settings')}</p>
+                  <img src="/images/icons/workers.svg" alt="" className={pathname === "/workers" ? "invert" : ""}/>
+                  <p>{t('workers')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/settings.svg" alt="" className={activeIndex === 7 ? "invert" : ""}/>
+                  <img src="/images/icons/workers.svg" alt="" className={pathname === "/workers" ? "invert" : ""}/>
                 </div>
               )}
+            </Link>
+          </li>
+
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/services" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/services">
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center'>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname === "/services" ? "invert" : ""}/>
+                  <p>{t('Services')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center'>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname === "/services" ? "invert" : ""}/>
+                </div>
+              )}
+            </Link>
+          </li>
+
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/conversations" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/conversations">
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center'>
+                  <img src="/images/icons/conversations.svg" alt="" className={pathname === "/conversations" ? "invert" : ""}/>
+                  <p>{t('conversations')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center'>
+                  <img src="/images/icons/conversations.svg" alt="" className={pathname === "/conversations"? "invert" : ""}/>
+                </div>
+              )}
+            </Link>
+          </li>
+
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/finance" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/finance">
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center'>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname === "/finance" ? "invert" : ""}/>
+                  <p>{t('Finance')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center'>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname === "/finance" ? "invert" : ""} />
+                </div>
+              )}
+            </Link>
+          </li>
+
+          <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/technicalSupport" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/technicalSupport">
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center'>
+                  <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/technicalSupport" ? "invert" : ""} />
+                  <p>{t('technical support')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center'>
+                  <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/technicalSupport" ? "invert" : ""}/>
+                </div>
+              )}
+            </Link>
+          </li>
+
+
+        <div>
+            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2 ${pathname === "/settings" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/settings">
+                {open?(
+                //open 
+                  <div className='flex gap-4 items-center'>
+                    <img src="/images/icons/settings.svg" alt=""className={pathname === "/settings" ? "invert" : ""} />
+                    <p>{t('Settings')}</p>
+                  </div>
+                ):(
+                  <div className='flex justify-center items-center'>
+                    <img src="/images/icons/settings.svg" alt="" className={pathname === "/settings" ? "invert" : ""}/>
+                  </div>
+                )}
+            </Link>
             </li>
           
-            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2  ${activeIndex === 8 ? "bg-[#C69815] text-[#fff]" : ""}`}
-              onClick={() => { setActiveIndex(8); setCurrentPath('dashboard'); }}>
+            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -189,3 +200,5 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+

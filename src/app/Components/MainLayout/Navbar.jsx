@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react'
 import i18n from "../../../language/i18n";
 
