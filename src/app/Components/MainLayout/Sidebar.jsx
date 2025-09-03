@@ -178,17 +178,20 @@ function Sidebar() {
             </li>
           
             <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/signout.svg" alt="" />
-                  <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center'>
-                  <img src="/images/icons/signout.svg" alt="" />
-                </div>
+            <Link href="/Auth/Login">
+                {open?(
+                //open 
+                  <div className='flex gap-4 items-center'>
+                    <img src="/images/icons/signout.svg" alt="" />
+                    <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
+                  </div>
+                ):(
+                  <div className='flex justify-center items-center'>
+                    <img src="/images/icons/signout.svg" alt="" />
+                  </div>
               )}
+            </Link>
+
             </li>
     
 
