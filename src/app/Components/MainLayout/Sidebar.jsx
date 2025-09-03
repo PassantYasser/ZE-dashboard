@@ -19,10 +19,13 @@ function Sidebar() {
 
 
   return (
-    <aside 
-      className={`border-x border-[#E3E8EF] transition-all p-4 duration-200 h-screen relative 
-        ${open ? "w-70" : "w-18"}`}
-    >
+    // <aside 
+    //   className={`border-x border-[#E3E8EF] transition-all p-4 duration-200 h-screen relative 
+    //     ${open ? "w-70" : "w-18"} `}
+    // >
+    <aside className={`flex flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200 
+        ${open ? "w-70" : "w-18"}`}>
+
 
       {/* Logo open and close */}
       <button
@@ -43,15 +46,16 @@ function Sidebar() {
       </button>
 
       {/* Navigation */}
-      <nav className="">
-        <ul className=''>
+      <nav className="flex-1">
+        <ul className='flex flex-col h-full'>
+
           <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/dashboard" ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/dashboard">
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center'>
                     <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/dashboard" ? "invert" : ""}/>
-                    <p>{t('dashboard')}</p>
+                    <p className='text-base text-[#364152] font-normal'>{t('dashboard')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
@@ -67,7 +71,7 @@ function Sidebar() {
                 //open 
                   <div  className='flex gap-4 items-center'>
                     <img src="/images/icons/Requests.svg" alt="" className={pathname === "/requests" ? "invert" : ""}/>
-                    <p>{t('Requests')}</p>
+                    <p className='text-base text-[#364152] font-normal'>{t('Requests')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
@@ -83,7 +87,7 @@ function Sidebar() {
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/workers.svg" alt="" className={pathname === "/workers" ? "invert" : ""}/>
-                  <p>{t('workers')}</p>
+                  <p className='text-base text-[#364152] font-normal'>{t('workers')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -99,7 +103,7 @@ function Sidebar() {
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/Services.svg" alt="" className={pathname === "/services" ? "invert" : ""}/>
-                  <p>{t('Services')}</p>
+                  <p className='text-base text-[#364152] font-normal'>{t('Services')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -115,7 +119,7 @@ function Sidebar() {
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/conversations.svg" alt="" className={pathname === "/conversations" ? "invert" : ""}/>
-                  <p>{t('conversations')}</p>
+                  <p className='text-base text-[#364152] font-normal'>{t('conversations')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -131,7 +135,7 @@ function Sidebar() {
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/Finance.svg" alt="" className={pathname === "/finance" ? "invert" : ""}/>
-                  <p>{t('Finance')}</p>
+                  <p className='text-base text-[#364152] font-normal'>{t('Finance')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -147,7 +151,7 @@ function Sidebar() {
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/technicalSupport" ? "invert" : ""} />
-                  <p>{t('technical support')}</p>
+                  <p className='text-base text-[#364152] font-normal'>{t('technical support')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -158,14 +162,14 @@ function Sidebar() {
           </li>
 
 
-        <div>
+      
             <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2 ${pathname === "/settings" ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/settings">
                 {open?(
                 //open 
                   <div className='flex gap-4 items-center'>
                     <img src="/images/icons/settings.svg" alt=""className={pathname === "/settings" ? "invert" : ""} />
-                    <p>{t('Settings')}</p>
+                    <p className='text-base text-[#364152] font-normal'>{t('Settings')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
@@ -175,12 +179,12 @@ function Sidebar() {
             </Link>
             </li>
           
-            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
                   <img src="/images/icons/signout.svg" alt="" />
-                  <p className='text-[#D92D20]'>{t('Sign out')}</p>
+                  <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
@@ -188,7 +192,7 @@ function Sidebar() {
                 </div>
               )}
             </li>
-        </div>
+    
 
         </ul>
       </nav>
