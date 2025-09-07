@@ -1,22 +1,16 @@
 "use client";
-
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
 function CreateNewPasswordpage() {
   const { t } = useTranslation();
-      const handleLangChange = (e) => {
-      const newLang = e.target.value;
-      i18n.changeLanguage(newLang);
-      document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
-    };
+      
   return (
     <>
 
       <div className='p-8 flex justify-between gap-8 h-screen '>
-        <section className='w-full'>
-          <p>hello</p>
-
+        <section className='w-full mt-50.5'>
+        CreateNewPasswordpage
         </section>
       
 

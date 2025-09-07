@@ -24,7 +24,7 @@ function LoginPage() {
             <div className='flex flex-col gap-2'>
               <label className='text-[#364152] text-base font-normal' htmlFor="password">{t('password')}</label>
               <input className='w-full h-15 px-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm' type="password" name="password" id="password" placeholder={t('password')} />
-              <Link href='/Auth/Login/CreateNewPassword' className='flex justify-end text-[#9E7A11] text-base font-normal'>{t('Forgot your password?')}</Link>
+              <Link href='/Auth/Login/ForgetPassword' className='flex justify-end text-[#9E7A11] text-base font-normal'>{t('Forgot your password?')}</Link>
             </div>
             <button className='w-full h-14 bg-[#DDA918] text-white text-lg font-semibold rounded-lg mt-4 mb-12'>
               {t('Log in')}
