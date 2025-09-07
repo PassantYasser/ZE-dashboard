@@ -5,6 +5,11 @@ import { useTranslation } from 'react-i18next';
 
 function CreateNewPasswordpage() {
   const { t } = useTranslation();
+      const handleLangChange = (e) => {
+      const newLang = e.target.value;
+      i18n.changeLanguage(newLang);
+      document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
+    };
   return (
     <>
 
