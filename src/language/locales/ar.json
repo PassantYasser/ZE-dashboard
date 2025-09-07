@@ -25,7 +25,16 @@
   "Create an account":"إنشاء حساب",
   "Enter the phone number or email address of the account for which you want to change the password.":"أدخل رقم الهاتف أو البريد الالكتروني للحساب الذي تريد تغير كلمة المرور الخاصة بة.",
   "send":"إرسال",
+  "Verify number":"تحقق من الرقم",
+  "Please enter the code we sent to your number.":"الرجاء إدخال الرمز الذي أرسلناه إلي رقم ",
+  "To verify the code":"للتحقق من الرمز",
+  "verification code":"رمز التحقق",
+  "Resend after":"إعادة الإرسال بعد",
+  "the previous":"السابق",
+  "confirmation":"تأكيد",
+  "Resend":"إعادة الإرسال",
   
+
 
 
 
