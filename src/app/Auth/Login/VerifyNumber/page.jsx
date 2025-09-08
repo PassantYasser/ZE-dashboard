@@ -106,8 +106,8 @@ function VerifyNumberpage() {
           </div>
 
           <div className='flex gap-6 justify-center mb-12'>
-            <ConfirmationBtn />
-            <PreviousBtn />
+            <PreviousBtn  />
+            <ConfirmationBtn path='../Login/CreateNewPassword' />
           </div>
           <p className='flex justify-center gap-1.5'>
             <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>

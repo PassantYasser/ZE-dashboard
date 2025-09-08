@@ -1,14 +1,16 @@
 "use client";
 
+import Link from 'next/link';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
 
-function ConfirmationBtn({onClick}) {
+function ConfirmationBtn({onClick , path}) {
   const {t}= useTranslation()
   return (
     <>
-    <button
+    <Link href={path}>
+      <button
       onClick={onClick} 
       className={`
         w-64  h-15 
@@ -20,6 +22,8 @@ function ConfirmationBtn({onClick}) {
       >
         {t("confirmation")}
       </button>
+    </Link>
+  
 
     </>
   )

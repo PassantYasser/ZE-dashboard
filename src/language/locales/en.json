@@ -33,6 +33,20 @@
   "the previous":"the previous",
   "confirmation":"confirmation",
   "Resend":"Resend",
+  "Create a new password":"Create a new password",
+  "Your phone number has been verified and you can create a new password.":"Your phone number has been verified and you can create a new password.",
+  "New Password":"New Password",
+  "Enter the new password":"Enter the new password",
+  "Confirm password":"Confirm password",
+  "Re-enter the new password":"Re-enter the new password",
+  "Use at least one uppercase letter":"Use at least one uppercase letter",
+  "Use at least one symbol":"Use at least one symbol",
+  "Use at least one number":"Use at least one number",
+  "Your password must be at least 8 characters long":"Your password must be at least 8 characters long",
+  "Password does not match":"Password does not match",
+  
+
+
 
 
 
