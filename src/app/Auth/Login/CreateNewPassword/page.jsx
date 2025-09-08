@@ -32,7 +32,7 @@ function CreateNewPasswordpage() {
 
   return (
     <>
-      <div className="p-8 flex justify-between gap-8 h-screen ">
+      <div className="p-8 xl1440:flex justify-between gap-8 h-screen ">
         <section className="w-full mt-15">
           <div className="flex flex-col items-center">
             <p className="mb-6 text-[#C69815] text-2xl font-semibold">
@@ -138,10 +138,14 @@ function CreateNewPasswordpage() {
             <ConfirmationBtn path='../Login/ConfirmationDone' className='w-78' />
           </div>
 
+          <p className='flex justify-center gap-1.5'>
+              <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
+              <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
+            </p>
         </section>
 
         <section
-          className="w-full  rounded-[10px]"
+          className="w-full hidden xl1440:block rounded-[10px]"
           style={{
             background:
               "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)",

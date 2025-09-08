@@ -10,7 +10,7 @@ function LoginPage() {
 
   return (
     <>
-    <div className='p-8 flex justify-between gap-8 h-screen '>
+    <div className='p-8 xl1440:flex justify-between gap-8 h-screen '>
       <section className='w-full'>
           <div className=' mt-50.5 mb-25 flex flex-col items-center   rounded-[10px]'>
             <p className='text-[#9E7A11] text-[32px] font-semibold mb-6'>{t('Welcome back!')}</p>
@@ -40,7 +40,7 @@ function LoginPage() {
 
   
         
-        <section className='w-full  rounded-[10px]'
+        <section className='w-full hidden xl1440:block  rounded-[10px]'
           style={{ background: "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)" }}
         >
           <p className='flex justify-end ml-4'>
