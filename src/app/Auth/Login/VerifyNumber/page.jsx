@@ -48,8 +48,8 @@ function VerifyNumberpage() {
   return (
       <>
 
-      <div className='p-8 flex justify-between gap-8 h-screen '>
-        <section className='w-full mt-50.5'>
+      <div className='p-8 flex justify-between gap-8 h-screen  '>
+        <section className='w-full mt-50.5 '>
           {/* logo */}
           <div className='w-27.5 h-27.5 bg-[#EEF2F6] rounded-[100px] flex justify-center items-center mx-auto mb-5'>
             <p className='w-22.5 h-22.5 bg-[#CDD5DF] rounded-[100px] flex justify-center items-center '>
@@ -67,8 +67,8 @@ function VerifyNumberpage() {
             </p>
           </div>
 
-          <div className='my-10 flex flex-col justify-center items-center '>
-            <p className='text-[#4D4D4D] text-base font-medium mb-3 '>{t('verification code')}</p>
+          <div className='my-10  '>
+            <p className='text-[#4D4D4D] text-base font-medium mb-3 flex justify-center'>{t('verification code')}</p>
             <form className="flex gap-4 justify-center"dir="ltr">
               {[0, 1, 2, 3].map((i) => (
                 <input
@@ -82,27 +82,25 @@ function VerifyNumberpage() {
                 />
               ))}
             </form>
-            {/* <p className='flex gap-2 mt-6'>
-              <span className='text-[#4D4D4D] text-base font-normal'>{t('Resend after')}</span>
-              <span className='text-[#C69815] text-base font-bold'>00:30</span>
-            </p> */}
-              <div className="flex gap-2 mt-6">
+              <div className="mt-6">
                 {!canResend ? (
-                  <>
+                  <div className='flex justify-center items-center gap-2 '>
                     <span className="text-[#4D4D4D] text-base font-normal">
                       {t("Resend after")}
                     </span>
                     <span className="text-[#C69815] text-base font-bold">
                       00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
                     </span>
-                  </>
+                  </div>
                 ) : (
-                  <button
-                    onClick={handleResend}
-                    className="text-[#C69815] text-base font-bold  "
-                  >
-                    {t("Resend")}
-                  </button>
+                  <div className='flex justify-center '>
+                    <button
+                      onClick={handleResend}
+                      className="text-[#C69815] text-base font-bold   "
+                    >
+                      {t("Resend")}
+                    </button>
+                  </div>  
                 )}
               </div>
           </div>
@@ -112,9 +110,9 @@ function VerifyNumberpage() {
             <PreviousBtn />
           </div>
           <p className='flex justify-center gap-1.5'>
-              <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
-              <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
-            </p>
+            <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
+            <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
+          </p>
         </section>
       
 
