@@ -1,4 +1,6 @@
 "use client";
+import ConfirmationBtn from "@/app/Components/Buttons/ConfirmationBtn";
+import PreviousBtn from "@/app/Components/Buttons/PreviousBtn";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -127,10 +129,15 @@ function CreateNewPasswordpage() {
 
 
         {/* Error Message */}
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
             
           </form>
+          <div className='flex gap-6 justify-center mb-12 mt-10'>
+            <PreviousBtn path='../Login/VerifyNumber' className='w-78' />
+            <ConfirmationBtn path='../Login/ConfirmationDone' className='w-78' />
+          </div>
+
         </section>
 
         <section
