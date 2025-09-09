@@ -22,10 +22,10 @@ body {
 /* 📱 Tablet */
 @media (min-width: 601px) and (max-width: 1339px) {
   .fontSizeA{
-    font-size:16px ;
+    font-size:14px ;
   };
   .fontSizeB{
-    font-size:24px;
+    font-size:16px;
   };
   .fontSizeC{
     font-size:32px;
