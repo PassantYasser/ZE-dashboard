@@ -9,17 +9,17 @@ function LoginPage() {
 
   return (
     <>
-      <div className="p-8 lg1340:flex justify-between gap-8 h-screen ">
+      <div className="p-8 lg:flex justify-between gap-8 h-screen ">
         <section className="w-full">
 
           {/* 📱Tablet screen only */}
-          <div className="lg1340:hidden flex justify-center gap-1 my-20">
+          <div className="lg:hidden flex justify-center gap-1 my-20">
             <img src="/images/LogoText.svg" alt="" />
             <img src="/images/Logo.svg" alt="" />
           </div>
 
           {/* title  */}
-          <div className=" lg1340:mt-50.5 mb-17.5 lg1340:mb-25 flex flex-col lg1340:items-center   rounded-[10px]">
+          <div className=" lg:(mt-50.5,mb-25,items-center) mb-17.5  flex flex-col   rounded-[10px]">
             <p className="text-[#9E7A11] text-[32px] font-semibold mb-6">
               {t("Welcome back!")}
             </p>

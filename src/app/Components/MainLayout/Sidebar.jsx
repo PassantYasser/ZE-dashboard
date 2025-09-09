@@ -21,7 +21,7 @@ function Sidebar() {
   return (
     
     // 1440px and above
-    <aside className={`hidden  xl1440:flex  flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200 
+    <aside className={`hidden  lg:flex  flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200 
         ${open ? "w-70" : "w-18"}`}>
 
 
