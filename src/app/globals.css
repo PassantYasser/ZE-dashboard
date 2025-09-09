@@ -24,12 +24,12 @@ body {
   .fontSizeA{
     font-size:14px ;
   };
-  .fontSizeB{
+  /* .fontSizeB{
     font-size:16px;
   };
   .fontSizeC{
     font-size:32px;
-  }
+  } */
 }
 
 
@@ -38,10 +38,10 @@ body {
   .fontSizeA{
     font-size:16px;
   };
-  .fontSizeB{
+  /* .fontSizeB{
     font-size: 24px;
   };
   .fontSizeC{
     font-size:32px;
-  }
+  } */
 }
