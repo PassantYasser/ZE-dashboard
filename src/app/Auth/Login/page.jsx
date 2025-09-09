@@ -19,7 +19,7 @@ function LoginPage() {
           </div>
 
           {/* title  */}
-          <div className=" lg1:(mt-50.5,mb-25,items-center) mb-17.5  flex flex-col   rounded-[10px]">
+          <div className=" lg1:mt-50.5  lg1:mb-25 lg1:items-center mb-17.5  flex flex-col   rounded-[10px]">
             <p className="text-[#9E7A11] text-[32px] font-semibold mb-6">
               {t("Welcome back!")}
             </p>

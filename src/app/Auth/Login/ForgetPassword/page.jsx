@@ -56,7 +56,7 @@ function ForgetPasswordpage() {
         </section>
 
         <section
-          className="w-full hidden lg1340:block rounded-[10px]"
+          className="w-full hidden lg1:block rounded-[10px]"
           style={{
             background:
               "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)",
