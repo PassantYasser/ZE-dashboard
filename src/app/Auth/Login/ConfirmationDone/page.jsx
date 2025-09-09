@@ -10,9 +10,9 @@ function ConfirmationDonePage() {
 
   return (
     <>
-    <div className='p-8 lg1340:flex justify-between gap-8 h-screen '>
-      <section className='w-full mt-37.5 lg1340:mt-31'>
-        <div className='flex flex-col items-center justify-center mb-25 lg1340:mb-37.5'>
+    <div className='p-8 lg1:flex justify-between gap-8 h-screen '>
+      <section className='w-full mt-37.5 lg1:mt-31'>
+        <div className='flex flex-col items-center justify-center mb-25 lg1:mb-37.5'>
           <div className='flex'>
             <img src="/images/LogoText.svg" alt="" />
             <img src="/images/Logo.svg" alt="" />
@@ -22,7 +22,7 @@ function ConfirmationDonePage() {
         <div className='flex flex-col items-center gap-4'>
           <p className='text-[#0F022E] text-2xl font-bold'>{t('It was successful!')}🤩</p>
           <p className='text-[#656565] text-lg font-medium'>{t('You can now log in with your new password.')}</p>
-          <img src="/images/ConfirmationDone.svg" alt="" className='mt-10 mb-12 lg1340:(mb-20 ,mt-14)' />
+          <img src="/images/ConfirmationDone.svg" alt="" className='mt-10 mb-12 lg1:(mb-20 ,mt-14)' />
         </div>
         <div>
           <Link href='/Auth/Login'>
@@ -39,7 +39,7 @@ function ConfirmationDonePage() {
 
   
         
-        <section className='w-full hidden lg1340:block  rounded-[10px]'
+        <section className='w-full hidden lg1:block  rounded-[10px]'
           style={{ background: "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)" }}
         >
           <p className='flex justify-end ml-4'>
