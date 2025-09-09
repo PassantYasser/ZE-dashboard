@@ -49,17 +49,22 @@ function VerifyNumberpage() {
       <>
 
       <div className='p-8 flex justify-between gap-8 h-screen  '>
-        <section className='w-full mt-50.5 '>
+        <section className='w-full mt-25 lg1340:mt-50.5 '>
+          {/* 📱Tablet screen only */}
+          <div className="lg1340:hidden flex justify-center gap-1 mb-17.5 lg1340:mb-20">
+            <img src="/images/LogoText.svg" alt="" />
+            <img src="/images/Logo.svg" alt="" />
+          </div>
+
           {/* logo */}
-          <div className='w-27.5 h-27.5 bg-[#EEF2F6] rounded-[100px] flex justify-center items-center mx-auto mb-5'>
-            <p className='w-22.5 h-22.5 bg-[#CDD5DF] rounded-[100px] flex justify-center items-center '>
+          <div className='WHLogA bg-[#EEF2F6] rounded-[100px] flex justify-center items-center mx-auto mb-5'>
+            <p className='WHLogB bg-[#CDD5DF] rounded-[100px] flex justify-center items-center '>
             <img src="/images/icons/call-received.svg" className='p-2.5' alt="" />
             </p>
           </div>
           
           <div className='flex flex-col items-center '>
-            <p>{t('Verify number')}</p>
-            {/* <p>{t('Please enter the code we sent to your number.')} <span>*******15</span> {t('To verify the code')}</p> */}
+            <p className='text-[#C69815] text-xl font-bold'>{t('Verify number')}</p>
             <p className="text-center text-lg text-[#656565] mt-4 w-[400px]">
             {t("Please enter the code we sent to your number.")} 
               <span className="font-semibold text-[#C69815]"> *******15 </span> 
@@ -109,6 +114,7 @@ function VerifyNumberpage() {
             <PreviousBtn path='../Login/ForgetPassword' className='w-64'  />
             <ConfirmationBtn path='../Login/CreateNewPassword' className='w-64' />
           </div>
+          
           <p className='flex justify-center gap-1.5'>
             <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
             <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
