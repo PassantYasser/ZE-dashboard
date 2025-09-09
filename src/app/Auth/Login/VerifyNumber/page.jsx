@@ -49,9 +49,9 @@ function VerifyNumberpage() {
       <>
 
       <div className='p-8 flex justify-between gap-8 h-screen  '>
-        <section className='w-full mt-25 lg1340:mt-50.5 '>
+        <section className='w-full mt-25 lg1:mt-50.5 '>
           {/* 📱Tablet screen only */}
-          <div className="lg1340:hidden flex justify-center gap-1 mb-17.5 lg1340:mb-20">
+          <div className="lg1:hidden flex justify-center gap-1 mb-17.5 lg1:mb-20">
             <img src="/images/LogoText.svg" alt="" />
             <img src="/images/Logo.svg" alt="" />
           </div>
@@ -124,7 +124,7 @@ function VerifyNumberpage() {
 
   
         
-        <section className='w-full hidden lg1340:block rounded-[10px]'
+        <section className='w-full hidden lg1:block rounded-[10px]'
           style={{ background: "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)" }}
         >
           <p className='flex justify-end ml-4'>
