@@ -10,7 +10,7 @@ function ConfirmationDonePage() {
 
   return (
     <>
-    <div className='p-8 xl1440:flex justify-between gap-8 h-screen '>
+    <div className='p-8 lg1340:flex justify-between gap-8 h-screen '>
       <section className='w-full mt-31'>
         <div className='flex flex-col items-center justify-center mb-37.5'>
           <div className='flex'>
@@ -39,7 +39,7 @@ function ConfirmationDonePage() {
 
   
         
-        <section className='w-full hidden xl1440:block  rounded-[10px]'
+        <section className='w-full hidden lg1340:block  rounded-[10px]'
           style={{ background: "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)" }}
         >
           <p className='flex justify-end ml-4'>

@@ -118,7 +118,7 @@ function VerifyNumberpage() {
 
   
         
-        <section className='w-full hidden xl1440:block rounded-[10px]'
+        <section className='w-full hidden lg1340:block rounded-[10px]'
           style={{ background: "linear-gradient(180deg, #DDA918 48.1%, #9D7810 99.85%)" }}
         >
           <p className='flex justify-end ml-4'>

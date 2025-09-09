@@ -2,13 +2,9 @@
 
 
 
-/* tablet 768--->1439px
-labtop 1440--->--- */
-
-
 @theme {
   --breakpoint-md768: 768px;
-  --breakpoint-lg1024: 1024px;
+  --breakpoint-lg1340: 1340px;
   --breakpoint-xl1440: 1440px;  
 }
 
@@ -20,4 +16,32 @@ labtop 1440--->--- */
 
 body {
     font-family: "Readex Pro";
+}
+
+
+/* 📱 Tablet */
+@media (min-width: 601px) and (max-width: 1339px) {
+  .fontSizeA{
+    font-size:16px ;
+  };
+  .fontSizeB{
+    font-size:24px;
+  };
+  .fontSizeC{
+    font-size:32px;
+  }
+}
+
+
+/* 💻 Desktop */
+@media (min-width: 1340px) {
+  .fontSizeA{
+    font-size:16px;
+  };
+  .fontSizeB{
+    font-size: 24px;
+  };
+  .fontSizeC{
+    font-size:32px;
+  }
 }
