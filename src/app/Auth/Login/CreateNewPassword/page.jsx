@@ -39,15 +39,13 @@ function CreateNewPasswordpage() {
               {t("Create a new password")}
             </p>
             <p className="text-[#656565] text-lg font-normal max-w-[500px] text-center">
-              {t(
-                "Your phone number has been verified and you can create a new password."
-              )}
+              {t("Your phone number has been verified and you can create a new password.")}
             </p>
-            <img className="my-17.5" src="/images/lockLogIcon.svg" alt="" />
+            <img className="my-12 lg1340:my-17.5" src="/images/lockLogIcon.svg" alt="" />
           </div>
 
           <form>
-            <label className="text-[#364152] text-base font-normal">
+            <label className="text-[#364152] fontSizeA font-normal">
               {t("New Password")}
             </label>
 
@@ -94,11 +92,10 @@ function CreateNewPasswordpage() {
                 </li>
               </ul>
             )}
-            <label className="text-[#364152] text-base font-normal">
+            <label className="text-[#364152] fontSizeA font-normal">
               {t("Confirm password")}
             </label>
             <div className="relative mt-3">
-            
               <input
                 className={`w-full h-15 p-3  border rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm ${
                   error ? "border-red-500" : "border-[#C8C8C8]"
@@ -133,15 +130,17 @@ function CreateNewPasswordpage() {
 
             
           </form>
+
           <div className='flex gap-6 justify-center mb-12 mt-10'>
             <PreviousBtn path='../Login/VerifyNumber' className='w-78' />
             <ConfirmationBtn path='../Login/ConfirmationDone' className='w-78' />
           </div>
 
           <p className='flex justify-center gap-1.5'>
-              <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
-              <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
-            </p>
+            <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
+            <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
+          </p>
+
         </section>
 
         <section
