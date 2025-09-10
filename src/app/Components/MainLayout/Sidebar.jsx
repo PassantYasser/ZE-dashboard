@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation';
 
 
 
-function Sidebar() {
+function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
 
@@ -21,13 +21,26 @@ function Sidebar() {
   return (
     
     // 1440px and above
-    <aside className={`hidden  lg:flex  flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200 
-        ${open ? "w-70" : "w-18"}`}>
+    <aside
+      className={`
+        ${isSidebarOpen ? "block" : "hidden"}   /* ✅ في الموبايل/تابلت */
+        lg1:flex flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200
+        ${open ? "w-70" : "w-18"}               /* ✅ ده بس للشاشات الكبيرة */
+        bg-white fixed lg:static z-50 top-0 right-0
+      `}
+    >
+
 
 
       {/* Logo open and close */}
       <button
-        onClick={() => setOpen(!open)}
+        // onClick={() => setOpen(!open)}
+        onClick={() => {
+            // ✅ يشتغل بس لو في لابتوب
+            if (window.innerWidth >= 1340) { 
+              setOpen(!open);
+            }
+          }}
         className="w-full flex justify-center mt-10 mb-14 cursor-pointer "
       >
         {open ?(
@@ -48,7 +61,7 @@ function Sidebar() {
         <ul className='flex flex-col h-full'>
 
           <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/dashboard" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/dashboard">
+            <Link href="/dashboard"  onClick={() => setIsSidebarOpen(false)} >
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center'>
@@ -64,7 +77,7 @@ function Sidebar() {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/requests" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/requests">
+            <Link href="/requests" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center'>
@@ -80,7 +93,7 @@ function Sidebar() {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/workers" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/workers">
+            <Link href="/workers" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -96,7 +109,7 @@ function Sidebar() {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/services" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/services">
+            <Link href="/services" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -112,7 +125,7 @@ function Sidebar() {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/conversations" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/conversations">
+            <Link href="/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -128,7 +141,7 @@ function Sidebar() {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/finance" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/finance">
+            <Link href="/finance" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -144,7 +157,7 @@ function Sidebar() {
           </li>
 
           <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/technicalSupport" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/technicalSupport">
+            <Link href="/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
@@ -162,7 +175,7 @@ function Sidebar() {
 
       
             <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2 ${pathname === "/settings" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/settings">
+            <Link href="/settings" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div className='flex gap-4 items-center'>
@@ -178,7 +191,7 @@ function Sidebar() {
             </li>
           
             <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Auth/Login">
+            <Link href="/Auth/Login" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div className='flex gap-4 items-center'>

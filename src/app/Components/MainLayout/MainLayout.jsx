@@ -1,13 +1,16 @@
-import React from 'react'
+"use client";
+import React, { useState } from 'react'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 
 function MainLayout({children}) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
   <div className="flex h-screen">
-    <Sidebar />
+    <Sidebar  isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}  />
     <div className="flex flex-1 flex-col">
-      <Navbar />
+      <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
       <main className="p-4">{children}</main>
     </div>
   </div>  

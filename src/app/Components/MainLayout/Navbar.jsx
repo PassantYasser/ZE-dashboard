@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import i18n from "../../../language/i18n";
 import { useTranslation } from "react-i18next";
 
-function Navbar() {
+function Navbar({ onMenuClick }) {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const dropdownRef = useRef(null);
@@ -30,15 +30,17 @@ function Navbar() {
     <>
       <header className="h-20 bg-[#fff] border-b border-[#E3E8EF] flex items-center justify-between px-6 py-4">
         {/* Left side */}
-        <div className="lg1:block hidden">
+        <div className="lg1:block  hidden">
           <p className="text-[#4B5565] text-lg font-medium">{t("Welcome back!")} </p>
           <p className="text-[#697586] text-sm font-normal">
             {t("Lets check your update today")}
           </p>
         </div>
 
-        <div className="block lg1:hidden">
-          <img src="/images/icons/menu.svg" alt="" />
+        <div className="lg1:hidden block ">
+          <button onClick={onMenuClick}>
+            <img src="/images/icons/menu.svg" alt="" />
+          </button>
         </div>
 
         {/* Right side */}
