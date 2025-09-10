@@ -1,6 +1,7 @@
 "use client";
 import ConfirmationBtn from "@/app/Components/Buttons/ConfirmationBtn";
 import PreviousBtn from "@/app/Components/Buttons/PreviousBtn";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -138,7 +139,9 @@ function CreateNewPasswordpage() {
 
           <p className='flex justify-center gap-1.5'>
             <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
-            <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
+            <Link href='/Auth/Signup' className="text-[#9E7A11] text-lg font-medium">
+              {t("Create an account")}
+            </Link>
           </p>
 
         </section>

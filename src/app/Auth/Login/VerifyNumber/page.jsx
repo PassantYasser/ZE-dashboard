@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import ConfirmationBtn from '../../../Components/Buttons/ConfirmationBtn';
 import PreviousBtn from '../../../Components/Buttons/PreviousBtn';
+import Link from 'next/link';
 
 
 function VerifyNumberpage() {
@@ -117,7 +118,9 @@ function VerifyNumberpage() {
           
           <p className='flex justify-center gap-1.5'>
             <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
-            <span className='text-[#9E7A11] text-lg font-medium'>{t('Create an account')}</span>
+            <Link href='/Auth/Signup' className="text-[#9E7A11] text-lg font-medium">
+              {t("Create an account")}
+            </Link>
           </p>
         </section>
       
