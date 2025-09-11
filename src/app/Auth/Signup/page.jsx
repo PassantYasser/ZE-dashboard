@@ -8,9 +8,9 @@ function SignuPage() {
   return (
     <>
       <div className="p-8 lg1:flex justify-between gap-8 h-screen ">
-        <section className="w-full">
+        <section className="w-full mt-12.5 lg1:mt-28.5 ">
           <div className='mb-37.5'>
-            <div className='flex justify-center gap-1  mt-12.5 lg1:mt-28.5 mb-6'>
+            <div className='flex justify-center gap-1  mb-6'>
               <img src="/images/LogoText.svg" alt="" />
               <img src="/images/Logo.svg" alt="" />
             </div>
