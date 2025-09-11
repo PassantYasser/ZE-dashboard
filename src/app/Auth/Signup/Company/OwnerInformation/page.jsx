@@ -1,3 +1,5 @@
+import LoginBtn from "../../../../Components/Buttons/LoginBtn";
+import Link from "next/link";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
@@ -71,9 +73,10 @@ function OwnerInformationPage({ onNext, onPrev, currentStep, steps }) {
         {currentStep === steps.length ? "إنهاء" : "التالي"}
       </button>
 
-      <div className="flex justify-center">
+      
+      <div className="flex justify-center gap-1.5">
         <p className="text-[#697586] text-lg font-normal">{t('Already have an account?')} </p>
-        <p className="text-[#9E7A11] text-lg font-medium"> {t('Log in')}</p>
+        <LoginBtn />
       </div>
 
 
