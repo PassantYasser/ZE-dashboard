@@ -23,7 +23,7 @@ const [currentStep, setCurrentStep] = useState(0);
   };
 
   const handlePrev = () => {
-    if (currentStep > 1) setCurrentStep((prev) => prev - 1);
+    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
   const renderStepContent = () => {
@@ -58,8 +58,6 @@ const [currentStep, setCurrentStep] = useState(0);
           {/*  */}
           <div dir="rtl" className="w-full max-w-2xl mx-auto px-6">
             <div className="relative flex items-center justify-between w-full max-w-4xl mx-auto mb-6">
-            
-
             {steps.map((s, index) => {
             const isActive = index <= currentStep;
             return (
