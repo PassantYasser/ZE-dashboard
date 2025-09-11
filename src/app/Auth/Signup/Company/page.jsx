@@ -43,8 +43,8 @@ const [currentStep, setCurrentStep] = useState(0);
 
   return (
     <>
-      <div className="p-8 lg1:flex justify-between gap-8 h-screen ">
-        <section className="w-full mt-12.5 lg1:mt-2 ">
+      <div className="p-8 lg1:flex justify-between gap-8 h-screen  ">
+        <section className="w-full mt-10 lg1:mt-2  ">
           {/* title */}
           <div className='flex flex-col items-center gap-3 mb-10'>
             <p className='text-[#9E7A11] text-2xl font-medium'>
@@ -56,14 +56,14 @@ const [currentStep, setCurrentStep] = useState(0);
           </div>
           
           {/*  */}
-          <div dir="rtl" className="w-full max-w-2xl mx-auto p-6">
+          <div dir="rtl" className="w-full max-w-2xl mx-auto px-6">
             <div className="relative flex items-center justify-between w-full max-w-4xl mx-auto mb-6">
             
 
             {steps.map((s, index) => {
             const isActive = index <= currentStep;
             return (
-                  <div key={s.id} className="flex-1 flex flex-col items-center relative">
+                <div key={s.id} className="flex-1 flex flex-col items-center relative">
                     {/* circle */}
                     <div
                       className={`rounded-full w-12 h-12 flex items-center justify-center bg-white z-10
@@ -97,7 +97,7 @@ const [currentStep, setCurrentStep] = useState(0);
                   {/* line between each circle*/}
                   {index < steps.length - 1 && (
                     <div
-                      className={`absolute top-6 right-17 w-full border-t border-dotted
+                      className={`absolute top-6 right-17 w-full border-t border-dashed
                         ${
                           currentStep > index
                             ? "border-[#C69815]" 
@@ -112,13 +112,6 @@ const [currentStep, setCurrentStep] = useState(0);
 
             </div>
             <div className="mb-6">{renderStepContent()}</div>
-            {/* <button
-                onClick={handleNext}
-                disabled={currentStep === steps.length}
-                className="px-4 py-2 bg-yellow-600 text-white rounded"
-              >
-                {currentStep === steps.length ? "إنهاء" : "التالي"}
-              </button> */}
           </div>
   
         </section>
