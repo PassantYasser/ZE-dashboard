@@ -48,13 +48,13 @@ function EmailOtpPage({ onNext, onPrev }) {
               {/* logo */}
           <div className='WHLogA bg-[#EEF2F6] rounded-[100px] flex justify-center items-center mx-auto mb-5'>
             <p className='WHLogB bg-[#CDD5DF] rounded-[100px] flex justify-center items-center '>
-            <img src="/images/icons/call-received.svg" className='p-2.5' alt="" />
+            <img src="/images/icons/emailotp.svg" className='p-2.5' alt="" />
             </p>
           </div>
           
           <div className='flex flex-col items-center '>
-            <p className='text-[#C69815] text-xl font-bold'>{t('Verify number')}</p>
-            <p className="text-center text-lg text-[#656565] mt-4 w-[400px]">
+            <p className='text-[#C69815] text-xl font-bold'>{t('Email verification')}</p>
+            <p className="text-center text-lg text-[#656565] mt-4 w-[550px]">
             {t("Please enter the code we sent to your number.")} 
               <span className="font-semibold text-[#C69815]">Exmple@gmail.comل</span> 
             {t("To verify the code")}
