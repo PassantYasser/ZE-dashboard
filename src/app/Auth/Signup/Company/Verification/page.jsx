@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import PhoneOtpPage from './PhoneOtp/page';
 import EmailOtpPage from './EmailOtp/page';
 
-function VerificationPage({ onNext, onPrev ,currentStep , steps }) {
+function VerificationPage({ onNext, onPrev }) {
   const { t } = useTranslation();
   const [subStep, setSubStep] = useState(1);
 
@@ -40,7 +40,7 @@ function VerificationPage({ onNext, onPrev ,currentStep , steps }) {
       {renderSubStep()}
 
       
-    </div>
+      </div>
 
 
     </>

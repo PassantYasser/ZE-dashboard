@@ -17,48 +17,22 @@ function SetPasswordPage({ onNext, onPrev ,currentStep , steps }) {
   const renderSubStep = () => {
     switch (subStep) {
       case 1:
-        return <FirstSetPasswordPage/>
+        return <FirstSetPasswordPage prevSub={prevSub} nextSub={nextSub} onPrev={onPrev}/>
       case 2:
-        return <ConfirmationDonePage />;
+        return <ConfirmationDonePage onNext={onNext} />;
       default:
         return null;
     }
   };
   return (
     <>
-    <div className="border p-4 rounded">
-      <h2 className="font-bold text-lg mb-4">بيانات الشركة</h2>
+    <div className=" p-4 rounded">
 
-      {/* عرض الـ sub-step */}
+      {/* display sub-step */}
       {renderSubStep()}
-
-      {/* أزرار التنقل */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={prevSub}
-          disabled={subStep === 1}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          رجوع
-        </button>
-        <button
-          onClick={nextSub}
-          disabled={subStep === 3}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          {subStep === 3 ? "تم" : "التالي"}
-        </button>
-      </div>
     </div>
 
-{/*  */}
-      <button
-        onClick={onNext}
-        disabled={currentStep === steps.length}
-        className="px-4 py-2 bg-yellow-600 text-white rounded"
-      >
-        {currentStep === steps.length ? "إنهاء" : "التالي"}
-      </button>
+
     </>
   )
 }
