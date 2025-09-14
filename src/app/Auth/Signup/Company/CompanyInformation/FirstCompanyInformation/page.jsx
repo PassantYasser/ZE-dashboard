@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -124,6 +125,13 @@ function FirstCompanyInformationPage({nextSub}) {
         >
           {t('the next')}
         </button>
+
+        <p className='flex justify-center gap-1.5'>
+        <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
+        <Link href='/Auth/Signup' className="text-[#9E7A11] text-lg font-medium">
+          {t("Create an account")}
+        </Link>
+      </p>
 
       </div>
     </>

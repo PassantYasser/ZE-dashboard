@@ -37,6 +37,7 @@ function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
       {renderSubStep()}
     </div>
 
+
     </>
   )
 }

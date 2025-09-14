@@ -1,5 +1,6 @@
 "use client";
 
+import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -228,7 +229,7 @@ function FilesUploadOnePage({nextSub , prevSub}) {
     </form>
 
       {/* //btn */}
-    <div className='flex gap-6 mt-12 '>
+    <div className='flex gap-6 my-12 '>
       
       <button className='border border-[#C69815] text-[#C69815] text-base font-medium rounded-[3px] w-full h-15'
         onClick={prevSub}
@@ -242,6 +243,13 @@ function FilesUploadOnePage({nextSub , prevSub}) {
         {t('the next')}
       </button>
     </div>
+
+      <p className='flex justify-center gap-1.5 '>
+      <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
+      <Link href='/Auth/Signup' className="text-[#9E7A11] text-lg font-medium">
+        {t("Create an account")}
+      </Link>
+    </p>
 
     </>
   )
