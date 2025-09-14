@@ -9,7 +9,7 @@ function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
   const [subStep, setSubStep] = useState(1);
 
   const nextSub = () => {
-    if (subStep < 3) setSubStep((prev) => prev + 1);
+    if (subStep < 4) setSubStep((prev) => prev + 1);
   };
 
   const prevSub = () => {
@@ -25,7 +25,7 @@ function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
       case 3:
         return <FilesUploadTwoPage nextSub={nextSub} prevSub={prevSub}/>;
       case 4 :
-        return <ConfirmationDonePage/>
+        return <ConfirmationDonePage nextSub={nextSub} prevSub={prevSub}/>
       default:
         return null;
     }

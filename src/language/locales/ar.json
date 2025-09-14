@@ -92,7 +92,14 @@
   "Loading...":"جاري التحميل...",
   "Upload a photo of the tax card":"ارفع صورة البطاقة الضريبية",
   "Enter the tax number":"اكتب الرقم الضريبي",
+  "Front national ID card photo":"صورة بطاقة الرقم القومي الامامية",
+  "Back national ID card photo":"صورة بطاقة الرقم القومي الخلفية",
+  "Upload a photo of the front of your national ID card":"ارفع صورة بطاقة الرقم القومي الامامية",
+  "Upload a photo of the back of your national ID card":"ارفع صورة بطاقة الرقم القومي الخلفية",
+  "Your request has been sent successfully!":"تم ارسال طلبك بنجاح!",
+  "The application will be reviewed and the account activation notification will be sent via email as soon as possible.":"سيتم مراجعة الطلب و إشعار تفعيل الحساب في أقرب وقت من خلال البريد الإلكتروني.",
   
+
   
 
 
