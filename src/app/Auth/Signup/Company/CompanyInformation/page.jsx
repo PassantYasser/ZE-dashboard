@@ -19,11 +19,11 @@ function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
   const renderSubStep = () => {
     switch (subStep) {
       case 1:
-        return <FirstCompanyInformationPage/>
+        return <FirstCompanyInformationPage nextSub={nextSub}  />
       case 2:
-        return <FilesUploadOnePage />;
+        return <FilesUploadOnePage nextSub={nextSub} prevSub={prevSub}/>;
       case 3:
-        return <FilesUploadTwoPage />;
+        return <FilesUploadTwoPage nextSub={nextSub} prevSub={prevSub}/>;
       case 4 :
         return <ConfirmationDonePage/>
       default:
@@ -32,39 +32,10 @@ function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
   };
   return (
     <>
-    <div className="border p-4 rounded">
-      <h2 className="font-bold text-lg mb-4">بيانات الشركة</h2>
-
+    <div>
       {/* عرض الـ sub-step */}
       {renderSubStep()}
-
-      {/* أزرار التنقل */}
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={prevSub}
-          disabled={subStep === 1}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          رجوع
-        </button>
-        <button
-          onClick={nextSub}
-          disabled={subStep === 3}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          {subStep === 3 ? "تم" : "التالي"}
-        </button>
-      </div>
     </div>
-
-{/*  */}
-      <button
-        onClick={onNext}
-        disabled={currentStep === steps.length}
-        className="px-4 py-2 bg-yellow-600 text-white rounded"
-      >
-        {currentStep === steps.length ? "إنهاء" : "التالي"}
-      </button>
 
     </>
   )

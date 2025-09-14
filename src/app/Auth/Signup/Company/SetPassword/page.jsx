@@ -26,7 +26,7 @@ function SetPasswordPage({ onNext, onPrev ,currentStep , steps }) {
   };
   return (
     <>
-    <div className=" p-4 rounded">
+    <div>
 
       {/* display sub-step */}
       {renderSubStep()}
