@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import SearchForm from '../Components/Forms/SearchForm'
 import FilterBtn from '../Components/Buttons/FilterBtn'
 import AddBtn from '../Components/Buttons/AddBtn'
+import ServiceCard from '../Components/Cards/ServiceCard'
 
 function ServicesPage({href , label}) {
   const {t}= useTranslation()
@@ -33,8 +34,11 @@ function ServicesPage({href , label}) {
           </div>
         </section>
 
-        <section>
-          
+        <section className='mt-10 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6'>
+          <ServiceCard/>
+            <ServiceCard/>
+              <ServiceCard/>
+                <ServiceCard/>
         </section>
     </MainLayout>
   )
