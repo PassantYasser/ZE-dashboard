@@ -10,17 +10,35 @@ function ServicesPage({href , label}) {
   const {t}= useTranslation()
   return (
     <MainLayout>
-        <section className='flex justify-between'>
-        
-          <SearchForm />
-          <div className='flex gap-5 '>
-            <FilterBtn href='/services/Filters'/>
-            <AddBtn href='/services/Add' label="Add a sub-service"/>
+        <section >
+          {/*  📱 Tablet only  */}
+          <div className='lg1:hidden flex justify-between mb-8 '>
+            <p className='text-[#000] text-2xl font-medium flex items-center'>{t('Services')}</p>
+              <AddBtn
+                href="/services/Add"
+                label="Add a sub-service"
+              />
           </div>
+
+          <div className="flex justify-between">
+              <SearchForm />
+            <div className="lg1:flex lg1:gap-4 gap-6">
+              <FilterBtn href="/services/Filters" />
+              <AddBtn
+                href="/services/Add"
+                label="Add a sub-service"
+                className="hidden lg1:flex"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section>
           
         </section>
     </MainLayout>
   )
 }
+
 
 export default ServicesPage

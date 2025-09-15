@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 function SearchForm() {
   const {t}= useTranslation();
-
+// 546--556
   return (
     <>
-      <div className="relative w-[556px] ">
+      <div className="relative w-[546px] lg1:w-[556px] ">
         <img
           src="/images/icons/search.svg"
           alt="search"
