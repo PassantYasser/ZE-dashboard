@@ -11,7 +11,7 @@ function MainLayout({children}) {
     <Sidebar  isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}  />
     <div className="flex flex-1 flex-col">
       <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-      <main className="p-4">{children}</main>
+      <main className="pt-8 px-6">{children}</main>
     </div>
   </div>  
   )
