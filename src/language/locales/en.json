@@ -107,6 +107,12 @@
   "Available areas":"Available areas",
   "View":"View",
   
+  "active":"active",
+  "inactive":"inactive",
+  "pending":"pending",
+  "stopped":"stopped",
+  "refused":"refused",
+
   
 
 
