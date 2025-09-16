@@ -1,63 +1,4 @@
-// import React, { useState } from 'react'
-// import { useTranslation } from 'react-i18next'
-
-// function SchedulePage() {
-//   const {t}=useTranslation()
-//   const days = [
-//     "Saturday",
-//     "Sunday",
-//     "Monday",
-//     "Tuesday",
-//     "Wednesday",
-//     "Thursday",
-//     "Friday",
-//   ];
-
-//   // keep track of selected days (array)
-//   const [selectedDays, setSelectedDays] = useState([]);
-
-//   const toggleDay = (day) => {
-//     setSelectedDays((prev) =>
-//       prev.includes(day)
-//         ? prev.filter((d) => d !== day) // remove if already active
-//         : [...prev, day] // add if not active
-//     );
-//   };
-//   return (
-//     <>
-//       <section>
-//         {/* title */}
-//         <div className='flex justify-between mb-6'>
-//           <p className='text-[#4B5565] text-base font-medium'>{t('days')}</p>
-//           <div className='flex gap-2'>
-//             <input type="checkbox" className='w-6 h-6 border border-[#CDD5DF]' />
-//             <p className='text-[#4B5565] text-base font-normal'>{t('All days')}</p>
-//           </div>
-//         </div>
-//         {/* box od days */}
-//       <div className="flex flex-wrap gap-3">
-//       {days.map((day) => (
-//         <button
-//           key={day}
-//           onClick={() => toggleDay(day)}
-//           className={`w-32 h-12 flex items-center justify-center rounded-[3px] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition
-//             ${
-//               selectedDays.includes(day)
-//                 ? "bg-[#C69815] border-[#C69815] text-white"
-//                 : "bg-white border border-[#CDD5DF] text-[#364152]"
-//             }`}
-//         >
-//           {t(day)}
-//         </button>
-//       ))}
-//     </div>
-//       </section>
-
-//     </>
-//   )
-// }
-
-// export default SchedulePage
+"use client";
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -93,6 +34,7 @@ function SchedulePage() {
   // check if all selected
   const allSelected = selectedDays.length === days.length
 
+  
   return (
   <>
       <section className='mb-12'>
@@ -111,12 +53,12 @@ function SchedulePage() {
         </div>
     
         {/* box of days */}
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap  gap-5 ">
           {days.map((day) => (
             <button
               key={day}
               onClick={() => toggleDay(day)}
-              className={`w-32 h-15 lg1:w-35 lg1:h-17 flex items-center justify-center border rounded-[3px] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition
+              className={`w-[141px] h-15 lg1:w-35 lg1:h-17 flex items-center justify-center border rounded-[3px] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition
                 ${
                   selectedDays.includes(day)
                     ? "bg-[#F9F5E8] border-[#C69815] text-[#C69815]"
@@ -129,7 +71,52 @@ function SchedulePage() {
         </div>
       </section>
     
-      
+      <section>
+        {/* title */}
+        <div className="flex justify-between mb-6">
+          <p className="text-[#4B5565] text-base font-medium">{t("the time")}</p>
+          <div className="flex gap-2 items-center">
+            <input
+              type="checkbox"
+              className="w-6 h-6 border border-[#CDD5DF]"
+            
+            />
+            <p className="text-[#4B5565] text-base font-normal">{t("All the time")}</p>
+          </div>
+        </div>
+
+        <div className='flex gap-6 mb-10'>
+          <label className='flex items-center text-[#4B5565] text-xl font-normal'>{t('From')}</label>
+          <input
+            type="time"
+            className=
+              {`w-123 h-15 p-3 
+                border border-[#C8C8C8] 
+                rounded-[3px] text-[#364152] 
+                text-base focus:outline-none 
+                focus:ring-2 focus:ring-[#C69815] 
+              `}
+          />
+
+          <label className='flex items-center text-[#4B5565] text-xl font-normal'>{t('To')}</label>
+          <input
+            type="time"
+            className=
+              {`w-123 h-15 p-3 
+                border border-[#C8C8C8] 
+                rounded-[3px] text-[#364152] 
+                text-base focus:outline-none 
+                focus:ring-2 focus:ring-[#C69815] 
+              `}
+          />        
+        </div>
+        
+        <button className='flex items-center justify-center border border-[#C69815] rounded-[3px] w-[197px] h-14'>
+          <img src="/images/icons/AddYellowIcon.svg" alt="" className='w-6 h-6' />
+          <p className='text-[#C69815] text-base font-medium '>{t('Add period')}</p>
+        </button>
+        
+      </section>
   </>
   )
 }

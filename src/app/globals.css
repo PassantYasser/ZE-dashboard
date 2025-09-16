@@ -18,6 +18,13 @@ body {
     font-family: "Readex Pro";
 }
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+width: 24px;
+height: 24px;
+font-size: 50px;
+
+}
+
 
 /* 📱 Tablet */
 @media(max-width: 1339px) {
