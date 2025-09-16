@@ -34,9 +34,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
       {/* Logo open and close */}
       <button
-        // onClick={() => setOpen(!open)}
         onClick={() => {
-            // ✅ يشتغل بس لو في لابتوب
+            // ✅ Desktop
             if (window.innerWidth >= 1340) { 
               setOpen(!open);
             }
@@ -60,113 +59,113 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
       <nav className="flex-1">
         <ul className='flex flex-col h-full'>
 
-          <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/dashboard" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/dashboard") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/dashboard"  onClick={() => setIsSidebarOpen(false)} >
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/dashboard" ? "invert" : ""}/>
-                    <p className='text-base text-[#364152] font-normal'>{t('dashboard')}</p>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/dashboard") ? "invert" : ""}/>
+                    <p className={`text-base font-normal${pathname.startsWith("/dashboard") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/dashboard" ? "invert" : ""}/>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/dashboard")? "invert" : ""}/>
                   </div>
                 )}
             </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/requests" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/requests") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/requests" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center'>
-                    <img src="/images/icons/Requests.svg" alt="" className={pathname === "/requests" ? "invert" : ""}/>
-                    <p className='text-base text-[#364152] font-normal'>{t('Requests')}</p>
+                    <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/requests") ? "invert" : ""}/>
+                    <p className={`text-base font-normal${pathname.startsWith("/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Requests')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
-                    <img src="/images/icons/Requests.svg" alt="" className={pathname === "/requests" ? "invert" : ""}/>
+                    <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/requests") ? "invert" : ""}/>
                   </div>
                 )}
             </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/workers" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/workers") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/workers" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/workers.svg" alt="" className={pathname === "/workers" ? "invert" : ""}/>
-                  <p className='text-base text-[#364152] font-normal'>{t('workers')}</p>
+                  <img src="/images/icons/workers.svg" alt="" className={pathname.startsWith("/workers") ? "invert" : ""}/>
+                  <p className={`text-base font-normal${pathname.startsWith("/workers") ? "text-[#fff]" : "text-[#364152]"}`}>{t('workers')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/workers.svg" alt="" className={pathname === "/workers" ? "invert" : ""}/>
+                  <img src="/images/icons/workers.svg" alt="" className={pathname.startsWith("/workers") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/services" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/services") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/services" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/Services.svg" alt="" className={pathname === "/services" ? "invert" : ""}/>
-                  <p className='text-base text-[#364152] font-normal'>{t('Services')}</p>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/services") ? "invert" : ""}/>
+                  <p className={`text-base font-normal${pathname.startsWith("/services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/Services.svg" alt="" className={pathname === "/services" ? "invert" : ""}/>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/services") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/conversations" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/conversations") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/conversations.svg" alt="" className={pathname === "/conversations" ? "invert" : ""}/>
-                  <p className='text-base text-[#364152] font-normal'>{t('conversations')}</p>
+                  <img src="/images/icons/conversations.svg" alt="" className={pathname.startsWith("/conversations") ? "invert" : ""}/>
+                  <p className={`text-base font-normal${pathname.startsWith("/conversations") ? "text-[#fff]" : "text-[#364152]"}`}>{t('conversations')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/conversations.svg" alt="" className={pathname === "/conversations"? "invert" : ""}/>
+                  <img src="/images/icons/conversations.svg" alt="" className={pathname.startsWith("/conversations") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
           </li>
 
-          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname === "/finance" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/finance") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/finance" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/Finance.svg" alt="" className={pathname === "/finance" ? "invert" : ""}/>
-                  <p className='text-base text-[#364152] font-normal'>{t('Finance')}</p>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/finance") ? "invert" : ""}/>
+                  <p className={`text-base font-normal${pathname.startsWith("/finance") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Finance')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/Finance.svg" alt="" className={pathname === "/finance" ? "invert" : ""} />
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/finance") ? "invert" : ""} />
                 </div>
               )}
             </Link>
           </li>
 
-          <li className={`cursor-pointer py-4 px-2 rounded ${pathname === "/technicalSupport" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/technicalSupport") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
-                  <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/technicalSupport" ? "invert" : ""} />
-                  <p className='text-base text-[#364152] font-normal'>{t('technical support')}</p>
+                  <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/technicalSupport")  ? "invert" : ""} />
+                  <p className={`text-base font-normal${pathname.startsWith("/technicalSupport") ? "text-[#fff]" : "text-[#364152]"}`}>{t('technical support')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center'>
-                  <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/technicalSupport" ? "invert" : ""}/>
+                  <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/technicalSupport")  ? "invert" : ""}/>
                 </div>
               )}
             </Link>
@@ -174,23 +173,23 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
 
       
-            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2 ${pathname === "/settings" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <li  className={`cursor-pointer py-4 px-2 rounded  mt-auto mb-2 ${pathname.startsWith("/settings") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/settings" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div className='flex gap-4 items-center'>
-                    <img src="/images/icons/settings.svg" alt=""className={pathname === "/settings" ? "invert" : ""} />
-                    <p className='text-base text-[#364152] font-normal'>{t('Settings')}</p>
+                    <img src="/images/icons/settings.svg" alt=""className={pathname.startsWith("/settings") ? "invert" : ""} />
+                    <p className={`text-base font-normal${pathname.startsWith("/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center'>
-                    <img src="/images/icons/settings.svg" alt="" className={pathname === "/settings" ? "invert" : ""}/>
+                    <img src="/images/icons/settings.svg" alt="" className={pathname.startsWith("/settings") ? "invert" : ""}/>
                   </div>
                 )}
             </Link>
             </li>
           
-            <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname === "/signout" ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Auth/Login" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
