@@ -111,10 +111,12 @@ function SchedulePage() {
           />        
         </div>
         
-        <button className='flex items-center justify-center border border-[#C69815] rounded-[3px] w-[197px] h-14'>
-          <img src="/images/icons/AddYellowIcon.svg" alt="" className='w-6 h-6' />
-          <p className='text-[#C69815] text-base font-medium '>{t('Add period')}</p>
-        </button>
+      <div className='flex justify-end'>
+          <button className='flex items-center justify-center border border-[#C69815] rounded-[3px] w-[197px] h-14'>
+            <img src="/images/icons/AddYellowIcon.svg" alt="" className='w-6 h-6' />
+            <p className='text-[#C69815] text-base font-medium '>{t('Add period')}</p>
+          </button>
+      </div>
         
       </section>
   </>
