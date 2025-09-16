@@ -53,7 +53,7 @@ function Navbar({ onMenuClick }) {
                   className="p-1.5 w-10.5 h-10 border border-[#CDD5DF] rounded-[3px] flex items-center justify-center cursor-pointer"
                   onClick={() => setOpen(!open)}
                 >
-                  <img src="images/icons/Language.svg" alt="Language" />
+                  <img src="/images/icons/Language.svg" alt="" />
                 </span>
 
                 {open && (
@@ -76,7 +76,7 @@ function Navbar({ onMenuClick }) {
 
               {/* Notification Icon */}
               <span className="p-1.5 w-10.5 h-10 border border-[#CDD5DF] rounded-[3px]">
-                <img src="images/icons/notification.svg" alt="Notifications" />
+                <img src="/images/icons/notification.svg" alt="" />
               </span>
             </div>
 

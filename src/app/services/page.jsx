@@ -7,7 +7,7 @@ import FilterBtn from '../Components/Buttons/FilterBtn'
 import AddBtn from '../Components/Buttons/AddBtn'
 import ServiceCard from '../Components/Cards/ServiceCard'
 
-function ServicesPage({href , label}) {
+function ServicesPage() {
   const {t}= useTranslation()
   return (
     <MainLayout>

@@ -1,8 +1,9 @@
+import MainLayout from '../../Components/MainLayout/MainLayout'
 import React from 'react'
 
 function AddPage() {
   return (
-    <div>AddPage</div>
+    <MainLayout>AddPage</MainLayout>
   )
 }
 
