@@ -118,7 +118,21 @@
   "Pricing":"التسعير",
   "Add a new service":"اضافة خدمة جديدة",
   "Enter the new service details to begin offering it to your customers.":"أدخل بيانات الخدمة الجديدة لبدء تقديمها لعملائك",
+  "days":"الايام",
+  "All days":"كل الايام",
   
+  "Sunday":"الاحد",
+  "Monday":"الاثنين",
+  "Tuesday":"الثلاثاء",
+  "Wednesday":"الاربعاء",
+  "Thursday":"الخميس",
+  "Friday":"الجمعة",
+  "Saturday":"السبت",
+
+  "the time":"الوقت",
+  "All the time":"كل الاوقات",
+  
+
 
 
 

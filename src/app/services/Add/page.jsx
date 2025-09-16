@@ -22,7 +22,7 @@ function AddPage() {
         <p className='text-[#4B5565] text-base font-normal '>{t('Enter the new service details to begin offering it to your customers.')}</p>
       </section>
 
-    <div className="w-full mt-8">
+    <section className="w-full mt-8 mb-120">
       <div className="flex justify-around border-b border-gray-300">
         {tabs.map((tab) => (
           <button
@@ -36,7 +36,7 @@ function AddPage() {
         ))}
       </div>
 
-      {/* محتوى التاب المختار */}
+      {/* components */}
       <div className="mt-6">
         {tabs.map((tab) => (
           <div key={tab.id}>
@@ -44,7 +44,7 @@ function AddPage() {
           </div>
         ))}
       </div>
-    </div>
+    </section>
     </MainLayout>
   )
 }
