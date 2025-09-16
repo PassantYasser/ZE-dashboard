@@ -72,7 +72,7 @@ function ServiceCard() {
             alt=""
             className="w-full rounded-[3px]"
           />
-          <div className="absolute top-2 left-2  px-3 py-1 ">
+          <div className="absolute top-2.5 left-3.5  px-3 py-1 ">
             {StatusRender(status)}
           </div>
         </div>
