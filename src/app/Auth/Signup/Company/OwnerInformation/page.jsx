@@ -78,10 +78,12 @@ function OwnerInformationPage({ onNext, onPrev, currentStep, steps }) {
       {/* btn   */}
       <button
         onClick={onNext}
-        disabled={currentStep === steps.length}
+        // disabled={currentStep === steps.length}
+        disabled={steps ? currentStep === steps?.length : false}
+
         className="px-4 py-2.5 bg-[#C69815] text-white text-base font-medium  w-full mt-8 mb-10 h-15 rounded-[3px]"
       >
-        {currentStep === steps.length ? "إنهاء" : "التالي"}
+        {currentStep === steps?.length ? "إنهاء" : "التالي"}
       </button>
 
       
