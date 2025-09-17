@@ -1,5 +1,5 @@
 "use client";
-import LoginBtn from '@/app/Components/Buttons/LoginBtn'
+import LoginBtn from '../../../../../Components/Buttons/LoginBtn'
 import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
