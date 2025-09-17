@@ -136,9 +136,24 @@
 
   "Add period":"Add period",
   
+  "Service photos":"Service photos",
+  "Click to upload":"Click to upload",
+  "Or drag and drop files":"Or drag and drop files",  
+  "Maximum":"Maximum",
+  "Maximum number of photos":"Maximum number of photos",
+  "Main classification":"Main classification",
+  "Select the main category":"Select the main category",
+  "Subcategory":"Subcategory",
+  "Select a subcategory":"Select a subcategory",
+  "Sub-service name":"Sub-service name",
+  "Select the sub-service":"Select the sub-service",
+  "Service Activity Location":"Service Activity Location",
+  "Select City":"Select City",
+  "Service Description":"Service Description",
+  "Write a description of the service.":"Write a description of the service.",
+  "Photos":"Photos",
+  "You have reached the maximum number of image uploads (7 images). If you want to upload a new image, please delete an existing image first.":"You have reached the maximum number of image uploads (7 images). If you want to upload a new image, please delete an existing image first.",
   
-  
-
 
 
   

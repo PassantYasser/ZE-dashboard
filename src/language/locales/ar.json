@@ -136,7 +136,25 @@
 
   "Add period":"إضافة الفترة",
   
+  "Service photos":"صور الخدمة",
+  "Click to upload":"انقر للتحميل ",
+  "Or drag and drop files":"او اسحب وافلت الملفات", 
+  "Maximum":" حد اقصي",
+  "Maximum number of photos":"اقصي عدد صور",
+  "Main classification":"التصنيف الرئيسي",
+  "Select the main category":"اختار التصنيف الرئيسي",
+  "Subcategory":"التصنيف الفرعي",
+  "Select a subcategory":"اختار التصنيف الفرعي",
+  "Sub-service name":"اسم الخدمة الفرعية",
+  "Select the sub-service":"اختار الخدمة الفرعية",
+  "Service Activity Location":"مكان نشاط الخدمة",
+  "Select City":"اختار المدينة",
+  "Service Description":"وصف الخدمة",
+  "Write a description of the service.":"اكتب وصف الخدمة",
+  "Photos":"صور",
+  "You have reached the maximum number of image uploads (7 images). If you want to upload a new image, please delete an existing image first.":"لقد وصلت إلى الحد الأقصى لتحميل الصور (7 صور). إذا كنت تريد تحميل صورة جديدة، يرجى حذف صورة موجودة أولاً",
   
+
 
 
 
