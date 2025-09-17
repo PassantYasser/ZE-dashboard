@@ -1,5 +1,4 @@
 "use client";
-
 import LoginBtn from "../../../../Components/Buttons/LoginBtn";
 import Link from "next/link";
 import React from "react";
