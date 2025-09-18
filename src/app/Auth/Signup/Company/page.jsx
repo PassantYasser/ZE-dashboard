@@ -43,7 +43,7 @@ const [currentStep, setCurrentStep] = useState(0);
 
   return (
     <>
-      <div className="p-8 lg1:flex justify-between gap-8 h-screen  ">
+      <div className="p-8 lg1:flex justify-between gap-8  ">
         <section className="w-full mt-10 lg1:mt-2  ">
           {/* title */}
           <div className='flex flex-col items-center gap-3 mb-10'>
@@ -122,7 +122,7 @@ const [currentStep, setCurrentStep] = useState(0);
           }}
         >
           <p className="flex justify-end ml-4">
-            <img src="/images/AuthLogUP.png" alt="" />
+            <img src="/images/AuthLogUP.png" alt="" className='w-29 h-49' />
           </p>
 
           <div className="mt-4.5 w-[70%] mx-auto flex flex-col gap-4 text-center text-white ">
@@ -139,8 +139,8 @@ const [currentStep, setCurrentStep] = useState(0);
             </p>
           </div>
 
-          <p className="fixed bottom-8 mr-4 ">
-            <img src="/images/AuthLogDown.svg" alt="" />
+          <p className="  ">
+            <img src="/images/AuthLogDown.svg" alt="" className='w-29 h-49' />
           </p>
         </section>
       </div>
