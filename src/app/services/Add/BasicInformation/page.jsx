@@ -179,209 +179,190 @@ function BasicInformationPage() {
       )}
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <form className="mt-8">
-        <div className="grid grid-cols-2 gap-6">
-          {/* Main classification 1 */}
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Main classification")}
-            </label>
-            <div className="relative w-full mb-6" ref={dropdownRef1}>
-              <div
-                onClick={() => setOpen1(!open1)}
-                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-              >
-                <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected1 || t("Select the main category")}
-                </span>
-                <span className="ml-2">
-                  {open1 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="" />
-                  )}
-                </span>
-              </div>
-              {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
-                  {options.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected1(option);
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-      
-          {/* Subcategory 2 */}
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Subcategory")}
-            </label>
-            <div className="relative w-full mb-6" ref={dropdownRef2}>
-              <div
-                onClick={() => setOpen2(!open2)}
-                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-              >
-                <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected2 || t("Select a subcategory")}
-                </span>
-                <span className="ml-2">
-                  {open2 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="" />
-                  )}
-                </span>
-              </div>
-              {open2 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
-                  {options.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected2(option);
-                        setOpen2(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-      
-          {/* Sub-service name 3 */}
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Sub-service name")}
-            </label>
-            <div className="relative w-full mb-6" ref={dropdownRef3}>
-              <div
-                onClick={() => setOpen3(!open3)}
-                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-              >
-                <span className={selected3 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected3 || t("Select the sub-service")}
-                </span>
-                <span className="ml-2">
-                  {open3 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="" />
-                  )}
-                </span>
-              </div>
-              {open3 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
-                  {options.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected3(option);
-                        setOpen3(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-      
-          {/* Service Activity Location 4 */}
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Service Activity Location")}
-            </label>
-            <div className="relative w-full mb-6" ref={dropdownRef4}>
-              <div
-                onClick={() => setOpen4(!open4)}
-                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-              >
-                <span className={selected4 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected4 || t("Select City")}
-                </span>
-                <span className="ml-2">
-                  {open4 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="" />
-                  )}
-                </span>
-              </div>
-              {open4 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
-                  {options.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected4(option);
-                        setOpen4(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-          
-        </div>
-          {/* Service Description */}
+    <form className="mt-8">
+      <div className="grid grid-cols-2 gap-6">
+        
+        {/* Main classification 1 */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Service Description")}
+            {t("Main classification")}
           </label>
-          <div className="relative w-full">
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder={t("Write a description of the service.")}
-              maxLength={5000}
-              className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3  text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
-            />
-            {/* counter inside the box */}
-            <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-              5000/{text.length}
-            </span>
+          <div className="relative w-full mb-6" ref={dropdownRef1}>
+            <div
+              onClick={() => setOpen1(!open1)}
+              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            >
+              <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                {selected1 || t("Select the main category")}
+              </span>
+              <span className="ml-2">
+                {open1 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
+            </div>
+            {open1 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                {options.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected1(option);
+                      setOpen1(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
-      </form>
+    
+        {/* Subcategory 2 */}
+        <div className="flex flex-col">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Subcategory")}
+          </label>
+          <div className="relative w-full mb-6" ref={dropdownRef2}>
+            <div
+              onClick={() => setOpen2(!open2)}
+              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            >
+              <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                {selected2 || t("Select a subcategory")}
+              </span>
+              <span className="ml-2">
+                {open2 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
+            </div>
+            {open2 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                {options.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected2(option);
+                      setOpen2(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+    
+        {/* Sub-service name 3 */}
+        <div className="flex flex-col">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Sub-service name")}
+          </label>
+          <div className="relative w-full mb-6" ref={dropdownRef3}>
+            <div
+              onClick={() => setOpen3(!open3)}
+              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            >
+              <span className={selected3 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                {selected3 || t("Select the sub-service")}
+              </span>
+              <span className="ml-2">
+                {open3 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
+            </div>
+            {open3 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                {options.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected3(option);
+                      setOpen3(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+    
+        {/* Service Activity Location 4 */}
+        <div className="flex flex-col">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Service Activity Location")}
+          </label>
+          <div className="relative w-full mb-6" ref={dropdownRef4}>
+            <div
+              onClick={() => setOpen4(!open4)}
+              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            >
+              <span className={selected4 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                {selected4 || t("Select City")}
+              </span>
+              <span className="ml-2">
+                {open4 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
+            </div>
+            {open4 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                {options.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected4(option);
+                      setOpen4(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+        
+      </div>
+        {/* Service Description */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Service Description")}
+        </label>
+        <div className="relative w-full">
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t("Write a description of the service.")}
+            maxLength={5000}
+            className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3  text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
+          />
+          {/* counter inside the box */}
+          <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
+            5000/{text.length}
+          </span>
+        </div>
+      </div>
+    </form>
         
     </>
   );
