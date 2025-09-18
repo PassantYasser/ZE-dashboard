@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-function BasicInformationPage() {
+function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
 
   //upload images
@@ -363,6 +363,13 @@ function BasicInformationPage() {
         </div>
       </div>
     </form>
+
+    <div className="my-12 flex gap-3">
+      <button onClick={handleGoBack} 
+      className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium">الغاء</button>
+      <button onClick={handleNext} 
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium">التالي</button>
+    </div>
         
     </>
   );

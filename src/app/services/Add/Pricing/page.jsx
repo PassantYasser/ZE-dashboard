@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function PricingPage() {
+function PricingPage({handlePrev , handleGoBack}) {
   const{t} = useTranslation()
   const [openRate, setOpenRate] = useState(false);
 
@@ -150,6 +150,22 @@ function PricingPage() {
 
 
       </form>
+
+        <div className="my-12 flex gap-3">
+      <button 
+        onClick={handlePrev} 
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium"
+      >
+        {t('the previous')}
+      </button>
+      <button
+        onClick={handleGoBack} 
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium"
+      >
+          {t('save')}
+      </button>
+    
+    </div>
     </>
   )
 }
