@@ -23,6 +23,10 @@ function PricingPage() {
     const [open2, setOpen2] = useState(false);
     const [selected2, setSelected2] = useState("");
     const dropdownRef2 = useRef(null);
+    const optionRates = [
+      t("Rate"),
+    
+    ];
 
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -62,7 +66,7 @@ function PricingPage() {
               className=" h-13.5 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
               <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected1 || t("Choose the pricing type  ")}
+                {selected1 || t("Choose the pricing type")}
               </span>
               <span className="ml-2">
                 {open1 ? (
@@ -125,7 +129,7 @@ function PricingPage() {
 
           {open2 && (
             <ul className=" border border-[#4B5565] bg-white rounded-[3px] shadow-md z-10">
-              {options.map((option, index) => (
+              {optionRates.map((option, index) => (
                 <li
                   key={index}
                   onClick={() => {
