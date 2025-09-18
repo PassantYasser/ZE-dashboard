@@ -97,23 +97,23 @@ function PricingPage() {
 
       </div>
 
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 ">
       <label className="text-[#364152]">{t("Discount")}</label>
 
-      <div className="flex w-full">
+      <div className="flex w-full ">
       
         {/* Input field */}
         <input
           type="text"
           placeholder={t("Enter the discount price")}
-          className=" h-13.5 w-[971px] px-3 border border-[#C8C8C8]  rounded-[3px] focus:outline-none"
+          className=" h-13.5 w-[85%] px-3 border border-[#C8C8C8]  rounded-[3px] focus:outline-none"
         />
 
           {/* Dropdown */}
-        <div className="relative " ref={dropdownRef2}>
+        <div className="relative  w-[15%] " ref={dropdownRef2}>
           <div
             onClick={() => setOpen2(!open2)}
-            className=" bg-[#EEF2F6]  p-3 w-[141px] h-13.5 border border-[#C8C8C8]  rounded-[3px] cursor-pointer flex items-center justify-between"
+            className=" bg-[#EEF2F6]  p-3 h-13.5 border border-[#C8C8C8]  rounded-[3px] cursor-pointer flex items-center justify-between"
           >
             <span className={selected2 ? "text-[#4B5565]" : "text-[#4B5565]"} >
               {selected2 || t("Rate")}
