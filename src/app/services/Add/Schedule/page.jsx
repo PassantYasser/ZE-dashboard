@@ -53,7 +53,7 @@ function SchedulePage({handleNext , handlePrev}) {
         </div>
     
         {/* box of days */}
-        <div className="flex flex-wrap  gap-5 ">
+        <div className=" flex  gap-5 ">
           {days.map((day) => (
             <button
               key={day}
@@ -119,6 +119,7 @@ function SchedulePage({handleNext , handlePrev}) {
       </div>
         
       </section>
+
 
     <div className="my-12 flex gap-3">
       <button 
