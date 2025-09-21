@@ -29,7 +29,7 @@ function FiltersPage({ open, handleClose }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{
-          className: "FiltersServicePage-dialog",
+          className: "ServicePage-dialog",
         }}
       >
         <section className='flex justify-between px-6 mt-6'>

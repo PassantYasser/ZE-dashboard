@@ -1,4 +1,6 @@
 "use client"
+import ViewPage from '@/app/services/View/page';
+import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -62,6 +64,20 @@ function ServiceCard() {
     }
   };
 
+
+  //view details
+
+   const [open, setOpen] =useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+
   return (
     <>
 
@@ -78,7 +94,7 @@ function ServiceCard() {
         </div>
 
         
-        <p className='text-[#364152] text-base font-medium '>خدمة صيانة سخانات المياه</p>
+        <button onClick={handleClickOpen}  className='text-[#364152] text-base font-medium '>خدمة صيانة سخانات المياه</button>
         <div className='mt-4'>
           {/* price */}
           <div className='flex gap-1.5'>
@@ -123,6 +139,8 @@ function ServiceCard() {
           </div>
         </div>
       </section>
+
+      <ViewPage open={open} handleClose={handleClose} />
 
     </>
   )
