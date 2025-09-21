@@ -310,69 +310,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           </div>
         </div>
     
-        {/* Service Activity Location 4 */}
-        {/* <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Service Activity Location")}
-          </label>
 
-          <div className="relative w-full mb-6" ref={dropdownRef4}>
-            <div
-              onClick={() => setOpen4(!open4)}
-              className="h-auto min-h-[3.5rem] p-2 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center  flex-wrap gap-2"
-            >
-              {selected4.length > 0 ? (
-                selected4.map((item, index) => (
-                  <span
-                    key={index}
-                    className="flex items-center gap-1.5 h-10 w-fit bg-[#F4F0FF] text-[#505050] text-sm px-3 py-1 rounded-full"
-                  >
-                    {item}
-                    <button
-                    type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelected4(selected4.filter((_, i) => i !== index));
-                      }}
-                      className=" text-[#364152] "
-                    >
-                      <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))
-              ) : (
-                <span className="text-[#9A9A9A]">{t("Select City")}</span>
-              )}
-
-              <span className="ml-auto">
-                {open4 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
-              </span>
-            </div>
-
-            {open4 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {options.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      if (!selected4.includes(option)) {
-                        setSelected4([...selected4, option]);
-                      }
-                      setOpen4(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div> */}
         {/* Service Activity Location 4 */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
@@ -382,7 +320,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <div className="relative w-full mb-6" ref={dropdownRef4}>
             <div
               onClick={() => setOpen4(!open4)}
-              className=" h-15  p-2 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex flex-row-reverse items-center flex-wrap gap-2"
+              className="  p-2 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex  items-center flex-wrap gap-2"
             >
               {/* Arrow icon on the left */}
               <span className="absolute left-3">
@@ -398,7 +336,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                 selected4.map((item, index) => (
                   <span
                     key={index}
-                    className="flex items-center gap-1.5 h-10 w-fit bg-[#F4F0FF] text-[#505050] text-sm px-3 py-1 rounded-full"
+                    className="flex items-center  gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
                   >
                     {item}
                     <button
