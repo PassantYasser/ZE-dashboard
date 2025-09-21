@@ -92,14 +92,14 @@ function ViewPage({open , handleClose }) {
         <span className='border-[0.5px] border-[#E3E8EF]  '/>
         
         {/* //image display */}
-        <section className="relative m-6 w-[600px] h-[400px] overflow-hidden mx-auto ">
+        <section className="relative  w-[600px] h-[400px] m-6">
         {/* Images */}
         {images.map((img, index) => (
           <img
             key={index}
             src={img}
             alt="slider"
-            className={`absolute top-0 left-0 w-146.5 h-65px object-cover transition-opacity duration-700 ${
+            className={`absolute top-0  w-146.5 h-65px object-cover transition-opacity duration-700 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -125,42 +125,44 @@ function ViewPage({open , handleClose }) {
 
         
         <section>
-          {/* tabs */}
-      <div className="flex justify-around border-b border-gray-300">
-        {tabs.map((tab) => (
-          <div
-            key={tab.id}
-            className={`flex items-center justify-center gap-2 px-4 py-6 w-full text-center text-base cursor-pointer
-              ${
-                openId === tab.id
-                  ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                  : "text-[#697586] font-normal"
-              }`}
-          >
-            <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
-            <p>{tab.label}</p>
-          </div>
-        ))}
-      </div>
+      {/* tabs */}
+        <div className="flex justify-around border-b border-gray-300">
+          {tabs.map((tab) => (
+            <div
+              key={tab.id}
+              onClick={() => setOpenId(tab.id)}   // ⬅️ هنا
+              className={`flex items-center justify-center gap-2 px-4 py-6 w-full text-center text-base cursor-pointer
+                ${
+                  openId === tab.id
+                    ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                    : "text-[#697586] font-normal"
+                }`}
+            >
+              <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
+              <p>{tab.label}</p>
+            </div>
+          ))}
+        </div>
 
-          {/* scroll component*/}
-          <div className="flex-1 overflow-y-auto mt-6 px-2">
-            {tabs.map((tab) => (
-              <div key={tab.id}>
-                {openId === tab.id && (
-                  <tab.Component
-                    handleGoBack={handleGoBack}
-                    handlePrev={handlePrev}
-                    handleNext={handleNext}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
+        {/* scroll component */}
+        <div className="flex-1 overflow-y-auto mt-6 px-2">
+          {tabs.map((tab) => (
+            <div key={tab.id}>
+              {openId === tab.id && (
+                <tab.Component
+                  handlePrev={handlePrev}
+                  handleNext={handleNext}
+                />
+              )}
+            </div>
+          ))}
+        </div>
 
         </section>
         
 
+                  {/* أزرار التنقل */}
+         
       </Dialog>
     
     </>
