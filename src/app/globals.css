@@ -3,7 +3,7 @@
 
 
 @theme {
-  --breakpoint-lg1024: 1024px;
+  --breakpoint-lg768: 768px;
   --breakpoint-lg1: 1340px;
   --breakpoint-xl1440: 1440px;  
   /* --spacing:0.390625vh; */
