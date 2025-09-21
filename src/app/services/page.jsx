@@ -1,14 +1,26 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import MainLayout from '../Components/MainLayout/MainLayout'
 import { useTranslation } from 'react-i18next'
 import SearchForm from '../Components/Forms/SearchForm'
 import FilterBtn from '../Components/Buttons/FilterBtn'
 import AddBtn from '../Components/Buttons/AddBtn'
 import ServiceCard from '../Components/Cards/ServiceCard'
+import FiltersPage from './Filters/page'
+
 
 function ServicesPage() {
   const {t}= useTranslation()
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <MainLayout>
         <section >
@@ -24,7 +36,7 @@ function ServicesPage() {
           <div className="flex justify-between">
               <SearchForm />
             <div className="lg1:flex lg1:gap-4 gap-6">
-              <FilterBtn href="/services/Filters" />
+              <FilterBtn onClick={handleClickOpen} />
               <AddBtn
                 href="/services/Add"
                 label="Add a sub-service"
@@ -40,6 +52,9 @@ function ServicesPage() {
               <ServiceCard/>
                 <ServiceCard/>
         </section>
+
+    <FiltersPage open={open} handleClose={handleClose} />
+
     </MainLayout>
   )
 }

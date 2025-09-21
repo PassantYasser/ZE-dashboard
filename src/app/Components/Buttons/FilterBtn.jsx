@@ -3,12 +3,13 @@ import Link from 'next/link';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function FilterBtn({href , className}) {
+function FilterBtn({href , className , onClick}) {
   const {t}= useTranslation();
   return (
     <>
-    <Link href={href}>
+    {/* <Link href={href}> */}
       <button 
+      onClick={onClick}
       className={`
         flex gap-4  
         justify-center items-center
@@ -19,7 +20,7 @@ function FilterBtn({href , className}) {
         <img src="/images/icons/FlterIcon.svg" alt=""  className='w-6 h-6'/>
         <span className='text-[#C69815] text-base font-medium'>{t('filter')} </span>
       </button>
-    </Link>
+    {/* </Link> */}
 
     </>
   )
