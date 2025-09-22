@@ -99,7 +99,7 @@ function ViewPage({open , handleClose }) {
             key={index}
             src={img}
             alt="slider"
-            className={`absolute top-0 left-0 w-[586px] h-[261px] object-cover transition-opacity duration-700 ${
+            className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -124,41 +124,38 @@ function ViewPage({open , handleClose }) {
       </section>
 
         {/* tabs */}
-        <section>
-      {/* tabs */}
-        <div className="flex justify-around border-b border-gray-300">
-          {tabs.map((tab) => (
-            <div
-              key={tab.id}
-              onClick={() => setOpenId(tab.id)}   // ⬅️ هنا
-              className={`flex items-center justify-center gap-2 px-4 py-6 w-full text-center text-base cursor-pointer
-                ${
-                  openId === tab.id
-                    ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                    : "text-[#697586] font-normal"
-                }`}
-            >
-              <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
-              <p>{tab.label}</p>
-            </div>
-          ))}
-        </div>
+    <section className="w-full  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
+      {/* Tabs */}
+      <div className="flex justify-around border-b border-gray-300">
+        {tabs.map((tab) => (
+          <div
+            key={tab.id}
+            onClick={() => setOpenId(tab.id)}
+            className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
+              ${
+                openId === tab.id
+                  ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                  : "text-[#697586] font-normal"
+              }`}
+          >
+            <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
+            <p>{tab.label}</p>
+          </div>
+        ))}
+      </div>
 
-        {/* scroll component */}
-        <div className="flex-1 overflow-y-auto mt-8 px-2">
-          {tabs.map((tab) => (
-            <div key={tab.id}>
-              {openId === tab.id && (
-                <tab.Component
-                  // handlePrev={handlePrev}
-                  // handleNext={handleNext}
-                />
-              )}
-            </div>
-          ))}
-        </div>
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto mt-4 px-2">
+        {tabs.map((tab) => (
+          <div key={tab.id}>
+            {openId === tab.id && (
+              <tab.Component />
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
 
-        </section>
         
 
           
@@ -170,3 +167,4 @@ function ViewPage({open , handleClose }) {
 }
 
 export default ViewPage
+
