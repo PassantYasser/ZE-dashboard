@@ -78,7 +78,7 @@ function ViewPage({open , handleClose }) {
         }}
       >
         {/* icon close */}
-        <section className='px-6 mt-6 '>
+        <section className='px-6 mt-6 flex justify-end '>
           <button   onClick={handleClose} className='border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center'>
             <img src="/images/icons/xx.svg" alt="" className='w-6 h-6' />
           </button>
@@ -86,7 +86,7 @@ function ViewPage({open , handleClose }) {
 
         {/* title */}
         <section className='mt-4 px-6'>
-          <p className='text-[#364152] text-xl font-medium mb-5'>{t('Service Details')}</p>
+          <p className='text-[#364152] text-xl font-medium mb-3'>{t('Service Details')}</p>
           <p className='text-[#4B5565] text-sm font-normal mb-5'>{t('A comprehensive overview of service specifications and information')}</p>
         </section>
         <span className='border-[0.5px] border-[#E3E8EF]  '/>
@@ -125,7 +125,7 @@ function ViewPage({open , handleClose }) {
         </section>
       
           {/* tabs */}
-      <section className="w-full mt-4 flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
+      <section className="w-full mt-4  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
         {/* Tabs */}
         <div className="flex justify-around  border-b border-gray-300 bg-white ">
           {tabs.map((tab) => (
@@ -146,7 +146,7 @@ function ViewPage({open , handleClose }) {
         </div>
       
         {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto mt-4 px-2">
+        <div className="flex-1 overflow-y-auto mt-4 ">
           {tabs.map((tab) => (
             <div key={tab.id}>
               {openId === tab.id && (

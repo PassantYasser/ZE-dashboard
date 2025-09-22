@@ -74,13 +74,46 @@ function DetailsPage() {
 
         </section>
 
-        <section>
-          <p>{t('Available times and days')}</p>
+        {/* date-time */}
+        <section className='mb-4'>
+          <div className='flex gap-1.5 mb-4'>
+            <img src="/images/icons/date-time.svg" alt="" />
+            <p>{t('Available times and days')}</p>
+          </div>
+          <div className='flex justify-between'>
+            <p className='text-[#697586] text-sm font-normal'>الثلاثاء </p>
+            <p className='text-[#697586] text-sm font-normal'>02:00م - 05:00ص</p>
+          </div>
         </section>
 
 
 
-      </div>
+        {/* Available areas */}
+        <section >
+          <div className='flex gap-1.5 mb-4'>
+            <img src="/images/icons/Available areas.svg" alt=""/>
+              <span className='text-[#697586] text-base font-normal'>{t('Available areas')}</span>  
+          </div>
+          <div className='bg-[#EDE7FD] border border-[#E2E2E2] h-8.5 w-fit px-3 py-0.5 rounded-[35px] mb-6'>
+            <span className='text-[#4B5565] text-sm font-normal'>الشيخ زايد</span>
+          </div>
+        </section>
+
+  </div>
+
+  <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
+
+  <section className='flex gap-3 mx-6 mb-6'>
+    <button className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
+      <span className='text-base font-medium'>{t('Modify the service')}</span>
+      <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
+      
+      </button>
+    <button className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
+  </section>
+
+  
+      
     </>
   )
 }
