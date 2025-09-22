@@ -91,71 +91,73 @@ function ViewPage({open , handleClose }) {
         </section>
         <span className='border-[0.5px] border-[#E3E8EF]  '/>
         
-      {/* //image display */}
-      <section className="relative w-[586px] h-[261px] m-6">
-        {/* Images */}
-        {images.map((img, index) => (
-          <img
-            key={index}
-            src={img}
-            alt="slider"
-            className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
-              index === current ? "opacity-100" : "opacity-0"
-            }`}
-          />
-        ))}
-
-        {/* Dots like image */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 
-                        bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] 
-                        flex items-center gap-1.5">
-          {images.map((_, index) => (
-            <button
+    <div className='overflow'>
+        {/* //image display */}
+        <section className="relative w-[586px] h-[261px] m-6">
+          {/* Images */}
+          {images.map((img, index) => (
+            <img
               key={index}
-              onClick={() => setCurrent(index)}
-              className={`transition rounded-full ${
-                current === index
-                  ? "w-2.5 h-2.5 bg-white" // active dot
-                  : "w-1.5 h-1.5 bg-[#EEF2F6]" // inactive dot
+              src={img}
+              alt="slider"
+              className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
+                index === current ? "opacity-100" : "opacity-0"
               }`}
             />
           ))}
+      
+          {/* Dots like image */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 
+                          bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] 
+                          flex items-center gap-1.5">
+            {images.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrent(index)}
+                className={`transition rounded-full ${
+                  current === index
+                    ? "w-2.5 h-2.5 bg-white" // active dot
+                    : "w-1.5 h-1.5 bg-[#EEF2F6]" // inactive dot
+                }`}
+              />
+            ))}
+          </div>
+        </section>
+      
+          {/* tabs */}
+      <section className="w-full mt-4 flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
+        {/* Tabs */}
+        <div className="flex justify-around  border-b border-gray-300 bg-white ">
+          {tabs.map((tab) => (
+            <div
+              key={tab.id}
+              onClick={() => setOpenId(tab.id)}
+              className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
+                ${
+                  openId === tab.id
+                    ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                    : "text-[#697586] font-normal"
+                }`}
+            >
+              <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
+              <p>{tab.label}</p>
+            </div>
+          ))}
+        </div>
+      
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto mt-4 px-2">
+          {tabs.map((tab) => (
+            <div key={tab.id}>
+              {openId === tab.id && (
+                <tab.Component />
+              )}
+            </div>
+          ))}
         </div>
       </section>
-
-        {/* tabs */}
-    <section className="w-full  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
-      {/* Tabs */}
-      <div className="flex justify-around border-b border-gray-300">
-        {tabs.map((tab) => (
-          <div
-            key={tab.id}
-            onClick={() => setOpenId(tab.id)}
-            className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
-              ${
-                openId === tab.id
-                  ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                  : "text-[#697586] font-normal"
-              }`}
-          >
-            <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
-            <p>{tab.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Scrollable content */}
-      <div className="flex-1 overflow-y-auto mt-4 px-2">
-        {tabs.map((tab) => (
-          <div key={tab.id}>
-            {openId === tab.id && (
-              <tab.Component />
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-
+      
+    </div>
         
 
           
