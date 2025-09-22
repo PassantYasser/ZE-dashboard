@@ -2,7 +2,11 @@ import React from 'react'
 
 function DetailsPage() {
   return (
-    <div>DetailsPage</div>
+    <>
+      <div className='px-6'>
+djddjj
+      </div>
+    </>
   )
 }
 

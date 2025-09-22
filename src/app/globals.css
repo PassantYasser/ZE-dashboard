@@ -27,9 +27,17 @@ font-size: 50px;
 }
 .ServicePage-dialog{
   max-width: unset !important;
-  max-height: unset !important;
-
+  /* max-height: unset !important; */
   width: 39.375rem;
+}
+.ServiceViewPage-dialog {
+  max-width: unset !important;
+  width: 39.375rem; /* 630px */
+  height: 90vh; /* علشان يظهر Scroll لو المحتوى طويل */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* منع السحب يمين/شمال */
+  overflow-y: auto;   /* السماح بالاسكرول فوق/تحت */
 }
 
 

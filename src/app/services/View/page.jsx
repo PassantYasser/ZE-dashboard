@@ -49,21 +49,21 @@ function ViewPage({open , handleClose }) {
 
   const currentIndex = tabs.findIndex((tab) => tab.id === openId);
 
-  const handleNext = () => {
-    if (currentIndex < tabs.length - 1) {
-      setOpenId(tabs[currentIndex + 1].id);
-    }
-  };
+  // const handleNext = () => {
+  //   if (currentIndex < tabs.length - 1) {
+  //     setOpenId(tabs[currentIndex + 1].id);
+  //   }
+  // };
 
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      setOpenId(tabs[currentIndex - 1].id);
-    }
-  };
+  // const handlePrev = () => {
+  //   if (currentIndex > 0) {
+  //     setOpenId(tabs[currentIndex - 1].id);
+  //   }
+  // };
 
-  const handleGoBack = () => {
-    router.back();
-  };
+  // const handleGoBack = () => {
+  //   router.back();
+  // };
 
 
   return (
@@ -74,7 +74,7 @@ function ViewPage({open , handleClose }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{
-          className: "ServicePage-dialog",
+          className: "ServiceViewPage-dialog",
         }}
       >
         {/* icon close */}
@@ -91,15 +91,15 @@ function ViewPage({open , handleClose }) {
         </section>
         <span className='border-[0.5px] border-[#E3E8EF]  '/>
         
-        {/* //image display */}
-        <section className="relative  w-[600px] h-[400px] m-6">
+      {/* //image display */}
+      <section className="relative w-[586px] h-[261px] m-6">
         {/* Images */}
         {images.map((img, index) => (
           <img
             key={index}
             src={img}
             alt="slider"
-            className={`absolute top-0  w-146.5 h-65px object-cover transition-opacity duration-700 ${
+            className={`absolute top-0 left-0 w-[586px] h-[261px] object-cover transition-opacity duration-700 ${
               index === current ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -107,23 +107,23 @@ function ViewPage({open , handleClose }) {
 
         {/* Dots like image */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 
-                        bg-white/30 backdrop-blur-md px-4 py-2 rounded-full 
-                        flex items-center gap-2">
+                        bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] 
+                        flex items-center gap-1.5">
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrent(index)}
               className={`transition rounded-full ${
                 current === index
-                  ? "w-4 h-4 bg-white" // active dot
-                  : "w-2.5 h-2.5 bg-white/70" // inactive dot
+                  ? "w-2.5 h-2.5 bg-white" // active dot
+                  : "w-1.5 h-1.5 bg-[#EEF2F6]" // inactive dot
               }`}
             />
           ))}
         </div>
-        </section>
+      </section>
 
-        
+        {/* tabs */}
         <section>
       {/* tabs */}
         <div className="flex justify-around border-b border-gray-300">
@@ -145,13 +145,13 @@ function ViewPage({open , handleClose }) {
         </div>
 
         {/* scroll component */}
-        <div className="flex-1 overflow-y-auto mt-6 px-2">
+        <div className="flex-1 overflow-y-auto mt-8 px-2">
           {tabs.map((tab) => (
             <div key={tab.id}>
               {openId === tab.id && (
                 <tab.Component
-                  handlePrev={handlePrev}
-                  handleNext={handleNext}
+                  // handlePrev={handlePrev}
+                  // handleNext={handleNext}
                 />
               )}
             </div>
@@ -161,8 +161,8 @@ function ViewPage({open , handleClose }) {
         </section>
         
 
-                  {/* أزرار التنقل */}
-         
+          
+        
       </Dialog>
     
     </>
