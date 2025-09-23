@@ -150,7 +150,7 @@ function ViewPage({open , handleClose }) {
           {tabs.map((tab) => (
             <div key={tab.id}>
               {openId === tab.id && (
-                <tab.Component />
+                <tab.Component handleClose={handleClose} />
               )}
             </div>
           ))}

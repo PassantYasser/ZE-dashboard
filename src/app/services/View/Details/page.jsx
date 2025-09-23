@@ -3,7 +3,7 @@ import { t } from 'i18next'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DetailsPage() {
+function DetailsPage({handleClose}) {
   const {t} = useTranslation();
     const [enabled, setEnabled] = useState(false);
 
@@ -109,7 +109,7 @@ function DetailsPage() {
       <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
       
       </button>
-    <button className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
+    <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
   </section>
 
   

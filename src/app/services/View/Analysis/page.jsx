@@ -5,7 +5,7 @@ import Chart from "react-apexcharts";
 import dynamic from "next/dynamic";
 
 
-function AnalysisPage() {
+function AnalysisPage({handleClose}) {
   const {t} = useTranslation()
   const value = 1;
   const isPositive = value >= 0;
@@ -18,7 +18,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
     //
 
-     const [chartOptions] = useState({
+  const [chartOptions] = useState({
     chart: {
       id: "stacked-bar",
       stacked: true,
@@ -258,17 +258,25 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
         </div>
 
 
-         <div className="p-4 ">
-      <Chart
-        options={chartOptions}
-        series={seriesData}
-        type="bar"
-        width="100%"
-        height={300}
-      />
-    </div>
+        <div className="p-4 ">
+          <Chart
+            options={chartOptions}
+            series={seriesData}
+            type="bar"
+            width="100%"
+            height={300}
+          />
+        </div>
 
       </div>
+
+    </div>
+
+    <div className="w-full h-px bg-[#CDD5DF] "></div>
+    <div className='px-6 my-5'>
+      <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-40 rounded-[3px] text-base font-medium'>
+        {t('cancel')}
+      </button>
     </div>
 
     </>
