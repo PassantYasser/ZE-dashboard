@@ -1,5 +1,6 @@
 "use client"
 import { t } from 'i18next'
+import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -104,11 +105,11 @@ function DetailsPage({handleClose}) {
   <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
 
   <section className='flex gap-3 mx-6 mb-6'>
-    <button className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
+    <Link href="/services/Edit" className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
       <span className='text-base font-medium'>{t('Modify the service')}</span>
       <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
       
-      </button>
+      </Link>
     <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
   </section>
 
