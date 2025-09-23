@@ -60,11 +60,11 @@ function EditPage() {
         {/* الجزء الثابت */}
         <section className="mb-4">
           <p className="text-[#364152] text-2xl font-medium mb-5">
-            {t("Add a new service")}
+            {t("Modify the service.")}
           </p>
           <p className="text-[#4B5565] text-base font-normal">
             {t(
-              "Enter the new service details to begin offering it to your customers."
+              "You can modify, update, and improve the service details."
             )}
           </p>
         </section>
