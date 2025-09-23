@@ -42,6 +42,7 @@ function DetailsPage({handleClose}) {
           </div>
         </section>
 
+        {/* price&&Revenues&&RequestsNumber&&view */}
         <section>
           {/* price */}
           <div className='flex gap-1.5 '>
@@ -87,8 +88,6 @@ function DetailsPage({handleClose}) {
           </div>
         </section>
 
-
-
         {/* Available areas */}
         <section >
           <div className='flex gap-1.5 mb-4'>
@@ -100,18 +99,18 @@ function DetailsPage({handleClose}) {
           </div>
         </section>
 
-  </div>
+      </div>
 
-  <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
+      <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
 
-  <section className='flex gap-3 mx-6 mb-6'>
-    <Link href="/services/Edit" className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
-      <span className='text-base font-medium'>{t('Modify the service')}</span>
-      <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
-      
-      </Link>
-    <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
-  </section>
+      <section className='flex gap-3 mx-6 mb-6'>
+        <Link href="/services/Edit" className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
+          <span className='text-base font-medium'>{t('Modify the service')}</span>
+          <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
+          
+          </Link>
+        <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
+      </section>
 
   
       

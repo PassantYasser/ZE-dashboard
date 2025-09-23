@@ -192,6 +192,15 @@
   "Modify the service.":"تعديل الخدمة",
   "You can modify, update, and improve the service details.":"يمكنك تعديل تفاصيل الخدمة لتحديثها أو تحسينه",
   
+  "Service Refused":"تم رفض الخدمة",
+  "The description is incomplete or unclear":"الوصف غير مكتمل أو غير واضح.",
+  "The attached photos do not meet quality standards.":" الصور المرفقة لا تتوافق مع معايير الجودة",
+  "The price is inappropriate or inconsistent with the service category.":"السعر غير مناسب أو غير متوافق مع فئة الخدمة.",
+
+  "Service suspended.":"تم ايقاف الخدمة",
+  "Failure to comply with established standards and policies.":"عدم الالتزام بالمعايير والسياسات المحددة.",
+  "Repeated violations of data or service content.":"تكرار مخالفات في البيانات أو محتوى الخدمة.",
+  
   
 
   

@@ -192,6 +192,15 @@
   "Modify the service.":"Modify the service.",
   "You can modify, update, and improve the service details.":"You can modify, update, and improve the service details.",
   
+  "Service Refused":"Service Refused",
+  "The description is incomplete or unclear":"The description is incomplete or unclear",
+  "The attached photos do not meet quality standards.":"The attached photos do not meet quality standards.",
+  "The price is inappropriate or inconsistent with the service category.":"The price is inappropriate or inconsistent with the service category.",
+
+  "Service suspended.":"Service suspended.",
+  "Failure to comply with established standards and policies.":"Failure to comply with established standards and policies.",
+  "Repeated violations of data or service content.":"Repeated violations of data or service content.",
+  
   
   
 

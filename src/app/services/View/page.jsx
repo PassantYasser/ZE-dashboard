@@ -65,6 +65,63 @@ function ViewPage({open , handleClose }) {
   //   router.back();
   // };
 
+  //
+    const [status , setStatus] = useState('refused');
+  
+    const StatusRender = () => {
+      switch (status) {
+        case "active":
+          return (
+            <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647]  h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+                <p className=''>{t('active')}</p>
+              </div>
+            </div>
+          );
+  
+        case "inactive":
+          return (
+            <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB]  h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
+                <p className=''>{t('inactive')}</p>
+              </div>
+            </div>
+          );
+  
+          case "pending":
+          return (
+            <div className=' bg-[#FFFAEB] border border-[#F79009] text-[#DC6803]  h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
+                <p className=''>{t('pending')}</p>
+              </div>
+            </div>
+          );
+  
+          case "stopped":
+          return (
+            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/stopped Status.svg" alt="" className=' mt-1' />
+                <p className=''>{t('stopped')}</p>
+              </div>
+            </div>
+          );
+  
+          case "refused":
+          return (
+            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
+                <p className=''>{t('refused')}</p>
+              </div>
+            </div>
+          );
+      
+      }
+    };
 
   return (
     <>
@@ -91,74 +148,78 @@ function ViewPage({open , handleClose }) {
         </section>
         <span className='border-[0.5px] border-[#E3E8EF]  '/>
         
-    <div className='overflow'>
-        {/* //image display */}
-        <section className="relative w-[586px] h-[261px] m-6">
-          {/* Images */}
-          {images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt="slider"
-              className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
-                index === current ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
-      
-          {/* Dots like image */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 
-                          bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] 
-                          flex items-center gap-1.5">
-            {images.map((_, index) => (
-              <button
+        <div className='overflow'>
+          {/* //image display */}
+          <section className="relative w-[586px] h-[261px] m-6">
+            {/* Images */}
+            {images.map((img, index) => (
+              <img
                 key={index}
-                onClick={() => setCurrent(index)}
-                className={`transition rounded-full ${
-                  current === index
-                    ? "w-2.5 h-2.5 bg-white" // active dot
-                    : "w-1.5 h-1.5 bg-[#EEF2F6]" // inactive dot
+                src={img}
+                alt="slider"
+                className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
+                  index === current ? "opacity-100" : "opacity-0"
                 }`}
               />
             ))}
-          </div>
-        </section>
-      
+          {/* Text on left side */}
+            <div className="absolute top-5 left-5  text-white text-xl font-bold">
+              <p>{StatusRender()}</p>
+            </div>
+
+            {/* Dots like image */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 
+                            bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] 
+                            flex items-center gap-1.5">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrent(index)}
+                  className={`transition rounded-full ${
+                    current === index
+                      ? "w-2.5 h-2.5 bg-white" // active dot
+                      : "w-1.5 h-1.5 bg-[#EEF2F6]" // inactive dot
+                  }`}
+                />
+              ))}
+            </div>
+          </section>
+
           {/* tabs */}
-      <section className="w-full mt-4  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
-        {/* Tabs */}
-        <div className="flex justify-around  border-b border-gray-300 bg-white ">
-          {tabs.map((tab) => (
-            <div
-              key={tab.id}
-              onClick={() => setOpenId(tab.id)}
-              className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
-                ${
-                  openId === tab.id
-                    ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                    : "text-[#697586] font-normal"
-                }`}
-            >
-              <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
-              <p>{tab.label}</p>
+          <section className="w-full mt-4  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
+            {/* Tabs */}
+            <div className="flex justify-around  border-b border-gray-300 bg-white ">
+              {tabs.map((tab) => (
+                <div
+                  key={tab.id}
+                  onClick={() => setOpenId(tab.id)}
+                  className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
+                    ${
+                      openId === tab.id
+                        ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                        : "text-[#697586] font-normal"
+                    }`}
+                >
+                  <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
+                  <p>{tab.label}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto mt-4 ">
-          {tabs.map((tab) => (
-            <div key={tab.id}>
-              {openId === tab.id && (
-                <tab.Component handleClose={handleClose} />
-              )}
+          
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto mt-4 ">
+              {tabs.map((tab) => (
+                <div key={tab.id}>
+                  {openId === tab.id && (
+                    <tab.Component handleClose={handleClose} />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </section>
+          
         </div>
-      </section>
-      
-    </div>
-        
+            
 
           
         
