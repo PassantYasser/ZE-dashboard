@@ -129,7 +129,15 @@ function DetailsPage({handleClose ,status}) {
           <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
           
           </Link>
-        <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>{t('cancel')}</button>
+          {status==='stopped' || status==='refused' ?(
+            <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
+              {t('delete')}
+            </button>
+          ):(
+            <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
+              {t('cancel')}
+            </button>
+          )}
       </section>
 
   

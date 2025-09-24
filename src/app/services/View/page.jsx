@@ -23,7 +23,7 @@ function ViewPage({open , handleClose }) {
 
   //
 
-    const router = useRouter();
+  const router = useRouter();
   const [openId, setOpenId] = useState("Details");
 
   const tabs = [
