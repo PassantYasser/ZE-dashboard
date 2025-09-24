@@ -60,7 +60,7 @@ function VerifyNumberpage() {
           {/* logo */}
           <div className='WHLogA bg-[#EEF2F6] rounded-[100px] flex justify-center items-center mx-auto mb-5'>
             <p className='WHLogB bg-[#CDD5DF] rounded-[100px] flex justify-center items-center '>
-            <img src="/images/icons/call-received.svg" className='p-2.5' alt="" />
+            <img src="/images/icons/call-received.svg" className='WHLogC' alt="" />
             </p>
           </div>
           
