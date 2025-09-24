@@ -11,7 +11,6 @@
 
 :root {
   font-family: "Readex Pro";
-   
 }
 
 
@@ -33,11 +32,15 @@ font-size: 50px;
 .ServiceViewPage-dialog {
   max-width: unset !important;
   width: 39.375rem; /* 630px */
-  height: 90vh; /* علشان يظهر Scroll لو المحتوى طويل */
+  height: 90vh; 
   display: flex;
   flex-direction: column;
-  overflow-x: hidden; /* منع السحب يمين/شمال */
-  overflow-y: auto;   /* السماح بالاسكرول فوق/تحت */
+  overflow-x: hidden;
+  overflow-y: auto;   
+}
+.ServiceDeletePage-dialog{
+  max-width: unset !important;
+  width: 34rem;
 }
 
 

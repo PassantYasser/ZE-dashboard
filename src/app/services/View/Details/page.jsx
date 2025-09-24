@@ -1,4 +1,5 @@
 "use client"
+import DeletePage from '@/app/Components/Model/Delete/page';
 import { t } from 'i18next'
 import Link from 'next/link';
 import React, { useState } from 'react'
@@ -8,6 +9,15 @@ function DetailsPage({handleClose ,status}) {
   const {t} = useTranslation();
     const [enabled, setEnabled] = useState(false);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClosee = () => {
+    setOpen(false);
+  };
   return (
     <>
       <div className='px-6'>
@@ -128,9 +138,9 @@ function DetailsPage({handleClose ,status}) {
           <span className='text-base font-medium'>{t('Modify the service')}</span>
           <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
           
-          </Link>
+        </Link>
           {status==='stopped' || status==='refused' ?(
-            <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
+            <button onClick={handleClickOpen} className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
               {t('delete')}
             </button>
           ):(
@@ -139,6 +149,8 @@ function DetailsPage({handleClose ,status}) {
             </button>
           )}
       </section>
+
+      <DeletePage open={open} handleClosee={handleClosee}/>
 
   
       

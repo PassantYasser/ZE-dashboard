@@ -202,6 +202,10 @@
   "Repeated violations of data or service content.":"Repeated violations of data or service content.",
   
   "delete":"delete",
+  "Are you sure you want to delete the service?":"Are you sure you want to delete the service?",
+  "This service will be removed from your list and will no longer be available to customers.":"This service will be removed from your list and will no longer be available to customers.",
+  
+
   
   
   
