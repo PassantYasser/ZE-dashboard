@@ -124,17 +124,18 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,prevSub  }) {
 
       <button
         onClick={onPrev}
-        className="px-4 py-2 w-64  bg-yellow-600 text-white rounded"
+              className="px-4 py-2 w-64 border border-[#C69815] text-[#C69815] rounded"
       >
-        السابق
+        {t('the previous')}
       </button>
       <button
         onClick={nextSub}
-        className="px-4 py-2 w-64 h-15 bg-yellow-600 text-white rounded"
+              className="px-4 py-2 w-64 h-15 bg-[#C69815] text-white rounded"
       >
-        التالي
+        {t('the next')}
       </button>
     </div>
+  
 
     <p className='flex justify-center gap-1.5'>
       <span className='text-[#697586] text-lg font-normal'>{t('Dont have an account?')}</span>
