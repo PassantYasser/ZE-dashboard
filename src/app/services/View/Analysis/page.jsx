@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Chart from "react-apexcharts";
+// import Chart from "react-apexcharts";
 import dynamic from "next/dynamic";
+
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 
 function AnalysisPage({handleClose}) {
@@ -13,7 +15,6 @@ function AnalysisPage({handleClose}) {
   const valuee = -2;
     const isNegative = valuee >= 0;
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 
     //

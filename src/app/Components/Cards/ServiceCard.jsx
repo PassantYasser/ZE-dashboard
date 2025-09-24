@@ -16,7 +16,7 @@ function ServiceCard() {
           <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647]  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-              <p className=''>{t('active')}</p>
+              <span className=''>{t('active')}</span>
             </div>
           </div>
         );
@@ -26,7 +26,7 @@ function ServiceCard() {
           <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB]  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
-              <p className=''>{t('inactive')}</p>
+              <span className=''>{t('inactive')}</span>
             </div>
           </div>
         );
@@ -36,7 +36,7 @@ function ServiceCard() {
           <div className=' bg-[#FFFAEB] border border-[#F79009] text-[#DC6803]  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
-              <p className=''>{t('pending')}</p>
+              <span className=''>{t('pending')}</span>
             </div>
           </div>
         );
@@ -46,7 +46,7 @@ function ServiceCard() {
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/stopped Status.svg" alt="" className=' mt-1' />
-              <p className=''>{t('stopped')}</p>
+              <span className=''>{t('stopped')}</span>
             </div>
           </div>
         );
@@ -56,7 +56,7 @@ function ServiceCard() {
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-              <p className=''>{t('refused')}</p>
+              <span className=''>{t('refused')}</span>
             </div>
           </div>
         );

@@ -60,7 +60,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-                <p className='font-normal'>{t('active')}</p>
+                <span className='font-normal'>{t('active')}</span>
               </div>
             </div>
           );
@@ -70,7 +70,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
-                <p className='font-normal'>{t('inactive')}</p>
+                <span className='font-normal'>{t('inactive')}</span>
               </div>
             </div>
           );
@@ -80,7 +80,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FFFAEB] border border-[#F79009] text-[#DC6803]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
-                <p className='font-normal'>{t('pending')}</p>
+                <span className='font-normal'>{t('pending')}</span>
               </div>
             </div>
           );
@@ -90,7 +90,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/stopped Status.svg" alt="" className=' mt-1' />
-                <p className='font-normal'>{t('stopped')}</p>
+                <span className='font-normal'>{t('stopped')}</span>
               </div>
             </div>
           );
@@ -100,7 +100,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-                <p className='font-normal'>{t('refused')}</p>
+                <span className='font-normal'>{t('refused')}</span>
               </div>
             </div>
           );
@@ -149,7 +149,7 @@ function ViewPage({open , handleClose }) {
             ))}
           {/* Text on left side */}
             <div className="absolute top-5 left-5  text-white text-xl font-bold">
-              <p>{StatusRender()}</p>
+              <div>{StatusRender()}</div>
             </div>
 
             {/* Dots like image */}
