@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DetailsPage({handleClose}) {
+function DetailsPage({handleClose ,status}) {
   const {t} = useTranslation();
     const [enabled, setEnabled] = useState(false);
 
@@ -15,6 +15,26 @@ function DetailsPage({handleClose}) {
         <p className='text-[#364152] text-xl font-medium '>
           خدمة صيانة سخانات المياه
         </p>
+
+        {status==='refused'?(
+          <div className='my-6 bg-[#FEE4E2] px-4 py-3 rounded-[10px]'>
+            <p className='text-[#313131] text-sm font-medium mb-2'>{t('Service Refused')}</p>
+            <ol className="list-decimal list-inside space-y-2 text-[#D92D20] text-sm font-normal">
+              <li>{t('The description is incomplete or unclear')}</li>
+              <li>{t('The attached photos do not meet quality standards.')}</li>
+              <li>{t('The price is inappropriate or inconsistent with the service category.')}</li>
+            </ol>
+          </div>
+        ):''}
+          {status==='stopped'?(
+          <div className='my-6 bg-[#FEE4E2] px-4 py-3 rounded-[10px]'>
+            <p className='text-[#313131] text-sm font-medium mb-2'>{t('Service suspended.')}</p>
+            <ol className="list-decimal list-inside space-y-2 text-[#D92D20] text-sm font-normal">
+              <li>{t('Failure to comply with established standards and policies.')}</li>
+              <li>{t('Repeated violations of data or service content.')}</li>
+            </ol>
+          </div>
+        ):''}
 
         {/* Description */}
         <section className='my-6'>

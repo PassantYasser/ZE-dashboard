@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 function ServiceCard() {
   const {t}= useTranslation();
 
-  const [status , setStatus] = useState('refused');
+  const [status , setStatus] = useState('stopped');
 
   const StatusRender = () => {
     switch (status) {

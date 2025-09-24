@@ -49,21 +49,6 @@ function ViewPage({open , handleClose }) {
 
   const currentIndex = tabs.findIndex((tab) => tab.id === openId);
 
-  // const handleNext = () => {
-  //   if (currentIndex < tabs.length - 1) {
-  //     setOpenId(tabs[currentIndex + 1].id);
-  //   }
-  // };
-
-  // const handlePrev = () => {
-  //   if (currentIndex > 0) {
-  //     setOpenId(tabs[currentIndex - 1].id);
-  //   }
-  // };
-
-  // const handleGoBack = () => {
-  //   router.back();
-  // };
 
   //
     const [status , setStatus] = useState('refused');
@@ -75,7 +60,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-                <p className=''>{t('active')}</p>
+                <p className='font-normal'>{t('active')}</p>
               </div>
             </div>
           );
@@ -85,7 +70,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
-                <p className=''>{t('inactive')}</p>
+                <p className='font-normal'>{t('inactive')}</p>
               </div>
             </div>
           );
@@ -95,7 +80,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FFFAEB] border border-[#F79009] text-[#DC6803]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
-                <p className=''>{t('pending')}</p>
+                <p className='font-normal'>{t('pending')}</p>
               </div>
             </div>
           );
@@ -105,7 +90,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/stopped Status.svg" alt="" className=' mt-1' />
-                <p className=''>{t('stopped')}</p>
+                <p className='font-normal'>{t('stopped')}</p>
               </div>
             </div>
           );
@@ -115,7 +100,7 @@ function ViewPage({open , handleClose }) {
             <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20]  h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
                 <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-                <p className=''>{t('refused')}</p>
+                <p className='font-normal'>{t('refused')}</p>
               </div>
             </div>
           );
@@ -211,7 +196,7 @@ function ViewPage({open , handleClose }) {
               {tabs.map((tab) => (
                 <div key={tab.id}>
                   {openId === tab.id && (
-                    <tab.Component handleClose={handleClose} />
+                    <tab.Component handleClose={handleClose} status={status}/>
                   )}
                 </div>
               ))}
