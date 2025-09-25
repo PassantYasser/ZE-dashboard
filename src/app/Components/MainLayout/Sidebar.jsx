@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/redux/slice/Auth/AuthSlice';
 
 
 
@@ -16,6 +18,15 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
     const pathname = usePathname();
 
+    //🟢logout
+    const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logout());      
+    setIsSidebarOpen(false);
+    router.push("/Auth/Login"); 
+  }
 
 
   return (
@@ -190,7 +201,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </li>
           
             <li  className={`cursor-pointer py-4 px-2 rounded   mb-2  ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Auth/Login" onClick={() => setIsSidebarOpen(false)}>
+            <button  onClick={handleLogout}>
                 {open?(
                 //open 
                   <div className='flex gap-4 items-center'>
@@ -202,7 +213,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                     <img src="/images/icons/signout.svg" alt="" />
                   </div>
               )}
-            </Link>
+            </button>
 
             </li>
     
