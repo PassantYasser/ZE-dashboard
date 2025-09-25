@@ -1,4 +1,4 @@
-import { login } from "@/redux/api/Auth/AuthApi";
+import { getCurrentLogin, login } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -15,7 +15,24 @@ export const loginThunk = createAsyncThunk('auth/loginThunk',
       )
     }
   }
+);
+
+export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk',
+  async(_,thunkAPI)=>{
+    try{
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found");
+      const data = await getCurrentLogin(token);
+      return data;
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Failed to fetch user"
+      );
+    }
+  }
 )
+
+
 
 
 const initialState = {
@@ -56,6 +73,22 @@ const authSlice = createSlice({
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
+        state.isAuthenticated = false;
+      })
+
+       .addCase(getCurrentLoginThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCurrentLoginThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.provider;
+        state.isAuthenticated = true;
+      })
+      .addCase(getCurrentLoginThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.user = null;
         state.isAuthenticated = false;
       });
   }

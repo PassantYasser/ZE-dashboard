@@ -26,15 +26,15 @@ function LoginPage() {
       [e.target.name]:e.target.value
     }))
   }
-   const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginThunk(formData));
   };
-  console.log(formData);
 
+  // after login 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/"); // غيريها للمسار اللي انتي عايزاه
+      router.push("/dashboard"); 
     }
   }, [isAuthenticated, router]);
 

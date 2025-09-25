@@ -2,6 +2,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import i18n from "../../../language/i18n";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentLoginThunk } from "@/redux/slice/Auth/AuthSlice";
 
 function Navbar({ onMenuClick }) {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,16 @@ function Navbar({ onMenuClick }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //
+
+  const dispatch = useDispatch();
+  const { user, loading, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getCurrentLoginThunk());
+  }, [dispatch]);
+
+  console.log(user?.firstname);
   return (
     <>
       <header className="h-20 bg-[#fff] border-b border-[#E3E8EF] flex items-center justify-between px-6 py-4">
@@ -88,15 +100,15 @@ function Navbar({ onMenuClick }) {
             {/* User Info */}
             <div className="flex gap-3">
               <img
-                src="/images/Male02.svg"
+                src={`https://api.zetime.co/storage/${user?.image}`}
                 alt="User"
                 width="50px"
                 height="50px"
                 className="rounded-full"
               />
               <div className="hidden lg1:block">
-                <p className="text-[#364152] text-base font-medium mt-0.5">حسام</p>
-                <p className="text-[#4B5565] text-sm font-normal">المشرف الفائق</p>
+                <p className="text-[#364152] text-base font-medium mt-0.5">{user?.firstname}</p>
+                <p className="text-[#4B5565] text-sm font-normal"> {user?.designation.name_ar}</p>
               </div>
             </div>
           </div>
