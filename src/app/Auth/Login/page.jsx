@@ -1,11 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import i18n from "../../../language/i18n";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { loginThunk } from "@/redux/slice/Auth/AuthSlice";
+import { useRouter } from "next/navigation";
 function LoginPage() {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+
+  //link api 
+  const dispatch = useDispatch();
+  const {user, isAuthenticated} = useSelector((state)=>state.auth)
+  const router = useRouter();
+
+  const [formData , setFormData] = useState({
+    login:"",
+    password:"",    
+  })
+
+  const handleChange =(e)=>{
+    setFormData((prev)=>({
+      ...prev , 
+      [e.target.name]:e.target.value
+    }))
+  }
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginThunk(formData));
+  };
+  console.log(formData);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/"); // غيريها للمسار اللي انتي عايزاه
+    }
+  }, [isAuthenticated, router]);
+
 
   return (
     <>
@@ -28,7 +60,10 @@ function LoginPage() {
             </p>
           </div>
 
-          <form className="w-full flex flex-col gap-6">
+          <form 
+            onSubmit={handleSubmit}
+            className="w-full flex flex-col gap-6"
+          >
 
             {/* email form */}
             <div className="flex flex-col gap-3">
@@ -40,10 +75,12 @@ function LoginPage() {
               </label>
               <input
                 className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm"
-                type="email"
-                name="email"
+                type="text"
+                name="login"
                 id="email"
                 placeholder={t("Email")}
+                value={formData.login}
+                onChange={handleChange}
               />
             </div>
 
@@ -63,6 +100,9 @@ function LoginPage() {
                   name="password"
                   id="password"
                   placeholder={t("password")}
+                  value={formData.password}
+                  onChange={handleChange}
+
                 />
                 <span
                   onClick={() => setShowPassword(!showPassword)}
@@ -89,7 +129,7 @@ function LoginPage() {
 
             </div>
 
-            <button className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-4 mb-12">
+            <button type="submit" className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-4 mb-12">
               {t("Log in")}
             </button>
             
