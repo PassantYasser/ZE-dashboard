@@ -90,6 +90,17 @@ export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVer
     }
   })
 
+  export const resetPasswordThunk = createAsyncThunk(
+  'auth/resetPasswordThunk',
+  async (payload, thunkAPI) => {
+    try {
+      const response = await resetPassword(payload);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Password reset failed");
+    }
+  }
+);
 
 
 
@@ -219,6 +230,21 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+        // Reset password
+    .addCase(resetPasswordThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.success = null;
+    })
+    .addCase(resetPasswordThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload.message;
+    })
+    .addCase(resetPasswordThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
 
 

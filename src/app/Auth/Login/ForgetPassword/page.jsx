@@ -12,7 +12,7 @@ function ForgetPasswordpage() {
     const router = useRouter(); // ✅
 
     const dispatch = useDispatch();
-    const {otpSent,loading }=useSelector((state)=>state.auth)
+    const {otpSent,loading ,user }=useSelector((state)=>state.auth)
 
     const [inputValue, setInputValue] = useState("");
     const handleSubmit = (e) => {
@@ -21,10 +21,15 @@ function ForgetPasswordpage() {
         if (inputValue.includes("@")) {
           // user entered email
           dispatch(forgetPassEnterEmailThunk({ email: inputValue }));
+            localStorage.setItem('email', inputValue);
         } else {
           // user entered phone
           dispatch(forgetPassEnterPhoneThunk({ phone: inputValue }));
+          localStorage.setItem('phone', inputValue);
         }
+
+          
+        
       };
 
       // ✅ redirect when otpSent = true
