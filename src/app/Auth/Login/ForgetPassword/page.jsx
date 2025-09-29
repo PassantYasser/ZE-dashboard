@@ -1,15 +1,45 @@
 "use client";
 import SecondSection from "@/app/Components/login/SecondSection";
+import { forgetPassEnterEmailThunk, forgetPassEnterPhoneThunk } from "@/redux/slice/Auth/AuthSlice";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 
 function ForgetPasswordpage() {
   const { t } = useTranslation();
+    const router = useRouter(); // ✅
 
+    const dispatch = useDispatch();
+    const {otpSent,loading }=useSelector((state)=>state.auth)
+
+    const [inputValue, setInputValue] = useState("");
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (inputValue.includes("@")) {
+          // user entered email
+          dispatch(forgetPassEnterEmailThunk({ email: inputValue }));
+        } else {
+          // user entered phone
+          dispatch(forgetPassEnterPhoneThunk({ phone: inputValue }));
+        }
+      };
+
+      // ✅ redirect when otpSent = true
+  useEffect(() => {
+    if (otpSent) {
+      router.push("/Auth/Login/VerifyNumber");
+    }
+  }, [otpSent, router]);
+
+console.log(otpSent);
   return (
     <>
       <div className="p-8 lg1:flex justify-between gap-8  ">
+
+        {/* first section */}
         <section className="w-full">
           <div className="lg1:mt-40.5 mt-25 flex flex-col items-center">
             <p className="mb-6 text-[#C69815] text-2xl font-semibold">
@@ -23,7 +53,7 @@ function ForgetPasswordpage() {
             <img className="my-17.5" src="/images/lockLogIcon.svg" alt="" />
           </div>
 
-          <form className="w-full flex flex-col gap-6">
+          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <label
                 className="text-[#364152] fontSizeA font-normal"
@@ -37,14 +67,17 @@ function ForgetPasswordpage() {
                 name="email"
                 id="email"
                 placeholder={t("Email")}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
               />
             </div>
-            <Link
-              href="../Login/VerifyNumber"
+            <button
+              type="submit"
               className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-8 mb-12 flex justify-center items-center "
+              onClick={handleSubmit}
             >
               {t("send")}
-            </Link>
+            </button>
             <p className="flex justify-center gap-1.5">
               <span className="text-[#697586] text-lg font-normal">
                 {t("Dont have an account?")}
@@ -57,7 +90,8 @@ function ForgetPasswordpage() {
         </section>
 
         {/* second section */}
-      <SecondSection />
+        <SecondSection />
+        
       </div>
     </>
   );

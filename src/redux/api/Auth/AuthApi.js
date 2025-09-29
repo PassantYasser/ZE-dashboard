@@ -1,5 +1,7 @@
 import API from "../../../../config/api"
 
+/* ========== AUTH APIs ========== */
+
 // login 
 export const login = async(FormData)=>{
   const response = await API.post('/provider/login',FormData)
@@ -12,9 +14,36 @@ export const getCurrentLogin = async(loginToken)=>{
     headers:{
       Authorization:`Bearer ${loginToken}`
     },
-    
   })
-  console.log("response.data:", response.data);
-
   return  response.data
 }
+
+/* ========== FORGET PASSWORD APIs ========== */
+
+
+//Enter email to send otp
+export const forgetPassEnterEmail = async({email})=>{
+  const response = await API.post('/provider/send-email-otp',{email});
+  return response.data;
+};
+
+//Enter phone to send otp
+export const forgetPassEnterPhone = async({phone})=>{
+  const response = await API.post('/provider/forgot-password/send-otp',{phone});
+  return response.data;
+};
+
+//Verify email otp
+export const forgetPassVerifyEmailOtp = async({ email, otp })=>{
+  const response = await API.post('/provider/verify-email-otp',{ email, otp });
+  return response.data;
+};
+
+//Verify phone otp
+export const forgetPassVerifyPhoneOtp = async({ phone, otp })=>{
+  const response = await API.post('/provider/forgot-password/verify-otp',{ phone, otp});
+  return response.data;
+}
+
+
+

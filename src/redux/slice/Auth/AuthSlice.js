@@ -1,4 +1,4 @@
-import { getCurrentLogin, login } from "@/redux/api/Auth/AuthApi";
+import { forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // login form (email and password)
@@ -33,6 +33,64 @@ export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk'
   }
 )
 
+// forget password - enter email to send otp
+export const forgetPassEnterEmailThunk= createAsyncThunk('auth/forgetPassEnterEmailThunk',
+  async({email} , thunkAPI)=>{
+    try{
+      const data = await forgetPassEnterEmail({email})
+      return data
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }
+  }
+)
+
+// forget password - enter phone to send otp
+export const forgetPassEnterPhoneThunk= createAsyncThunk('auth/forgetPassEnterPhoneThunk',
+  async({phone} , thunkAPI)=>{
+    try{
+      const data = await forgetPassEnterPhone({phone})
+      return data
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }
+  }
+)
+
+// // forget password - verify email otp
+export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVerifyEmailOtpThunk',
+  async({ email, otp } , thunkAPI)=>{
+    try{
+      const data = await forgetPassVerifyEmailOtp({ email, otp })
+      return data
+    }
+    catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }}
+  )
+
+// // forget password - verify phone otp
+  export const forgetPassVerifyPhoneOtpThunk= createAsyncThunk('auth/forgetPassVerifyPhoneOtpThunk',
+  async({ phone, otp } , thunkAPI)=>{
+    try{
+      const data = await forgetPassVerifyPhoneOtp({ phone, otp })
+      return data
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }
+  })
+
+
+
+
 
 
 
@@ -41,13 +99,18 @@ const initialState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+
+  // forget password
+  otpSent: false,
+   method: null, // "email" | "phone"
+  verified: false,
+
 };
 
 const authSlice = createSlice({
   name:'auth',
   initialState,
   reducers:{
-  
     logout: (state) => {
       localStorage.removeItem("token");
       localStorage.removeItem("provider_id");
@@ -61,6 +124,7 @@ const authSlice = createSlice({
   
   extraReducers:(builder)=>{
     builder
+    // loginThunk
       .addCase(loginThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -77,7 +141,8 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
 
-       .addCase(getCurrentLoginThunk.pending, (state) => {
+    // getCurrentLoginThunk
+      .addCase(getCurrentLoginThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -91,7 +156,72 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.user = null;
         state.isAuthenticated = false;
-      });
+      })
+
+    // forgetPassEnterEmailThunk
+      .addCase(forgetPassEnterEmailThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgetPassEnterEmailThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otpSent = true;
+        state.method = "email";
+      })
+      .addCase(forgetPassEnterEmailThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //forgetPassEnterPhoneThunk
+      .addCase(forgetPassEnterPhoneThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgetPassEnterPhoneThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otpSent = true;
+        state.method = "phone";
+      })
+      .addCase(forgetPassEnterPhoneThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // // forgetPassVerifyEmailOtpThunk
+      .addCase(forgetPassVerifyEmailOtpThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(forgetPassVerifyEmailOtpThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verified = true;
+      })
+      .addCase(forgetPassVerifyEmailOtpThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })  
+      
+      // // forgetPassVerifyPhoneOtpThunk
+      .addCase(forgetPassVerifyPhoneOtpThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      } )
+      .addCase(forgetPassVerifyPhoneOtpThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verified = true;
+      })
+      .addCase(forgetPassVerifyPhoneOtpThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+
+
+
+    
+    
+    
   }
 })
 
