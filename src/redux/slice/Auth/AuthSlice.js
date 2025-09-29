@@ -1,7 +1,7 @@
 import { getCurrentLogin, login } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-
+// login form (email and password)
 export const loginThunk = createAsyncThunk('auth/loginThunk',
   async(loginData , thunkAPI)=>{
     try{
@@ -17,6 +17,7 @@ export const loginThunk = createAsyncThunk('auth/loginThunk',
   }
 );
 
+// get current login user in navbar
 export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk',
   async(_,thunkAPI)=>{
     try{
