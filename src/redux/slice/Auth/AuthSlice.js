@@ -47,6 +47,7 @@ export const forgetPassEnterEmailThunk= createAsyncThunk('auth/forgetPassEnterEm
   }
 )
 
+
 // forget password - enter phone to send otp
 export const forgetPassEnterPhoneThunk= createAsyncThunk('auth/forgetPassEnterPhoneThunk',
   async({phone} , thunkAPI)=>{
@@ -61,12 +62,13 @@ export const forgetPassEnterPhoneThunk= createAsyncThunk('auth/forgetPassEnterPh
   }
 )
 
-// // forget password - verify email otp
+
+// forget password - verify email otp
 export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVerifyEmailOtpThunk',
-  async({ email, otp } , thunkAPI)=>{
+  async(payload , thunkAPI)=>{
     try{
-      const data = await forgetPassVerifyEmailOtp({ email, otp })
-      return data
+      const data = await forgetPassVerifyEmailOtp(payload)
+      return data.data
     }
     catch(error){
       return thunkAPI.rejectWithValue(
@@ -77,9 +79,9 @@ export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVer
 
 // // forget password - verify phone otp
   export const forgetPassVerifyPhoneOtpThunk= createAsyncThunk('auth/forgetPassVerifyPhoneOtpThunk',
-  async({ phone, otp } , thunkAPI)=>{
+  async(payload , thunkAPI)=>{
     try{
-      const data = await forgetPassVerifyPhoneOtp({ phone, otp })
+      const data = await forgetPassVerifyPhoneOtp(payload)
       return data
     }catch(error){
       return thunkAPI.rejectWithValue(
@@ -100,10 +102,12 @@ const initialState = {
   loading: false,
   error: null,
 
-  // forget password
+// forget password
   otpSent: false,
-   method: null, // "email" | "phone"
+  method: null,
   verified: false,
+  email: "",
+  phone: "",
 
 };
 

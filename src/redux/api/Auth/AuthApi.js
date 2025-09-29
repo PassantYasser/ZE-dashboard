@@ -34,14 +34,14 @@ export const forgetPassEnterPhone = async({phone})=>{
 };
 
 //Verify email otp
-export const forgetPassVerifyEmailOtp = async({ email, otp })=>{
-  const response = await API.post('/provider/verify-email-otp',{ email, otp });
+export const forgetPassVerifyEmailOtp = async(payload)=>{
+  const response = await API.post('/provider/verify-email-otp',payload);
   return response.data;
 };
 
 //Verify phone otp
-export const forgetPassVerifyPhoneOtp = async({ phone, otp })=>{
-  const response = await API.post('/provider/forgot-password/verify-otp',{ phone, otp});
+export const forgetPassVerifyPhoneOtp = async(payload)=>{
+  const response = await API.post('/provider/forgot-password/verify-otp',payload);
   return response.data;
 }
 
