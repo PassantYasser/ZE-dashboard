@@ -17,10 +17,17 @@ function VerifyNumberpage() {
 
     const dispatch = useDispatch();
     const { loading, error, verified ,method } = useSelector((state) => state.auth);
-
-    const email = localStorage.getItem("email");
-    const phone = localStorage.getItem("phone");
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+  
     const [otp, setOtp] = useState(['', '', '', '']); // 4 separate digits
+
+    useEffect(() => {
+    if (typeof window !== "undefined") {
+      setEmail(localStorage.getItem("email"));
+      setPhone(localStorage.getItem("phone"));
+    }
+  }, []);
 
 const handleVerify = () => {
     const code = otp.join("");
@@ -30,6 +37,8 @@ const handleVerify = () => {
       dispatch(forgetPassVerifyPhoneOtpThunk({ phone, otp: code }));
     }
   };
+
+  
 
   
   useEffect(() => {
@@ -71,11 +80,21 @@ const handleVerify = () => {
     }
   }, [timeLeft, canResend]);
 
+  // const handleResend = () => {
+  //   setTimeLeft(10); // reset timer
+  //   setCanResend(false); // hide resend link
+  //   console.log("📩 Resend code request sent!");
+  // };
   const handleResend = () => {
-    setTimeLeft(10); // reset timer
-    setCanResend(false); // hide resend link
-    console.log("📩 Resend code request sent!");
-  };
+  setTimeLeft(30);
+  setCanResend(false);
+
+  if (method === "email") {
+    dispatch(forgetPassVerifyEmailOtpThunk({ email }));
+  } else {
+    dispatch(forgetPassVerifyPhoneOtpThunk({ phone }));
+  }
+};
   return (
       <>
 
@@ -107,16 +126,34 @@ const handleVerify = () => {
             <p className='text-[#4D4D4D] text-base font-medium mb-3 flex justify-center'>{t('verification code')}</p>
             <form className="flex gap-4 justify-center"dir="ltr">
               {[0, 1, 2, 3].map((i) => (
+                // <input
+                //   key={i}
+                //   id={`otp-${i}`}
+                //   type="text"
+                //   maxLength="1"
+                //   onChange={(e) => {
+                //     const newOtp = [...otp];
+                //     newOtp[i] = e.target.value;
+                //     setOtp(newOtp);
+                //     handleChange(e, i); 
+                //   }}
+                //   onKeyDown={(e) => handleKeyDown(e, i)}
+                //   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
+                // />
                 <input
                   key={i}
                   id={`otp-${i}`}
                   type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                   maxLength="1"
+                  value={otp[i]}
                   onChange={(e) => {
-                      const newOtp = [...otp];
-                      newOtp[i] = e.target.value;
-                      setOtp(newOtp);
-                    }}
+                    const newOtp = [...otp];
+                    newOtp[i] = e.target.value.replace(/[^0-9]/g, ""); // numbers only
+                    setOtp(newOtp);
+                    handleChange(e, i);
+                  }}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
                 />
