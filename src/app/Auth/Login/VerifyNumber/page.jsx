@@ -5,10 +5,39 @@ import ConfirmationBtn from '../../../Components/Buttons/ConfirmationBtn';
 import PreviousBtn from '../../../Components/Buttons/PreviousBtn';
 import Link from 'next/link';
 import SecondSection from '@/app/Components/login/SecondSection';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgetPassVerifyEmailOtpThunk, forgetPassVerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice';
+import { useRouter } from 'next/navigation';
 
 
 function VerifyNumberpage() {
   const { t } = useTranslation();
+    const router = useRouter();
+
+
+    const dispatch = useDispatch();
+    const { loading, error, verified ,method } = useSelector((state) => state.auth);
+
+    const email = localStorage.getItem("email");
+    const phone = localStorage.getItem("phone");
+    const [otp, setOtp] = useState(['', '', '', '']); // 4 separate digits
+
+const handleVerify = () => {
+    const code = otp.join("");
+    if (method === "email") {
+      dispatch(forgetPassVerifyEmailOtpThunk({ email, otp: code }));
+    } else {
+      dispatch(forgetPassVerifyPhoneOtpThunk({ phone, otp: code }));
+    }
+  };
+
+  
+  useEffect(() => {
+    if (verified) {
+      router.push("/Auth/Login/CreateNewPassword"); // بعد التحقق الناجح
+    }
+  }, [verified, router]);
+
 
   const handleChange = (e, index) => {
     if (e.target.value.length === 1) {
@@ -83,12 +112,17 @@ function VerifyNumberpage() {
                   id={`otp-${i}`}
                   type="text"
                   maxLength="1"
-                  onChange={(e) => handleChange(e, i)}
+                  onChange={(e) => {
+                      const newOtp = [...otp];
+                      newOtp[i] = e.target.value;
+                      setOtp(newOtp);
+                    }}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
                 />
               ))}
             </form>
+
               <div className="mt-6">
                 {!canResend ? (
                   <div className='flex justify-center items-center gap-2 '>
@@ -114,7 +148,7 @@ function VerifyNumberpage() {
 
           <div className='flex gap-6 justify-center mb-12'>
             <PreviousBtn path='../Login/ForgetPassword' className='w-64'  />
-            <ConfirmationBtn path='../Login/CreateNewPassword' className='w-64' />
+            <ConfirmationBtn         onClick={handleVerify}  className='w-64' />
           </div>
           
           <p className='flex justify-center gap-1.5'>
