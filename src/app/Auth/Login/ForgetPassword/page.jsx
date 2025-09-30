@@ -21,10 +21,14 @@ function ForgetPasswordpage() {
         if (inputValue.includes("@")) {
           // user entered email
           dispatch(forgetPassEnterEmailThunk({ email: inputValue }));
+            localStorage.removeItem('phone');
+            localStorage.removeItem('email');
             localStorage.setItem('email', inputValue);
         } else {
           // user entered phone
           dispatch(forgetPassEnterPhoneThunk({ phone: inputValue }));
+            localStorage.removeItem('phone');
+            localStorage.removeItem('email');
           localStorage.setItem('phone', inputValue);
         }
 
