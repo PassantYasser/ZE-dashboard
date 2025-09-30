@@ -1,4 +1,4 @@
-import { forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login } from "@/redux/api/Auth/AuthApi";
+import { forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, resetPassword } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // login form (email and password)
@@ -78,7 +78,7 @@ export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVer
   )
 
 // // forget password - verify phone otp
-  export const forgetPassVerifyPhoneOtpThunk= createAsyncThunk('auth/forgetPassVerifyPhoneOtpThunk',
+export const forgetPassVerifyPhoneOtpThunk= createAsyncThunk('auth/forgetPassVerifyPhoneOtpThunk',
   async(payload , thunkAPI)=>{
     try{
       const data = await forgetPassVerifyPhoneOtp(payload)
@@ -90,7 +90,8 @@ export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVer
     }
   })
 
-  export const resetPasswordThunk = createAsyncThunk(
+// Reset password API
+export const resetPasswordThunk = createAsyncThunk(
   'auth/resetPasswordThunk',
   async (payload, thunkAPI) => {
     try {

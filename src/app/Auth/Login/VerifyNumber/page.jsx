@@ -30,13 +30,19 @@ function VerifyNumberpage() {
   }, []);
 
 const handleVerify = () => {
-    const code = otp.join("");
-    if (method === "email") {
-      dispatch(forgetPassVerifyEmailOtpThunk({ email, otp: code }));
-    } else {
-      dispatch(forgetPassVerifyPhoneOtpThunk({ phone, otp: code }));
-    }
-  };
+  const code = otp.join("");
+
+  // Save OTP in localStorage
+  if (typeof window !== "undefined") {
+    localStorage.setItem("otp", code);
+  }
+
+  if (method === "email") {
+    dispatch(forgetPassVerifyEmailOtpThunk({ email, otp: code }));
+  } else {
+    dispatch(forgetPassVerifyPhoneOtpThunk({ phone, otp: code }));
+  }
+};
 
   
 
