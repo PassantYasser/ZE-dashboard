@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import PhoneOtpPage from './PhoneOtp/page';
 import EmailOtpPage from './EmailOtp/page';
 
-function VerificationPage({ onNext, onPrev }) {
+function VerificationPage({ onNext, onPrev ,formData ,handleChange , handleSubmit }) {
   const { t } = useTranslation();
   const [subStep, setSubStep] = useState(1);
 

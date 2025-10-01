@@ -205,6 +205,13 @@
   "Are you sure you want to delete the service?":"هل أنت متأكد من حذف الخدمة؟",
   "This service will be removed from your list and will no longer be available to customers.":"سيتم إزالة هذه الخدمة من قائمتك ولن تكون متاحة للعملاء بعد الآن",
   
+  "firstname is required":"الاسم الاول مطلوب",
+  "lastname is required":"الاسم الاخير مطلوب",
+  "email is required":"البريد الإلكتروني مطلوب",
+  "national_id is required":"رقم الهوية الوطنية مطلوب",
+  "country_code is required":"رمز الدولة مطلوب",
+  "phone is required":"رقم الهاتف مطلوب",
+  
 
   
 

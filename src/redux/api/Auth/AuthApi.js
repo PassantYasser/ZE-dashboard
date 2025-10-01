@@ -53,5 +53,11 @@ export const resetPassword = async(payload)=>{
 
 // ----------------------------------------------------------------------------------------------------
 
+/* ========== SIGNUP APIs ========== */
+
+export const signup = async(FormData)=>{
+  const response = await API.post('/provider/register',FormData)
+  return response.data
+}
 
 

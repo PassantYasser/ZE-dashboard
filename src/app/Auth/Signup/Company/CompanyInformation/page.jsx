@@ -5,7 +5,7 @@ import FilesUploadTwoPage from './FilesUploadTwo/page';
 import ConfirmationDonePage from './ConfirmationDone/page';
 import FirstCompanyInformationPage from './FirstCompanyInformation/page';
 
-function CompanyInformationPage({ onNext, onPrev ,currentStep , steps }) {
+function CompanyInformationPage({ formData ,handleChange , handleSubmit  }) {
   const [subStep, setSubStep] = useState(1);
 
   const nextSub = () => {

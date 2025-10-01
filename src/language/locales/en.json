@@ -205,6 +205,13 @@
   "Are you sure you want to delete the service?":"Are you sure you want to delete the service?",
   "This service will be removed from your list and will no longer be available to customers.":"This service will be removed from your list and will no longer be available to customers.",
   
+  "firstname is required":"firstname is required",
+  "lastname is required":"lastname is required",
+  "email is required":"email is required",
+  "national_id is required":"national_id is required",
+  "country_code is required":"country_code is required",
+  "phone is required":"phone is required",
+  
 
   
   

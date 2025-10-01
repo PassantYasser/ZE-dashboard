@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import FirstSetPasswordPage from './FirstSetPassword/page';
 import ConfirmationDonePage from './ConfirmationDone/page';
 
-function SetPasswordPage({ onNext, onPrev ,currentStep , steps }) {
+function SetPasswordPage({ onNext, onPrev ,formData ,handleChange , handleSubmit  }) {
   const [subStep, setSubStep] = useState(1);
 
   const nextSub = () => {

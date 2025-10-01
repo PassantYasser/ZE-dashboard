@@ -1,4 +1,4 @@
-import { forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, resetPassword } from "@/redux/api/Auth/AuthApi";
+import { forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // login form (email and password)
@@ -104,9 +104,22 @@ export const resetPasswordThunk = createAsyncThunk(
 );
 
 // ---------------------------------------------------------------------------------------------------
-
-
-
+// signup form
+  export const signupThunk = createAsyncThunk(
+  "auth/signup",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const response = await API.post("/provider/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 
 
@@ -234,20 +247,34 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
-        // Reset password
-    .addCase(resetPasswordThunk.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-      state.success = null;
-    })
-    .addCase(resetPasswordThunk.fulfilled, (state, action) => {
-      state.loading = false;
-      state.success = action.payload.message;
-    })
-    .addCase(resetPasswordThunk.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    })
+      // Reset password
+      .addCase(resetPasswordThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = null;
+      })
+      .addCase(resetPasswordThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = action.payload.message;
+      })
+      .addCase(resetPasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
+      // signupThunk
+      .addCase(signupThunk.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+      .addCase(signupThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(signupThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
 
 
 
