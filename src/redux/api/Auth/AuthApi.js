@@ -45,9 +45,13 @@ export const forgetPassVerifyPhoneOtp = async(payload)=>{
   return response.data;
 }
 
+//Reset password
 export const resetPassword = async(payload)=>{
   const response = await API.post('/provider/forgot-password/reset',payload);
   return response.data;
 } 
+
+// ----------------------------------------------------------------------------------------------------
+
 
 

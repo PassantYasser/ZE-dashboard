@@ -37,11 +37,11 @@ function ForgetPasswordpage() {
       };
 
       // ✅ redirect when otpSent = true
-  useEffect(() => {
-    if (otpSent) {
-      router.push("/Auth/Login/VerifyNumber");
-    }
-  }, [otpSent, router]);
+        useEffect(() => {
+          if (otpSent) {
+            router.push("/Auth/Login/VerifyNumber");
+          }
+        }, [otpSent, router]);
 
 console.log(otpSent);
   return (
