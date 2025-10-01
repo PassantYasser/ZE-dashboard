@@ -76,7 +76,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
             <input 
               type="text" 
               name="firstname"
-              value={formData.firstname}    
+              value={formData?.firstname}    
               onChange={handleChange}
               className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
               placeholder={t('Enter first name')}
@@ -94,7 +94,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
             <input 
               type="text"
               name="lastname"
-              value={formData.lastname}    
+              value={formData?.lastname}    
               onChange={handleChange} 
               className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
               placeholder={t('Enter last name/family name')}
@@ -113,7 +113,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           <input 
             type="text"
             name="email"
-            value={formData.email}    
+            value={formData?.email}    
             onChange={handleChange} 
             className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none "
             placeholder={t('Enter your email')}
@@ -131,7 +131,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           <input 
             type="text" 
             name="national_id"   
-            value={formData.national_id}   
+            value={formData?.national_id}   
             onChange={handleChange}   
             className=" h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
             placeholder={t('Enter your national ID number')}
@@ -154,7 +154,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
             inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
             buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-0"
             dropdownClass="!text-[#364152] !border "
-            value={formData.phone}  
+            value={formData?.phone}  
             onChange={(value, country, e, formattedValue) => {
               setFormData({
                 ...formData,
