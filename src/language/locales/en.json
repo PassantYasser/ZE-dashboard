@@ -211,7 +211,13 @@
   "national_id is required":"national_id is required",
   "country_code is required":"country_code is required",
   "phone is required":"phone is required",
-  
+
+  "Gender":"Gender",
+  "Nationality":"Nationality",
+  "male":"male",
+  "female":"female",
+  "other":"other",
+
 
   
   

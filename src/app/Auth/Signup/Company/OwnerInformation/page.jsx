@@ -1,7 +1,7 @@
 "use client";
 import LoginBtn from "../../../../Components/Buttons/LoginBtn";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
@@ -31,10 +31,43 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
     }
     onNext(); 
   };
+  
+  
+    const NationalityOptions = [
+      t("Design"),
+      t("Development"),
+      t("Marketing"),
+      t("Consulting"),
+      t("Maing"),
+      t("sulting"),
+    ]
+    const GenderOptions = [
+      t('male'),
+      t('female'),
+      t('other')
+    ]
+  
+    // Dropdown 1
+    const [open1, setOpen1] = useState(false);
+    const [selected1, setSelected1] = useState("");
+    const dropdownRef1 = useRef(null);
 
+    // Dropdown 2
+    const [open2, setOpen2] = useState(false);
+    const [selected2, setSelected2] = useState("");
+    const dropdownRef2 = useRef(null);
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
   return (
     <>
-      <form className="grid grid-cols-2 gap-6 lg1:grid-cols-1 lg1:gap-0  mt-8 ">
+      <form className="">
+        {/* first name input */}
         <div className="flex flex-col mb-6">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("First Name")}
@@ -52,6 +85,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           )}
         </div>
 
+        {/* last name input */}
         <div className="flex flex-col mb-6">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Last Name")}/ {t("Family Name")}{" "}
@@ -69,6 +103,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           )}
         </div>
 
+        {/* email input */}
         <div className="flex flex-col mb-6">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Email")} 
@@ -86,7 +121,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           )}
         </div>
 
-
+        {/* national id input */}
         <div className="flex flex-col  mb-6 ">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("National ID number")} 
@@ -104,6 +139,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           )}
         </div>
 
+        {/* phone input */}
         <div className="flex flex-col col-span-2 lg1:col-span-1">
           <label className="text-[#364152] text-base font-normal mb-3 block">
             {t("Mobile number")}
@@ -132,7 +168,91 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           </div>
         </div>
             
-      </form>
+
+          <div className="flex gap-4.5  w-full mt-6">
+          {/* Nationality */}
+            <div className="flex flex-col w-full">
+            <label className="text-[#364152] text-base font-normal mb-3">
+              {t("Nationality")}
+            </label>
+            <div className="relative w-full mb-6" ref={dropdownRef1}>
+              <div
+                onClick={() => setOpen1(!open1)}
+                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+              >
+                <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                  {selected1 || t("Select the main category")}
+                </span>
+                <span className="ml-2">
+                  {open1 ? (
+                    <img src="/images/icons/ArrowUp.svg" alt="" />
+                  ) : (
+                    <img src="/images/icons/ArrowDown.svg" alt="" />
+                  )}
+                </span>
+              </div>
+              {open1 && (
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                  {NationalityOptions.map((option, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setSelected1(option);
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+          {/* Gender */}
+          <div className="flex flex-col w-full">
+            <label className="text-[#364152] text-base font-normal mb-3">
+              {t("Gender")}
+            </label>
+            <div className="relative w-full mb-6" ref={dropdownRef2}>
+              <div
+                onClick={() => setOpen2(!open2)}
+                className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+              >
+                <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                  {selected2 || t("Select a subcategory")}
+                </span>
+                <span className="ml-2">
+                  {open2 ? (
+                    <img src="/images/icons/ArrowUp.svg" alt="" />
+                  ) : (
+                    <img src="/images/icons/ArrowDown.svg" alt="" />
+                  )}
+                </span>
+              </div>
+              {open2 && (
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+                  {GenderOptions.map((option, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setSelected2(option);
+                        setOpen2(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        
+          
+        
+          </div>    
+  </form>
 
       {/* btn */}
       <button
