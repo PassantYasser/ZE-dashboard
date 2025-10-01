@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import Dialog from '@mui/material/Dialog';
 import { useTranslation } from 'react-i18next';
