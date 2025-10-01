@@ -66,45 +66,47 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
     }, []);
   return (
     <>
-      <form className="">
-        {/* first name input */}
-        <div className="flex flex-col mb-6">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("First Name")}
-          </label>
-          <input 
-            type="text" 
-            name="firstname"
-            value={formData.firstname}    
-            onChange={handleChange}
-            className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
-            placeholder={t('Enter first name')}
-          />
-          {showErrors && !formData.firstname && (
-            <span className="text-red-500 text-sm mt-1">{t("firstname is required")}</span>
-          )}
-        </div>
-
-        {/* last name input */}
-        <div className="flex flex-col mb-6">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Last Name")}/ {t("Family Name")}{" "}
-          </label>
-          <input 
-            type="text"
-            name="lastname"
-            value={formData.lastname}    
-            onChange={handleChange} 
-            className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
-            placeholder={t('Enter last name/family name')}
-          />
-          {showErrors && !formData.lastname && (
-            <span className="text-red-500 text-sm mt-1">{t("lastname is required")}</span>
-          )}
+      <form className=" ">
+        <div className="flex gap-4.5">
+          {/* first name input */}
+          <div className="flex flex-col mb-4 w-full">
+            <label className="text-[#364152] text-base font-normal mb-3">
+              {t("First Name")}
+            </label>
+            <input 
+              type="text" 
+              name="firstname"
+              value={formData.firstname}    
+              onChange={handleChange}
+              className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
+              placeholder={t('Enter first name')}
+            />
+            {showErrors && !formData.firstname && (
+              <span className="text-red-500 text-sm mt-1">{t("firstname is required")}</span>
+            )}
+          </div>
+          
+          {/* last name input */}
+          <div className="flex flex-col mb-4 w-full">
+            <label className="text-[#364152] text-base font-normal mb-3">
+              {t("Last Name")}/ {t("Family Name")}{" "}
+            </label>
+            <input 
+              type="text"
+              name="lastname"
+              value={formData.lastname}    
+              onChange={handleChange} 
+              className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
+              placeholder={t('Enter last name/family name')}
+            />
+            {showErrors && !formData.lastname && (
+              <span className="text-red-500 text-sm mt-1">{t("lastname is required")}</span>
+            )}
+          </div>
         </div>
 
         {/* email input */}
-        <div className="flex flex-col mb-6">
+        <div className="flex flex-col mb-4">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Email")} 
           </label>
@@ -122,7 +124,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
         </div>
 
         {/* national id input */}
-        <div className="flex flex-col  mb-6 ">
+        <div className="flex flex-col  mb-4 ">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("National ID number")} 
           </label>
@@ -169,7 +171,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
         </div>
             
 
-          <div className="flex gap-4.5  w-full mt-6">
+          <div className="flex gap-4.5  w-full mt-4">
           {/* Nationality */}
             <div className="flex flex-col w-full">
             <label className="text-[#364152] text-base font-normal mb-3">

@@ -193,7 +193,7 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
               })}
 
               </div>
-              <div className="mb-6">{renderStepContent()}</div>
+              <div className="mt-10">{renderStepContent()}</div>
             </div>
     
           </section>
