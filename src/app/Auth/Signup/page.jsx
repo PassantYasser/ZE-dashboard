@@ -6,6 +6,10 @@ import { useTranslation } from 'react-i18next'
 
 function SignuPage() {
   const {t}= useTranslation()
+
+  const handleRole =(role)=>{
+    localStorage.setItem('role', role)
+  }
   return (
     <>
       <div className="p-8 lg1:flex justify-between gap-8 ">
@@ -24,14 +28,20 @@ function SignuPage() {
           </div>
 
           <div className='flex justify-center gap-12'>
-            <Link href='/Auth/Signup/Company' className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
+            <Link 
+              href='/Auth/Signup/Company' 
+              onClick={()=>handleRole('company')}
+              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
               <span className='flex justify-center mb-5'>
                 <img src="/images/Company.svg" alt="" />
               </span>
               <p className='flex justify-center text-[#000] text-2xl font-medium'>{t('Company')} </p>
             </Link>
 
-            <Link href='/Auth/Signup/Freelance' className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
+            <Link 
+              href='/Auth/Signup/Freelance' 
+              onClick={()=>handleRole('freelance')}
+              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
               <span className='flex justify-center mb-5'>
                 <img src="/images/Freelance.svg" alt="" />
               </span>
