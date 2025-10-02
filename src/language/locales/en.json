@@ -211,6 +211,9 @@
   "national_id is required":"national_id is required",
   "country_code is required":"country_code is required",
   "phone is required":"phone is required",
+  "nationality is required":"nationality is required",
+  "gender is required":"gender is required",
+  
 
   "Gender":"Gender",
   "Nationality":"Nationality",

@@ -211,6 +211,8 @@
   "national_id is required":"رقم الهوية الوطنية مطلوب",
   "country_code is required":"رمز الدولة مطلوب",
   "phone is required":"رقم الهاتف مطلوب",
+  "nationality is required":"الجنسية مطلوبة",
+  "gender is required":"الجنس مطلوب",
 
   "Gender":"الجنس",
   "Nationality":"الجنسية",  

@@ -173,11 +173,11 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
 
           <div className="flex gap-4.5  w-full mt-4">
           {/* Nationality */}
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full  mb-6">
             <label className="text-[#364152] text-base font-normal mb-3">
               {t("Nationality")}
             </label>
-            <div className="relative w-full mb-6" ref={dropdownRef1}>
+            <div className="relative w-full mb-1" ref={dropdownRef1}>
               <div
                 onClick={() => setOpen1(!open1)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
@@ -201,7 +201,12 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                       onClick={() => {
                         setSelected1(option);
                         setOpen1(false);
+                        setFormData((prev) => ({
+                          ...prev,
+                          nationality: option,  
+                        }));
                       }}
+                      
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
                       {option}
@@ -210,13 +215,18 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                 </ul>
               )}
             </div>
+            {showErrors && !formData.nationality && (
+              <span className="text-red-500 text-sm mt-1">{t("nationality is required")}</span>
+            )}
           </div>
+
+
           {/* Gender */}
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full mb-6">
             <label className="text-[#364152] text-base font-normal mb-3">
               {t("Gender")}
             </label>
-            <div className="relative w-full mb-6" ref={dropdownRef2}>
+            <div className="relative w-full mb-1" ref={dropdownRef2}>
               <div
                 onClick={() => setOpen2(!open2)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
@@ -240,6 +250,10 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                       onClick={() => {
                         setSelected2(option);
                         setOpen2(false);
+                        setFormData((prev) => ({
+                          ...prev,
+                          gender: option,   
+                        }));
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -249,6 +263,9 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                 </ul>
               )}
             </div>
+            {showErrors && !formData.gender && (
+              <span className="text-red-500 text-sm mt-1">{t("gender is required")}</span>
+            )}
           </div>
         
           
