@@ -182,8 +182,8 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                 onClick={() => setOpen1(!open1)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
               >
-                <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected1 || t("Select the main category")}
+                <span className={formData.nationality ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                  {formData.nationality  || t("Select the main category")}
                 </span>
                 <span className="ml-2">
                   {open1 ? (
@@ -231,8 +231,8 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
                 onClick={() => setOpen2(!open2)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
               >
-                <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {selected2 || t("Select a subcategory")}
+                <span className={formData.gender ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                  {formData.gender  || t("Select a subcategory")}
                 </span>
                 <span className="ml-2">
                   {open2 ? (
