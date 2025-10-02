@@ -60,4 +60,9 @@ export const signup = async(FormData)=>{
   return response.data
 }
 
+export const checkEmail = async(email)=>{
+  const response = await  API.post('/provider/check-email',{email})
+  return response.data
+}
+
 

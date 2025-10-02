@@ -214,12 +214,14 @@
   "nationality is required":"nationality is required",
   "gender is required":"gender is required",
   
-
   "Gender":"Gender",
   "Nationality":"Nationality",
   "male":"male",
   "female":"female",
   "other":"other",
+
+  "This email is already registered":"This email is already registered",
+
 
 
   

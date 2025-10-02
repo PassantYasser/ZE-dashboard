@@ -1,14 +1,21 @@
 "use client";
+import { checkEmailThunk } from "@/redux/slice/Auth/AuthSlice";
 import LoginBtn from "../../../../Components/Buttons/LoginBtn";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
+import { useDispatch, useSelector } from "react-redux";
 
 
 function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChange , handleSubmit , setFormData }) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+  const { emailExists, loading, error } = useSelector((state) => state.auth);
+
+
   console.log(formData);
 
   // if no data entered
@@ -20,19 +27,41 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
       formData.email.trim() !== "" &&
       formData.national_id.trim() !== "" &&
       formData.phone.trim() !== "" &&
-      formData.country_code.trim() !== ""
+      formData.country_code.trim() !== "" && 
+      formData.nationality.trim() !== "" &&  
+      formData.gender.trim() !== ""
     );
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = async (e) => {
+    e.preventDefault();
     if (!isFormValid()) {
       setShowErrors(true);
       return;
     }
-    onNext(); 
+
+    const result = await dispatch(checkEmailThunk(formData.email));
+    if (checkEmailThunk.fulfilled.match(result)) {
+      if (result.payload.exists) {
+        console.log("Email already exists");
+        return;
+      } else {
+        onNext();
+      }
+    } else {
+      // if error in server
+      console.error(result.payload);
+    }
   };
   
   
+    
+    
+  
+    // Nationality 
+    const [open1, setOpen1] = useState(false);
+    const [selected1, setSelected1] = useState("");
+    const dropdownRef1 = useRef(null);
     const NationalityOptions = [
       t("Design"),
       t("Development"),
@@ -41,18 +70,8 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
       t("Maing"),
       t("sulting"),
     ]
-    const GenderOptions = [
-      t('male'),
-      t('female'),
-      t('other')
-    ]
-  
-    // Dropdown 1
-    const [open1, setOpen1] = useState(false);
-    const [selected1, setSelected1] = useState("");
-    const dropdownRef1 = useRef(null);
 
-    // Dropdown 2
+    // Gender 
     const [open2, setOpen2] = useState(false);
     const [selected2, setSelected2] = useState("");
     const dropdownRef2 = useRef(null);
@@ -64,6 +83,13 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+    const GenderOptions = [
+      t('male'),
+      t('female'),
+      t('other')
+    ]
+
+
   return (
     <>
       <form className=" ">
@@ -120,6 +146,11 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           />
           {showErrors && !formData.email && (
             <span className="text-red-500 text-sm mt-1">{t("email is required")}</span>
+          )}
+          {emailExists === true && (
+            <span className="text-red-500 text-sm mt-1">
+              {t("This email is already registered")}
+            </span>
           )}
         </div>
 
