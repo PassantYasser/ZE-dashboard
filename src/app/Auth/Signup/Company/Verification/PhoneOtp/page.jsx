@@ -1,27 +1,60 @@
 "use client";
 import LoginBtn from '@/app/Components/Buttons/LoginBtn';
+import { VerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSubmit}) {
     const { t } = useTranslation();
+      const dispatch = useDispatch();
+      const { loading, verified, error } = useSelector((state) => state.auth);
+
+        const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+
+         // ✅ verify otp
+  const handleVerify = () => {
+    const otp = otpValues.join("");
+    if (otp.length !== 4) {
+      alert("Please enter the 4-digit code");
+      return;
+    }
+
+    dispatch(VerifyPhoneOtpThunk({ phone: formData.phone, otp }))
+      .unwrap()
+      .then(() => {
+        console.log("✅ OTP verified successfully");
+        nextSub(); // move to next step
+      })
+      .catch((err) => {
+        console.error("❌ OTP verification failed:", err);
+      });
+  };
+
     
-      const handleChangee = (e, index) => {
-        if (e.target.value.length === 1) {
-          const nextInput = document.getElementById(`otp-${index + 1}`);
-          if (nextInput) {
-            nextInput.focus(); 
-          }
-        }
-      };
-      const handleKeyDown = (e, index) => {
-        if (e.key === "Backspace" && !e.target.value) {
-          const prevInput = document.getElementById(`otp-${index - 1}`);
-          if (prevInput) {
-            prevInput.focus(); 
-          }
-        }
-      };
+     const handleChangee = (e, index) => {
+    const value = e.target.value;
+    if (/^[0-9]?$/.test(value)) {
+      const newOtp = [...otpValues];
+      newOtp[index] = value;
+      setOtpValues(newOtp);
+    }
+    if (value.length === 1) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      if (nextInput) {
+        nextInput.focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !e.target.value) {
+      const prevInput = document.getElementById(`otp-${index - 1}`);
+      if (prevInput) {
+        prevInput.focus();
+      }
+    }
+  };
     
       //timer
       const [timeLeft, setTimeLeft] = useState(30);
@@ -57,20 +90,21 @@ function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSub
             <p className='text-[#C69815] text-xl font-bold'>{t('Verify number')}</p>
             <p className="text-center text-lg text-[#656565] mt-4 w-[400px]">
             {t("Please enter the code we sent to your number.")} 
-              <span className="font-semibold text-[#C69815]"> *******15 </span> 
+              <span className="font-semibold text-[#C69815]"> {formData.phone} </span> 
             {t("To verify the code")}
             </p>
           </div>
 
           <div className='my-10  '>
             <p className='text-[#4D4D4D] text-base font-medium mb-3 flex justify-center'>{t('verification code')}</p>
-            <form className="flex gap-4 justify-center"dir="ltr">
+            <form className="flex gap-4 justify-center"dir="ltr" onSubmit={(e) => e.preventDefault()}>
               {[0, 1, 2, 3].map((i) => (
                 <input
                   key={i}
                   id={`otp-${i}`}
                   type="text"
                   maxLength="1"
+                  value={otpValues[i]}
                   onChange={(e) => handleChangee(e, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
@@ -109,7 +143,7 @@ function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSub
               {t('the previous')}
             </button>
             <button
-              onClick={nextSub}
+              onClick={handleVerify}
               className="px-4 py-2 w-64 h-15 bg-[#C69815] text-white rounded"
             >
               {t('the next')}
