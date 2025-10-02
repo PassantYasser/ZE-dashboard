@@ -3,10 +3,10 @@ import LoginBtn from '@/app/Components/Buttons/LoginBtn';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function EmailOtpPage({ onNext, onPrev }) {
+function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}) {
     const { t } = useTranslation();
     
-      const handleChange = (e, index) => {
+      const handleChangee = (e, index) => {
         if (e.target.value.length === 1) {
           const nextInput = document.getElementById(`otp-${index + 1}`);
           if (nextInput) {
@@ -70,7 +70,7 @@ function EmailOtpPage({ onNext, onPrev }) {
                   id={`otp-${i}`}
                   type="text"
                   maxLength="1"
-                  onChange={(e) => handleChange(e, i)}
+                  onChange={(e) => handleChangee(e, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
                 />

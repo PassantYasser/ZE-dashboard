@@ -23,9 +23,22 @@ function VerificationPage({ onNext, onPrev ,formData ,handleChange , handleSubmi
   const renderSubStep = () => {
     switch (subStep) {
       case 1:
-        return <PhoneOtpPage prevSub={prevSub} nextSub={nextSub} onPrev={onPrev}/>
+        return <PhoneOtpPage 
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                prevSub={prevSub} 
+                nextSub={nextSub} 
+                onPrev={onPrev}
+                />
       case 2:
-        return <EmailOtpPage onNext={onNext} onPrev={onPrev}  />;
+        return <EmailOtpPage 
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                onNext={onNext} 
+                onPrev={onPrev}  
+                />;
       default:
         return null;
     }
