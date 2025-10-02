@@ -1,81 +1,93 @@
 "use client";
 import LoginBtn from '@/app/Components/Buttons/LoginBtn';
-import { VerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice';
+import { sendEmailThunk, VerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSubmit}) {
     const { t } = useTranslation();
-      const dispatch = useDispatch();
-      const { loading, verified, error } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const { loading, verified, error } = useSelector((state) => state.auth);
 
-        const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+    const [otpValues, setOtpValues] = useState(["", "", "", ""]);
 
-         // ✅ verify otp
   const handleVerify = () => {
-    const otp = otpValues.join("");
-    if (otp.length !== 4) {
-      alert("Please enter the 4-digit code");
-      return;
-    }
+  const otp = otpValues.join("");
 
-    dispatch(VerifyPhoneOtpThunk({ phone: formData.phone, otp }))
-      .unwrap()
-      .then(() => {
-        console.log("✅ OTP verified successfully");
-        nextSub(); // move to next step
-      })
-      .catch((err) => {
-        console.error("❌ OTP verification failed:", err);
-      });
-  };
+  if (otp.length !== 4) {
+    alert("Please enter the 4-digit code");
+    return;
+  }
+
+  // ✅ Step 1: verify phone OTP
+  dispatch(VerifyPhoneOtpThunk({ phone: formData.phone, otp }))
+    .unwrap()
+    .then(() => {
+      console.log("✅ Phone OTP verified successfully");
+
+      // ✅ Step 2: send email OTP
+      dispatch(sendEmailThunk({ email: formData.email }))
+        .unwrap()
+        .then(() => {
+          console.log("📧 Email OTP sent successfully");
+          nextSub(); 
+        })
+        .catch((err) => {
+          console.error("❌ Failed to send Email OTP:", err);
+        });
+    })
+    .catch((err) => {
+      console.error("❌ Phone OTP verification failed:", err);
+    });
+};
+
 
     
-     const handleChangee = (e, index) => {
-    const value = e.target.value;
-    if (/^[0-9]?$/.test(value)) {
-      const newOtp = [...otpValues];
-      newOtp[index] = value;
-      setOtpValues(newOtp);
-    }
-    if (value.length === 1) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      if (nextInput) {
-        nextInput.focus();
+    const handleChangee = (e, index) => {
+      const value = e.target.value;
+      if (/^[0-9]?$/.test(value)) {
+        const newOtp = [...otpValues];
+        newOtp[index] = value;
+        setOtpValues(newOtp);
       }
-    }
-  };
-
-  const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !e.target.value) {
-      const prevInput = document.getElementById(`otp-${index - 1}`);
-      if (prevInput) {
-        prevInput.focus();
-      }
-    }
-  };
-    
-      //timer
-      const [timeLeft, setTimeLeft] = useState(30);
-      const [canResend, setCanResend] = useState(false);
-    
-      useEffect(() => {
-        if (!canResend && timeLeft > 0) {
-          const timer = setInterval(() => {
-            setTimeLeft((prev) => prev - 1);
-          }, 1000);
-          return () => clearInterval(timer);
-        } else if (timeLeft === 0) {
-          setCanResend(true);
+      if (value.length === 1) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        if (nextInput) {
+          nextInput.focus();
         }
-      }, [timeLeft, canResend]);
+      }
+    };
+
+    const handleKeyDown = (e, index) => {
+      if (e.key === "Backspace" && !e.target.value) {
+        const prevInput = document.getElementById(`otp-${index - 1}`);
+        if (prevInput) {
+          prevInput.focus();
+        }
+      }
+    };
     
-      const handleResend = () => {
-        setTimeLeft(10); // reset timer
-        setCanResend(false); // hide resend link
-        console.log("📩 Resend code request sent!");
-      };
+    //timer
+    const [timeLeft, setTimeLeft] = useState(30);
+    const [canResend, setCanResend] = useState(false);
+  
+    useEffect(() => {
+      if (!canResend && timeLeft > 0) {
+        const timer = setInterval(() => {
+          setTimeLeft((prev) => prev - 1);
+        }, 1000);
+        return () => clearInterval(timer);
+      } else if (timeLeft === 0) {
+        setCanResend(true);
+      }
+    }, [timeLeft, canResend]);
+  
+    const handleResend = () => {
+      setTimeLeft(10); // reset timer
+      setCanResend(false); // hide resend link
+      console.log("📩 Resend code request sent!");
+    };
   return (
     <>
     
