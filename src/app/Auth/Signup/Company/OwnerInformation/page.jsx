@@ -1,5 +1,5 @@
 "use client";
-import { checkEmailThunk, checkPassEnterPhoneThunk } from "@/redux/slice/Auth/AuthSlice";
+import { checkEmailThunk, checkEnterPhoneThunk } from "@/redux/slice/Auth/AuthSlice";
 import LoginBtn from "../../../../Components/Buttons/LoginBtn";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -56,13 +56,13 @@ const handleNextClick = async (e) => {
   }
 
   // ✅ Step 2: Check Phone (Send OTP)
-  const phoneResult = await dispatch(checkPassEnterPhoneThunk({ phone: formData.phone }));
+  const phoneResult = await dispatch(checkEnterPhoneThunk({ phone: formData.phone }));
 
-  if (checkPassEnterPhoneThunk.fulfilled.match(phoneResult)) {
+  if (checkEnterPhoneThunk.fulfilled.match(phoneResult)) {
     console.log("OTP sent to phone:", phoneResult.payload);
     onNext();
   } else {
-    console.error(phoneResult.payload);
+    console.log('errror');
     return;
   }
 };
