@@ -27,7 +27,7 @@ export const forgetPassEnterEmail = async({email})=>{
   return response.data;
 };
 
-//Enter phone to send otp
+//Enter phone to send otp type: forgot
 export const forgetPassEnterPhone = async({phone})=>{
   const response = await API.post('/provider/forgot-password/send-otp',{phone});
   return response.data;
@@ -54,15 +54,23 @@ export const resetPassword = async(payload)=>{
 // ----------------------------------------------------------------------------------------------------
 
 /* ========== SIGNUP APIs ========== */
-
+// signup
 export const signup = async(FormData)=>{
   const response = await API.post('/provider/register',FormData)
   return response.data
 }
 
+// check email if exists
 export const checkEmail = async(email)=>{
   const response = await  API.post('/provider/check-email',{email})
   return response.data
 }
+
+//Enter phone to send otp type: new
+export const checkPassEnterPhone = async({phone})=>{
+  const response = await API.post('/provider/forgot-password/send-otp',{phone,'type':'new'});
+  return response.data;
+};
+
 
 

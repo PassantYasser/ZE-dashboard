@@ -1,5 +1,5 @@
 "use client";
-import { checkEmailThunk } from "@/redux/slice/Auth/AuthSlice";
+import { checkEmailThunk, checkPassEnterPhoneThunk } from "@/redux/slice/Auth/AuthSlice";
 import LoginBtn from "../../../../Components/Buttons/LoginBtn";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -13,7 +13,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const { emailExists, loading, error } = useSelector((state) => state.auth);
+  const { emailExists, loading, error , otpSent } = useSelector((state) => state.auth);
 
 
   console.log(formData);
@@ -33,26 +33,40 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
     );
   };
 
-  const handleNextClick = async (e) => {
-    e.preventDefault();
-    if (!isFormValid()) {
-      setShowErrors(true);
+
+const handleNextClick = async (e) => {
+  e.preventDefault();
+
+  if (!isFormValid()) {
+    setShowErrors(true);
+    return;
+  }
+
+  // ✅ Step 1: Check Email
+  const emailResult = await dispatch(checkEmailThunk(formData.email));
+
+  if (checkEmailThunk.fulfilled.match(emailResult)) {
+    if (emailResult.payload.exists) {
+      console.log("Email already exists");
       return;
     }
+  } else {
+    console.error(emailResult.payload);
+    return;
+  }
 
-    const result = await dispatch(checkEmailThunk(formData.email));
-    if (checkEmailThunk.fulfilled.match(result)) {
-      if (result.payload.exists) {
-        console.log("Email already exists");
-        return;
-      } else {
-        onNext();
-      }
-    } else {
-      // if error in server
-      console.error(result.payload);
-    }
-  };
+  // ✅ Step 2: Check Phone (Send OTP)
+  const phoneResult = await dispatch(checkPassEnterPhoneThunk({ phone: formData.phone }));
+
+  if (checkPassEnterPhoneThunk.fulfilled.match(phoneResult)) {
+    console.log("OTP sent to phone:", phoneResult.payload);
+    onNext();
+  } else {
+    console.error(phoneResult.payload);
+    return;
+  }
+};
+
   
   
     
@@ -198,6 +212,7 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
           {showErrors && !formData.country_code && (
               <span className="text-red-500 text-sm">{t("country_code is required")}</span>
             )}
+          
           </div>
         </div>
             
