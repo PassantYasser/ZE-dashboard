@@ -21,7 +21,7 @@ export const getCurrentLogin = async(loginToken)=>{
 /* ========== FORGET PASSWORD APIs ========== */
 
 
-//Enter email to send otp
+//Enter email to send otp type: forgot
 export const forgetPassEnterEmail = async({email})=>{
   const response = await API.post('/provider/send-email-otp',{email,'type':'forgot'});
   return response.data;
@@ -77,5 +77,11 @@ export const VerifyPhoneOtp = async(payload)=>{
   const response = await API.post('/provider/forgot-password/verify-otp',payload);
   return response.data;
 }
+
+//Enter email to send otp type: forgot
+export const sendEmail = async({email})=>{
+  const response = await API.post('/provider/send-email-otp',{email,'type':'new'});
+  return response.data;
+};
 
 

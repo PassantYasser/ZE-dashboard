@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // login form (email and password)
@@ -33,7 +33,7 @@ export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk'
   }
 )
 
-// forget password - enter email to send otp
+// forget password - enter email to send otp 
 export const forgetPassEnterEmailThunk= createAsyncThunk('auth/forgetPassEnterEmailThunk',
   async({email} , thunkAPI)=>{
     try{
@@ -135,6 +135,7 @@ export const checkEmailThunk = createAsyncThunk('auth/checkEmailThunk',
   }
 )
 
+// enter phone to send otp for new phone number
 export const checkEnterPhoneThunk= createAsyncThunk('auth/checkPassEnterPhoneThunk',
   async({phone} , thunkAPI)=>{
     try{
@@ -160,6 +161,20 @@ export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
       )
     }
   })
+
+  // send email to send otp for new email
+export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
+  async({email} , thunkAPI)=>{
+    try{
+      const data = await sendEmail({email})
+      return data
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }
+  }
+)
 
 
 
@@ -349,6 +364,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
       //VerifyPhoneOtpThunk
       .addCase(VerifyPhoneOtpThunk.pending, (state) => {
         state.loading = true;
@@ -363,6 +379,22 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      // sendEmailThunk
+      .addCase(sendEmailThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(sendEmailThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otpSent = true;
+        state.method = "email";
+      })
+      .addCase(sendEmailThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
 
 
 
