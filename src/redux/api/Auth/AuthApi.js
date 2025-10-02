@@ -84,4 +84,10 @@ export const sendEmail = async({email})=>{
   return response.data;
 };
 
+//Verify email otp
+export const VerifyEmailOtp = async(payload)=>{
+  const response = await API.post('/provider/verify-email-otp',payload);
+  return response.data;
+};
+
 

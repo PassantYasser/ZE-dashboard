@@ -1,19 +1,50 @@
 "use client";
 import LoginBtn from '@/app/Components/Buttons/LoginBtn';
+import { VerifyEmailOtpThunk, VerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+
+    const handleVerify = () => {
+    const otp = otpValues.join("");
+
+    if (otp.length !== 4) {
+      alert("Please enter the 4-digit code");
+      return;
+    }
+
+    // ✅ Step 1: verify phone OTP
+    dispatch(VerifyEmailOtpThunk({ email: formData.email, otp }))
+      .unwrap()
+      .then(() => {
+        console.log("✅ email OTP verified successfully");
+        onNext();
+        })
+      .catch((err) => {
+        console.error("❌ email OTP verification failed:", err);
+      });
+  };
     
-      const handleChangee = (e, index) => {
-        if (e.target.value.length === 1) {
-          const nextInput = document.getElementById(`otp-${index + 1}`);
-          if (nextInput) {
-            nextInput.focus(); 
-          }
+    const handleChangee = (e, index) => {
+      const value = e.target.value;
+      if (/^[0-9]?$/.test(value)) {
+        const newOtp = [...otpValues];
+        newOtp[index] = value;
+        setOtpValues(newOtp);
+      }
+      if (value.length === 1) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        if (nextInput) {
+          nextInput.focus();
         }
-      };
+      }
+    };
+
       const handleKeyDown = (e, index) => {
         if (e.key === "Backspace" && !e.target.value) {
           const prevInput = document.getElementById(`otp-${index - 1}`);
@@ -63,13 +94,14 @@ function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}
 
           <div className='my-10  '>
             <p className='text-[#4D4D4D] text-base font-medium mb-3 flex justify-center'>{t('verification code')}</p>
-            <form className="flex gap-4 justify-center"dir="ltr">
+            <form className="flex gap-4 justify-center"dir="ltr" onSubmit={(e) => e.preventDefault()}>
               {[0, 1, 2, 3].map((i) => (
                 <input
                   key={i}
                   id={`otp-${i}`}
                   type="text"
                   maxLength="1"
+                    value={otpValues[i]}
                   onChange={(e) => handleChangee(e, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
                   className="border border-[#C7C7C7] bg-[#fff] w-25 h-20 rounded-[3px] text-center text-lg"
@@ -108,7 +140,7 @@ function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}
               {t('the previous')}
             </button>
             <button
-              onClick={onNext}
+              onClick={handleVerify}
               className="px-4 py-2 w-64 h-15 bg-[#C69815] text-white rounded"
             >
               {t('the next')}

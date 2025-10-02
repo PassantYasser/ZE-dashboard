@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // login form (email and password)
@@ -175,6 +175,22 @@ export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
     }
   }
 )
+
+// forget password - verify email otp
+export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
+  async(payload , thunkAPI)=>{
+    try{
+      const data = await VerifyEmailOtp(payload)
+      return data.data
+    }
+    catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }}
+  )
+
+  
 
 
 
@@ -394,6 +410,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      // VerifyEmailOtpThunk
+      .addCase(VerifyEmailOtpThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(VerifyEmailOtpThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.verified = true;
+      })
+      .addCase(VerifyEmailOtpThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })  
 
 
 
