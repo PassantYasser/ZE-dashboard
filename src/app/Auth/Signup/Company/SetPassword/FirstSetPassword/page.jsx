@@ -2,32 +2,52 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
-function FirstSetPasswordPage({  onPrev  , nextSub ,prevSub  }) {
+function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , handleSubmit}) {
   const { t } = useTranslation();
+
+    const dispatch = useDispatch();
+    const { emailExists, loading , otpSent } = useSelector((state) => state.auth);
+  
+  
+    console.log(formData);
+  
+
       const [showPassword, setShowPassword] = useState(false);
       const [showNewPassword , setShowNewPassword]=useState(false);
-      const [password, setPassword] = useState("");
       const [isFocused, setIsFocused] = useState(false); 
-      const [confirmPassword, setConfirmPassword] = useState("");
       const [error, setError] = useState("");
   
   
       // Validation rules
       const rules = {
-        uppercase: /[A-Z]/.test(password),
-        symbol: /[!@#$%^&*(),.?":{}|<>]/.test(password),
-        number: /[0-9]/.test(password),
-        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(formData.password || ""),
+        symbol: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password || ""),
+        number: /[0-9]/.test(formData.password || ""),
+        length: (formData.password || "").length >= 8,
       };
   
-      useEffect(() => {
-      if (confirmPassword && password !== confirmPassword) {
-        setError(t("Password does not match"));
-      } else {
-        setError("");
-      }
-    }, [password, confirmPassword, t]);
+    
+  useEffect(() => {
+    if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+      setError(t("Password does not match"));
+    } else {
+      setError("");
+    }
+  }, [formData.password, formData.confirmPassword, t]);
+const handleNextClick = () => {
+    // Validation before moving to the next substep
+    if (!formData.password || !formData.confirmPassword) {
+      setError(t("Please fill both password fields"));
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError(t("Password does not match"));
+      return;
+    }
+    nextSub();
+  };
   
   return (
     <>
@@ -45,7 +65,8 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,prevSub  }) {
           name="password"
           id="password"
           placeholder={t("Enter the new password")}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formData.password}
+          onChange={handleChange}
           onFocus={() => setIsFocused(true)}   
           onBlur={() => setIsFocused(false)}            
         />
@@ -93,8 +114,8 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,prevSub  }) {
           name="confirmPassword"
           id="confirmPassword"
           placeholder={t("Re-enter the new password")}
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={formData.confirmPassword}
+          onChange={handleChange}
         />
 
         {/* Icon */}
@@ -129,8 +150,9 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,prevSub  }) {
         {t('the previous')}
       </button>
       <button
-        onClick={nextSub}
-              className="px-4 py-2 w-64 h-15 bg-[#C69815] text-white rounded"
+        // onClick={nextSub}
+        onClick={handleNextClick}
+        className="px-4 py-2 w-64 h-15 bg-[#C69815] text-white rounded"
       >
         {t('the next')}
       </button>

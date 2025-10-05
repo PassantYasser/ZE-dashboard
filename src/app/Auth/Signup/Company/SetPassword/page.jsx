@@ -17,7 +17,14 @@ function SetPasswordPage({ onNext, onPrev ,formData ,handleChange , handleSubmit
   const renderSubStep = () => {
     switch (subStep) {
       case 1:
-        return <FirstSetPasswordPage prevSub={prevSub} nextSub={nextSub} onPrev={onPrev}/>
+        return <FirstSetPasswordPage 
+                prevSub={prevSub} 
+                nextSub={nextSub} 
+                onPrev={onPrev} 
+                formData={formData} 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit}  
+              />
       case 2:
         return <ConfirmationDonePage onNext={onNext} />;
       default:
