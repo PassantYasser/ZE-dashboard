@@ -23,7 +23,7 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
       designation_id:'',
       role:'',
       password:'',
-      confirmPassword:'',
+      password_confirmation:'',
       yearsofexperience:'',
       national_id:'',
       address:'',
@@ -53,13 +53,28 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
     };
 
 
-    const handleSubmit = () => {
+    // const handleSubmit = () => {
+    //   const data = new FormData();
+    //   Object.keys(formData).forEach((key) => {
+    //     data.append(key, formData[key]);
+    //   });
+    //   dispatch(signupThunk(data));
+    // };
+    const handleSubmit = async () => {
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
         data.append(key, formData[key]);
       });
-      dispatch(signupThunk(data));
+      
+      const result = await dispatch(signupThunk(data));
+
+      if (signupThunk.fulfilled.match(result)) {
+        console.log("Signup success ✅", result.payload);
+      } else {
+        console.error("Signup failed ❌", result.payload);
+      }
     };
+
   
     const steps = [
       { id: 0, title: t('Company Owner Information') ,icon:'/images/icons/OwnerInformation.svg' },

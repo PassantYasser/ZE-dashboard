@@ -35,19 +35,26 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
     } else {
       setError("");
     }
-  }, [formData.password, formData.confirmPassword, t]);
-const handleNextClick = () => {
-    // Validation before moving to the next substep
-    if (!formData.password || !formData.confirmPassword) {
-      setError(t("Please fill both password fields"));
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError(t("Password does not match"));
-      return;
-    }
-    nextSub();
-  };
+  }, [formData.password, formData.password_confirmation, t]);
+
+const handleNextClick = async () => {
+  if (!formData.password || !formData.password_confirmation) {
+    setError(t("Please fill both password fields"));
+    return;
+  }
+  if (formData.password !== formData.password_confirmation) {
+    setError(t("Password does not match"));
+    return;
+  }
+
+  try {
+    await handleSubmit(); 
+    nextSub(); 
+  } catch (error) {
+    console.error("Failed to submit data", error);
+  }
+};
+
   
   return (
     <>
@@ -111,10 +118,10 @@ const handleNextClick = () => {
             error ? "border-red-500" : "border-[#C8C8C8]"
           }`}
           type={showNewPassword ? "text" : "password"}
-          name="confirmPassword"
-          id="confirmPassword"
+          name="password_confirmation"
+          id="password_confirmation"
           placeholder={t("Re-enter the new password")}
-          value={formData.confirmPassword}
+          value={formData.password_confirmation}
           onChange={handleChange}
         />
 
@@ -134,6 +141,7 @@ const handleNextClick = () => {
         </span>
       </div>
 
+        
 
   {/* Error Message */}
   {error && <p className="text-red-500 text-sm mt-2">{error}</p>}

@@ -1,5 +1,6 @@
 import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API from "../../../../config/api";
 
 // login form (email and password)
 export const loginThunk = createAsyncThunk('auth/loginThunk',
@@ -106,7 +107,7 @@ export const resetPasswordThunk = createAsyncThunk(
 // ---------------------------------------------------------------------------------------------------
 // signup form
   export const signupThunk = createAsyncThunk(
-  "auth/signup",
+  "auth/signupThunk",
   async (formData, { rejectWithValue }) => {
     try {
       const response = await API.post("/provider/register", formData, {
@@ -116,7 +117,7 @@ export const resetPasswordThunk = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || { message: error.message });
     }
   }
 );

@@ -67,6 +67,15 @@ const handleNextClick = async (e) => {
   }
 };
 
+useEffect(() => {
+  const role = localStorage.getItem("role");
+  if (role) {
+    setFormData((prev) => ({
+      ...prev,
+      role,
+    }));
+  }
+}, []);
   
   
     
@@ -107,6 +116,16 @@ const handleNextClick = async (e) => {
   return (
     <>
       <form className=" ">
+        {/* //role input */}
+        <div>
+          <input 
+            type="hidden" 
+            name="role"
+            value={formData.role || ""}
+          />
+        </div>
+        
+
         <div className="flex gap-4.5">
           {/* first name input */}
           <div className="flex flex-col mb-4 w-full">
