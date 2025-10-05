@@ -29,31 +29,31 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
       };
   
     
-  useEffect(() => {
-    if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
-      setError(t("Password does not match"));
-    } else {
-      setError("");
-    }
-  }, [formData.password, formData.password_confirmation, t]);
+        useEffect(() => {
+          if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+            setError(t("Password does not match"));
+          } else {
+            setError("");
+          }
+        }, [formData.password, formData.password_confirmation, t]);
 
-const handleNextClick = async () => {
-  if (!formData.password || !formData.password_confirmation) {
-    setError(t("Please fill both password fields"));
-    return;
-  }
-  if (formData.password !== formData.password_confirmation) {
-    setError(t("Password does not match"));
-    return;
-  }
+        const handleNextClick = async () => {
+          if (!formData.password || !formData.password_confirmation) {
+            setError(t("Please fill both password fields"));
+            return;
+          }
+          if (formData.password !== formData.password_confirmation) {
+            setError(t("Password does not match"));
+            return;
+          }
 
-  try {
-    await handleSubmit(); 
-    nextSub(); 
-  } catch (error) {
-    console.error("Failed to submit data", error);
-  }
-};
+          try {
+            await handleSubmit(); 
+            nextSub(); 
+          } catch (error) {
+            console.error("Failed to submit data", error);
+          }
+        };
 
   
   return (
@@ -153,7 +153,7 @@ const handleNextClick = async () => {
 
       <button
         onClick={onPrev}
-              className="px-4 py-2 w-64 border border-[#C69815] text-[#C69815] rounded"
+        className="px-4 py-2 w-64 border border-[#C69815] text-[#C69815] rounded"
       >
         {t('the previous')}
       </button>
