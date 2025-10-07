@@ -55,10 +55,13 @@ export const resetPassword = async(payload)=>{
 
 /* ========== SIGNUP APIs ========== */
 // signup
-export const signup = async(FormData)=>{
-  const response = await API.post('/provider/register',FormData)
-  return response.data
-}
+
+export const signup = async (formData) => {
+  const response = await API.post("/provider/register", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+};
 
 // check email if exists
 export const checkEmail = async(email)=>{
@@ -91,10 +94,10 @@ export const VerifyEmailOtp = async(payload)=>{
 };
 
 // //update in signup data or complete signup
-// export const UpdateInSignup = async(FormData)=>{
-//   const response = await API.post('/provider/update-profile',FormData)
-//   return response.data
-// }
+export const UpdateInSignup = async(FormData)=>{
+  const response = await API.post('/provider/update-profile',FormData)
+  return response.data
+}
 
 
 

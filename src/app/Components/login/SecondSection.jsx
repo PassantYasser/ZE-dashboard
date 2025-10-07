@@ -42,7 +42,7 @@ function SecondSection() {
         "Register now and get the tools you need to reach a wider customer base and achieve your goals efficiently."
       )}
     </p>
-    <p className="mt-20">
+    <p className="mt-20 mb-[18.555vh]">
       <img src="/images/AuthLogMiddle.svg" alt="" />
     </p>
   </div>

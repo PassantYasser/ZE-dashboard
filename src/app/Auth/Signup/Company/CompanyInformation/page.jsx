@@ -4,8 +4,33 @@ import FilesUploadOnePage from './FilesUploadOne/page';
 import FilesUploadTwoPage from './FilesUploadTwo/page';
 import ConfirmationDonePage from './ConfirmationDone/page';
 import FirstCompanyInformationPage from './FirstCompanyInformation/page';
+import { useDispatch, useSelector } from 'react-redux';
 
-function CompanyInformationPage({ formData ,handleChange , handleSubmit  }) {
+function CompanyInformationPage() {
+  const dispatch = useDispatch();
+  const {user} = useSelector((state)=>state.auth)
+  const [formData , setFormData] = useState({
+    designation_id:'',
+    role:'',
+    yearsofexperience:'',
+    address:'',
+    country:'',
+    state:'',
+    city:'',
+    latitude:'',
+    longitude:'',
+    id_front:'',
+    id_back:'',
+    tax_number:'',
+    company_name:'',
+    workers_count:'',
+    commercial_register:'',
+    tax_card:'',
+    country_code:'',
+    nationality:'',
+    gender:'',
+  });
+  
   const [subStep, setSubStep] = useState(1);
 
   const nextSub = () => {

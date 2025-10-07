@@ -53,13 +53,6 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
     };
 
 
-    // const handleSubmit = () => {
-    //   const data = new FormData();
-    //   Object.keys(formData).forEach((key) => {
-    //     data.append(key, formData[key]);
-    //   });
-    //   dispatch(signupThunk(data));
-    // };
     const handleSubmit = async () => {
       const data = new FormData();
       Object.keys(formData).forEach((key) => {
@@ -127,9 +120,6 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
                   />;
         case 3:
           return <CompanyInformationPage 
-                    formData={formData}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
                     onNext={handleNext} 
                     onPrev={handlePrev} 
                     currentStep={currentStep} 

@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 
@@ -106,20 +106,17 @@ export const resetPasswordThunk = createAsyncThunk(
 
 // ---------------------------------------------------------------------------------------------------
 // signup form
-  export const signupThunk = createAsyncThunk(
+export const signupThunk = createAsyncThunk(
   "auth/signupThunk",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await API.post("/provider/register", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      //save in session storage 
-      const token = response.data.access_token;
-      sessionStorage.setItem("tempToken", token);
+      const data = await signup(formData); 
 
-      return response.data;
+      // save temp token in sessionStorage
+      const token = data.access_token;
+      sessionStorage.setItem("tempToken", token);
+      
+      return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: error.message });
     }
@@ -195,14 +192,17 @@ export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
     }}
   )
 
-  // export const UpdateInSignupThunk = createAsyncThunk('auth/UpdateInSignupThunk',
-  //   async(formData,{rejectWithValue})=>{
-  //     try{
-  //       const response = await UpdateInSignup(formData)
-  //       return response
-  //     }
-  //   }
-  // )
+export const UpdateInSignupThunk = createAsyncThunk('auth/UpdateInSignupThunk',
+    async(formData,{rejectWithValue})=>{
+      try{
+        const response = await UpdateInSignup(formData)
+        return response.data;
+      }catch(error){
+        return rejectWithValue(error.response?.data || { message: error.message });
+
+      }
+    }
+  )
 
   
 
@@ -438,6 +438,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })  
+
+        // UpdateInSignupThunk
+      .addCase(UpdateInSignupThunk.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+      .addCase(UpdateInSignupThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(UpdateInSignupThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
 
 
