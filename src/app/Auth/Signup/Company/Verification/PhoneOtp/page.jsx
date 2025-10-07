@@ -21,13 +21,13 @@ function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSub
   }
 
   // ✅ Step 1: verify phone OTP
-  dispatch(VerifyPhoneOtpThunk({ phone: formData.phone, otp }))
+  dispatch(VerifyPhoneOtpThunk({ phone: formData?.phone, otp }))
     .unwrap()
     .then(() => {
       console.log("✅ Phone OTP verified successfully");
 
       // ✅ Step 2: send email OTP
-      dispatch(sendEmailThunk({ email: formData.email }))
+      dispatch(sendEmailThunk({ email: formData?.email }))
         .unwrap()
         .then(() => {
           console.log("📧 Email OTP sent successfully");
@@ -102,7 +102,7 @@ function PhoneOtpPage({  onPrev  , nextSub , formData , handleChange , handleSub
             <p className='text-[#C69815] text-xl font-bold'>{t('Verify number')}</p>
             <p className="text-center text-lg text-[#656565] mt-4 w-[400px]">
             {t("Please enter the code we sent to your number.")} 
-              <span className="font-semibold text-[#C69815]"> {formData.phone} </span> 
+              <span className="font-semibold text-[#C69815]"> {formData?.phone} </span> 
             {t("To verify the code")}
             </p>
           </div>

@@ -19,7 +19,7 @@ function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}
     }
 
     // ✅ Step 1: verify phone OTP
-    dispatch(VerifyEmailOtpThunk({ email: formData.email, otp }))
+    dispatch(VerifyEmailOtpThunk({ email: formData?.email, otp }))
       .unwrap()
       .then(() => {
         console.log("✅ email OTP verified successfully");
@@ -87,7 +87,7 @@ function EmailOtpPage({ onNext, onPrev , formData , handleChange , handleSubmit}
             <p className='text-[#C69815] text-xl font-bold'>{t('Email verification')}</p>
             <p className="text-center text-lg text-[#656565] mt-4 w-[550px]">
             {t("Please enter the code we sent to your number.")} 
-              <span className="font-semibold text-[#C69815]">Exmple@gmail.comل</span> 
+              <span className="font-semibold text-[#C69815]">{formData?.email}</span> 
             {t("To verify the code")}
             </p>
           </div>

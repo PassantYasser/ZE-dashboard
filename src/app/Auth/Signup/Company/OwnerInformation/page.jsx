@@ -22,14 +22,14 @@ function OwnerInformationPage({ onNext, currentStep, steps ,formData ,handleChan
   const [showErrors, setShowErrors] = useState(false);
   const isFormValid = () => {
     return (
-      formData.firstname.trim() !== "" &&
-      formData.lastname.trim() !== "" &&
-      formData.email.trim() !== "" &&
-      formData.national_id.trim() !== "" &&
-      formData.phone.trim() !== "" &&
-      formData.country_code.trim() !== "" && 
-      formData.nationality.trim() !== "" &&  
-      formData.gender.trim() !== ""
+      formData?.firstname.trim() !== "" &&
+      formData?.lastname.trim() !== "" &&
+      formData?.email.trim() !== "" &&
+      formData?.national_id.trim() !== "" &&
+      formData?.phone.trim() !== "" &&
+      formData?.country_code.trim() !== "" && 
+      formData?.nationality.trim() !== "" &&  
+      formData?.gender.trim() !== ""
     );
   };
 
@@ -56,7 +56,7 @@ const handleNextClick = async (e) => {
   }
 
   // ✅ Step 2: Check Phone (Send OTP)
-  const phoneResult = await dispatch(checkEnterPhoneThunk({ phone: formData.phone }));
+  const phoneResult = await dispatch(checkEnterPhoneThunk({ phone: formData?.phone }));
 
   if (checkEnterPhoneThunk.fulfilled.match(phoneResult)) {
     console.log("OTP sent to phone:", phoneResult.payload);
@@ -121,7 +121,7 @@ useEffect(() => {
           <input 
             type="hidden" 
             name="role"
-            value={formData.role || ""}
+            value={formData?.role || ""}
           />
         </div>
         
@@ -140,7 +140,7 @@ useEffect(() => {
               className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
               placeholder={t('Enter first name')}
             />
-            {showErrors && !formData.firstname && (
+            {showErrors && !formData?.firstname && (
               <span className="text-red-500 text-sm mt-1">{t("firstname is required")}</span>
             )}
           </div>
@@ -158,7 +158,7 @@ useEffect(() => {
               className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
               placeholder={t('Enter last name/family name')}
             />
-            {showErrors && !formData.lastname && (
+            {showErrors && !formData?.lastname && (
               <span className="text-red-500 text-sm mt-1">{t("lastname is required")}</span>
             )}
           </div>
@@ -177,7 +177,7 @@ useEffect(() => {
             className=" h-15 p-3  border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none "
             placeholder={t('Enter your email')}
           />
-          {showErrors && !formData.email && (
+          {showErrors && !formData?.email && (
             <span className="text-red-500 text-sm mt-1">{t("email is required")}</span>
           )}
           {emailExists === true && (
@@ -200,7 +200,7 @@ useEffect(() => {
             className=" h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
             placeholder={t('Enter your national ID number')}
           />
-          {showErrors && !formData.national_id && (
+          {showErrors && !formData?.national_id && (
             <span className="text-red-500 text-sm mt-1">{t("national_id is required")}</span>
           )}
         </div>
@@ -228,7 +228,7 @@ useEffect(() => {
             }}
           />
           {/* if no data enter */}
-          {showErrors && !formData.country_code && (
+          {showErrors && !formData?.country_code && (
               <span className="text-red-500 text-sm">{t("country_code is required")}</span>
             )}
           
@@ -247,8 +247,8 @@ useEffect(() => {
                 onClick={() => setOpen1(!open1)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
               >
-                <span className={formData.nationality ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {formData.nationality  || t("Select the main category")}
+                <span className={formData?.nationality ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                  {formData?.nationality  || t("Select the main category")}
                 </span>
                 <span className="ml-2">
                   {open1 ? (
@@ -297,7 +297,7 @@ useEffect(() => {
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
               >
                 <span className={formData.gender ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                  {formData.gender  || t("Select a subcategory")}
+                  {formData?.gender  || t("Select a subcategory")}
                 </span>
                 <span className="ml-2">
                   {open2 ? (
