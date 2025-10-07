@@ -22,9 +22,9 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
   
       // Validation rules
       const rules = {
-        uppercase: /[A-Z]/.test(formData.password || ""),
-        symbol: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password || ""),
-        number: /[0-9]/.test(formData.password || ""),
+        uppercase: /[A-Z]/.test(formData?.password || ""),
+        symbol: /[!@#$%^&*(),.?":{}|<>]/.test(formData?.password || ""),
+        number: /[0-9]/.test(formData?.password || ""),
         length: (formData?.password || "").length >= 8,
       };
   
