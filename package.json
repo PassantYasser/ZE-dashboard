@@ -16,11 +16,13 @@
     "apexcharts": "^5.3.5",
     "axios": "^1.12.2",
     "i18next": "^25.4.2",
+    "leaflet": "^1.9.4",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-apexcharts": "^1.7.0",
     "react-dom": "19.1.0",
     "react-i18next": "^15.7.3",
+    "react-leaflet": "^5.0.0",
     "react-phone-input-2": "^2.15.1",
     "react-redux": "^9.2.0"
   },

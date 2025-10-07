@@ -8,14 +8,12 @@ function FirstCompanyInformationPage({nextSub}) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const dropdownRef = useRef(null);
-
   const options = [
     t("Design"),
     t("Development"),
     t("Marketing"),
     t("Consulting"),
   ];
-
   // close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -27,6 +25,9 @@ function FirstCompanyInformationPage({nextSub}) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  //map
+
+
   return (
     <>
       <div className="mt-14 lg1:mt-8">
@@ -37,6 +38,8 @@ function FirstCompanyInformationPage({nextSub}) {
             </label>
             <input
               type="text"
+              value={FormData?.company_name}
+              onChange={handleChange}
               className=" h-15 p-3 mb-6 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
               placeholder={t('Enter company name')}
             />
@@ -48,6 +51,8 @@ function FirstCompanyInformationPage({nextSub}) {
             </label>
             <input
               type="text"
+              value={FormData?.workers_count}
+              onChange={handleChange}
               className="h-15 p-3 mb-6 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
               placeholder={t('Enter the number of employees')}
             />
@@ -101,6 +106,8 @@ function FirstCompanyInformationPage({nextSub}) {
             </label>
             <input
               type="text"
+              value={FormData?.yearsofexperience}
+              onChange={handleChange}
               className="h-15 p-3 mb-6 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
               placeholder={t('Enter the number of years of experience')} 
             />
@@ -112,6 +119,7 @@ function FirstCompanyInformationPage({nextSub}) {
             </label>
             <input
               type="text"
+              value={FormData?.address}  
               className="h-15  p-3 mb-6 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
               placeholder={t('Enter company address')}
             />

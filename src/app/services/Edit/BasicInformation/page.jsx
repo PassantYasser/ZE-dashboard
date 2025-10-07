@@ -195,7 +195,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Main classification")}
           </label>
-          <div className="relative w-full mb-6" ref={dropdownRef1}>
+          <div className="relative w-full" ref={dropdownRef1}>
             <div
               onClick={() => setOpen1(!open1)}
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
@@ -235,7 +235,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Subcategory")}
           </label>
-          <div className="relative w-full mb-6" ref={dropdownRef2}>
+          <div className="relative w-full " ref={dropdownRef2}>
             <div
               onClick={() => setOpen2(!open2)}
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
