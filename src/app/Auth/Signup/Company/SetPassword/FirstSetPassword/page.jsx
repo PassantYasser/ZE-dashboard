@@ -25,24 +25,24 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
         uppercase: /[A-Z]/.test(formData.password || ""),
         symbol: /[!@#$%^&*(),.?":{}|<>]/.test(formData.password || ""),
         number: /[0-9]/.test(formData.password || ""),
-        length: (formData.password || "").length >= 8,
+        length: (formData?.password || "").length >= 8,
       };
   
     
         useEffect(() => {
-          if (formData.confirmPassword && formData.password !== formData.confirmPassword) {
+          if (formData?.confirmPassword && formData?.password !== formData?.confirmPassword) {
             setError(t("Password does not match"));
           } else {
             setError("");
           }
-        }, [formData.password, formData.password_confirmation, t]);
+        }, [formData?.password, formData?.password_confirmation, t]);
 
         const handleNextClick = async () => {
-          if (!formData.password || !formData.password_confirmation) {
+          if (!formData?.password || !formData?.password_confirmation) {
             setError(t("Please fill both password fields"));
             return;
           }
-          if (formData.password !== formData.password_confirmation) {
+          if (formData?.password !== formData?.password_confirmation) {
             setError(t("Password does not match"));
             return;
           }
