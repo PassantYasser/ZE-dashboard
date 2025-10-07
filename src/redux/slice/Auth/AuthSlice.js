@@ -115,6 +115,10 @@ export const resetPasswordThunk = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
+      //save in session storage 
+      const token = response.data.access_token;
+      sessionStorage.setItem("tempToken", token);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: error.message });
@@ -190,6 +194,15 @@ export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
       )
     }}
   )
+
+  // export const UpdateInSignupThunk = createAsyncThunk('auth/UpdateInSignupThunk',
+  //   async(formData,{rejectWithValue})=>{
+  //     try{
+  //       const response = await UpdateInSignup(formData)
+  //       return response
+  //     }
+  //   }
+  // )
 
   
 

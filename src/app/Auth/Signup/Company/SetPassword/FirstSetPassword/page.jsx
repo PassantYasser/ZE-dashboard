@@ -72,7 +72,7 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
           name="password"
           id="password"
           placeholder={t("Enter the new password")}
-          value={formData.password}
+          value={formData?.password}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}   
           onBlur={() => setIsFocused(false)}            
@@ -121,7 +121,7 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
           name="password_confirmation"
           id="password_confirmation"
           placeholder={t("Re-enter the new password")}
-          value={formData.password_confirmation}
+          value={formData?.password_confirmation}
           onChange={handleChange}
         />
 
