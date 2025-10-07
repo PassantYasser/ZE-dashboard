@@ -280,7 +280,7 @@ useEffect(() => {
                 </ul>
               )}
             </div>
-            {showErrors && !formData.nationality && (
+            {showErrors && !formData?.nationality && (
               <span className="text-red-500 text-sm mt-1">{t("nationality is required")}</span>
             )}
           </div>
@@ -296,7 +296,7 @@ useEffect(() => {
                 onClick={() => setOpen2(!open2)}
                 className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
               >
-                <span className={formData.gender ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                <span className={formData?.gender ? "text-[#364152]" : "text-[#9A9A9A]"}>
                   {formData?.gender  || t("Select a subcategory")}
                 </span>
                 <span className="ml-2">
@@ -328,7 +328,7 @@ useEffect(() => {
                 </ul>
               )}
             </div>
-            {showErrors && !formData.gender && (
+            {showErrors && !formData?.gender && (
               <span className="text-red-500 text-sm mt-1">{t("gender is required")}</span>
             )}
           </div>
