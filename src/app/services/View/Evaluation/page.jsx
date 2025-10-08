@@ -54,7 +54,7 @@ function EvaluationPage({handleClose}) {
 
 
   <div className="w-full h-px bg-[#CDD5DF] "></div>
-    <div className='px-6 mt-5'>
+    <div className='px-6 mt-5 mb-3'>
       <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-40 rounded-[3px] text-base font-medium'>
         {t('cancel')}
       </button>

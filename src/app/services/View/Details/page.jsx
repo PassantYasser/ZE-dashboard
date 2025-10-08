@@ -49,7 +49,7 @@ function DetailsPage({handleClose ,status}) {
         {/* Description */}
         <section className='my-6'>
           <span className='text-[#4B5565] text-base font-medium'>{t('Service Description')}</span>
-          <p className='text-[#697586] text-base font-normal border border-[#9AA4B2] p-3 mt-1.5 rounded-[3px]'>
+          <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-1.5 rounded-[3px]'>
             حافظ على منزلك من مشاكل السباكة المزعجة  نقدم حلولاً شاملة لجميع أعمال السباكة باستخدام أحدث المعدات وخبراء معتمدين. نستخدم مواد عالية الجودة
           </p>
         </section>
@@ -73,46 +73,48 @@ function DetailsPage({handleClose ,status}) {
         </section>
 
         {/* price&&Revenues&&RequestsNumber&&view */}
-        <section>
-          {/* price */}
-          <div className='flex gap-1.5 '>
-            <img src="/images/icons/price.svg" alt=""  />
-            <p className='text-[#C69815] text-base font-medium'>40 {t('Pound')}</p>
-          </div>
-
-          <div className='flex justify-between my-6'>
-            {/* Revenues */}
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/Revenues.svg" alt=""/>
-              <p className='text-base font-normal'>
-                <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                <span className='text-[#C69815]'>50 {t('Pound')}</span>
-              </p>
+        <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2  rounded-[3px] gap-4 p-3 mb-6'>
+            {/* price */}
+            <div className='flex gap-1.5 w-full    '>
+              <img src="/images/icons/price.svg" alt=""  />
+              <p className='text-[#C69815] text-base font-medium'>40 {t('Pound')}</p>
             </div>
             
+            {/* Revenues */}
+            <div className=' flex justify-end'>
+              <div className='flex gap-1.5  w-50   '>
+                <img src="/images/icons/Revenues.svg" alt=""/>
+                <p className='text-base font-normal'>
+                  <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
+                  <span className='text-[#C69815]'>50 {t('Pound')}</span>
+                </p>
+              </div>
+            </div>
+              
             {/* RequestsNumber */}
-            <div className='flex gap-1.5 '>
-              <img src="/images/icons/RequestsNumber.svg" alt=""/>
+            <div className='flex gap-1.5 w-full  '>
+              <img src="/images/icons/RequestsNumber.svg" className='w-5 h-5' alt=""/>
               <p className='text-[#697586] text-base font-normal'>{t('Requests')} 50</p>
             </div>
-
-          </div>
-          
-          {/* view */}
-          <div className='flex gap-1.5 mb-6'>
-            <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
-            <p className='text-[#697586] text-base font-normal'>0 {t('View')}</p>
-          </div>
+    
+            {/* view */}
+            <div className=' flex justify-end'>
+              <div className='flex gap-1.5  w-50  '>
+                <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
+                <p className='text-[#697586] text-base font-normal'>0 {t('View')}</p>
+              </div>
+            </div>
+            
 
         </section>
 
         {/* date-time */}
-        <section className='mb-4'>
+        <section className='mb-4 '>
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/date-time.svg" alt="" />
             <p>{t('Available times and days')}</p>
           </div>
-          <div className='flex justify-between'>
+          <div className='flex justify-between shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
             <p className='text-[#697586] text-sm font-normal'>الثلاثاء </p>
             <p className='text-[#697586] text-sm font-normal'>02:00م - 05:00ص</p>
           </div>
@@ -124,9 +126,11 @@ function DetailsPage({handleClose ,status}) {
             <img src="/images/icons/Available areas.svg" alt=""/>
               <span className='text-[#697586] text-base font-normal'>{t('Available areas')}</span>  
           </div>
-          <div className='bg-[#EDE7FD] border border-[#E2E2E2] h-8.5 w-fit px-3 py-0.5 rounded-[35px] mb-6'>
-            <span className='text-[#4B5565] text-sm font-normal'>الشيخ زايد</span>
-          </div>
+        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
+            <div className='bg-[#EDE7FD] border border-[#E2E2E2] h-8.5 w-fit px-3 py-0.5 rounded-[35px] mb-6'>
+              <span className='text-[#4B5565] text-sm font-normal'>الشيخ زايد</span>
+            </div>
+        </div>
         </section>
 
       </div>

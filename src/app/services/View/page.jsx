@@ -31,22 +31,22 @@ function ViewPage({open , handleClose }) {
     {
       id: "Details",
       label: t("Details"),
-      activeIcon:'Detail.svg',
-      defaultIcon:'Details.svg',
+      defaultIcon:'Detail.svg',
+      activeIcon:'Details.svg',
       Component: DetailsPage,
     },
     {
       id: "Analysis",
       label: t("Analysis"),
-      activeIcon:'Analysis.svg',
-      defaultIcon:'Analysiss.svg',
+      defaultIcon:'Analysis.svg',
+      activeIcon:'Analysiss.svg',
       Component: AnalysisPage,
     },
     { 
       id: "Evaluation", 
       label: t("Evaluation"), 
-      activeIcon:'Evaluation.svg',
-      defaultIcon:'Evaluations.svg',
+      defaultIcon:'Evaluation.svg',
+      activeIcon:'Evaluations.svg',
       Component: EvaluationPage
     },
   ];
@@ -189,7 +189,7 @@ function ViewPage({open , handleClose }) {
                         : "text-[#697586] font-normal"
                     }`}
                 >
-                  <img src={`/images/icons/${openId === tab.id ? tab.defaultIcon : tab.activeIcon}`} alt="" className="w-5 h-5" />
+                  <img src={`/images/icons/${openId === tab.id ? tab.activeIcon : tab.defaultIcon}`} alt="" className="w-5 h-5" />
                   <p>{tab.label}</p>
                 </div>
               ))}
