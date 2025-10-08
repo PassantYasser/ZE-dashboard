@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { UpdateInSignupThunk } from '@/redux/slice/Auth/AuthSlice';
 
 function CompanyInformationPage() {
+
   const dispatch = useDispatch();
   const {user} = useSelector((state)=>state.auth)
   const [formData , setFormData] = useState({
@@ -55,7 +56,7 @@ function CompanyInformationPage() {
     }
   };
 
-
+  console.log("typeof setFormDat.........:", typeof setFormData);
 
   const [subStep, setSubStep] = useState(1);
   const nextSub = () => {
@@ -71,10 +72,9 @@ function CompanyInformationPage() {
         return <FirstCompanyInformationPage 
                   nextSub={nextSub}
                   formData={formData}
+                  setFormData={setFormData}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
-
-
                 />
       case 2:
         return <FilesUploadOnePage 
