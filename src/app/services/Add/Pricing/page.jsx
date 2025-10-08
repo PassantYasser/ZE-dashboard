@@ -14,6 +14,9 @@ function PricingPage({handlePrev , handleGoBack}) {
       t("Development"),
       t("Marketing"),
       t("Consulting"),
+      t("evelopment"),
+      t("Marting"),
+      t("Coulting"),
     ];
     const [open1, setOpen1] = useState(false);
     const [selected1, setSelected1] = useState("");
@@ -77,7 +80,7 @@ function PricingPage({handlePrev , handleGoBack}) {
               </span>
             </div>
             {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
                 {options.map((option, index) => (
                   <li
                     key={index}

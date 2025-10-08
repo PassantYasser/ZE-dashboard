@@ -212,7 +212,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
               </span>
             </div>
             {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
                 {options.map((option, index) => (
                   <li
                     key={index}
@@ -252,7 +252,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
               </span>
             </div>
             {open2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
                 {options.map((option, index) => (
                   <li
                     key={index}
@@ -292,7 +292,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
               </span>
             </div>
             {open3 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
                 {options.map((option, index) => (
                   <li
                     key={index}
