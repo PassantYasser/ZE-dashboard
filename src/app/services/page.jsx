@@ -46,7 +46,7 @@ function ServicesPage() {
           </div>
         </section>
 
-        <section className='mt-10 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6'>
+        <section className='mt-10 mb-5 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6'>
           <ServiceCard/>
             <ServiceCard/>
               <ServiceCard/>

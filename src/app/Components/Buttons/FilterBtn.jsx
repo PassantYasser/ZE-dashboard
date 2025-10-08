@@ -15,6 +15,7 @@ function FilterBtn({href , className , onClick}) {
         justify-center items-center
         border h-14 w-37.5 
         border-[#C69815] rounded-[3px]
+        cursor-pointer
         ${className}
         `}>
         <img src="/images/icons/FlterIcon.svg" alt=""  className='w-6 h-6'/>

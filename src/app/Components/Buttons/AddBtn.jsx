@@ -15,6 +15,7 @@ function AddBtn({ label, href ,className}) {
             bg-[#C69815] 
             w-[210px] h-14 
             rounded-[3px] 
+            cursor-pointer
             ${className}
             `}
         >
