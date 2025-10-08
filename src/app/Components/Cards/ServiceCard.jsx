@@ -94,7 +94,9 @@ function ServiceCard() {
         </div>
 
         
-        <button onClick={handleClickOpen}  className='text-[#364152] text-base font-medium '>خدمة صيانة سخانات المياه</button>
+        <button onClick={handleClickOpen}  className='text-[#364152] text-base font-medium cursor-pointer'>
+          خدمة صيانة سخانات المياه
+        </button>
         <div className='mt-4'>
           {/* price */}
           <div className='flex gap-1.5'>
