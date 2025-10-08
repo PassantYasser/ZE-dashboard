@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import DetailsPage from './Details/page';
 import AnalysisPage from './Analysis/page';
 import EvaluationPage from './Evaluation/page';
+import { icon } from 'leaflet';
 
 
 
@@ -30,19 +31,22 @@ function ViewPage({open , handleClose }) {
     {
       id: "Details",
       label: t("Details"),
-      icons:'Details.svg',
+      activeIcon:'Detail.svg',
+      defaultIcon:'Details.svg',
       Component: DetailsPage,
     },
     {
       id: "Analysis",
       label: t("Analysis"),
-      icons:'Analysis.svg',
+      activeIcon:'Analysis.svg',
+      defaultIcon:'Analysiss.svg',
       Component: AnalysisPage,
     },
     { 
       id: "Evaluation", 
       label: t("Evaluation"), 
-      icons:'Evaluation.svg',
+      activeIcon:'Evaluation.svg',
+      defaultIcon:'Evaluations.svg',
       Component: EvaluationPage
     },
   ];
@@ -185,7 +189,7 @@ function ViewPage({open , handleClose }) {
                         : "text-[#697586] font-normal"
                     }`}
                 >
-                  <img src={`/images/icons/${tab.icons}`} alt="" className="w-5 h-5" />
+                  <img src={`/images/icons/${openId === tab.id ? tab.defaultIcon : tab.activeIcon}`} alt="" className="w-5 h-5" />
                   <p>{tab.label}</p>
                 </div>
               ))}
