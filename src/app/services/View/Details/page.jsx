@@ -25,6 +25,7 @@ function DetailsPage({handleClose ,status}) {
         <p className='text-[#364152] text-xl font-medium '>
           خدمة صيانة سخانات المياه
         </p>
+        
         <section className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] mt-6 p-4'>
           <div>
             <p className='font-normal text-base mb-4'>

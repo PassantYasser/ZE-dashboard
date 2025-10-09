@@ -39,40 +39,94 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
 
 
 
-  const options = [
-    t("Design"),
-    t("Development"),
-    t("Marketing"),
-    t("Consulting"),
-    t("Maing"),
-    t("sulting"),
-    t("Dign"),
-    t("elopment"),
-    t("Dment"),
-    t("ng"),
-    t('qqq'),
-    t('1wwwwwwqq')
-  ];
 
   // Dropdown 1
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState("");
   const dropdownRef1 = useRef(null);
+  const optionMainClassification = [
+    'منازل',
+    'شقق',
+    'فلل',
+    'محلات تجارية',
+    'مكاتب',
+    'مطاعم',
+    'فنادق',
+    'سيارات',
+    'دراجات نارية',
+    'شاحنات',
+    'سباك',
+    'كهربائي',
+    'نجّار',
+    'دهّان',
+    'ميكانيكي سيارات',
+    'عامل نظافة',
+    'حدّاد',
+    'مقاول بناء',
+    'مهندس ديكور',
+    'فني تكييف',
+    'نقّاش',
+    'مصفف شعر',
+    'خياط',
+    'حارس أمن',
+    'مربية أطفال',
+    'سائق خاص',
+    'طباخ',
+    'عامل صيانة',
+    'عامل حدائق',
+    'نقل عفش',
+    'فني أجهزة منزلية',
+    'تركيبات ألمنيوم',
+    'سباكة وصرف صحي'
+  ];
 
   // Dropdown 2
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState("");
   const dropdownRef2 = useRef(null);
+  const optionSubcategory = [
+    'غرفة وصالة',
+    'غرفتين وصالة', 
+    'ثلاث غرف وصالة', 
+    'بنتهاوس'
+  ];
+
 
   // Dropdown 3
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState("");
   const dropdownRef3 = useRef(null);
+  const optionSubService = [
+    'كشف تسربات المياه', 
+    'إصلاح مواسير تالفة', 
+    'تغيير خلاطات', 
+    'صيانة السيفون',
+    'تركيب مغسلة جديدة', 
+    'استبدال مغسلة قديمة', 
+    'توصيل صرف ومياه'
+  ];
 
   // Dropdown 4
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState("");
   const dropdownRef4 = useRef(null);
+  const optionServiceActivityLocation = [
+  'القاهرة',
+  'الجيزة',
+  'الإسكندرية',
+  'القليوبية',
+  'المنوفية',
+  'الشرقية',
+  'الدقهلية',
+  'الغربية',
+  'كفر الشيخ',
+  'البحيرة',
+  'دمياط',
+  'بورسعيد',
+  'الإسماعيلية',
+  'السويس',
+  'المنيا',
+  ];
 
   // close dropdowns when clicking outside
   useEffect(() => {
@@ -213,7 +267,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
             </div>
             {open1 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {options.map((option, index) => (
+                {optionMainClassification.map((option, index) => (
                   <li
                     key={index}
                     onClick={() => {
@@ -253,7 +307,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
             </div>
             {open2 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {options.map((option, index) => (
+                {optionSubcategory.map((option, index) => (
                   <li
                     key={index}
                     onClick={() => {
@@ -293,7 +347,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
             </div>
             {open3 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {options.map((option, index) => (
+                {optionSubService.map((option, index) => (
                   <li
                     key={index}
                     onClick={() => {
@@ -359,7 +413,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
             {/* Dropdown options */}
             {open4 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {options.map((option, index) => (
+                {optionServiceActivityLocation.map((option, index) => (
                   <li
                     key={index}
                     onClick={() => {
