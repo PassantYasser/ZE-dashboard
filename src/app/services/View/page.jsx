@@ -175,24 +175,26 @@ function ViewPage({open , handleClose }) {
           </section>
 
           {/* tabs */}
-          <section className="w-full mt-4  flex flex-col flex-1 overflow-hidden "> {/* ارتفاع تحدديه انتي */}
+          <section className="w-full mt-4  flex flex-col flex-1 overflow-hidden ">
             {/* Tabs */}
-            <div className="flex justify-around  border-b border-gray-300 bg-white ">
-              {tabs.map((tab) => (
-                <div
-                  key={tab.id}
-                  onClick={() => setOpenId(tab.id)}
-                  className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
-                    ${
-                      openId === tab.id
-                        ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                        : "text-[#697586] font-normal"
-                    }`}
-                >
-                  <img src={`/images/icons/${openId === tab.id ? tab.activeIcon : tab.defaultIcon}`} alt="" className="w-5 h-5" />
-                  <p>{tab.label}</p>
-                </div>
-              ))}
+            <div className=' px-6'>
+              <div className="flex justify-around border-b border-gray-300 bg-white  ">
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.id}
+                    onClick={() => setOpenId(tab.id)}
+                    className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer
+                      ${
+                        openId === tab.id
+                          ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                          : "text-[#697586] font-normal"
+                      }`}
+                  >
+                    <img src={`/images/icons/${openId === tab.id ? tab.activeIcon : tab.defaultIcon}`} alt="" className="w-5 h-5" />
+                    <p>{tab.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           
             {/* Scrollable content */}

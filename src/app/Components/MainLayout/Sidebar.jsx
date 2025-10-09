@@ -135,8 +135,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
 
           <li  className={`cursor-pointer py-4 px-2 rounded ${pathname.startsWith("/conversations") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Auth/Signup/Company/CompanyInformation/FirstCompanyInformation" onClick={() => setIsSidebarOpen(false)}>
-            {/* <Link href="/conversations" onClick={() => setIsSidebarOpen(false)}> */}
+            {/* <Link href="/Auth/Signup/Company/CompanyInformation/FirstCompanyInformation" onClick={() => setIsSidebarOpen(false)}> */}
+            <Link href="/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center'>
