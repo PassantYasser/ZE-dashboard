@@ -25,6 +25,20 @@ function DetailsPage({handleClose ,status}) {
         <p className='text-[#364152] text-xl font-medium '>
           خدمة صيانة سخانات المياه
         </p>
+        <section className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] mt-6 p-4'>
+          <div>
+            <p className='font-normal text-base mb-4'>
+              <span className='text-[#4B5565]'>التصنيف الفرعي : </span>
+              <span className='text-[#364152] '>خدمات منزلية</span>
+            </p>
+          </div>
+          <div>
+            <p className='font-normal text-base'>
+              <span className='text-[#4B5565]'>التصنيف الرئيسية :  </span>
+              <span className='text-[#364152] '>سباكة </span>
+            </p>
+          </div>
+        </section>
 
         {status==='refused'?(
           <div className='my-6 bg-[#FEE4E2] px-4 py-3 rounded-[10px]'>
