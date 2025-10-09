@@ -52,6 +52,39 @@ function EvaluationPage({handleClose}) {
       </div>
     </section>
 
+    
+    <section className='px-6 mb-4'>
+      <div className=' '>
+        <div className='flex justify-between '>
+          <div className=' flex mb-4 gap-3'>
+            <p className='bg-amber-400 w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2'>
+              ش
+            </p>
+            <div className='flex flex-col gap-3'>
+              <p className='text-[#364152] text-base font-medium'>شريف اكرامي</p>
+              <p className='text-[#697586] text-sm font-normal'>21/8/2025</p>
+            </div>
+          </div>
+          <div className='flex gap-1 items-center'>
+              <img src="images/icons/star.svg" alt="" className='w-4 h-4  mt-0.5' />
+            <p className='text-[#FDB022] text-sm font-medium '>4.2</p>
+          </div>
+      
+        </div>
+        <div className=' '>
+          <p className="mb-4 text-[#4B5565] text-sm font-normal">
+            {expanded ? text : shortText + "... "}
+            <span
+              onClick={() => setExpanded(!expanded)}
+              className="text-[#4D0CE7] text-sm font-normal cursor-pointer"
+            >
+              {expanded ? t("Show less") : t("Read more")}
+            </span>
+          </p>
+        </div>      
+      </div>
+    </section>
+
 
   <div className="w-full h-px bg-[#CDD5DF] "></div>
   

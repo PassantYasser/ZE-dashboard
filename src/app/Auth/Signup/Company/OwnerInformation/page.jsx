@@ -86,12 +86,15 @@ useEffect(() => {
     const [selected1, setSelected1] = useState("");
     const dropdownRef1 = useRef(null);
     const NationalityOptions = [
-      t("Design"),
-      t("Development"),
-      t("Marketing"),
-      t("Consulting"),
-      t("Maing"),
-      t("sulting"),
+    'مصري',
+    'سعودي',
+    'إماراتي',
+    'كويتي',
+    'قطري',
+    'بحريني',
+    'عُماني',
+    'أردني',
+    'فلسطيني',
     ]
 
     // Gender 
@@ -216,8 +219,8 @@ useEffect(() => {
             placeholder="000000000"
             containerClass="!w-full"
             inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
-            buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-0"
-            dropdownClass="!text-[#364152] !border "
+            buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-r-0"
+            dropdownClass="!absolute !left-0 !top-full !mt-1 !z-50 !bg-white !border !border-[#C8C8C8] !rounded-md !shadow-lg"
             value={formData?.phone}  
             onChange={(value, country, e, formattedValue) => {
               setFormData({
