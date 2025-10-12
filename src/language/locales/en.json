@@ -227,6 +227,17 @@
   "A comprehensive view of all your requests and reservations":"A comprehensive view of all your requests and reservations",
   "Extract":"Extract",
   "Search by order number":"Search by order number",
+
+  "order number":"order number",
+  "Customer name":"Customer name",
+  "the date":"the date",
+  "The worker":"The worker",
+  "Status":"Status",
+  "the price":"the price",
+  "Service":"Service",
+  "in_progress":"in_progress",
+  "Complete":"Complete",
+  "rejected":"rejected",
   
   
 

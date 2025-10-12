@@ -227,7 +227,23 @@
   "A comprehensive view of all your requests and reservations":"نظرة شاملة على جميع الطلبات والحجوزات الخاصة بك",
   "Extract":"استخراج",
   "Search by order number":"البحث برقم الطلب",
-  
+
+  "order number":"رقم الطلب",
+  "Customer name":"اسم العميل",
+  "the date":"التاريخ",
+  "The worker":"العامل",
+  "Status":"الحالة",
+  "the price":"السعر",
+  "Service":"الخدمه",
+  "in_progress":"قيد التنفيذ",
+  "Complete":"مكتملة",
+  "rejected":"مرفوضه ",
+
+
+
+
+
+
 
 
   "":"" 

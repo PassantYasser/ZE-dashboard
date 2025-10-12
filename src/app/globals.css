@@ -47,6 +47,11 @@ font-size: 50px;
   width: 34rem;
 }
 
+.TableHead{
+      font-family: 0;
+
+}
+
 
 /* 📱 Tablet */
 @media(max-width: 1339px) {
@@ -88,3 +93,5 @@ font-size: 50px;
   }
   
 }
+
+
