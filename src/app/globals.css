@@ -5,9 +5,11 @@
 @theme {
   --breakpoint-lg768: 768px;
   --breakpoint-lg1: 1340px;
-  --breakpoint-xl1440: 1440px;  
-  /* --spacing:0.390625vh; */
+  --breakpoint-xl1440: 1440px;
+
+  --color-primary: #C69815;
 }
+/* var(--color-primary) */
 
 :root {
   font-family: "Readex Pro";
@@ -17,6 +19,8 @@
 body {
     font-family: "Readex Pro";
 }
+
+
 
 input[type="time"]::-webkit-calendar-picker-indicator {
 width: 24px;

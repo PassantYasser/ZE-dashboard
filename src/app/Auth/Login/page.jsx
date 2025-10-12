@@ -130,7 +130,7 @@ function LoginPage() {
 
             </div>
 
-            <button type="submit" className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-4 mb-12">
+            <button type="submit" className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-4 mb-12 cursor-pointer">
               {t("Log in")}
             </button>
             

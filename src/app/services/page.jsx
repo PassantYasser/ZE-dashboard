@@ -34,7 +34,7 @@ function ServicesPage() {
           </div>
 
           <div className="flex justify-between">
-              <SearchForm />
+              <SearchForm placeholderKey="Search by worker name, job title, or phone number"/>
             <div className="lg1:flex lg1:gap-4 gap-6">
               <FilterBtn onClick={handleClickOpen} />
               <AddBtn
