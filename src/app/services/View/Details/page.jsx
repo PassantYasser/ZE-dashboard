@@ -63,16 +63,16 @@ function DetailsPage({handleClose ,status}) {
 
         {/* Description */}
         <section className='my-6'>
-          <span className='text-[#4B5565] text-base font-medium'>{t('Service Description')}</span>
-          <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-1.5 rounded-[3px]'>
+          <span className='text-[#364152] text-base font-medium'>{t('Service Description')}</span>
+          <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
             حافظ على منزلك من مشاكل السباكة المزعجة  نقدم حلولاً شاملة لجميع أعمال السباكة باستخدام أحدث المعدات وخبراء معتمدين. نستخدم مواد عالية الجودة
           </p>
         </section>
 
         {/* status */}
-        <section className='flex gap-4 text-[#4B5565] text-base font-medium mb-6 '>
+        <section className='flex gap-4 text-[#4B5565] text-base font-medium mb-4 '>
           <div>
-            <span>{t('Service status')}</span>
+            <span className='text-[#364152]'>{t('Service status')}</span>
             <span>(نشط)</span>
           </div>
           <div
@@ -127,7 +127,7 @@ function DetailsPage({handleClose ,status}) {
         <section className='mb-4 '>
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/date-time.svg" alt="" />
-            <p>{t('Available times and days')}</p>
+            <p className='text-[#364152]'>{t('Available times and days')}</p>
           </div>
           <div className='flex justify-between shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
             <p className='text-[#697586] text-sm font-normal'>الثلاثاء </p>
@@ -139,7 +139,7 @@ function DetailsPage({handleClose ,status}) {
         <section >
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/Available areas.svg" alt=""/>
-              <span className='text-[#697586] text-base font-normal'>{t('Available areas')}</span>  
+              <span className='text-[#364152] text-base font-normal'>{t('Available areas')}</span>  
           </div>
         <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
             <div className='bg-[#EDE7FD] border border-[#E2E2E2] h-8.5 w-fit px-3 py-0.5 rounded-[35px] mb-6'>

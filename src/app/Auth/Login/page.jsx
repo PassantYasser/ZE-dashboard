@@ -72,7 +72,7 @@ function LoginPage() {
                 className="text-[#364152] fontSizeA font-normal"
                 htmlFor="email"
               >
-                {t("Email")}/{t("phone number")}
+              {t("phone number")}/{t("Email")}
               </label>
               <input
                 className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm"

@@ -81,7 +81,7 @@ function ServiceCard() {
   return (
     <>
 
-      <section className='bg-[#fff] shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-md'>
+      <section className='bg-[#fff] shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px]'>
         <div className="relative mb-5">
           <img
             src="/images/Service Photo.svg"
@@ -97,6 +97,7 @@ function ServiceCard() {
         <button onClick={handleClickOpen}  className='text-[#364152] text-base font-medium cursor-pointer'>
           خدمة صيانة سخانات المياه
         </button>
+        
         <div className='mt-4'>
           {/* price */}
           <div className='flex gap-1.5'>
