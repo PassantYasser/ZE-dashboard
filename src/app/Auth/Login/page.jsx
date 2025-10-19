@@ -35,7 +35,7 @@ function LoginPage() {
   // after login 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/dashboard"); 
+      router.push("/Pages/dashboard"); 
     }
   }, [isAuthenticated, router]);
 

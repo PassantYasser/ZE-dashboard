@@ -1,8 +1,9 @@
 import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
+import Cookies from "js-cookie";
 
-// login form (email and password)
+// // login form (email and password)
 export const loginThunk = createAsyncThunk('auth/loginThunk',
   async(loginData , thunkAPI)=>{
     try{
@@ -17,6 +18,7 @@ export const loginThunk = createAsyncThunk('auth/loginThunk',
     }
   }
 );
+
 
 // get current login user in navbar
 export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk',
