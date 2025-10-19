@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "@/redux/slice/Auth/AuthSlice";
 import { useRouter } from "next/navigation";
 import SecondSection from "@/app/Components/login/SecondSection";
+
+
+
 function LoginPage() {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);

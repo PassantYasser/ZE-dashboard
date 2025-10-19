@@ -3,18 +3,46 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
 
-// // login form (email and password)
-export const loginThunk = createAsyncThunk('auth/loginThunk',
-  async(loginData , thunkAPI)=>{
-    try{
-      const data = await login(loginData)
-      localStorage.setItem('token', data.access_token)
-      localStorage.setItem('provider_id', data.provider.id);
-      return data
-    }catch(error){
+// // // login form (email and password)
+// export const loginThunk = createAsyncThunk('auth/loginThunk',
+//   async(loginData , thunkAPI)=>{
+//     try{
+//       const data = await login(loginData)
+//       localStorage.setItem('token', data.access_token)
+//       localStorage.setItem('provider_id', data.provider.id);
+//       return data
+//     }catch(error){
+//       return thunkAPI.rejectWithValue(
+//         error.response.data.message || 'Login failed'
+//       )
+//     }
+//   }
+// );
+export const loginThunk = createAsyncThunk(
+  "auth/loginThunk",
+  async (loginData, thunkAPI) => {
+    try {
+      const data = await login(loginData);
+
+      // 🟢 Save token in both localStorage and cookies
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("provider_id", data.provider.id);
+
+      // Save token in cookies (readable by Next middleware)
+      Cookies.set("token", data.access_token, {
+        expires: 7, // مدة 7 أيام
+        path: "/", // متاحة في كل المسارات
+        secure: true, // يفضل لما تكون على https
+        sameSite: "strict",
+      });
+console.log("After Login -> token:", Cookies.get("token"));
+
+
+      return data;
+    } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response.data.message || 'Login failed'
-      )
+        error.response?.data?.message || "Login failed"
+      );
     }
   }
 );
@@ -236,6 +264,8 @@ const authSlice = createSlice({
     logout: (state) => {
       localStorage.removeItem("token");
       localStorage.removeItem("provider_id");
+      Cookies.remove("token");
+
       state.user = null;
       state.isAuthenticated = false;
       state.loading = false;
