@@ -238,6 +238,12 @@
   "in_progress":"in_progress",
   "Complete":"Complete",
   "rejected":"rejected",
+
+  "Complete your profile":"Complete your profile",
+  "To add your service, please complete your profile first.":"To add your service, please complete your profile first.",
+  "Your account is not activated yet!":"Your account is not activated yet!",
+  "Please complete your profile and wait for notification of account activation.":"Please complete your profile and wait for notification of account activation.",
+  
   
   
 
