@@ -1,54 +1,57 @@
-"use client"; //  👈Client Component ده يخلي المكون 
-import React, { useEffect, useState } from 'react'
-import MainLayout from './Components/MainLayout/MainLayout';
-import { useTranslation } from 'react-i18next';
+"use client";
+import React, { useState, useLayoutEffect } from "react";
+import MainLayout from "./Components/MainLayout/MainLayout";
+import { useTranslation } from "react-i18next";
 import i18n from "../language/i18n";
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from "next/navigation";
 
 function Homepage({ children }) {
-    const [open, setOpen] = useState(true);
-  
-      const { t } = useTranslation();
-  
-    // Language change handler
-    const handleLangChange = (e) => {
-      const newLang = e.target.value;
-      i18n.changeLanguage(newLang);
-      document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
-    };
-
+  const [open, setOpen] = useState(true);
+  const [checkedAuth, setCheckedAuth] = useState(false); // 🟢 controls render
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
+  // 🚀 Runs before UI paint (fixes the flash)
+  useLayoutEffect(() => {
     const token = localStorage.getItem("token");
+
     if (!token && !pathname.startsWith("/Auth")) {
-      router.push("/Auth/Login");
+      router.replace("/Auth/Login");
+      return;
     }
+
     if (token && pathname.startsWith("/Auth")) {
-      router.push("/");
+      router.replace("/");
+      return;
     }
+
+    // if everything's okay, allow render
+    setCheckedAuth(true);
   }, [pathname, router]);
 
-  // لو في صفحة Auth متعرضش الـ Layout
+  // 🧩 Handle language change
+  const handleLangChange = (e) => {
+    const newLang = e.target.value;
+    i18n.changeLanguage(newLang);
+    document.documentElement.setAttribute("dir", newLang === "ar" ? "rtl" : "ltr");
+  };
+
+  // لو لسه بنفحص التوكن مفيش UI يظهر
+  if (!checkedAuth && !pathname.startsWith("/Auth")) {
+    return null;
+  }
+
+  // لو صفحة Auth متعرضش الـ Layout
   if (pathname.startsWith("/Auth")) {
     return <>{children}</>;
   }
 
   return (
     <>
-    {/* with navbar and sidebar */}
-      <MainLayout> 
-        { children }
-      </MainLayout>
-
-      {/* without navbar and sidebar */}
-
-
-      
-
+      <MainLayout>{children}</MainLayout>
     </>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;
