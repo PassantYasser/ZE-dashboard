@@ -1,5 +1,6 @@
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
-import MainLayout from '../Components/MainLayout/MainLayout'
+
 
 function DashboardPage() {
   return (

@@ -52,12 +52,12 @@
 // export default AddPage
 "use client";
 import { useTranslation } from "react-i18next";
-import MainLayout from "../../Components/MainLayout/MainLayout";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
+import MainLayout from "@/app/Components/MainLayout/MainLayout";
 
 function AddPage() {
   const { t } = useTranslation();

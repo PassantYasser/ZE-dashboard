@@ -1,9 +1,10 @@
 "use client"
+import ExtractBtn from '@/app/Components/Buttons/ExtractBtn'
+import FilterBtn from '@/app/Components/Buttons/FilterBtn'
+import SearchForm from '@/app/Components/Forms/SearchForm'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import ExtractBtn from '../Components/Buttons/ExtractBtn'
-import SearchForm from '../Components/Forms/SearchForm'
-import FilterBtn from '../Components/Buttons/FilterBtn'
+
 
 function NavRequest() {
   const{t}= useTranslation()

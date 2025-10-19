@@ -1,12 +1,13 @@
 "use client"
 import React, { useState } from 'react'
-import MainLayout from '../Components/MainLayout/MainLayout'
 import { useTranslation } from 'react-i18next'
-import SearchForm from '../Components/Forms/SearchForm'
-import FilterBtn from '../Components/Buttons/FilterBtn'
-import AddBtn from '../Components/Buttons/AddBtn'
-import ServiceCard from '../Components/Cards/ServiceCard'
+
 import FiltersPage from './Filters/page'
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
+import AddBtn from '@/app/Components/Buttons/AddBtn'
+import SearchForm from '@/app/Components/Forms/SearchForm'
+import FilterBtn from '@/app/Components/Buttons/FilterBtn'
+import ServiceCard from '@/app/Components/Cards/ServiceCard'
 
 
 function ServicesPage() {
@@ -28,7 +29,7 @@ function ServicesPage() {
           <div className='lg1:hidden flex justify-between mb-8 '>
             <p className='text-[#000] text-2xl font-medium flex items-center'>{t('Services')}</p>
               <AddBtn
-                href="/services/Add"
+                href="/Pages/services/Add"
                 label="Add a sub-service"
               />
           </div>
@@ -38,7 +39,7 @@ function ServicesPage() {
             <div className="lg1:flex lg1:gap-4 gap-6">
               <FilterBtn onClick={handleClickOpen} />
               <AddBtn
-                href="/services/Add"
+                href="/Pages/services/Add"
                 label="Add a sub-service"
                 className="hidden lg1:flex"
               />

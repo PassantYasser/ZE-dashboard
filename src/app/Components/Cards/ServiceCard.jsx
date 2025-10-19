@@ -1,5 +1,6 @@
 "use client"
-import ViewPage from '@/app/services/View/page';
+import ViewPage from '@/app/Pages/services/View/page';
+// import ViewPage from '@/app/services/View/page';
 import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
