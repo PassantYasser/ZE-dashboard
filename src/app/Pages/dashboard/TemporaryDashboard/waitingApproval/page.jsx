@@ -6,7 +6,7 @@ function WaitingApprovalPage() {
     const {t} = useTranslation();
   
   return (
-    <>
+
         <>
       <div>
         <section className='flex justify-center mb-[11.11vh]'>
@@ -32,7 +32,7 @@ function WaitingApprovalPage() {
         </section>
       </div>
 
-    </>
+  
     
     </>
   )
