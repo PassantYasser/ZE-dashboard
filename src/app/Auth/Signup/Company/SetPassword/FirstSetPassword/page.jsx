@@ -94,18 +94,25 @@ function FirstSetPasswordPage({  onPrev  , nextSub ,formData , handleChange , ha
         </span>
       </div>
       {isFocused && (
-        <ul className="mb-6 space-y-1 text-sm">
-          <li className={rules.uppercase ? "text-green-600" : "text-[#697586]"}>
-            {t("Use at least one uppercase letter")}
+        <ul className={"mb-6 space-y-1 text-sm "}>
+          <li className={rules.uppercase ? "text-green-600 list-none flex gap-2" : "text-[#697586] list-disc mx-5"}>
+            <span>{rules.uppercase && <img src='/images/icons/true.svg' />}</span>
+            <span>{t("Use at least one uppercase letter")}</span>
           </li>
-          <li className={rules.symbol ? "text-green-600" : "text-[#697586]"}>
-            {t("Use at least one symbol")}
+
+          <li className={rules.symbol ? "text-green-600 list-none flex gap-2" : "text-[#697586] list-disc mx-5"}>
+            <span>{rules.symbol && <img src='/images/icons/true.svg' />}</span>
+            <span>{t("Use at least one symbol")}</span>
           </li>
-          <li className={rules.number ? "text-green-600" : "text-[#697586]"}>
-            {t("Use at least one number")}
+
+          <li className={rules.number ? "text-green-600 list-none flex gap-2" : "text-[#697586] list-disc mx-5"}>
+            <span>{rules.number && <img src='/images/icons/true.svg' />}</span>
+            <span>{t("Use at least one number")}</span>
           </li>
-          <li className={rules.length ? "text-green-600" : "text-[#697586]"}>
-            {t("Your password must be at least 8 characters long")}
+
+          <li className={rules.length ? "text-green-600 list-none flex gap-2" : "text-[#697586] list-disc mx-5"}>
+            <span>{rules.length && <img src='/images/icons/true.svg' />}</span>
+            <span>{t("Your password must be at least 8 characters long")}</span>      
           </li>
         </ul>
       )}

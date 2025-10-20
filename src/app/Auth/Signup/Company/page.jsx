@@ -145,8 +145,8 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
             </div>
             
             {/*  */}
-            <div dir="rtl" className="w-full max-w-2xl mx-auto px-6">
-              <div className="relative flex items-center justify-between w-full max-w-4xl mx-auto mb-6">
+            <div dir="rtl" className="w-full ">
+              <div className="relative flex items-center justify-between w-full mx-auto mb-6">
               {steps.map((s, index) => {
               const isActive = index <= currentStep;
               return (
@@ -198,7 +198,7 @@ import { signupThunk } from '@/redux/slice/Auth/AuthSlice';
               })}
 
               </div>
-              <div className="mt-10">{renderStepContent()}</div>
+              <div className="mt-10 ">{renderStepContent()}</div>
             </div>
     
           </section>

@@ -11,25 +11,25 @@ import MapDialog from "./MapDialog";
 function FirstCompanyInformationPage({nextSub , formData , setFormData,handleChange,handleSubmit}) {
   const { t } = useTranslation();
   // const [open, setOpen] = useState(false);
-  const [openn, setOpenn] = useState(false);
-  const [selected, setSelected] = useState("");
-  const dropdownRef = useRef(null);
-  const options = [
-    t("Design"),
-    t("Development"),
-    t("Marketing"),
-    t("Consulting"),
-  ];
-  // close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpenn(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  // const [openn, setOpenn] = useState(false);
+  // const [selected, setSelected] = useState("");
+  // const dropdownRef = useRef(null);
+  // const options = [
+  //   t("Design"),
+  //   t("Development"),
+  //   t("Marketing"),
+  //   t("Consulting"),
+  // ];
+  // // close dropdown when clicking outside
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setOpenn(false);
+  //     }
+  //   };
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
 
   const [open, setOpen] =useState(false);
@@ -81,46 +81,7 @@ function FirstCompanyInformationPage({nextSub , formData , setFormData,handleCha
           </div>
 
 
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Select service activity")}
-            </label>
-            <div className="relative w-full mb-6" ref={dropdownRef}>
-            <div
-              onClick={() => setOpenn(!openn)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-            >
-              <span className={selected ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected || t("Select service activity")}
-              </span>
-            
-              <span className="ml-2">
-                {openn ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
-              </span>
-            </div>
-            
-              {openn && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10">
-                  {options.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected(option);
-                        setOpenn(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
+        
 
           <div className="flex flex-col">
             <label className="text-[#364152] text-base font-normal mb-3">
