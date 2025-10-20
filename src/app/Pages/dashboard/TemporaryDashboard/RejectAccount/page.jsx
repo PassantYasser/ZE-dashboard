@@ -12,7 +12,7 @@ function RejectAccountPage() {
     <>
         <div>
         <section className='flex justify-center mb-[11.11vh]'>
-          <button className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
+          <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
             <div className=' flex items-center'>
               <img src="/images/rejectClose.svg" alt="" className='w-12 h-12 ' />
             </div>
@@ -23,7 +23,7 @@ function RejectAccountPage() {
             </div>
             
           
-          </button>
+          </div>
         </section>
 
 

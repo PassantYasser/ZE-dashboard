@@ -10,7 +10,7 @@ function WaitingApprovalPage() {
         <>
       <div>
         <section className='flex justify-center mb-[11.11vh]'>
-          <button className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-5'>
+          <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-5'>
             <div className='w-12 h-12 '>
               <img src="/images/hourglass.svg" alt="" className='' />
             </div>
@@ -20,7 +20,7 @@ function WaitingApprovalPage() {
             </div>
           
           
-          </button>
+          </div>
         </section>
 
 
