@@ -128,6 +128,14 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   'المنيا',
   ];
 
+  // Dropdown 5
+  const [open5, setOpen5] = useState(false);
+  const [selected5, setSelected5] = useState("");
+  const dropdownRef5 = useRef(null);
+  const optionAverageLength= [
+  '1','2','3'
+  ];
+
   // close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -135,6 +143,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
       if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
       if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
       if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
+      if (dropdownRef5.current && !dropdownRef5.current.contains(event.target)) setOpen5(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -242,7 +251,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
     </div>
 
     <form className="mt-8">
-      <div className="grid lg768:grid-cols-2 lg1:grid-cols-2 gap-6">
+      <section className="grid lg768:grid-cols-2 lg1:grid-cols-2 gap-6">
         
         {/* Main classification 1 */}
         <div className="flex flex-col">
@@ -329,7 +338,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Sub-service name")}
           </label>
-          <div className="relative w-full mb-6" ref={dropdownRef3}>
+          <div className="relative w-full " ref={dropdownRef3}>
             <div
               onClick={() => setOpen3(!open3)}
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
@@ -364,14 +373,12 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           </div>
         </div>
     
-
         {/* Service Activity Location 4 */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Service Activity Location")}
           </label>
-
-          <div className="relative w-full mb-6" ref={dropdownRef4}>
+          <div className="relative w-full " ref={dropdownRef4}>
             <div
               onClick={() => setOpen4(!open4)}
               className="  p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex  items-center flex-wrap gap-2"
@@ -432,10 +439,48 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           </div>
         </div>
 
+          {/* Average length of service 5 */}
+        <div className="flex flex-col mb-6">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Average length of service")}
+          </label>
+          <div className="relative w-full " ref={dropdownRef5}>
+            <div
+              onClick={() => setOpen5(!open5)}
+              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            >
+              <span className={selected5 ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                {selected5 || t("Average length of service")}
+              </span>
+              <span className="ml-2">
+                {open5 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
+            </div>
+            {open5 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
+                {optionAverageLength.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected5(option);
+                      setOpen5(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
 
+      </section>
 
-        
-      </div>
         {/* Service Description */}
       <div className="flex flex-col">
         <label className="text-[#364152] text-base font-normal mb-3">
