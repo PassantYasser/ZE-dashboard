@@ -273,6 +273,16 @@ function SchedulePage({ handleNext, handlePrev }) {
     setPeriods((prev) => prev.filter((_, i) => i !== index));
   };
 
+   // ✅ Get border color per day
+  const getDaystyleColor = (day) => {
+    const saved = sessionStorage.getItem(`timePeriods_${day.id}`);
+    const hasPeriods = saved && JSON.parse(saved).length > 0;
+
+    if (selectedDay.id === day.id) return "border-[ var(--color-primary) ]"; // selected
+    if (hasPeriods) return "border-[#CDD5DF] bg-[#EDE7FD]"; // has time
+    return "border-[#CDD5DF]"; // default
+  };
+
   const formatTime = (time) => {
     if (!time) return "";
     const [rawTime, modifier] = time.split(" ");
@@ -300,14 +310,16 @@ function SchedulePage({ handleNext, handlePrev }) {
 
         <div className="flex gap-5">
           {days.map((day) => (
-            <button
+           <button
               key={day.id}
-              onClick={() => handleSelectDay(day)}
-              className={`w-[141px] h-15 flex items-center justify-center border rounded-[3px] shadow-sm transition ${
-                selectedDay.id === day.id
-                  ? "bg-[#F9F5E8] border-[var(--color-primary)] text-[var(--color-primary)]"
-                  : "border-[#CDD5DF] text-[#9AA4B2]"
-              }`}
+              onClick={() => setSelectedDay(day)}
+              className={`w-[141px] h-15 flex items-center justify-center border rounded-[3px] shadow-sm transition text-base font-medium 
+                ${getDaystyleColor(day)} 
+                ${
+                  selectedDay.id === day.id
+                    ? "bg-[#F9F5E8] text-[var(--color-primary)]"
+                    : "text-[#9AA4B2]"
+                }`}
             >
               {t(day.name)}
             </button>
@@ -366,26 +378,7 @@ function SchedulePage({ handleNext, handlePrev }) {
           </button>
         </div>
 
-        {/* Added Periods */}
-        {/* <div className="grid grid-cols-3  gap-5">
-          {periods.map((period, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center border border-[#9AA4B2] rounded-[3px] p-3"
-            >
-              <p className="text-[#4E4E4E] text-sm font-normal">
-                <span>{formatTime(period.from)}</span> —{" "}
-                <span>{formatTime(period.to)}</span>  
-              </p>
-              <button
-                onClick={() => handleRemove(index)}
-                className=" cursor-pointer"
-              >
-                <img src="/images/icons/delete-darkRed.svg" alt="" />
-              </button>
-            </div>
-          ))}
-        </div> */}
+        
       </section>
 
 
