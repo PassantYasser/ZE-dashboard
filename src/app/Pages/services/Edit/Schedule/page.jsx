@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 function SchedulePage({handleNext , handlePrev}) {
   const { t } = useTranslation()
+  
   const days = [
     "Saturday",
     "Sunday",
@@ -13,43 +14,18 @@ function SchedulePage({handleNext , handlePrev}) {
     "Thursday",
     "Friday",
   ];
+  const [selectedDay, setSelectedDay] = useState(null); // one day only
 
-  const [selectedDays, setSelectedDays] = useState([])
-  // toggle one day
-  const toggleDay = (day) => {
-    setSelectedDays((prev) =>
-      prev.includes(day)
-        ? prev.filter((d) => d !== day)
-        : [...prev, day]
-    )
-  }
-  // toggle all days
-  const toggleAll = (e) => {
-    if (e.target.checked) {
-      setSelectedDays(days)
-    } else {
-      setSelectedDays([])
-    }
-  }
-  // check if all selected
-  const allSelected = selectedDays.length === days.length
+  const handleSelectDay = (day) => {
+    setSelectedDay((prev) => (prev === day ? null : day));
+  };
 
-  
   return (
   <>
       <section className='mb-12'>
         {/* title */}
         <div className="flex justify-between mb-6">
           <p className="text-[#4B5565] text-base font-medium">{t("days")}</p>
-          <div className="flex gap-2 items-center">
-            <input
-              type="checkbox"
-              className="w-6 h-6 border border-[#CDD5DF]"
-              onChange={toggleAll}
-              checked={allSelected}
-            />
-            <p className="text-[#4B5565] text-base font-normal">{t("All days")}</p>
-          </div>
         </div>
     
         {/* box of days */}
@@ -57,11 +33,11 @@ function SchedulePage({handleNext , handlePrev}) {
           {days.map((day) => (
             <button
               key={day}
-              onClick={() => toggleDay(day)}
+              onClick={() => handleSelectDay(day)}
               className={`w-[141px] h-15 lg1:w-35 lg1:h-17 flex items-center justify-center border rounded-[3px] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] transition
                 ${
-                  selectedDays.includes(day)
-                    ? "bg-[#F9F5E8] border-[#C69815] text-[#C69815]"
+                  selectedDay === day
+                    ? "bg-[#F9F5E8] border-[var(--color-primary)] text-[var(--color-primary)]"
                     : " border-[#CDD5DF] text-[#9AA4B2]"
                 }`}
             >
