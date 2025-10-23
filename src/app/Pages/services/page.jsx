@@ -1,29 +1,25 @@
 "use client";
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-export const dynamicParams = true;
 
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import nextDynamic from "next/dynamic";
-const FiltersPage = nextDynamic(() => import("./Filters/page"), { ssr: false });
-
+import dynamic from "next/dynamic";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import AddBtn from "@/app/Components/Buttons/AddBtn";
 import SearchForm from "@/app/Components/Forms/SearchForm";
 import FilterBtn from "@/app/Components/Buttons/FilterBtn";
 import ServiceCard from "@/app/Components/Cards/ServiceCard";
 
+// dynamically import FiltersPage with no SSR
+const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
+
 function ServicesPage() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  // this ensures everything only renders on the client
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
+  useEffect(() => setIsClient(true), []);
   if (!isClient) return null;
 
   const handleClickOpen = () => setOpen(true);
