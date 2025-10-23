@@ -1,11 +1,10 @@
 "use client";
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-// 👇 Rename this import to avoid naming conflict
+// ✅ Renamed import to avoid collision with keyword
 import nextDynamic from "next/dynamic";
 const FiltersPage = nextDynamic(() => import("./Filters/page"), { ssr: false });
 
@@ -21,9 +20,6 @@ function ServicesPage() {
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // ✅ Prevent SSR reference errors
-  if (typeof window === "undefined") return null;
 
   return (
     <MainLayout>
