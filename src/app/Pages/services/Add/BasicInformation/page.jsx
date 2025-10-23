@@ -1,6 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DigitalClock } from '@mui/x-date-pickers/DigitalClock';
+import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigitalClock';
+import dayjs from 'dayjs';
 
 function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
@@ -130,12 +136,15 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
 
   // Dropdown 5
   const [open5, setOpen5] = useState(false);
-  const [selected5, setSelected5] = useState("");
-  const dropdownRef5 = useRef(null);
-  const optionAverageLength= [
-  '1','2','3'
-  ];
+  const [tempTime, setTempTime] = useState(null); // temp selected value
+  const [confirmedTime, setConfirmedTime] = useState(null); // confirmed by "OK" button
 
+  const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
+
+  const handleOkClick = () => {
+    setConfirmedTime(tempTime); // confirm time
+    setOpen5(false); // close clock
+  };
   // close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -143,7 +152,6 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
       if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
       if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
       if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
-      if (dropdownRef5.current && !dropdownRef5.current.contains(event.target)) setOpen5(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -439,45 +447,65 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           </div>
         </div>
 
-          {/* Average length of service 5 */}
+        {/* Average length of service 5 */}
         <div className="flex flex-col mb-6">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Average length of service")}
           </label>
-          <div className="relative w-full " ref={dropdownRef5}>
-            <div
-              onClick={() => setOpen5(!open5)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-            >
-              <span className={selected5 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected5 || t("Average length of service")}
-              </span>
-              <span className="ml-2">
-                {open5 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
-              </span>
-            </div>
-            {open5 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {optionAverageLength.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setSelected5(option);
-                      setOpen5(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
-            )}
+
+          {/* Clickable box */}
+          <div
+            onClick={() => setOpen5(!open5)}
+            className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+          >
+            <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
+              {formattedTime || t("Average length of service")}
+            </span>
+            <span className="ml-2">
+              <img src="/images/icons/timepicker.svg" alt="" />
+            </span>
           </div>
+
+          {/* Clock Picker */}
+          {open5 && (
+            <div className=" flex justify-start">
+              <div className=" w-[70%]  mt-2  ">
+                <div className="w-full bg-[#eef2f6]">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div className="w-full border border-[#C8C8C8] border-l-0 border-b-0">
+                      <MultiSectionDigitalClock
+                        value={tempTime}
+                        onChange={(newValue) => setTempTime(newValue)}
+                        ampm={false}
+                        timeSteps={{ minutes: 15 }}
+                        sx={{
+                          width: "100%",                   
+                          "& .MuiMultiSectionDigitalClock-root": {
+                            width: "100%",                   
+                          },
+                          "& .MuiMultiSectionDigitalClockSection-root": {
+                            flex: 1,                        
+                          },
+                        }}
+                      />
+                    </div>
+                  </LocalizationProvider>
+                  {/* OK button */}
+                  <div className="flex justify-start  p-3 border-t-0 border border-[#C8C8C8]">
+                    <button
+                      onClick={handleOkClick}
+                      className="bg-[var(--color-primary)] text-white  px-4 py-1 rounded-[3px] w-[50%] cursor-pointer"
+                    >
+                      اضافه
+                    </button>
+                  </div>
+              </div>
+              
+              </div>
+            </div>
+          )}
         </div>
+
 
       </section>
 

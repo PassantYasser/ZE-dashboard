@@ -20,6 +20,10 @@ body {
     font-family: "Readex Pro";
 }
 
+.Mui-selected {
+  background-color:  var(--color-primary) !important;
+  color: white !important;
+}
 
 
 input[type="time"]::-webkit-calendar-picker-indicator {
