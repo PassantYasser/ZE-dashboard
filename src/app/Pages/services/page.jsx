@@ -1,10 +1,11 @@
 "use client";
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const dynamicParams = true;
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-// ✅ Renamed import to avoid collision with keyword
 import nextDynamic from "next/dynamic";
 const FiltersPage = nextDynamic(() => import("./Filters/page"), { ssr: false });
 
@@ -17,6 +18,13 @@ import ServiceCard from "@/app/Components/Cards/ServiceCard";
 function ServicesPage() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
