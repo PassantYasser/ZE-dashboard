@@ -19,28 +19,36 @@ function SchedulePage({ handleNext, handlePrev }) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [periods, setPeriods] = useState([]);
+  const [mounted, setMounted] = useState(false); // ✅ fix for SSR safety
+
+  // ✅ Only run after the component mounts (client-side)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // 🔹 load saved periods for the selected day
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedPeriods = sessionStorage.getItem(`timePeriods_${selectedDay.id}`);
+    if (mounted) {
+      const savedPeriods = sessionStorage.getItem(
+        `timePeriods_${selectedDay.id}`
+      );
       if (savedPeriods) {
         setPeriods(JSON.parse(savedPeriods));
       } else {
         setPeriods([]);
       }
     }
-  }, [selectedDay]);
+  }, [selectedDay, mounted]);
 
   // 🔹 save whenever periods change
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (mounted) {
       sessionStorage.setItem(
         `timePeriods_${selectedDay.id}`,
         JSON.stringify(periods)
       );
     }
-  }, [periods, selectedDay]);
+  }, [periods, selectedDay, mounted]);
 
   const handleAddPeriod = () => {
     if (from && to) {
@@ -55,9 +63,9 @@ function SchedulePage({ handleNext, handlePrev }) {
     setPeriods((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // ✅ Safely handle sessionStorage here too
+  // ✅ Avoid calling sessionStorage during SSR
   const getDaystyleColor = (day) => {
-    if (typeof window === "undefined") return "border-[#CDD5DF]"; // SSR-safe default
+    if (!mounted) return "border-[#CDD5DF]"; // default for SSR
 
     const saved = sessionStorage.getItem(`timePeriods_${day.id}`);
     const hasPeriods = saved && JSON.parse(saved).length > 0;
@@ -82,6 +90,11 @@ function SchedulePage({ handleNext, handlePrev }) {
 
     return `${hours.toString().padStart(2, "0")}:${minutes}`;
   };
+
+  if (!mounted) {
+    // ✅ Prevent rendering until after mount
+    return null;
+  }
 
   return (
     <>
