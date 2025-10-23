@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import Dialog from '@mui/material/Dialog';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from "next/navigation";
-import DetailsPage from './Details/page';
-import AnalysisPage from './Analysis/page';
-import EvaluationPage from './Evaluation/page';
+import DetailsPage from '../../Pages/services/View/Details/page';
+import AnalysisPage from '../../Pages/services/View/Analysis/page';
+import EvaluationPage from '../../Pages/services/View/Evaluation/page';
 import { icon } from 'leaflet';
 
 
