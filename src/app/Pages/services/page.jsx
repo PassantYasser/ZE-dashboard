@@ -5,8 +5,9 @@ export const revalidate = 0;
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import dynamic from "next/dynamic";
-const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
+// 👇 Rename this import to avoid naming conflict
+import nextDynamic from "next/dynamic";
+const FiltersPage = nextDynamic(() => import("./Filters/page"), { ssr: false });
 
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import AddBtn from "@/app/Components/Buttons/AddBtn";
@@ -21,7 +22,7 @@ function ServicesPage() {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  // ✅ Prevent SSR reference errors just in case
+  // ✅ Prevent SSR reference errors
   if (typeof window === "undefined") return null;
 
   return (
@@ -29,7 +30,9 @@ function ServicesPage() {
       <section>
         {/* 📱 Mobile / Tablet Header */}
         <div className="lg1:hidden flex justify-between mb-8">
-          <p className="text-[#000] text-2xl font-medium flex items-center">{t("Services")}</p>
+          <p className="text-[#000] text-2xl font-medium flex items-center">
+            {t("Services")}
+          </p>
           <AddBtn href="/Pages/services/Add" label="Add a sub-service" />
         </div>
 
