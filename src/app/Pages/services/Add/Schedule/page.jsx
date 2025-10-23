@@ -130,4 +130,94 @@ function SchedulePage({ handleNext, handlePrev }) {
             type="time"
             value={from}
             onChange={(e) => setFrom(e.target.value)}
-            className="w-123 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#364152] text-base focus:outline-none focus
+            className="w-123 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#364152] text-base focus:outline-none focus:ring-2 focus:ring-[#C69815]"
+          />
+
+          <label className="flex items-center text-[#4B5565] text-xl font-normal">
+            {t("To")}
+          </label>
+          <input
+            type="time"
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            className="w-123 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#364152] text-base focus:outline-none focus:ring-2 focus:ring-[#C69815]"
+          />
+        </div>
+
+        {/* Add Button */}
+        <div className="flex justify-end mb-8 ml-6">
+          <button
+            onClick={handleAddPeriod}
+            className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14"
+          >
+            <img
+              src="/images/icons/AddYellowIcon.svg"
+              alt=""
+              className="w-6 h-6"
+            />
+            <p className="text-[var(--color-primary)] text-base font-medium cursor-pointer">
+              {t("Add period")}
+            </p>
+          </button>
+        </div>
+      </section>
+
+      {/* Display specific data for each day */}
+      <div className="mt-5">
+        <label className="text-[#364152] text-base font-semibold ">
+          {t("Added periods")}
+        </label>
+
+        <div className="mt-6">
+          {periods.length > 0 ? (
+            <div className="grid grid-cols-3 gap-5">
+              {periods.map((period, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center border border-[#9AA4B2] rounded-[3px] p-3"
+                >
+                  <p className="text-[#4E4E4E] text-sm font-normal">
+                    <span>{formatTime(period.from)}</span> —{" "}
+                    <span>{formatTime(period.to)}</span>
+                  </p>
+                  <button
+                    onClick={() => handleRemove(index)}
+                    className="cursor-pointer"
+                  >
+                    <img src="/images/icons/delete-darkRed.svg" alt="" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="border border-[#FEC84B] bg-[#FEF0C7] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3">
+              <p className="text-[#4E4E4E] text-sm font-medium">
+                {t(
+                  "No period has been added yet, select the dates and then click (Add Period) to start"
+                )}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* bottom nav */}
+      <div className="my-12 flex gap-3">
+        <button
+          onClick={handlePrev}
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium cursor-pointer"
+        >
+          {t("the previous")}
+        </button>
+        <button
+          onClick={handleNext}
+          className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[var(--color-primary)] text-[#fff] text-base font-medium cursor-pointer"
+        >
+          {t("the next")}
+        </button>
+      </div>
+    </>
+  );
+}
+
+export default SchedulePage;
