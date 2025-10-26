@@ -22,18 +22,21 @@ function SchedulePage({ handleNext, handlePrev }) {
     { id: 7, name: "Saturday" },
   ];
 
+  const [mounted, setMounted] = useState(false); // ✅ for client-only
   const [selectedDay, setSelectedDay] = useState(days[0]);
   const [periods, setPeriods] = useState([]);
 
   // ✅ Load saved periods for the selected day
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // 🔹 load saved periods only after mounted
+  useEffect(() => {
+    if (!mounted) return;
     const savedPeriods = sessionStorage.getItem(`timePeriods_${selectedDay.id}`);
-    if (savedPeriods) {
-      setPeriods(JSON.parse(savedPeriods));
-    } else {
-      setPeriods([]);
-    }
-  }, [selectedDay]);
+    setPeriods(savedPeriods ? JSON.parse(savedPeriods) : []);
+  }, [selectedDay, mounted]);
 
   // ✅ Save whenever periods change
   useEffect(() => {
@@ -122,10 +125,7 @@ function SchedulePage({ handleNext, handlePrev }) {
     setPeriods((prev) => prev.filter((_, i) => i !== index));
   };
 
-  useEffect(() => {
-    // ✅ Set global locale to Arabic
-    dayjs.locale("ar");
-  }, []);
+  if (!mounted) return null; // avoid SSR errors
 
   return (
     <>
@@ -340,18 +340,8 @@ function SchedulePage({ handleNext, handlePrev }) {
 
       {/* Bottom Nav */}
       <div className="my-12 flex gap-3">
-        <button
-          onClick={handlePrev}
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium cursor-pointer"
-        >
-          {t("the previous")}
-        </button>
-        <button
-          onClick={handleNext}
-          className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[var(--color-primary)] text-[#fff] text-base font-medium cursor-pointer"
-        >
-          {t("the next")}
-        </button>
+        <button onClick={handlePrev} className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium cursor-pointer">{t("the previous")}</button>
+        <button onClick={handleNext} className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[var(--color-primary)] text-[#fff] text-base font-medium cursor-pointer">{t("the next")}</button>
       </div>
 
 

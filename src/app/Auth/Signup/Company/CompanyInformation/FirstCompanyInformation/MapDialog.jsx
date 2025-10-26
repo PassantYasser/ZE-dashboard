@@ -5,23 +5,24 @@ import Dialog from "@mui/material/Dialog";
 import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapContainer = dynamic(() => import("react-leaflet").then(m => m.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then(m => m.TileLayer), { ssr: false });
-const Marker = dynamic(() => import("react-leaflet").then(m => m.Marker), { ssr: false });
+const MapContainer = dynamic(() => import("react-leaflet").then((m) => m.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import("react-leaflet").then((m) => m.TileLayer), { ssr: false });
+const Marker = dynamic(() => import("react-leaflet").then((m) => m.Marker), { ssr: false });
 
 let L;
+let markerIcon;
+
 if (typeof window !== "undefined") {
   L = require("leaflet");
+  markerIcon = new L.Icon({
+    iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
+    shadowSize: [41, 41],
+  });
 }
-
-const markerIcon = new L.Icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowUrl: "https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png",
-  shadowSize: [41, 41],
-});
 
 // ✅ Handles map click
 function LocationPicker({ position, setPosition }) {
@@ -30,7 +31,8 @@ function LocationPicker({ position, setPosition }) {
       setPosition([e.latlng.lat, e.latlng.lng]);
     },
   });
-  return position ? <Marker position={position} icon={markerIcon} /> : null;
+
+  return position && markerIcon ? <Marker position={position} icon={markerIcon} /> : null;
 }
 
 export default function MapDialog({ open, handleClose, formData, setFormData }) {
