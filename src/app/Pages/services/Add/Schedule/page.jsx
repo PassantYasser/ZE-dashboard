@@ -5,6 +5,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MultiSectionDigitalClock } from "@mui/x-date-pickers/MultiSectionDigitalClock";
 import dayjs from "dayjs";
+import { Dialog } from "@mui/material";
+import { MobileTimePicker } from "@mui/x-date-pickers";
+import 'dayjs/locale/ar';
 
 function SchedulePage({ handleNext, handlePrev }) {
   const { t } = useTranslation();
@@ -64,6 +67,16 @@ function SchedulePage({ handleNext, handlePrev }) {
     setConfirmedTime(tempTime);
     setOpen1(false);
   };
+  const handleTimeChange = (newValue) => {
+    setTempTime(newValue);
+    if (newValue) {
+      // ✅ Format time as HH:mm (e.g. 14:30)
+      const timeStr = dayjs(newValue).format("HH:mm");
+      setFormattedTime(timeStr);
+      setOpen1(false); // close dialog after selecting
+    }
+  };
+
 
   // ✅ TO CLOCK STATES
   const [open2, setOpen2] = useState(false);
@@ -77,21 +90,42 @@ function SchedulePage({ handleNext, handlePrev }) {
   };
 
   // ✅ Add Period and save in session
+  // const handleAddPeriod = () => {
+  //   if (confirmedTime && confirmedTime2) {
+  //     const newPeriod = {
+  //       from: dayjs(confirmedTime).format("HH:mm"),
+  //       to: dayjs(confirmedTime2).format("HH:mm"),
+  //     };
+  //     setPeriods((prev) => [...prev, newPeriod]);
+  //     setConfirmedTime(null);
+  //     setConfirmedTime2(null);
+  //   }
+  // };
   const handleAddPeriod = () => {
-    if (confirmedTime && confirmedTime2) {
-      const newPeriod = {
-        from: dayjs(confirmedTime).format("HH:mm"),
-        to: dayjs(confirmedTime2).format("HH:mm"),
-      };
-      setPeriods((prev) => [...prev, newPeriod]);
-      setConfirmedTime(null);
-      setConfirmedTime2(null);
-    }
-  };
+  if (confirmedTime && confirmedTime2) {
+    const newPeriod = {
+      from: dayjs(confirmedTime).format("HH:mm"),
+      to: dayjs(confirmedTime2).format("HH:mm"),
+    };
+    setPeriods((prev) => [...prev, newPeriod]);
+
+    // ✅ Reset both pickers after saving
+    setConfirmedTime(null);
+    setTempTime(null);
+    setConfirmedTime2(null);
+    setTempTime2(null);
+  }
+};
+
 
   const handleRemove = (index) => {
     setPeriods((prev) => prev.filter((_, i) => i !== index));
   };
+
+  useEffect(() => {
+    // ✅ Set global locale to Arabic
+    dayjs.locale("ar");
+  }, []);
 
   return (
     <>
@@ -130,118 +164,148 @@ function SchedulePage({ handleNext, handlePrev }) {
           </div>
         </div>
 
-        <section className="grid grid-cols-2 gap-6 mb-10">
+        <div className="grid grid-cols-2 gap-6 mb-10">
+
           {/* From Time */}
           <div className="flex flex-col ">
             <div className="flex gap-6">
               <label className="flex items-center text-[#4B5565] text-xl font-normal">
-                {t("From")}
+                {t("From")} 
               </label>
-              <span
-                onClick={() => setOpen1(!open1)}
-                className="w-123 h-15 p-3 flex items-center border border-[#C8C8C8] rounded-[3px] text-[#364152] text-base focus:outline-none cursor-pointer"
-              >
-                {formattedTime || t("Select")}
-              </span>
+              <div  className="p-4 bg-white w-full">
+                <LocalizationProvider  dateAdapter={AdapterDayjs} adapterLocale="ar">
+                  <MobileTimePicker
+                    value={tempTime || confirmedTime || null}
+                    onChange={(newValue) => setTempTime(newValue)}
+                    onAccept={(newValue) => {
+                      setConfirmedTime(newValue);
+                      setOpen2(false);
+                    }}
+                    ampm={true}
+                    views={["hours", "minutes"]}
+                    closeOnSelect={true}
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        InputProps: {
+                          sx: {
+                            direction: "rtl", 
+                            justifyContent: "space-between", 
+                            "& input": {
+                              textAlign: "left",
+                              paddingRight: "8px",
+                            },
+                            "& .MuiInputAdornment-root": {
+                              order: -1,
+                              marginLeft: "12px",
+                            },
+                          },
+                        },
+                      },
+                      mobilePaper: {
+                        sx: {
+                          direction: "ltr",
+                        },
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
+              </div>
+              
             </div>
 
-            {open1 && (
-              <div className="flex justify-end px-6">
-                <div className="mt-2 w-[50%]">
-                  <div className="w-full bg-[#eef2f6]">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <div className="w-full border border-[#C8C8C8] border-l-0 border-b-0">
-                        <MultiSectionDigitalClock
-                          value={tempTime}
-                          onChange={(newValue) => setTempTime(newValue)}
-                          ampm={false}
-                          timeSteps={{ minutes: 15 }}
-                          sx={{
-                            width: "100%",
-                            "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                            "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                          }}
-                        />
-                      </div>
-                    </LocalizationProvider>
-                    <div className="flex justify-start p-3 border-t-0 border border-[#C8C8C8]">
-                      <button
-                        onClick={handleOkClick}
-                        className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] w-[50%] cursor-pointer"
-                      >
-                        {t("addition")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+          
           </div>
 
-          {/* To Time */}
-          <div className="flex flex-col">
-            <div className="flex gap-6">
-              <label className="flex items-center text-[#4B5565] text-xl font-normal">
-                {t("To")}
-              </label>
-              <span
-                onClick={() => setOpen2(!open2)}
-                className="w-123 h-15 p-3 flex items-center border border-[#C8C8C8] rounded-[3px] text-[#364152] text-base focus:outline-none cursor-pointer"
-              >
-                {formattedTime2 || t("Select")}
-              </span>
+
+
+            {/* To Time */}
+            <div className="flex flex-col">
+              <div className="flex gap-6">
+                <label className="flex items-center text-[#4B5565] text-xl font-normal">
+                  {t("To")}
+                </label>
+                <div className="p-4 bg-white w-full">
+                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ar">
+                    <MobileTimePicker
+                      value={tempTime2 || confirmedTime2 || null}
+                      onChange={(newValue) => setTempTime2(newValue)}
+                      onAccept={(newValue) => {
+                        setConfirmedTime2(newValue);
+                        setOpen2(false);
+                      }}
+                      ampm={true}
+                      views={["hours", "minutes"]}
+                      closeOnSelect
+                      slotProps={{
+                        textField: {
+                          fullWidth: true,
+                          InputProps: {
+                            sx: {
+                              direction: "rtl", 
+                              justifyContent: "space-between", 
+                              "& input": {
+                                textAlign: "left",
+                                paddingRight: "8px",
+                              },
+                              "& .MuiInputAdornment-root": {
+                                order: -1,
+                                marginLeft: "12px",
+                              },
+                            },
+                          },
+                        },
+                        mobilePaper: {
+                          sx: {
+                            direction: "ltr",
+                          },
+                        },
+                      }}
+                    />
+                  </LocalizationProvider>
+                </div>
+              </div>
+
             </div>
 
-            {open2 && (
-              <div className="flex justify-end px-6">
-                <div className="mt-2 w-[50%]">
-                  <div className="w-full bg-[#eef2f6]">
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <div className="w-full border border-[#C8C8C8] border-l-0 border-b-0">
-                        <MultiSectionDigitalClock
-                          value={tempTime2}
-                          onChange={(newValue) => setTempTime2(newValue)}
-                          ampm={false}
-                          timeSteps={{ minutes: 15 }}
-                          sx={{
-                            width: "100%",
-                            "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                            "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                          }}
-                        />
-                      </div>
-                    </LocalizationProvider>
-                    <div className="flex justify-start p-3 border-t-0 border border-[#C8C8C8]">
-                      <button
-                        onClick={handleOkClick2}
-                        className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] w-[50%] cursor-pointer"
-                      >
-                        {t("addition")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
 
-        {/* Add Period Button */}
-        <div className="flex justify-end mb-8 ml-6">
-          <button
-            onClick={handleAddPeriod}
-            className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14"
-          >
-            <img src="/images/icons/AddYellowIcon.svg" alt="" className="w-6 h-6" />
-            <p className="text-[var(--color-primary)] text-base font-medium cursor-pointer">
-              {t("Add period")}
-            </p>
-          </button>
-        </div>
+
+
+          </div>
+
+
+
+
+
+
+
+
+          {/* Add Period Button */}
+          <div className="flex justify-end mb-8 ml-6">
+            <button
+              onClick={handleAddPeriod}
+              className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14"
+            >
+              <img src="/images/icons/AddYellowIcon.svg" alt="" className="w-6 h-6" />
+              <p className="text-[var(--color-primary)] text-base font-medium cursor-pointer">
+                {t("Add period")}
+              </p>
+            </button>
+          </div>
       </section>
 
-      {/* Added Periods */}
-      <div className="mt-5">
+
+
+
+
+
+
+
+
+
+
+      {/* Added Periods section */}
+      <section className="mt-5">
         <label className="text-[#364152] text-base font-semibold">
           {t("Added periods")}
         </label>
@@ -267,14 +331,12 @@ function SchedulePage({ handleNext, handlePrev }) {
           ) : (
             <div className="border border-[#FEC84B] bg-[#FEF0C7] shadow p-3">
               <p className="text-[#4E4E4E] text-sm font-medium">
-                {t(
-                  "No period has been added yet, select the dates and then click (Add Period) to start"
-                )}
+                {t("No period has been added yet, select the dates and then click (Add Period) to start")}
               </p>
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* Bottom Nav */}
       <div className="my-12 flex gap-3">
@@ -291,6 +353,19 @@ function SchedulePage({ handleNext, handlePrev }) {
           {t("the next")}
         </button>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>
   );
 }
