@@ -173,7 +173,13 @@ function SchedulePage({ handleNext, handlePrev }) {
                 {t("From")} 
               </label>
               <div  className="p-4 bg-white w-full">
-                <LocalizationProvider label={'اختر الوقت'} dateAdapter={AdapterDayjs} adapterLocale="ar">
+                  <LocalizationProvider
+                    localeText={{
+                      timePickerToolbarTitle : t('Select Time'),
+                    }} 
+                    dateAdapter={AdapterDayjs} 
+                    adapterLocale="ar"
+                  >
                   <MobileTimePicker
                     value={tempTime || confirmedTime || null}
                     onChange={(newValue) => setTempTime(newValue)}
@@ -226,7 +232,13 @@ function SchedulePage({ handleNext, handlePrev }) {
                   {t("To")}
                 </label>
                 <div className="p-4 bg-white w-full">
-                  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ar">
+                    <LocalizationProvider
+                      localeText={{
+                        timePickerToolbarTitle : t('Select Time'),
+                      }} 
+                      dateAdapter={AdapterDayjs} 
+                      adapterLocale="ar"
+                    >
                     <MobileTimePicker
                       value={tempTime2 || confirmedTime2 || null}
                       onChange={(newValue) => setTempTime2(newValue)}
