@@ -21,16 +21,26 @@ function SchedulePage({ handleNext, handlePrev }) {
 
   const [selectedDay, setSelectedDay] = useState(days[0]);
   const [periods, setPeriods] = useState([]);
+  const [mounted, setMounted] = useState(false); // ✅ fix for SSR safety
+
+  // ✅ Only run after the component mounts (client-side)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // ✅ Load saved periods for the selected day
   useEffect(() => {
-    const savedPeriods = sessionStorage.getItem(`timePeriods_${selectedDay.id}`);
-    if (savedPeriods) {
-      setPeriods(JSON.parse(savedPeriods));
-    } else {
-      setPeriods([]);
+    if (mounted) {
+      const savedPeriods = sessionStorage.getItem(
+        `timePeriods_${selectedDay.id}`
+      );
+      if (savedPeriods) {
+        setPeriods(JSON.parse(savedPeriods));
+      } else {
+        setPeriods([]);
+      }
     }
-  }, [selectedDay]);
+  }, [selectedDay, mounted]);
 
   // ✅ Save whenever periods change
   useEffect(() => {
@@ -39,6 +49,8 @@ function SchedulePage({ handleNext, handlePrev }) {
 
   // ✅ Get border color per day
   const getDaystyleColor = (day) => {
+    if (!mounted) return "border-[#CDD5DF]"; // default for SSR
+
     const saved = sessionStorage.getItem(`timePeriods_${day.id}`);
     const hasPeriods = saved && JSON.parse(saved).length > 0;
 
@@ -92,6 +104,11 @@ function SchedulePage({ handleNext, handlePrev }) {
   const handleRemove = (index) => {
     setPeriods((prev) => prev.filter((_, i) => i !== index));
   };
+
+  if (!mounted) {
+    // ✅ Prevent rendering until after mount
+    return null;
+  }
 
   return (
     <>
