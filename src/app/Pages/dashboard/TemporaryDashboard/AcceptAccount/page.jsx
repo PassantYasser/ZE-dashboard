@@ -1,4 +1,5 @@
 "use client"
+import Link from 'next/link';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -33,9 +34,9 @@ function AcceptAccountPage() {
         </section>
 
       <section className='mb-5 flex justify-center mt-8'>
-        <button className='bg-[var(--color-primary)] rounded-[3px] py-2.5 px-4 w-62.5 h-13.5 cursor-pointer'>
+        <Link href='/Pages/Subscription' className='bg-[var(--color-primary)] rounded-[3px] py-2.5 px-4 w-62.5 h-13.5 cursor-pointer flex items-center justify-center'>
           <span className='text-[#fff] text-base font-medium'>{t('Subscribe now')}</span>
-        </button>
+        </Link>
       </section>
       </div>
 
