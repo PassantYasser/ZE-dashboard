@@ -167,7 +167,7 @@ function ViewPage({ open, handleClose }) {
           </p>
         </section>
         <span className="border-[0.5px] border-[#E3E8EF]" />
-
+<div className="overflow-y-auto overflow-x-hidden">
         {/* Image Slider */}
         <section className="relative w-[586px] h-[261px] m-6">
           {images.map((img, index) => (
@@ -230,7 +230,7 @@ function ViewPage({ open, handleClose }) {
           </div>
 
           {/* Tab Content */}
-          <div className="flex-1 overflow-y-auto mt-4">
+          <div className="flex-1 mt-4">
             {tabs.map(
               (tab) =>
                 openId === tab.id && (
@@ -243,6 +243,7 @@ function ViewPage({ open, handleClose }) {
             )}
           </div>
         </section>
+        </div>
       </Dialog>
     </>
   );
