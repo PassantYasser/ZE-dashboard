@@ -134,6 +134,24 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Subscription" onClick={() => setIsSidebarOpen(false)}>
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center py-4 px-2'>
+                  <img src="/images/icons/Subscription.svg" alt="" className={pathname.startsWith("/Pages/Subscription") ? "invert" : ""}/>
+                  <p className={`text-base font-normal${pathname.startsWith("/Subscription") ? "text-[#fff]" : "text-[#364152]"}`}>
+                    {t('Subscription')}
+                  </p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center py-4 px-2'>
+                  <img src="/images/icons/Subscription.svg" alt="" className={pathname.startsWith("/Pages/Subscription") ? "invert" : ""}/>
+                </div>
+              )}
+            </Link>
+          </li>
+
           <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
@@ -184,21 +202,21 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
 
       
-            <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/settings" onClick={() => setIsSidebarOpen(false)}>
-                {open?(
-                //open 
-                  <div className='flex gap-4 items-center py-4 px-2'>
-                    <img src="/images/icons/settings.svg" alt=""className={pathname.startsWith("/Pages/settings") ? "invert" : ""} />
-                    <p className={`text-base font-normal${pathname.startsWith("/Pages/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
-                  </div>
-                ):(
-                  <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/settings.svg" alt="" className={pathname.startsWith("/Pages/settings") ? "invert" : ""}/>
-                  </div>
-                )}
-            </Link>
-            </li>
+          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <Link href="/Pages/settings" onClick={() => setIsSidebarOpen(false)}>
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center py-4 px-2'>
+                  <img src="/images/icons/settings.svg" alt=""className={pathname.startsWith("/Pages/settings") ? "invert" : ""} />
+                  <p className={`text-base font-normal${pathname.startsWith("/Pages/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center py-2 px-2'>
+                  <img src="/images/icons/settings.svg" alt="" className={pathname.startsWith("/Pages/settings") ? "invert" : ""}/>
+                </div>
+              )}
+          </Link>
+          </li>
           
             <li  className={`cursor-pointer py-2 px-2 rounded   ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <button  onClick={handleLogout}>
