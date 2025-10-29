@@ -124,7 +124,7 @@ function SelectSubscriptionDurationPage() {
 
                   {/* points */}
                   <div className="text-[var(--color-primary)] text-base font-medium my-4">
-                    عدد النقاط: {plan.points} 
+                    {t('Number of points')} : {plan.points} 
                   </div>
 
                   <ul className="text-[#364152] text-sm text-right space-y-2 mb-6">
@@ -139,7 +139,7 @@ function SelectSubscriptionDurationPage() {
                   
 
                   <button className="bg-[var(--color-primary)] hover:bg-[#B78A28] text-white py-2.5 px-4 rounded-[3px] w-full cursor-pointer">
-                    عرض التفاصيل
+                    {t('View details')}
                   </button>
 
 
