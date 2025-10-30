@@ -13,7 +13,7 @@ API.interceptors.request.use(
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("✅ Token sent in header:", config.headers.Authorization);
+      // console.log("✅ Token sent in header:", config.headers.Authorization);
     } else {
       console.log("❌ No token found in localStorage");
     }
