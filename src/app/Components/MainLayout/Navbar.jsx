@@ -37,7 +37,7 @@ function Navbar({ onMenuClick }) {
     dispatch(getCurrentLoginThunk());
   }, [dispatch]);
 
-  console.log(user?.firstname);
+  // console.log(user?.firstname);
   return (
     <>
       <header className="h-20 bg-[#fff] border-b border-[#E3E8EF] flex items-center justify-between px-6 py-4">

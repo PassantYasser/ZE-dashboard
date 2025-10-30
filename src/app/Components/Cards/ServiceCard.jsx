@@ -2,16 +2,17 @@
 import ViewPage from '@/app/Components/Dialogs/ViewPage'; // ✅ fixed: import client component instead of route page.js
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IMAGE_BASE_URL } from '../../../../config/imageUrl';
 
-function ServiceCard() {
+function ServiceCard({service}) {
   const { t } = useTranslation();
-  const [status, setStatus] = useState('stopped');
+  // const [status, setStatus] = useState('stopped');
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const StatusRender = () => {
+  const StatusRender = (status) => {
     switch (status) {
       case "active":
         return (
@@ -68,24 +69,25 @@ function ServiceCard() {
       <section className='bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px]'>
         <div className="relative mb-5">
           <img
-            src="/images/Service Photo.svg"
+            src={`${IMAGE_BASE_URL}${service?.image}`}
             alt=""
-            className="w-full rounded-[3px]"
+            className="w-full h-43.5 rounded-[3px]"
           />
           <div className="absolute top-2.5 left-3.5 px-3 py-1">
-            {StatusRender(status)}
+            {/* {StatusRender(status)} */}
+            {StatusRender(service?.status)}
           </div>
         </div>
 
         <button onClick={handleClickOpen} className='text-[#364152] text-base font-medium cursor-pointer'>
-          خدمة صيانة سخانات المياه
+            {service?.category?.title}
         </button>
 
         <div className='mt-4'>
           {/* price */}
           <div className='flex gap-1.5'>
             <img src="/images/icons/price.svg" alt="" />
-            <p className='text-[#C69815] text-lg font-medium'>40 {t('Pound')}</p>
+            <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
           </div>
 
           <div className='flex justify-between my-4'>
@@ -94,7 +96,7 @@ function ServiceCard() {
                 <img src="/images/icons/Revenues.svg" alt="" />
                 <p className='text-sm font-normal'>
                   <span className='text-[#697586] ml-1'>{t('Revenues')}</span>
-                  <span className='text-[#C69815]'>50 {t('Pound')}</span>
+                  <span className='text-[#C69815]'> {service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price} {t('Pound')}</span>
                 </p>
               </div>
 
@@ -102,7 +104,10 @@ function ServiceCard() {
                 <img src="/images/icons/Available areas.svg" alt="" />
                 <p className='text-sm font-normal'>
                   <span className='text-[#697586] ml-1'>{t('Available areas')}</span>
-                  <span className='text-[#C69815]'>(8+)</span>
+                  <span className='text-[#C69815]'>
+                    ({service?.areas?.length || 0}+)
+
+                  </span>
                 </p>
               </div>
             </section>
@@ -110,12 +115,12 @@ function ServiceCard() {
             <section className='mx-2'>
               <div className='flex gap-1.5 mb-4'>
                 <img src="/images/icons/RequestsNumber.svg" alt="" />
-                <p className='text-[#697586] text-sm font-normal'>{t('Requests')} 50</p>
+                <p className='text-[#697586] text-sm font-normal'>{t('Requests')} {service?.bookings_count}</p>
               </div>
-
+              
               <div className='flex gap-1.5'>
                 <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]' />
-                <p className='text-[#697586] text-sm font-normal'>0 {t('View')}</p>
+                <p className='text-[#697586] text-sm font-normal'>{service?.views_count} {t('View')}</p>
               </div>
             </section>
           </div>
