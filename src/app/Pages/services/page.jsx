@@ -32,11 +32,15 @@ function ServicesPage() {
 
   //link api data to cards
   const dispatch = useDispatch();
-  const { services, loading, error } = useSelector((state) => state.services);
-  useEffect(() => {
-    dispatch(getAllServicesThunk());
-  }, [dispatch]);
+  const { services, loading, error,pagination } = useSelector((state) => state.services);
+  const [currentPage, setCurrentPage] = useState(1);
+const [perPage, setPerPage] = useState(6);
 
+  useEffect(() => {
+    dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage }));
+  }, [dispatch, currentPage , perPage]);
+
+  const handlePageChange = (page) => setCurrentPage(page);
   return (
     <MainLayout>
       <section>
@@ -72,7 +76,11 @@ function ServicesPage() {
         )}
       </section>
       
-      <Pagination/>
+      <Pagination
+        totalPages={pagination?.last_page || 1}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
 
       <FiltersPage open={open} handleClose={handleClose} />
     </MainLayout>

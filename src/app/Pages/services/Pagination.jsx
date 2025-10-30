@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const Pagination = ({ totalPages = 10, onPageChange }) => {
+
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
 

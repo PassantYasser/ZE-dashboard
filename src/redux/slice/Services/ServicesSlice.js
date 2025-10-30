@@ -4,9 +4,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getAllServicesThunk = createAsyncThunk(
   "services/getAll",
-  async (_, { rejectWithValue }) => {
+  async ({ page = 1, per_page = 10 }, { rejectWithValue }) => {
     try {
-      const data = await getAllServices();
+      const data = await getAllServices(page, per_page);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -18,6 +18,7 @@ const servicesSlice = createSlice({
   name: "services",
   initialState: {
     services: [],
+    pagination: null,
     loading: false,
     error: null,
   },
@@ -30,8 +31,8 @@ const servicesSlice = createSlice({
       })
       .addCase(getAllServicesThunk.fulfilled, (state, action) => {
         state.loading = false;
-        // If your API returns { services: [...] }
         state.services = action.payload.services || action.payload;
+        state.pagination = action.payload.pagination || null; 
       })
       .addCase(getAllServicesThunk.rejected, (state, action) => {
         state.loading = false;
