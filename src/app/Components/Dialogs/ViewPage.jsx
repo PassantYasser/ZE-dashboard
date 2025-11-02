@@ -1,9 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useDispatch, useSelector } from "react-redux";
+import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
+import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 
 // ✅ Dynamically import tab components (disable SSR to avoid window/sessionStorage errors)
 const DetailsPage = dynamic(
@@ -19,13 +22,26 @@ const EvaluationPage = dynamic(
   { ssr: false }
 );
 
-function ViewPage({ open, handleClose }) {
+function ViewPage({ open, handleClose ,serviceId }) {
   const { t } = useTranslation();
   const router = useRouter();
 
+  
+  const dispatch = useDispatch();
+  const {service }= useSelector((state) => state.services);
+  useEffect(() => {
+    if (open && serviceId) {
+      dispatch(getServiceByIdThunk(serviceId));
+    }
+  }, [open, serviceId, dispatch]);
+  // console.log(serviceId , "serviceId");
+  // console.log(service , "service");
+  // console.log(service.service.category , "service category");
+
+
+
   const [current, setCurrent] = useState(0);
   const [openId, setOpenId] = useState("Details");
-  const [status, setStatus] = useState("refused");
 
   const images = [
     "https://picsum.photos/id/1018/600/400",
@@ -59,7 +75,7 @@ function ViewPage({ open, handleClose }) {
     },
   ];
 
-  const StatusRender = () => {
+  const StatusRender = (status) => {
     switch (status) {
       case "active":
         return (
@@ -135,7 +151,7 @@ function ViewPage({ open, handleClose }) {
         return null;
     }
   };
-
+console.log(service?.service?.images);
   return (
     <>
       <Dialog
@@ -166,15 +182,17 @@ function ViewPage({ open, handleClose }) {
             {t("A comprehensive overview of service specifications and information")}
           </p>
         </section>
+
         <span className="border-[0.5px] border-[#E3E8EF]" />
-<div className="overflow-y-auto overflow-x-hidden">
+        
+        <div className="overflow-y-auto overflow-x-hidden">
         {/* Image Slider */}
         <section className="relative w-[586px] h-[261px] m-6">
-          {images.map((img, index) => (
+          {service?.image?.map((img, index) => (
             <img
               key={index}
-              src={img}
-              alt="slider"
+              src={`${IMAGE_BASE_URL}${img}`}
+              alt={`slider-${index}`}
               className={`absolute top-0 left-0 w-[586px] h-[261px] transition-opacity duration-700 ${
                 index === current ? "opacity-100" : "opacity-0"
               }`}
@@ -183,7 +201,7 @@ function ViewPage({ open, handleClose }) {
 
           {/* Status Tag */}
           <div className="absolute top-5 left-5 text-white text-xl font-bold">
-            {StatusRender()}
+            {StatusRender(service?.service?.status)}
           </div>
 
           {/* Image Dots */}
@@ -238,6 +256,7 @@ function ViewPage({ open, handleClose }) {
                     key={tab.id}
                     handleClose={handleClose}
                     status={status}
+                    
                   />
                 )
             )}

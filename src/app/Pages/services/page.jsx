@@ -34,7 +34,7 @@ function ServicesPage() {
   const dispatch = useDispatch();
   const { services, loading, error,pagination } = useSelector((state) => state.services);
   const [currentPage, setCurrentPage] = useState(1);
-const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(6);
 
   useEffect(() => {
     dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage }));

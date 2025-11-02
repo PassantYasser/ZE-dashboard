@@ -128,7 +128,7 @@ function ServiceCard({service}) {
       </section>
 
       {/* ✅ Use the client-safe component */}
-      <ViewPage open={open} handleClose={handleClose} />
+      <ViewPage open={open} handleClose={handleClose} serviceId={service?.id} />
     </>
   );
 }

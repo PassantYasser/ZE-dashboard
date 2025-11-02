@@ -6,3 +6,10 @@ export const getAllServices = async (page = 1, per_page = 10) => {
   });
   return response.data; 
 };
+
+// Get service by ID
+export const getServiceById = async (service_id) => {
+  const response = await API.get(`/provider/services/${service_id}`);
+  console.log("data",response.data);
+  return response.data;
+};
