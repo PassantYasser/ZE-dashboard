@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
-import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 
 // ✅ Dynamically import tab components (disable SSR to avoid window/sessionStorage errors)
 const DetailsPage = dynamic(
@@ -151,7 +150,6 @@ function ViewPage({ open, handleClose ,serviceId }) {
         return null;
     }
   };
-console.log(service?.service?.images);
   return (
     <>
       <Dialog
@@ -188,10 +186,10 @@ console.log(service?.service?.images);
         <div className="overflow-y-auto overflow-x-hidden">
         {/* Image Slider */}
         <section className="relative w-[586px] h-[261px] m-6">
-          {service?.image?.map((img, index) => (
+          {images.map((img, index) => (
             <img
               key={index}
-              src={`${IMAGE_BASE_URL}${img}`}
+                src={img}
               alt={`slider-${index}`}
               className={`absolute top-0 left-0 w-[586px] h-[261px] transition-opacity duration-700 ${
                 index === current ? "opacity-100" : "opacity-0"
