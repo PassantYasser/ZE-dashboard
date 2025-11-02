@@ -93,11 +93,11 @@ function FiltersPage({ open, handleClose }) {
       </section>
 
       <div className="px-6 mt-4 mb-6 flex gap-4">
-        <button className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px]">
+        <button className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px] cursor-pointer">
           {t("apply")}
         </button>
         <button
-          className="border border-[#C69815] text-[#C69815] px-4 py-2.5 w-32.5 h-13.5 rounded-[3px]"
+          className="border border-[#C69815] text-[#C69815] px-4 py-2.5 w-32.5 h-13.5 rounded-[3px] cursor-pointer"
           onClick={handleClose}
         >
           {t("cancel")}
