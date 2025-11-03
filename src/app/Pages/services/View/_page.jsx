@@ -34,9 +34,6 @@ function ViewPage({ open, handleClose ,serviceId }) {
       dispatch(getServiceByIdThunk(serviceId));
     }
   }, [open, serviceId, dispatch]);
-  // console.log(serviceId , "serviceId");
-  // console.log(service , "service");
-  // console.log(service.service.category , "service category");
 
 
 
@@ -47,7 +44,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
 
 const images = service?.images?.length
   ? service.images.map((img) => `${IMAGE_BASE_URL}${img.image_path}`)
-  : ["/images/Service Photo.svg"]; 
+  : ["/images/important/Empty State Illustrations_Light Mode_No Image.svg"]; 
 
   const tabs = [
     {
