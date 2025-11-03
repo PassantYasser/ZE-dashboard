@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
+import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
 // ✅ Dynamically import tab components (disable SSR to avoid window/sessionStorage errors)
 const DetailsPage = dynamic(
@@ -42,13 +43,18 @@ function ViewPage({ open, handleClose ,serviceId }) {
   const [current, setCurrent] = useState(0);
   const [openId, setOpenId] = useState("Details");
 
-  const images = [
-    "https://picsum.photos/id/1018/600/400",
-    "https://picsum.photos/id/1015/600/400",
-    "https://picsum.photos/id/1019/600/400",
-    "https://picsum.photos/id/1020/600/400",
-    "https://picsum.photos/id/1021/600/400",
-  ];
+  // const images = [
+  //   "https://picsum.photos/id/1018/600/400",
+  //   "https://picsum.photos/id/1015/600/400",
+  //   "https://picsum.photos/id/1019/600/400",
+  //   "https://picsum.photos/id/1020/600/400",
+  //   "https://picsum.photos/id/1021/600/400",
+  // ];
+
+
+const images = service?.images?.length
+  ? service.images.map((img) => `${IMAGE_BASE_URL}${img.image_path}`)
+  : ["/images/Service Photo.svg"]; // fallback if no images
 
   const tabs = [
     {
@@ -186,16 +192,17 @@ function ViewPage({ open, handleClose ,serviceId }) {
         <div className="overflow-y-auto overflow-x-hidden">
         {/* Image Slider */}
         <section className="relative w-[586px] h-[261px] m-6">
-          {images.map((img, index) => (
-            <img
-              key={index}
+          
+            {images.map((img, index) => (
+              <img
+                key={index}
                 src={img}
-              alt={`slider-${index}`}
-              className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
-                index === current ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+                alt={`service-image-${index}`}
+              className={`absolute top-0 left-0 w-[586px] h-[261px] transition-opacity duration-700 ${
+                          index === current ? "opacity-100" : "opacity-0"
+                        }`}    
+              />
+            ))}
 
           {/* Status Tag */}
           <div className="absolute top-5 left-5 text-white text-xl font-bold">

@@ -149,8 +149,10 @@ function DetailsPage({handleClose ,status ,service}) {
 
           <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)]  rounded-[3px]  p-3 flex gap-3 flex-wrap'>
             {service?.areas?.map((area, index) => (
-              <p className='text-[#4B5565] text-sm font-normal bg-[#EDE7FD] border border-[#E2E2E2] rounded-[35px] w-fit h-8.5 px-3 py-0.5 flex items-center justify-center'>
-                {area.city}
+              <p  
+                key={area.id || index} 
+                className='text-[#4B5565] text-sm font-normal bg-[#EDE7FD] border border-[#E2E2E2] rounded-[35px] w-fit h-8.5 px-3 py-0.5 flex items-center justify-center'>
+                  {area.city}
               </p>
             ))}
           </div>
