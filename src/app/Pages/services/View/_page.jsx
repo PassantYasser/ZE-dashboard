@@ -43,18 +43,11 @@ function ViewPage({ open, handleClose ,serviceId }) {
   const [current, setCurrent] = useState(0);
   const [openId, setOpenId] = useState("Details");
 
-  // const images = [
-  //   "https://picsum.photos/id/1018/600/400",
-  //   "https://picsum.photos/id/1015/600/400",
-  //   "https://picsum.photos/id/1019/600/400",
-  //   "https://picsum.photos/id/1020/600/400",
-  //   "https://picsum.photos/id/1021/600/400",
-  // ];
 
 
 const images = service?.images?.length
   ? service.images.map((img) => `${IMAGE_BASE_URL}${img.image_path}`)
-  : ["/images/Service Photo.svg"]; // fallback if no images
+  : ["/images/Service Photo.svg"]; 
 
   const tabs = [
     {
@@ -200,7 +193,7 @@ const images = service?.images?.length
                 alt={`service-image-${index}`}
               className={`absolute top-0 left-0 w-[586px] h-[261px] transition-opacity duration-700 ${
                           index === current ? "opacity-100" : "opacity-0"
-                        }`}    
+                  }`}    
               />
             ))}
 
