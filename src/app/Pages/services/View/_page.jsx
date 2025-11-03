@@ -191,7 +191,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
               key={index}
                 src={img}
               alt={`slider-${index}`}
-              className={`absolute top-0 left-0 w-[586px] h-[261px] transition-opacity duration-700 ${
+              className={`absolute top-0 left-0 w-[586px] h-[261px]  transition-opacity duration-700 ${
                 index === current ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -199,7 +199,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
 
           {/* Status Tag */}
           <div className="absolute top-5 left-5 text-white text-xl font-bold">
-            {StatusRender(service?.service?.status)}
+            {StatusRender(service?.status)}
           </div>
 
           {/* Image Dots */}
@@ -253,7 +253,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
                   <tab.Component
                     key={tab.id}
                     handleClose={handleClose}
-                    status={service?.service?.status}
+                    status={service?.status}
                     service={service}
                   />
                 )

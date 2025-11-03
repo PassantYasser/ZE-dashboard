@@ -19,7 +19,7 @@ export const getServiceByIdThunk = createAsyncThunk(
     try {
       const data = await getServiceById(service_id);
       console.log("slice data", data);
-      return data;
+      return data.service;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

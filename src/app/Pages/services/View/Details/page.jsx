@@ -18,6 +18,9 @@ function DetailsPage({handleClose ,status ,service}) {
   const handleClosee = () => {
     setOpen(false);
   };
+
+  console.log(service?.areas?.map(a => a.city));
+  console.log(service?.long_description);
   return (
     <>
       <div className='px-6'>
@@ -30,13 +33,13 @@ function DetailsPage({handleClose ,status ,service}) {
           <div>
             <p className='font-normal text-base mb-4'>
               <span className='text-[#4B5565]'>التصنيف الفرعي : </span>
-              <span className='text-[#364152] '>{service?.service?.main_category?.title}</span>
+              <span className='text-[#364152] '>{service?.main_category?.title}</span>
             </p>
           </div>
           <div>
             <p className='font-normal text-base'>
               <span className='text-[#4B5565]'>التصنيف الرئيسية :  </span>
-              <span className='text-[#364152] '>{service?.service?.module?.name} </span>
+              <span className='text-[#364152] '>{service?.module?.name} </span>
             </p>
           </div>
         </section>
@@ -65,11 +68,11 @@ function DetailsPage({handleClose ,status ,service}) {
         <section className='my-6'>
           <span className='text-[#364152] text-base font-medium'>{t('Service Description')}</span>
           <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
-          {service?.service?.long_description}
+          {service?.long_description}
           </p>
         </section>
 
-        {/* status */}
+        {/* Service status */}
         <section className='flex gap-4 text-[#4B5565] text-base font-medium mb-4 '>
           <div>
             <span className='text-[#364152]'>{t('Service status')}</span>
@@ -92,7 +95,7 @@ function DetailsPage({handleClose ,status ,service}) {
             {/* price */}
             <div className='flex gap-1.5 w-full    '>
               <img src="/images/icons/price.svg" alt=""  />
-              <p className='text-[var(--color-primary)] text-base font-medium'>{service?.service?.price} {t('Pound')}</p>
+              <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
             </div>
             
             {/* Revenues */}
@@ -101,7 +104,7 @@ function DetailsPage({handleClose ,status ,service}) {
                 <img src="/images/icons/Revenues.svg" alt=""/>
                 <p className='text-base font-normal'>
                   <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                  <span className='text-[var(--color-primary)]'>{service?.service?.bookings_sum_price == null ? '0' : service?.service?.bookings_sum_price}  {t('Pound')}</span>
+                  <span className='text-[var(--color-primary)]'>{service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price}  {t('Pound')}</span>
                 </p>
               </div>
             </div>
@@ -111,14 +114,14 @@ function DetailsPage({handleClose ,status ,service}) {
             {/* RequestsNumber */}
             <div className='flex gap-1.5 w-full  '>
               <img src="/images/icons/RequestsNumber.svg" className='w-5 h-5' alt=""/>
-              <p className='text-[#697586] text-base font-normal'>{t('Requests')} 50</p>
+              <p className='text-[#697586] text-base font-normal'>{t('Requests')} {service?.bookings_count}</p>
             </div>
     
             {/* views */}
             <div className=' flex justify-end'>
               <div className='flex gap-1.5  w-50  '>
                 <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
-                <p className='text-[#697586] text-base font-normal'>0 {t('View')}</p>
+                <p className='text-[#697586] text-base font-normal'>{service?.views_count} {t('View')}</p>
               </div>
             </div>
             
@@ -143,11 +146,14 @@ function DetailsPage({handleClose ,status ,service}) {
             <img src="/images/icons/Available areas.svg" alt=""/>
               <span className='text-[#364152] text-base font-normal'>{t('Available areas')}</span>  
           </div>
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
-            <div className='bg-[#EDE7FD] border border-[#E2E2E2] h-8.5 w-fit px-3 py-0.5 rounded-[35px] mb-6'>
-              <span className='text-[#4B5565] text-sm font-normal'>الشيخ زايد</span>
-            </div>
-        </div>
+
+          <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)]  rounded-[3px]  p-3 flex gap-3 flex-wrap'>
+            {service?.areas?.map((area, index) => (
+              <p className='text-[#4B5565] text-sm font-normal bg-[#EDE7FD] border border-[#E2E2E2] rounded-[35px] w-fit h-8.5 px-3 py-0.5 flex items-center justify-center'>
+                {area.city}
+              </p>
+            ))}
+          </div>
         </section>
 
       </div>
