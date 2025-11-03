@@ -92,7 +92,7 @@ function DetailsPage({handleClose ,status ,service}) {
             {/* price */}
             <div className='flex gap-1.5 w-full    '>
               <img src="/images/icons/price.svg" alt=""  />
-              <p className='text-[#C69815] text-base font-medium'>{service?.service?.price} {t('Pound')}</p>
+              <p className='text-[var(--color-primary)] text-base font-medium'>{service?.service?.price} {t('Pound')}</p>
             </div>
             
             {/* Revenues */}
@@ -101,7 +101,7 @@ function DetailsPage({handleClose ,status ,service}) {
                 <img src="/images/icons/Revenues.svg" alt=""/>
                 <p className='text-base font-normal'>
                   <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                  <span className='text-[#C69815]'>{service?.service?.bookings_sum_price == null ? '0' : service?.service?.bookings_sum_price}  {t('Pound')}</span>
+                  <span className='text-[var(--color-primary)]'>{service?.service?.bookings_sum_price == null ? '0' : service?.service?.bookings_sum_price}  {t('Pound')}</span>
                 </p>
               </div>
             </div>
@@ -114,7 +114,7 @@ function DetailsPage({handleClose ,status ,service}) {
               <p className='text-[#697586] text-base font-normal'>{t('Requests')} 50</p>
             </div>
     
-            {/* view */}
+            {/* views */}
             <div className=' flex justify-end'>
               <div className='flex gap-1.5  w-50  '>
                 <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
@@ -153,19 +153,21 @@ function DetailsPage({handleClose ,status ,service}) {
       </div>
 
       <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
+      
 
+      {/* btns */}
       <section className='flex gap-3 mx-6 mb-6'>
-        <Link href="/Pages/services/Edit" className='border bg-[#C69815] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
+        <Link href="/Pages/services/Edit" className='border bg-[var(--color-primary)] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
           <span className='text-base font-medium'>{t('Modify the service')}</span>
           <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
           
         </Link>
           {status==='stopped' || status==='refused' ?(
-            <button onClick={handleClickOpen} className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
+            <button onClick={handleClickOpen} className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer'>
               {t('delete')}
             </button>
           ):(
-            <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-32.5 rounded-[3px] text-base font-medium'>
+            <button onClick={handleClose} className='border border-[#C69815] text-[var(--color-primary)] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer'>
               {t('cancel')}
             </button>
           )}

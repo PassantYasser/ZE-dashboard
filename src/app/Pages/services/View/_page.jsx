@@ -228,7 +228,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
                   onClick={() => setOpenId(tab.id)}
                   className={`flex items-center justify-center gap-2 px-4 py-4 w-full text-center text-base cursor-pointer ${
                     openId === tab.id
-                      ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                      ? "text-[var(--color-primary)] border-b-2 border-[var(--color-primary)] font-medium"
                       : "text-[#697586] font-normal"
                   }`}
                 >
