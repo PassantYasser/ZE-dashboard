@@ -16,7 +16,7 @@ function SearchForm({ placeholderKey }) {
         <input
           type="text"
           placeholder={t(placeholderKey)}
-          className="w-full h-14  pr-10 border border-[#C8C8C8] rounded-[3px] text-[#364152] placeholder-[#9AA4B2] focus:outline-none"
+          className="w-full h-14 pl-5  pr-10 border border-[#C8C8C8] rounded-[3px] text-[#364152] placeholder-[#9AA4B2] focus:outline-none"
         />
       </div>
     </>

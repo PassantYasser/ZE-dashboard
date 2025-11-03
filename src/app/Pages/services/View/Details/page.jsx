@@ -31,13 +31,13 @@ function DetailsPage({handleClose ,status ,service}) {
         <section className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] mt-6 p-4'>
           <div>
             <p className='font-normal text-base mb-4'>
-              <span className='text-[#4B5565]'>التصنيف الفرعي : </span>
+              <span className='text-[#4B5565]'>{t('Subcategory')}  :  </span>
               <span className='text-[#364152] '>{service?.main_category?.title}</span>
             </p>
           </div>
           <div>
             <p className='font-normal text-base'>
-              <span className='text-[#4B5565]'>التصنيف الرئيسية :  </span>
+              <span className='text-[#4B5565]'>{t('Main category')}  :  </span>
               <span className='text-[#364152] '>{service?.module?.name} </span>
             </p>
           </div>
