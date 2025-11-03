@@ -3,6 +3,7 @@ import ViewPage from '@/app/Pages/services/View/_page';
 // import ViewPage from '@/app/Components/Dialogs/ViewPage'; // ✅ fixed: import client component instead of route page.js
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IMAGE_BASE_URL } from '../../../../config/imageUrl';
 
 function ServiceCard({service}) {
   const { t } = useTranslation();
@@ -69,7 +70,7 @@ function ServiceCard({service}) {
       <section className='bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px]'>
         <div className="relative mb-5">
           <img
-            src={`https://api.zetime.co/storage/${service?.image}`}
+            src={`${IMAGE_BASE_URL}${service?.image}`}
             alt=""
             className="w-full h-43.5 rounded-[3px]"
           />
