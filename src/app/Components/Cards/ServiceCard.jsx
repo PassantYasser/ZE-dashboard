@@ -1,5 +1,6 @@
 "use client";
-import ViewPage from '@/app/Components/Dialogs/ViewPage'; // ✅ fixed: import client component instead of route page.js
+import ViewPage from '@/app/Pages/services/View/_page';
+// import ViewPage from '@/app/Components/Dialogs/ViewPage'; // ✅ fixed: import client component instead of route page.js
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

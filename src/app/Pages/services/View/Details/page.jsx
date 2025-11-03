@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DetailsPage({handleClose ,status}) {
+function DetailsPage({handleClose ,status ,service}) {
   const {t} = useTranslation();
     const [enabled, setEnabled] = useState(false);
 
@@ -23,20 +23,20 @@ function DetailsPage({handleClose ,status}) {
       <div className='px-6'>
         {/* title */}
         <p className='text-[#364152] text-xl font-medium '>
-          خدمة صيانة سخانات المياه
+          {service?.service?.category?.title}
         </p>
         
         <section className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] mt-6 p-4'>
           <div>
             <p className='font-normal text-base mb-4'>
               <span className='text-[#4B5565]'>التصنيف الفرعي : </span>
-              <span className='text-[#364152] '>خدمات منزلية</span>
+              <span className='text-[#364152] '>{service?.service?.main_category?.title}</span>
             </p>
           </div>
           <div>
             <p className='font-normal text-base'>
               <span className='text-[#4B5565]'>التصنيف الرئيسية :  </span>
-              <span className='text-[#364152] '>سباكة </span>
+              <span className='text-[#364152] '>{service?.service?.module?.name} </span>
             </p>
           </div>
         </section>
@@ -65,7 +65,7 @@ function DetailsPage({handleClose ,status}) {
         <section className='my-6'>
           <span className='text-[#364152] text-base font-medium'>{t('Service Description')}</span>
           <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
-            حافظ على منزلك من مشاكل السباكة المزعجة  نقدم حلولاً شاملة لجميع أعمال السباكة باستخدام أحدث المعدات وخبراء معتمدين. نستخدم مواد عالية الجودة
+          {service?.service?.long_description}
           </p>
         </section>
 
@@ -92,7 +92,7 @@ function DetailsPage({handleClose ,status}) {
             {/* price */}
             <div className='flex gap-1.5 w-full    '>
               <img src="/images/icons/price.svg" alt=""  />
-              <p className='text-[#C69815] text-base font-medium'>40 {t('Pound')}</p>
+              <p className='text-[#C69815] text-base font-medium'>{service?.service?.price} {t('Pound')}</p>
             </div>
             
             {/* Revenues */}
@@ -101,11 +101,13 @@ function DetailsPage({handleClose ,status}) {
                 <img src="/images/icons/Revenues.svg" alt=""/>
                 <p className='text-base font-normal'>
                   <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                  <span className='text-[#C69815]'>50 {t('Pound')}</span>
+                  <span className='text-[#C69815]'>{service?.service?.bookings_sum_price == null ? '0' : service?.service?.bookings_sum_price}  {t('Pound')}</span>
                 </p>
               </div>
             </div>
-              
+            
+              {/* / */}
+
             {/* RequestsNumber */}
             <div className='flex gap-1.5 w-full  '>
               <img src="/images/icons/RequestsNumber.svg" className='w-5 h-5' alt=""/>
