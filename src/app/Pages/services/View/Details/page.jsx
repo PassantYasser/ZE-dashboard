@@ -19,8 +19,7 @@ function DetailsPage({handleClose ,status ,service}) {
     setOpen(false);
   };
 
-  console.log(service?.areas?.map(a => a.city));
-  console.log(service?.long_description);
+
   return (
     <>
       <div className='px-6'>
