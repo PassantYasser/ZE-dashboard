@@ -253,7 +253,7 @@ function ViewPage({ open, handleClose ,serviceId }) {
                   <tab.Component
                     key={tab.id}
                     handleClose={handleClose}
-                    status={status}
+                    status={service?.service?.status}
                     service={service}
                   />
                 )
