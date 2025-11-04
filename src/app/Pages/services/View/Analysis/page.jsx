@@ -12,18 +12,6 @@ function AnalysisPage({handleClose ,serviceAnalysis}) {
 
 
 
-// const card = [
-//   { id: 1, title: "Card 1", value:serviceAnalysis?.weekly_comparison?.earnings?.percent_change  },
-//   { id: 2, title: "Card 2", value:serviceAnalysis?.weekly_comparison?.bookings?.percent_change  },
-//   { id: 3, title: "Card 3", value:serviceAnalysis?.weekly_comparison?.views?.percent_change  },
-//   { id: 4, title: "Card 4", value:serviceAnalysis?.weekly_comparison?.users?.percent_change  },
-// ];
-//   const isPositive = card.value >= 0;
-
-//   const isNegative = card.value >= 0;
-
-//     //
-
  const cards = [
     {
       id: 1,
