@@ -1,6 +1,7 @@
 import { getAllServices, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// get all services
 export const getAllServicesThunk = createAsyncThunk(
   "services/getAll",
   async ({ page = 1, per_page = 10 }, { rejectWithValue }) => {
@@ -13,6 +14,7 @@ export const getAllServicesThunk = createAsyncThunk(
   }
 );
 
+// (Details &Evaluation)
 export const getServiceByIdThunk = createAsyncThunk(
   "services/getById",
   async (service_id, { rejectWithValue }) => {
@@ -26,17 +28,21 @@ export const getServiceByIdThunk = createAsyncThunk(
   }
 );
 
-const servicesSlice = createSlice({
-  name: "services",
-  initialState: {
+
+const initialState = {
     services: [],
     pagination: null,
     service: null,
-    loadingList: false,     // ✅ separate loader for list
-    loadingDetails: false,  // ✅ separate loader for single service
+
+    loadingList: false, 
+    loadingDetails: false,  
     errorList: null,
     errorDetails: null,
-  },
+  };
+
+const servicesSlice = createSlice({
+  name: "services",
+  initialState:initialState,
   reducers: {
     clearService: (state) => {
       state.service = null; // optional clear on dialog close
@@ -59,7 +65,7 @@ const servicesSlice = createSlice({
         state.errorList = action.payload;
       })
 
-      // ✅ Single Service
+      // ✅ Single Service(Details &Evaluation)
       .addCase(getServiceByIdThunk.pending, (state) => {
         state.loadingDetails = true;
         state.errorDetails = null;
