@@ -92,18 +92,30 @@ function DetailsPage({handleClose ,status ,service}) {
         {/* price&&Revenues&&RequestsNumber&&view */}
         <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2 justify-between rounded-[3px] gap-4 p-3 mb-6'>
             {/* sale price */}
-            {service?.sale_price!==0 && (
+            {service?.sale_price!==0  && (
               <div className='flex gap-1.5 w-full'>
                 <img src="/images/icons/sale price.svg" alt="" />
                 <p className='text-[#D92D20] font-medium text-sm line-through'>{service?.sale_price} جنية</p>
               </div>
             )}
-            
+
+
             {/* price */}
-            <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
-              <img src="/images/icons/price.svg" alt=""  />
-              <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
-            </div>
+              {service?.price_on_inspection===true ?(
+                <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
+                  <img src="/images/icons/price.svg" alt="" />
+                  <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
+                </div>
+              ):(
+              <>
+                  <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
+                    <img src="/images/icons/price.svg" alt=""  />
+                    <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
+                  </div>
+              </>
+              )}            
+            
+            
             
             {/* Revenues */}
               <div className={`flex   ${service?.sale_price===0 ?' justify-end':""}`}>
