@@ -86,7 +86,7 @@ function ServiceCard({service}) {
         </button>
 
         
-        <div className='grid grid-cols-2 mt-4'>
+        <div className='grid grid-cols-2 mt-4 w-full '>
           {/* price */}
           <div className='flex gap-1.5 w-full '>
             <img src="/images/icons/price.svg" alt="" />
@@ -95,7 +95,7 @@ function ServiceCard({service}) {
           
           {/* sale price */}
           {service?.sale_price && Number(service.sale_price) !== 0 && (
-            <div className="flex gap-1.5 w-full ">
+            <div className="flex items-center gap-1.5 w-full mr-1.5  ">
               <img src="/images/icons/sale price.svg" alt="" className="w-6 h-6" />
               <p className="text-[#D92D20] font-medium text-sm line-through">
                 {service?.sale_price} جنية
@@ -104,7 +104,7 @@ function ServiceCard({service}) {
           )}
         </div>
 
-        <div className='grid grid-cols-2 gap-4 mt-4'>
+        <div className='grid grid-cols-2 gap-4 mt-4 '>
           {/* Revenues */}
           <div className='flex gap-1.5 '>
             <img src="/images/icons/Revenues.svg" alt="" className='w-6 h-6 ' />
