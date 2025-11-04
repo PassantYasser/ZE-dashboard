@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
-import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
+import { getServiceAnalysisByIdThunk, getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
 // ✅ Dynamically import tab components (disable SSR to avoid window/sessionStorage errors)
@@ -28,13 +28,14 @@ function ViewPage({ open, handleClose ,serviceId }) {
 
   
   const dispatch = useDispatch();
-  const {service }= useSelector((state) => state.services);
+  const {service ,serviceAnalysis }= useSelector((state) => state.services);
+
   useEffect(() => {
     if (open && serviceId) {
       dispatch(getServiceByIdThunk(serviceId));
+      dispatch(getServiceAnalysisByIdThunk(serviceId));
     }
   }, [open, serviceId, dispatch]);
-
 
 
   const [current, setCurrent] = useState(0);
@@ -254,6 +255,8 @@ const images = service?.images?.length
                     handleClose={handleClose}
                     status={service?.status}
                     service={service}
+                    serviceAnalysis={serviceAnalysis}
+
                   />
                 )
             )}

@@ -1,4 +1,4 @@
-import { getAllServices, getServiceById } from "@/redux/api/Services/ServicesApi";
+import { getAllServices, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -14,7 +14,7 @@ export const getAllServicesThunk = createAsyncThunk(
   }
 );
 
-// (Details &Evaluation)
+// get specific service of (Details &Evaluation)
 export const getServiceByIdThunk = createAsyncThunk(
   "services/getById",
   async (service_id, { rejectWithValue }) => {
@@ -28,11 +28,28 @@ export const getServiceByIdThunk = createAsyncThunk(
   }
 );
 
+// get specific service of (Analysis)
+export const getServiceAnalysisByIdThunk = createAsyncThunk(
+  "services/getAnalysisById",
+  async (service_id, { rejectWithValue }) => {
+    try {
+      const data = await getServiceAnalysisById(service_id);
+      console.log("analysis slice data", data);
+      return data.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 
 const initialState = {
     services: [],
     pagination: null,
     service: null,
+    serviceAnalysis: null,
+
 
     loadingList: false, 
     loadingDetails: false,  
@@ -75,6 +92,20 @@ const servicesSlice = createSlice({
         state.service = action.payload;
       })
       .addCase(getServiceByIdThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+
+      // ✅ Single Service(Analysis)
+      .addCase(getServiceAnalysisByIdThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getServiceAnalysisByIdThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.serviceAnalysis = action.payload;
+      })
+      .addCase(getServiceAnalysisByIdThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       });

@@ -7,13 +7,13 @@ import dynamic from "next/dynamic";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 
-function AnalysisPage({handleClose}) {
+function AnalysisPage({handleClose ,serviceAnalysis}) {
   const {t} = useTranslation()
   const value = 1;
   const isPositive = value >= 0;
 
   const valuee = -2;
-    const isNegative = valuee >= 0;
+  const isNegative = valuee >= 0;
 
 
 
@@ -94,10 +94,12 @@ function AnalysisPage({handleClose}) {
 
   return (
     <>
+    {/* cards */}
       <div className='grid grid-cols-2 gap-4 px-6 mt-8'>
 
+        {/* earnings */}
         <section className='border border-[#CDD5DF] p-3' >
-          {/* tittle */}
+        
           <div className='flex gap-1.5 mb-2.5'>
             <p className='bg-[#B4F0CC] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
               <img src="/images/icons/earnings.svg" alt="" />
@@ -105,7 +107,7 @@ function AnalysisPage({handleClose}) {
             <p className='text-[#313131] text-base font-medium flex items-center'>{t('earnings')}</p>
           </div>
           {/* number of earnings */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>187K</p>
+          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.earnings}K</p>
 
           <div className="flex gap-1">
             <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
@@ -132,9 +134,8 @@ function AnalysisPage({handleClose}) {
           </div>
         </section>
 
-
+        {/* Reservations */}
         <section className='border border-[#CDD5DF] p-3' >
-          {/* tittle */}
           <div className='flex gap-1.5 mb-2.5'>
             <p className='bg-[#FEF0C7] w-8 h-8 flex justify-center items-center rounded-[6px]'>
               <img src="/images/icons/Reservations.svg" alt="" />
@@ -142,7 +143,7 @@ function AnalysisPage({handleClose}) {
             <p className='text-[#313131] text-base font-medium flex items-center'>{t('Reservations')}</p>
           </div>
           {/* number of Reservations */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>4000</p>
+          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.bookings_count}</p>
 
           <div className="flex gap-1">
             <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
@@ -170,9 +171,8 @@ function AnalysisPage({handleClose}) {
         </section>
 
 
-
+        {/* Views */}
         <section className='border border-[#CDD5DF] p-3' >
-          {/* tittle */}
           <div className='flex gap-1.5 mb-2.5'>
             <p className='bg-[#CEE8FF] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
               <img src="/images/icons/Views.svg" alt="" />
@@ -180,7 +180,7 @@ function AnalysisPage({handleClose}) {
             <p className='text-[#313131] text-base font-medium flex items-center'>{t('Views')}</p>
           </div>
           {/* number of Views */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>900K</p>
+          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.views}K</p>
 
           <div className="flex gap-1">
             <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
@@ -208,9 +208,8 @@ function AnalysisPage({handleClose}) {
         </section>
 
 
-
+        {/* Users */}
         <section className='border border-[#CDD5DF] p-3' >
-          {/* tittle */}
           <div className='flex gap-1.5 mb-2.5'>
             <p className='bg-[#FEF3F2] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
               <img src="/images/icons/Users.svg" alt="" />
@@ -218,7 +217,7 @@ function AnalysisPage({handleClose}) {
             <p className='text-[#313131] text-base font-medium flex items-center'>{t('Users')}</p>
           </div>
           {/* number of Users */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>187K</p>
+          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.users}K</p>
 
           <div className="flex gap-1">
             <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
@@ -247,33 +246,43 @@ function AnalysisPage({handleClose}) {
 
       </div>
 
-    <div className='px-6'>
-      <div className='p-4 border border-[#CDD5DF] my-6'>
-
-        {/* tittle */}
-        <div className='flex gap-1.5 mb-3'>
-          <p className='bg-[#ECFDF3] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
-            <img src="/images/icons/earnings.svg" alt="" />
-          </p>
-          <p className='text-[#313131] text-base font-medium flex items-center'>{t('Sales')}</p>
-        </div>
 
 
-        <div className="p-4 ">
-          <Chart
-            options={chartOptions}
-            series={seriesData}
-            type="bar"
-            width="100%"
-            height={300}
-          />
+
+
+
+    {/* chart */}
+      <div className='px-6'>
+        <div className='p-4 border border-[#CDD5DF] my-6'>
+          <div className='flex gap-1.5 mb-3'>
+            <p className='bg-[#ECFDF3] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
+              <img src="/images/icons/earnings.svg" alt="" />
+            </p>
+            <p className='text-[#313131] text-base font-medium flex items-center'>{t('Sales')}</p>
+          </div>
+
+
+          <div className="p-4 ">
+            <Chart
+              options={chartOptions}
+              series={seriesData}
+              type="bar"
+              width="100%"
+              height={300}
+            />
+          </div>
+
         </div>
 
       </div>
 
-    </div>
+
+
+
+
 
     <div className="w-full h-px bg-[#CDD5DF] "></div>
+    {/* btns */}
     <div className='px-6 my-5'>
       <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-40 rounded-[3px] text-base font-medium'>
         {t('cancel')}
