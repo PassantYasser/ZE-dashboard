@@ -7,6 +7,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DigitalClock } from '@mui/x-date-pickers/DigitalClock';
 import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigitalClock';
 import dayjs from 'dayjs';
+import { Dialog } from "@mui/material";
+
 
 function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
@@ -455,7 +457,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
 
           {/* Clickable box */}
           <div
-            onClick={() => setOpen5(!open5)}
+            onClick={() => setOpen5(true)}
             className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
           >
             <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
@@ -466,44 +468,33 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
             </span>
           </div>
 
-          {/* Clock Picker */}
-          {open5 && (
-            <div className=" flex justify-start">
-              <div className=" w-[70%]  mt-2  ">
-                <div className="w-full bg-[#eef2f6]">
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <div className="w-full border border-[#C8C8C8] border-l-0 border-b-0">
-                      <MultiSectionDigitalClock
-                        value={tempTime}
-                        onChange={(newValue) => setTempTime(newValue)}
-                        ampm={false}
-                        timeSteps={{ minutes: 15 }}
-                        sx={{
-                          width: "100%",                   
-                          "& .MuiMultiSectionDigitalClock-root": {
-                            width: "100%",                   
-                          },
-                          "& .MuiMultiSectionDigitalClockSection-root": {
-                            flex: 1,                        
-                          },
-                        }}
-                      />
-                    </div>
-                  </LocalizationProvider>
-                  {/* OK button */}
-                  <div className="flex justify-start  p-3 border-t-0 border border-[#C8C8C8]">
-                    <button
-                      onClick={handleOkClick}
-                      className="bg-[var(--color-primary)] text-white  px-4 py-1 rounded-[3px] w-[50%] cursor-pointer"
-                    >
-                      اضافه
-                    </button>
-                  </div>
-              </div>
-              
+          {/* Calendar Popup (Dialog) */}
+          <Dialog open={open5} onClose={() => setOpen5(false)}>
+            <div className="bg-[#eef2f6] p-4 w-[320px]">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <MultiSectionDigitalClock
+                  value={tempTime}
+                  onChange={(newValue) => setTempTime(newValue)}
+                  ampm={false}
+                  timeSteps={{ minutes: 15 }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
+                    "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
+                  }}
+                />
+              </LocalizationProvider>
+
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={handleOkClick}
+                  className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
+                >
+                  {t("Add")}
+                </button>
               </div>
             </div>
-          )}
+          </Dialog>
         </div>
 
 
