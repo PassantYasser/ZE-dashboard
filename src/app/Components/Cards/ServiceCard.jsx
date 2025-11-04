@@ -86,33 +86,35 @@ function ServiceCard({service}) {
         </button>
 
         
-        <div className='grid grid-cols-2 mt-4 w-full '>
+        
 
           {/* price */}
           {service?.price_on_inspection===true ?(
-            <div className='flex gap-1.5 w-full  col-span-2'>
+            <div className='flex gap-1.5 w-full  col-span-2 mt-4'>
               <img src="/images/icons/price.svg" alt="" />
               <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
             </div>
           ):(
-            <div className='flex gap-1.5 w-full '>
-              <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
-            </div>
+            <div className='grid grid-cols-2 mt-4 w-full '>
+              <div className='flex gap-1.5 w-full '>
+                <img src="/images/icons/price.svg" alt="" />
+                <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
+              </div>
+                {/* sale price */}
+            {service?.sale_price && Number(service.sale_price) !== 0 && (
+              <div className="flex items-center gap-1.5 w-full mr-1.5  ">
+                <img src="/images/icons/sale price.svg" alt="" className="w-6 h-6" />
+                <p className="text-[#D92D20] font-medium text-sm line-through">
+                  {service?.sale_price} جنية
+                </p>
+              </div>
+            )}
+          </div>
           )}
 
         
           
-          {/* sale price */}
-          {service?.sale_price && Number(service.sale_price) !== 0 && (
-            <div className="flex items-center gap-1.5 w-full mr-1.5  ">
-              <img src="/images/icons/sale price.svg" alt="" className="w-6 h-6" />
-              <p className="text-[#D92D20] font-medium text-sm line-through">
-                {service?.sale_price} جنية
-              </p>
-            </div>
-          )}
-        </div>
+        
 
         <div className='grid grid-cols-2 gap-4 mt-4 '>
           {/* Revenues */}
