@@ -9,15 +9,55 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 function AnalysisPage({handleClose ,serviceAnalysis}) {
   const {t} = useTranslation()
-  const value = 1;
-  const isPositive = value >= 0;
-
-  const valuee = -2;
-  const isNegative = valuee >= 0;
 
 
 
-    //
+// const card = [
+//   { id: 1, title: "Card 1", value:serviceAnalysis?.weekly_comparison?.earnings?.percent_change  },
+//   { id: 2, title: "Card 2", value:serviceAnalysis?.weekly_comparison?.bookings?.percent_change  },
+//   { id: 3, title: "Card 3", value:serviceAnalysis?.weekly_comparison?.views?.percent_change  },
+//   { id: 4, title: "Card 4", value:serviceAnalysis?.weekly_comparison?.users?.percent_change  },
+// ];
+//   const isPositive = card.value >= 0;
+
+//   const isNegative = card.value >= 0;
+
+//     //
+
+ const cards = [
+    {
+      id: 1,
+      title: t("earnings"),
+      value: serviceAnalysis?.weekly_comparison?.earnings?.percent_change,
+      amount: `${serviceAnalysis?.earnings}K`,
+      iconBg: "#B4F0CC",
+      iconSrc: "/images/icons/earnings.svg",
+    },
+    {
+      id: 2,
+      title: t("Reservations"),
+      value: serviceAnalysis?.weekly_comparison?.bookings?.percent_change,
+      amount: serviceAnalysis?.bookings_count,
+      iconBg: "#FEF0C7",
+      iconSrc: "/images/icons/Reservations.svg",
+    },
+    {
+      id: 3,
+      title: t("Views"),
+      value: serviceAnalysis?.weekly_comparison?.views?.percent_change,
+      amount: `${serviceAnalysis?.views}K`,
+      iconBg: "#CEE8FF",
+      iconSrc: "/images/icons/Views.svg",
+    },
+    {
+      id: 4,
+      title: t("Users"),
+      value: serviceAnalysis?.weekly_comparison?.users?.percent_change,
+      amount: `${serviceAnalysis?.users}K`,
+      iconBg: "#FEF3F2",
+      iconSrc: "/images/icons/Users.svg",
+    },
+  ];
 
   const [chartOptions] = useState({
     chart: {
@@ -95,156 +135,69 @@ function AnalysisPage({handleClose ,serviceAnalysis}) {
   return (
     <>
     {/* cards */}
-      <div className='grid grid-cols-2 gap-4 px-6 mt-8'>
+    <div className="grid grid-cols-2 gap-4 px-6 mt-8">
+      {cards.map((item) => {
+        const value = item.value ?? 0;
+        const isPositive = value > 0;
+        const isNegative = value < 0;
+        const isNeutral = value === 0;
 
-        {/* earnings */}
-        <section className='border border-[#CDD5DF] p-3' >
-        
-          <div className='flex gap-1.5 mb-2.5'>
-            <p className='bg-[#B4F0CC] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
-              <img src="/images/icons/earnings.svg" alt="" />
-            </p>
-            <p className='text-[#313131] text-base font-medium flex items-center'>{t('earnings')}</p>
-          </div>
-          {/* number of earnings */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.earnings}K</p>
-
-          <div className="flex gap-1">
-            <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
-
-            <div className="flex gap-1 items-center">
+        return (
+          <section key={item.id} className="border border-[#CDD5DF] p-3">
+            {/* Header */}
+            <div className="flex gap-1.5 mb-2.5">
               <p
-                className={`flex text-sm font-medium ${
-                  isPositive ? "text-[#17B26A]" : "text-[#F04438]"
-                }`}
+                className="w-8 h-8 flex justify-center items-center rounded-[6.211px]"
+                style={{ backgroundColor: item.iconBg }}
               >
-                <span>%</span>
-                <span>{Math.abs(value)}</span>
+                <img src={item.iconSrc} alt="" />
               </p>
-
-              <img
-                src={
-                  isPositive
-                    ? "/images/icons/upArrow green.svg"
-                    : "/images/icons/downArrow red.svg"
-                }
-                alt=""
-              />
+              <p className="text-[#313131] text-base font-medium flex items-center">
+                {item.title}
+              </p>
             </div>
-          </div>
-        </section>
 
-        {/* Reservations */}
-        <section className='border border-[#CDD5DF] p-3' >
-          <div className='flex gap-1.5 mb-2.5'>
-            <p className='bg-[#FEF0C7] w-8 h-8 flex justify-center items-center rounded-[6px]'>
-              <img src="/images/icons/Reservations.svg" alt="" />
+            {/* Main value */}
+            <p className="text-[#202939] text-base font-semibold mb-2.5">
+              {item.amount}
             </p>
-            <p className='text-[#313131] text-base font-medium flex items-center'>{t('Reservations')}</p>
-          </div>
-          {/* number of Reservations */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.bookings_count}</p>
 
-          <div className="flex gap-1">
-            <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
-
-            <div className="flex gap-1 items-center">
-              <p
-                className={`flex text-sm font-medium ${
-                  isPositive ? "text-[#17B26A]" : "text-[#F04438]"
-                }`}
-              >
-                <span>%</span>
-                <span>{Math.abs(value)}</span>
+            {/* Comparison */}
+            <div className="flex gap-1">
+              <p className="text-[#697586] text-sm font-light">
+                {t("From last week")}
               </p>
+              <div className="flex gap-1 items-center">
+                <p
+                  className={`flex text-sm font-medium ${
+                    isPositive
+                      ? "text-[#17B26A]"
+                      : isNegative
+                      ? "text-[#F04438]"
+                      : "text-[#98A2B3]" // neutral gray if value = 0
+                  }`}
+                >
+                  <span>%</span>
+                  <span>{Math.abs(value)}</span>
+                </p>
 
-              <img
-                src={
-                  isPositive
-                    ? "/images/icons/upArrow green.svg"
-                    : "/images/icons/downArrow red.svg"
-                }
-                alt=""
-              />
+                {/* arrow */}
+                {!isNeutral && (
+                  <img
+                    src={
+                      isPositive
+                        ? "/images/icons/upArrow green.svg"
+                        : "/images/icons/downArrow red.svg"
+                    }
+                    alt=""
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        </section>
-
-
-        {/* Views */}
-        <section className='border border-[#CDD5DF] p-3' >
-          <div className='flex gap-1.5 mb-2.5'>
-            <p className='bg-[#CEE8FF] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
-              <img src="/images/icons/Views.svg" alt="" />
-            </p>
-            <p className='text-[#313131] text-base font-medium flex items-center'>{t('Views')}</p>
-          </div>
-          {/* number of Views */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.views}K</p>
-
-          <div className="flex gap-1">
-            <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
-
-            <div className="flex gap-1 items-center">
-              <p
-                className={`flex text-sm font-medium ${
-                  isPositive ? "text-[#17B26A]" : "text-[#F04438]"
-                }`}
-              >
-                <span>%</span>
-                <span>{Math.abs(value)}</span>
-              </p>
-
-              <img
-                src={
-                  isPositive
-                    ? "/images/icons/upArrow green.svg"
-                    : "/images/icons/downArrow red.svg"
-                }
-                alt=""
-              />
-            </div>
-          </div>
-        </section>
-
-
-        {/* Users */}
-        <section className='border border-[#CDD5DF] p-3' >
-          <div className='flex gap-1.5 mb-2.5'>
-            <p className='bg-[#FEF3F2] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
-              <img src="/images/icons/Users.svg" alt="" />
-            </p>
-            <p className='text-[#313131] text-base font-medium flex items-center'>{t('Users')}</p>
-          </div>
-          {/* number of Users */}
-          <p className='text-[#202939] text-base font-semibold mb-2.5'>{serviceAnalysis?.users}K</p>
-
-          <div className="flex gap-1">
-            <p className="text-[#697586] text-sm font-light">{t("From last week")}</p>
-
-            <div className="flex gap-1 items-center">
-              <p
-                className={`flex text-sm font-medium ${
-                  isNegative ? "text-[#17B26A]" : "text-[#F04438]"
-                }`}
-              >
-                <span>%</span>
-                <span>{Math.abs(value)}</span>
-              </p>
-
-              <img
-                src={
-                  isNegative
-                    ? "/images/icons/upArrow green.svg"
-                    : "/images/icons/downArrow red.svg"
-                }
-                alt=""
-              />
-            </div>
-          </div>
-        </section>
-
-      </div>
+          </section>
+        );
+      })}
+    </div>
 
 
 
