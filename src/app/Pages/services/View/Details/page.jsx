@@ -75,21 +75,21 @@ function DetailsPage({handleClose ,status ,service}) {
         <section className='flex gap-4 text-[#4B5565] text-base font-medium mb-4 '>
           <div>
             <span className='text-[#364152]'>{t('Service status')}</span>
-            <span>(نشط)</span>
+            <span>{service?.is_active!==true ? '( غير نشط)':'(نشط)'}</span>
           </div>
           <div
             onClick={() => setEnabled(!enabled)}
             className={`relative w-11 h-6 flex items-center rounded-full p-1 cursor-pointer transition-colors duration-300
-              ${enabled ? "bg-[#9AA4B2]" : "bg-[#17B26A]"}`}
+              ${service?.is_active ? "bg-[#17B26A]" : "bg-[#9AA4B2]"}`}
           >
             <div
               className={`bg-white w-4.5 h-4.5 rounded-full shadow-md transform transition-transform duration-300
-                ${enabled ? "-translate-x-5" : "translate-x-0"}`}
+                ${service?.is_active  ? "-translate-x-5" : "translate-x-0"}`}
             />
           </div>
         </section>
 
-        {/* price&&Revenues&&RequestsNumber&&view */}
+        {/* saleprice&&price&&Revenues&&RequestsNumber&&view */}
         <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2 justify-between rounded-[3px] gap-4 p-3 mb-6'>
             {/* sale price */}
             {service?.sale_price!==0  && (
@@ -99,37 +99,32 @@ function DetailsPage({handleClose ,status ,service}) {
               </div>
             )}
 
-
             {/* price */}
-              {service?.price_on_inspection===true ?(
+            {service?.price_on_inspection===true ?(
+              <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
+                <img src="/images/icons/price.svg" alt="" />
+                <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
+              </div>
+            ):(
+            <>
                 <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
-                  <img src="/images/icons/price.svg" alt="" />
-                  <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
+                  <img src="/images/icons/price.svg" alt=""  />
+                  <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
                 </div>
-              ):(
-              <>
-                  <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
-                    <img src="/images/icons/price.svg" alt=""  />
-                    <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
-                  </div>
-              </>
-              )}            
-            
-            
-            
+            </>
+            )}            
+              
             {/* Revenues */}
-              <div className={`flex   ${service?.sale_price===0 ?' justify-end':""}`}>
-              <div className='w-50 flex gap-1.5'>
-                  <img src="/images/icons/Revenues.svg" alt=""/>
-                  <p className='text-base font-normal'>
-                    <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                    <span className='text-[var(--color-primary)]'>{service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price}  {t('Pound')}</span>
-                  </p>
-              </div>
-              </div>
+            <div className={`flex   ${service?.sale_price===0 ?' justify-end':""}`}>
+            <div className='w-50 flex gap-1.5'>
+                <img src="/images/icons/Revenues.svg" alt=""/>
+                <p className='text-base font-normal'>
+                  <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
+                  <span className='text-[var(--color-primary)]'>{service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price}  {t('Pound')}</span>
+                </p>
+            </div>
+            </div>
             
-              {/* / */}
-
             {/* RequestsNumber */}
             <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
               <img src="/images/icons/RequestsNumber.svg" className='w-5 h-5' alt=""/>
@@ -137,7 +132,6 @@ function DetailsPage({handleClose ,status ,service}) {
             </div>
     
             {/* views */}
-            
             <div className={`flex ${service?.sale_price===0 ?' justify-end':""}`}>
                 <div className='flex w-50  gap-1.5'>
                   <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
