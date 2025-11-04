@@ -65,6 +65,7 @@ function ServiceCard({service}) {
     }
   };
 
+
   return (
     <>
       <section className='bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px]'>
@@ -84,48 +85,62 @@ function ServiceCard({service}) {
             {service?.category?.title}
         </button>
 
-        <div className='mt-4'>
+        
+        <div className='grid grid-cols-2 mt-4'>
           {/* price */}
-          <div className='flex gap-1.5'>
+          <div className='flex gap-1.5 w-full '>
             <img src="/images/icons/price.svg" alt="" />
             <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
           </div>
-
-          <div className='flex justify-between my-4'>
-            <section>
-              <div className='flex gap-1.5 mb-4'>
-                <img src="/images/icons/Revenues.svg" alt="" />
-                <p className='text-sm font-normal'>
-                  <span className='text-[#697586] ml-1'>{t('Revenues')}</span>
-                  <span className='text-[#C69815]'> {service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price} {t('Pound')}</span>
-                </p>
-              </div>
-
-              <div className='flex gap-1.5'>
-                <img src="/images/icons/Available areas.svg" alt="" />
-                <p className='text-sm font-normal'>
-                  <span className='text-[#697586] ml-1'>{t('Available areas')}</span>
-                  <span className='text-[#C69815]'>
-                    ({service?.areas?.length || 0}+)
-
-                  </span>
-                </p>
-              </div>
-            </section>
-
-            <section className='mx-2'>
-              <div className='flex gap-1.5 mb-4'>
-                <img src="/images/icons/RequestsNumber.svg" alt="" />
-                <p className='text-[#697586] text-sm font-normal'>{t('Requests')} {service?.bookings_count}</p>
-              </div>
-              
-              <div className='flex gap-1.5'>
-                <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]' />
-                <p className='text-[#697586] text-sm font-normal'>{service?.views_count} {t('View')}</p>
-              </div>
-            </section>
-          </div>
+          
+          {/* sale price */}
+          {service?.sale_price && Number(service.sale_price) !== 0 && (
+            <div className="flex gap-1.5 w-full ">
+              <img src="/images/icons/sale price.svg" alt="" className="w-6 h-6" />
+              <p className="text-[#D92D20] font-medium text-sm line-through">
+                {service?.sale_price} جنية
+              </p>
+            </div>
+          )}
         </div>
+
+        <div className='grid grid-cols-2 gap-4 mt-4'>
+          {/* Revenues */}
+          <div className='flex gap-1.5 '>
+            <img src="/images/icons/Revenues.svg" alt="" className='w-6 h-6 ' />
+            <p className='text-sm font-normal'>
+              <span className='text-[#697586] ml-1'>{t('Revenues')}</span>
+              <span className='text-[#C69815]'> {service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price} {t('Pound')}</span>
+            </p>
+          </div>
+          
+          {/* Requests */}
+          <div className='flex gap-1.5 '>
+            <img src="/images/icons/RequestsNumber.svg" alt="" className='w-6 h-6 '/>
+            <p className='text-[#697586] text-sm font-normal'>{t('Requests')} {service?.bookings_count}</p>
+          </div>
+          
+          {/* Available areas */}
+          <div className='flex gap-1.5  w-full'>
+            <img src="/images/icons/Available areas.svg" alt="" className='w-6 h-6 ' />
+            <p className='text-sm font-normal'>
+              <span className='text-[#697586] '>{t('areas')}</span>
+              <span className='text-[#C69815]'>
+                ({service?.areas?.length || 0}+)
+              </span>
+            </p>
+          </div>
+
+          
+          
+          {/* View */}
+          <div className='flex gap-1.5 w-full'>
+            <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B] w-6 h-6' />
+            <p className='text-[#697586] text-sm font-normal'>{service?.views_count} {t('View')}</p>
+          </div>
+
+        </div>
+
       </section>
 
       {/* ✅ Use the client-safe component */}

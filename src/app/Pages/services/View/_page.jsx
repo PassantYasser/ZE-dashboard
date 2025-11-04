@@ -146,6 +146,8 @@ const images = service?.images?.length
         return null;
     }
   };
+
+  console.log(service?.id);
   return (
     <>
       <Dialog
