@@ -148,9 +148,29 @@ function DetailsPage({handleClose ,status ,service}) {
             <img src="/images/icons/date-time.svg" alt="" />
             <p className='text-[#364152]'>{t('Available times and days')}</p>
           </div>
-          <div className='flex justify-between shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
-            <p className='text-[#697586] text-sm font-normal'>الثلاثاء </p>
-            <p className='text-[#697586] text-sm font-normal'>02:00م - 05:00ص</p>
+          <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
+            {service?.days.map((day, index)=>(
+              <div key={index}>
+                <div className='flex justify-between '>
+                  <p className='text-[#697586] text-sm font-normal'>{day?.day} </p>
+                  <div className='flex flex-col gap-3 items-end'>
+                      {day?.times.map((time, idx) => (
+                        <p
+                          className='text-[#697586] text-sm font-normal'
+                          key={idx}
+                        >
+                          {time?.from} - {time?.to}
+                        </p>
+                      ))}
+                    </div>
+                  
+                </div>
+                {index !== service?.days.length - 1 && (
+                  <div className="w-full h-px bg-[#CDD5DF] my-3"></div>
+                )}
+              </div>
+            ))}
+          
           </div>
         </section>
 
