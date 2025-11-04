@@ -87,11 +87,21 @@ function ServiceCard({service}) {
 
         
         <div className='grid grid-cols-2 mt-4 w-full '>
+
           {/* price */}
-          <div className='flex gap-1.5 w-full '>
-            <img src="/images/icons/price.svg" alt="" />
-            <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
-          </div>
+          {service?.price_on_inspection===true ?(
+            <div className='flex gap-1.5 w-full  col-span-2'>
+              <img src="/images/icons/price.svg" alt="" />
+              <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
+            </div>
+          ):(
+            <div className='flex gap-1.5 w-full '>
+              <img src="/images/icons/price.svg" alt="" />
+              <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
+            </div>
+          )}
+
+        
           
           {/* sale price */}
           {service?.sale_price && Number(service.sale_price) !== 0 && (
