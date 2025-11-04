@@ -90,38 +90,47 @@ function DetailsPage({handleClose ,status ,service}) {
         </section>
 
         {/* price&&Revenues&&RequestsNumber&&view */}
-        <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2  rounded-[3px] gap-4 p-3 mb-6'>
+        <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2 justify-between rounded-[3px] gap-4 p-3 mb-6'>
+            {/* sale price */}
+            {service?.sale_price!==0 && (
+              <div className='flex gap-1.5 w-full'>
+                <img src="/images/icons/sale price.svg" alt="" />
+                <p className='text-[#D92D20] font-medium text-sm line-through'>{service?.sale_price} جنية</p>
+              </div>
+            )}
+            
             {/* price */}
-            <div className='flex gap-1.5 w-full    '>
+            <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
               <img src="/images/icons/price.svg" alt=""  />
               <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
             </div>
             
             {/* Revenues */}
-            <div className=' flex justify-end'>
-              <div className='flex gap-1.5  w-50   '>
-                <img src="/images/icons/Revenues.svg" alt=""/>
-                <p className='text-base font-normal'>
-                  <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
-                  <span className='text-[var(--color-primary)]'>{service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price}  {t('Pound')}</span>
-                </p>
+              <div className={`flex   ${service?.sale_price===0 ?' justify-end':""}`}>
+              <div className='w-50 flex gap-1.5'>
+                  <img src="/images/icons/Revenues.svg" alt=""/>
+                  <p className='text-base font-normal'>
+                    <span className='text-[#697586] ml-1'>{t('Revenues')}</span>  
+                    <span className='text-[var(--color-primary)]'>{service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price}  {t('Pound')}</span>
+                  </p>
               </div>
-            </div>
+              </div>
             
               {/* / */}
 
             {/* RequestsNumber */}
-            <div className='flex gap-1.5 w-full  '>
+            <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
               <img src="/images/icons/RequestsNumber.svg" className='w-5 h-5' alt=""/>
               <p className='text-[#697586] text-base font-normal'>{t('Requests')} {service?.bookings_count}</p>
             </div>
     
             {/* views */}
-            <div className=' flex justify-end'>
-              <div className='flex gap-1.5  w-50  '>
-                <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
-                <p className='text-[#697586] text-base font-normal'>{service?.views_count} {t('View')}</p>
-              </div>
+            
+            <div className={`flex ${service?.sale_price===0 ?' justify-end':""}`}>
+                <div className='flex w-50  gap-1.5'>
+                  <img src="/images/icons/view.svg" alt="" className='text-[#8B8B8B]'/>
+                  <p className='text-[#697586] text-base font-normal'>{service?.views_count} {t('View')}</p>
+                </div>
             </div>
             
 
