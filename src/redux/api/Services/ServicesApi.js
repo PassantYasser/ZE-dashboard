@@ -23,6 +23,12 @@ export const getServiceAnalysisById = async (service_id) => {
 // Get modules
 export const getmodules = async()=>{
   const response = await API.post('/getModules');
-  console.log('getmodules' ,response.data );
   return response.data.modules;
-}
+};
+
+// Get categories
+export const getCategories = async(module_id)=>{
+  const response = await API.post('/getCategories' , { module_id });
+  console.log('getCategories' ,response.data );
+  return response.data.categories;
+};

@@ -1,4 +1,4 @@
-import { getAllServices, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
+import { getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -49,13 +49,27 @@ export const getmodulesThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await getmodules();
-      console.log("modules slice data", data);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
-)
+);
+
+// Get categories
+export const getCategoriesThunk = createAsyncThunk(
+  "services/getCategories",
+  async (module_id, { rejectWithValue }) => {   
+    try {
+      const data = await getCategories(module_id);
+      console.log("categories slice data", data);
+      return data;
+    }catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    } 
+  }
+);
+
 
 const initialState = {
     services: [],
@@ -63,7 +77,7 @@ const initialState = {
     service: null,
     serviceAnalysis: null,
     getmodules: null,
-
+    getCategories: null,
 
     loadingList: false, 
     loadingDetails: false,  
@@ -134,6 +148,21 @@ const servicesSlice = createSlice({
         state.getmodules = action.payload;
       })
       .addCase(getmodulesThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+
+      // ✅ Get categories
+      .addCase(getCategoriesThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getCategoriesThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.getCategories = action.payload;
+      }
+      )
+      .addCase(getCategoriesThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       });
