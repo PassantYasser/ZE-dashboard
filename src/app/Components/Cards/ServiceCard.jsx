@@ -68,7 +68,9 @@ function ServiceCard({service}) {
 
   return (
     <>
-      <section className='bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px]'>
+      <section 
+        onClick={handleClickOpen}
+        className='bg-white shadow-[0_0_4px_0_rgba(0,0,0,0.3)] px-2 py-3 rounded-[3px] cursor-pointer' >
         <div className="relative mb-5">
           <img
             src={`${IMAGE_BASE_URL}${service?.image}`}
@@ -81,9 +83,9 @@ function ServiceCard({service}) {
           </div>
         </div>
 
-        <button onClick={handleClickOpen} className='text-[#364152] text-base font-medium cursor-pointer'>
+        <p className='text-[#364152] text-base font-medium cursor-pointer'>
             {service?.category?.title}
-        </button>
+        </p>
 
         
         
