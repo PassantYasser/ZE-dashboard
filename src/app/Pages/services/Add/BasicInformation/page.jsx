@@ -7,20 +7,20 @@ import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigita
 import dayjs from 'dayjs';
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
+import { getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
 
 
 function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
-  const {getmodules } = useSelector((state) => state.services);
+  const {getmodules ,getCategories } = useSelector((state) => state.services);
 
   useEffect(() => {
     dispatch(getmodulesThunk());
+    dispatch(getCategoriesThunk());
   }, [dispatch]);
 
-  console.log(getmodules);
 
   //upload images
   const fileInputRef = useRef(null);
@@ -54,17 +54,17 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   const [selected1, setSelected1] = useState("");
   const dropdownRef1 = useRef(null);
   const optionMainClassification =getmodules || [];
+  useEffect(() => {
+    if (selected1?.id) {
+      dispatch(getCategoriesThunk(selected1.id));
+    }
+  }, [selected1, dispatch]);
 
   // Subcategory 2
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState("");
   const dropdownRef2 = useRef(null);
-  const optionSubcategory = [
-    'غرفة وصالة',
-    'غرفتين وصالة', 
-    'ثلاث غرف وصالة', 
-    'بنتهاوس'
-  ];
+  const optionSubcategory =getCategories || [];;
 
 
   // SubService 3
@@ -284,7 +284,8 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
               <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected2 || t("Select a subcategory")}
+                {/* {selected2 || t("Select a subcategory")} */}
+                {selected2?.title || selected2 || t("Select a subcategory")}
               </span>
               <span className="ml-2">
                 {open2 ? (
@@ -300,12 +301,12 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                   <li
                     key={index}
                     onClick={() => {
-                      setSelected2(option);
+                      setSelected2(option.title);
                       setOpen2(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {option}
+                    {option.title}
                   </li>
                 ))}
               </ul>
