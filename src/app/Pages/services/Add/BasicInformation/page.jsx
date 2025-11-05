@@ -23,7 +23,6 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   }, [dispatch]);
 
 
-
   //upload images
   const fileInputRef = useRef(null);
   const [images, setImages] = useState([]);
@@ -73,15 +72,8 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionSubService = [
-    'كشف تسربات المياه', 
-    'إصلاح مواسير تالفة', 
-    'تغيير خلاطات', 
-    'صيانة السيفون',
-    'تركيب مغسلة جديدة', 
-    'استبدال مغسلة قديمة', 
-    'توصيل صرف ومياه'
-  ];
+  const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child.title) || []) || [];
+
 
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
