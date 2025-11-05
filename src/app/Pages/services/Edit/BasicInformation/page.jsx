@@ -7,19 +7,21 @@ import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigita
 import dayjs from 'dayjs';
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
+import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
 
 
 function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
-  const {getmodules ,getCategories } = useSelector((state) => state.services);
+  const {getmodules ,getCategories , getAreas } = useSelector((state) => state.services);
 
   useEffect(() => {
     dispatch(getmodulesThunk());
     dispatch(getCategoriesThunk());
+    dispatch(getAllAreasThunk())
   }, [dispatch]);
+
 
 
   //upload images
@@ -85,23 +87,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState("");
   const dropdownRef4 = useRef(null);
-  const optionServiceActivityLocation = [
-  'القاهرة',
-  'الجيزة',
-  'الإسكندرية',
-  'القليوبية',
-  'المنوفية',
-  'الشرقية',
-  'الدقهلية',
-  'الغربية',
-  'كفر الشيخ',
-  'البحيرة',
-  'دمياط',
-  'بورسعيد',
-  'الإسماعيلية',
-  'السويس',
-  'المنيا',
-  ];
+  const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
 
   // Time 5
   const [open5, setOpen5] = useState(false);
