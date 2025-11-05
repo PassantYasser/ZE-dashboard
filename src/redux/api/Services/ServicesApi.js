@@ -29,7 +29,6 @@ export const getmodules = async()=>{
 // Get categories
 export const getCategories = async(module_id)=>{
   const response = await API.post('/getCategories' , { module_id });
-  console.log('getCategories' ,response.data );
   return response.data.categories;
 };
 

@@ -62,7 +62,6 @@ export const getCategoriesThunk = createAsyncThunk(
   async (module_id, { rejectWithValue }) => {   
     try {
       const data = await getCategories(module_id);
-      console.log("categories slice data", data);
       return data;
     }catch (error) {
       return rejectWithValue(error.response?.data || error.message);
