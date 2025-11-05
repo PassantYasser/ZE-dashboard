@@ -1,4 +1,4 @@
-import { getAllServices, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
+import { getAllServices, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -137,7 +137,7 @@ const servicesSlice = createSlice({
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       });
-      
+
   },
 });
 

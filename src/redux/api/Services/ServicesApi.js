@@ -20,10 +20,9 @@ export const getServiceAnalysisById = async (service_id) => {
 }
 
 /**Add service list**/
-
 // Get modules
 export const getmodules = async()=>{
   const response = await API.post('/getModules');
   console.log('getmodules' ,response.data );
-  return response.data;
+  return response.data.modules;
 }

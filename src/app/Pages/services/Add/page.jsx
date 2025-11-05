@@ -23,7 +23,11 @@ function AddPage() {
       label: t("Available days and times"),
       Component: SchedulePage,
     },
-    { id: "pricing", label: t("Pricing"), Component: PricingPage },
+    { 
+      id: "pricing", 
+      label: t("Pricing"), 
+      Component: PricingPage 
+    },
   ];
 
   const currentIndex = tabs.findIndex((tab) => tab.id === openId);
@@ -44,6 +48,8 @@ function AddPage() {
     router.back();
   };
 
+  
+
   return (
     <MainLayout>
       <div className="flex flex-col h-full">
@@ -58,7 +64,6 @@ function AddPage() {
         </section>
 
         <section className="w-full mt-4 flex flex-col flex-1 overflow-hidden">
-
           {/* tabs */}
           <div className="flex justify-around border-b border-gray-300">
             {tabs.map((tab) => (
@@ -90,8 +95,8 @@ function AddPage() {
               </div>
             ))}
           </div>
-
         </section>
+
       </div>
     </MainLayout>
   );
