@@ -98,14 +98,14 @@ function ServiceCard({service}) {
             <div className='grid grid-cols-2 mt-4 w-full '>
               <div className='flex gap-1.5 w-full '>
                 <img src="/images/icons/price.svg" alt="" />
-                <p className='text-[#C69815] text-lg font-medium'>{service?.price}{t('Pound')}</p>
+                <p className='text-[#C69815] text-lg font-medium'>{service?.sale_price}{t('Pound')}</p>
               </div>
                 {/* sale price */}
-            {service?.sale_price && Number(service.sale_price) !== 0 && (
+          {service?.sale_price && Number(service.sale_price) !== 0 && Number(service.price) !== 0 && (
               <div className="flex items-center gap-1.5 w-full mr-1.5  ">
                 <img src="/images/icons/sale price.svg" alt="" className="w-6 h-6" />
                 <p className="text-[#D92D20] font-medium text-sm line-through">
-                  {service?.sale_price} جنية
+                  {service?.price} جنية
                 </p>
               </div>
             )}

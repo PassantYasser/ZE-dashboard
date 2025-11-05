@@ -95,7 +95,7 @@ function DetailsPage({handleClose ,status ,service}) {
             {service?.sale_price!==0  && (
               <div className='flex gap-1.5 w-full'>
                 <img src="/images/icons/sale price.svg" alt="" />
-                <p className='text-[#D92D20] font-medium text-sm line-through'>{service?.sale_price} جنية</p>
+                <p className='text-[#D92D20] font-medium text-sm line-through'>{service?.price} جنية</p>
               </div>
             )}
 
@@ -109,7 +109,7 @@ function DetailsPage({handleClose ,status ,service}) {
             <>
                 <div className={`flex gap-1.5 w-full ${service?.sale_price!==0 ?'justify-end':""}`}>
                   <img src="/images/icons/price.svg" alt=""  />
-                  <p className='text-[var(--color-primary)] text-base font-medium'>{service?.price} {t('Pound')}</p>
+                  <p className='text-[var(--color-primary)] text-base font-medium'>{service?.sale_price} {t('Pound')}</p>
                 </div>
             </>
             )}            
