@@ -37,3 +37,11 @@ export const getAllAreas = async()=>{
   const response = await API.get('/provider/getAllAreas')
   return response.data
 }
+/******************* */
+export const AddService = async (formData) => {
+  const response = await API.post('/provider/services', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  console.log('AddService',response.data);
+  return response.data;
+}

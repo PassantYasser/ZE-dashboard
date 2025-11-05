@@ -1,4 +1,4 @@
-import { getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -44,6 +44,7 @@ export const getServiceAnalysisByIdThunk = createAsyncThunk(
 
 /**Add service list**/
 
+//Get module
 export const getmodulesThunk = createAsyncThunk(
   "services/getmodules",
   async (_, { rejectWithValue }) => {
@@ -69,6 +70,7 @@ export const getCategoriesThunk = createAsyncThunk(
   }
 );
 
+//Get Areas
 export const getAllAreasThunk = createAsyncThunk(
   'services/getAllAreasThunk',
     async(_,{rejectWithValue})=>{
@@ -79,6 +81,20 @@ export const getAllAreasThunk = createAsyncThunk(
         return rejectWithValue(error.response?.data || error.message);
       } 
     }
+);
+
+//Add service
+export const AddServiceThunk = createAsyncThunk(
+  'service/AddServiceThunk',
+  async(formData,{rejectWithValue})=>{
+    try{
+      const response = await AddService(formData)
+      console.log('AddServiceThunk' , response);
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
 )
 
 
@@ -90,6 +106,7 @@ const initialState = {
     getmodules: null,
     getCategories: null,
     getAreas : null,
+    addService:null,
 
     loadingList: false, 
     loadingDetails: false,  
@@ -192,6 +209,20 @@ const servicesSlice = createSlice({
         state.loadingList = false;
         state.errorList = action.payload;
       })
+
+      // ✅ Add new service
+      .addCase(AddServiceThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(AddServiceThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addService = action.payload;
+      })
+      .addCase(AddServiceThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      });
 
 
   },
