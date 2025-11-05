@@ -1,29 +1,38 @@
 "use client";
-import { Dialog } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { MultiSectionDigitalClock } from "@mui/x-date-pickers/MultiSectionDigitalClock";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigitalClock';
 import dayjs from 'dayjs';
+import { Dialog } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
+
 
 function BasicInformationPage({handleGoBack ,handleNext }) {
   const { t } = useTranslation();
 
+  const dispatch = useDispatch()
+  const {getmodules } = useSelector((state) => state.services);
+
+  useEffect(() => {
+    dispatch(getmodulesThunk());
+  }, [dispatch]);
+
+  console.log(getmodules);
+
   //upload images
-    const fileInputRef = useRef(null);
+  const fileInputRef = useRef(null);
   const [images, setImages] = useState([]);
-
   const MAX_IMAGES = 7;
-
-  const handleClick = () => {
-    if (images.length < MAX_IMAGES) {
-      fileInputRef.current.click();
-    } else {
-      alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
-    }
-  };
-
+  // const handleClick = () => {
+  //   if (images.length < MAX_IMAGES) {
+  //     fileInputRef.current.click();
+  //   } else {
+  //     alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
+  //   }
+  // };
   const handleFilesChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -36,81 +45,29 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages((prev) => [...prev, ...newImages]);
   };
-
   const handleDelete = (index) => {
     setImages((prev) => prev.filter((_, i) => i !== index));
   };
 
-
-
-
-  const options = [
-    t("Design"),
-    t("Development"),
-    t("Marketing"),
-    t("Consulting"),
-    t("Maing"),
-    t("sulting"),
-    t("Dign"),
-    t("elopment"),
-    t("Dment"),
-    t("ng"),
-    t('qqq'),
-    t('1wwwwwwqq')
-  ];
-
-  // Dropdown 1
+  // MainClassification 1
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionMainClassification = [
-    'منازل',
-    'شقق',
-    'فلل',
-    'محلات تجارية',
-    'مكاتب',
-    'مطاعم',
-    'فنادق',
-    'سيارات',
-    'دراجات نارية',
-    'شاحنات',
-    'سباك',
-    'كهربائي',
-    'نجّار',
-    'دهّان',
-    'ميكانيكي سيارات',
-    'عامل نظافة',
-    'حدّاد',
-    'مقاول بناء',
-    'مهندس ديكور',
-    'فني تكييف',
-    'نقّاش',
-    'مصفف شعر',
-    'خياط',
-    'حارس أمن',
-    'مربية أطفال',
-    'سائق خاص',
-    'طباخ',
-    'عامل صيانة',
-    'عامل حدائق',
-    'نقل عفش',
-    'فني أجهزة منزلية',
-    'تركيبات ألمنيوم',
-    'سباكة وصرف صحي'
-  ];
+  const optionMainClassification =getmodules || [];
 
-  // Dropdown 2
+  // Subcategory 2
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState("");
   const dropdownRef2 = useRef(null);
   const optionSubcategory = [
-  'غرفة وصالة',
-  'غرفتين وصالة', 
-  'ثلاث غرف وصالة', 
-  'بنتهاوس'
+    'غرفة وصالة',
+    'غرفتين وصالة', 
+    'ثلاث غرف وصالة', 
+    'بنتهاوس'
   ];
 
-  // Dropdown 3
+
+  // SubService 3
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState("");
   const dropdownRef3 = useRef(null);
@@ -124,7 +81,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
     'توصيل صرف ومياه'
   ];
 
-  // Dropdown 4
+  // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState("");
   const dropdownRef4 = useRef(null);
@@ -146,7 +103,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   'المنيا',
   ];
 
-  // Dropdown 5
+  // Time 5
   const [open5, setOpen5] = useState(false);
   const [tempTime, setTempTime] = useState(null); // temp selected value
   const [confirmedTime, setConfirmedTime] = useState(null); // confirmed by "OK" button
@@ -170,6 +127,8 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   }, []);
 
   const [text, setText] = useState("");
+
+
   return (
     <>
     {/* upload image */}
@@ -278,13 +237,14 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Main classification")}
           </label>
-          <div className="relative w-full" ref={dropdownRef1}>
+          <div className="relative w-full " ref={dropdownRef1}>
             <div
               onClick={() => setOpen1(!open1)}
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
               <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected1 || t("Select the main category")}
+                {/* {selected1 || t("Select the main category")} */}
+                {selected1?.name || t("Select the main category")}
               </span>
               <span className="ml-2">
                 {open1 ? (
@@ -298,14 +258,14 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
                 {optionMainClassification.map((option, index) => (
                   <li
-                    key={index}
+                    key={option.id || index}
                     onClick={() => {
                       setSelected1(option);
                       setOpen1(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {option}
+                    {option.name || option}
                   </li>
                 ))}
               </ul>
@@ -358,7 +318,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Sub-service name")}
           </label>
-          <div className="relative w-full" ref={dropdownRef3}>
+          <div className="relative w-full " ref={dropdownRef3}>
             <div
               onClick={() => setOpen3(!open3)}
               className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
@@ -393,7 +353,6 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           </div>
         </div>
     
-
         {/* Service Activity Location 4 */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
@@ -402,7 +361,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <div className="relative w-full " ref={dropdownRef4}>
             <div
               onClick={() => setOpen4(!open4)}
-              className="  p-2 h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex  items-center flex-wrap gap-2"
+              className="  p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex  items-center flex-wrap gap-2"
             >
               {/* Arrow icon on the left */}
               <span className="absolute left-3">
@@ -461,56 +420,57 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
         </div>
 
         {/* Average length of service 5 */}
-          <div className="flex flex-col mb-6">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Average length of service")}
-            </label>
-  
-            {/* Clickable box */}
-            <div
-              onClick={() => setOpen5(true)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
-            >
-              <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {formattedTime || t("Average length of service")}
-              </span>
-              <span className="ml-2">
-                <img src="/images/icons/timepicker.svg" alt="" />
-              </span>
-            </div>
-  
-            {/* Calendar Popup (Dialog) */}
-            <Dialog open={open5} onClose={() => setOpen5(false)}>
-              <div className="bg-[#eef2f6] p-4 w-[320px]">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <MultiSectionDigitalClock
-                    value={tempTime}
-                    onChange={(newValue) => setTempTime(newValue)}
-                    ampm={false}
-                    timeSteps={{ minutes: 15 }}
-                    sx={{
-                      width: "100%",
-                      "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                      "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                    }}
-                  />
-                </LocalizationProvider>
-  
-                <div className="flex justify-end mt-4">
-                  <button
-                    onClick={handleOkClick}
-                    className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
-                  >
-                    {t("Add")}
-                  </button>
-                </div>
-              </div>
-            </Dialog>
+        <div className="flex flex-col mb-6">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Average length of service")}
+          </label>
+
+          {/* Clickable box */}
+          <div
+            onClick={() => setOpen5(true)}
+            className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+          >
+            <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
+              {formattedTime || t("Average length of service")}
+            </span>
+            <span className="ml-2">
+              <img src="/images/icons/timepicker.svg" alt="" />
+            </span>
           </div>
 
-        
+          {/* Calendar Popup (Dialog) */}
+          <Dialog open={open5} onClose={() => setOpen5(false)}>
+            <div className="bg-[#eef2f6] p-4 w-[320px]">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <MultiSectionDigitalClock
+                  value={tempTime}
+                  onChange={(newValue) => setTempTime(newValue)}
+                  ampm={false}
+                  timeSteps={{ minutes: 15 }}
+                  sx={{
+                    width: "100%",
+                    "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
+                    "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
+                  }}
+                />
+              </LocalizationProvider>
+
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={handleOkClick}
+                  className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
+                >
+                  {t("Add")}
+                </button>
+              </div>
+            </div>
+          </Dialog>
+        </div>
+
+
       </section>
-        {/* Service Description */}
+
+      {/* Service Description */}
       <div className="flex flex-col">
         <label className="text-[#364152] text-base font-normal mb-3">
           {t("Service Description")}
@@ -531,6 +491,12 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
       </div>
     </form>
 
+
+
+
+
+
+    {/* btns */}
     <div className="my-12 flex gap-3">
       <button onClick={handleGoBack} 
       className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">{t('cancel')}</button>
