@@ -18,3 +18,12 @@ export const getServiceAnalysisById = async (service_id) => {
   const response = await API.get(`/provider/service-analysis/${service_id}`);
   return response.data;
 }
+
+/**Add service list**/
+
+// Get modules
+export const getmodules = async()=>{
+  const response = await API.post('/getModules');
+  console.log('getmodules' ,response.data );
+  return response.data;
+}

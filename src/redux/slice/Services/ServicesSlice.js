@@ -42,13 +42,27 @@ export const getServiceAnalysisByIdThunk = createAsyncThunk(
   }
 )
 
+/**Add service list**/
 
+export const getmodulesThunk = createAsyncThunk(
+  "services/getmodules",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getmodules();
+      console.log("modules slice data", data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initialState = {
     services: [],
     pagination: null,
     service: null,
     serviceAnalysis: null,
+    getmodules: null,
 
 
     loadingList: false, 
@@ -108,7 +122,22 @@ const servicesSlice = createSlice({
       .addCase(getServiceAnalysisByIdThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
+      })
+
+      // ✅ Get modules
+      .addCase(getmodulesThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getmodulesThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.getmodules = action.payload;
+      })
+      .addCase(getmodulesThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
       });
+      
   },
 });
 
