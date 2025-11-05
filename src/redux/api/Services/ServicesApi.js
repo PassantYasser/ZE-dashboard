@@ -32,3 +32,9 @@ export const getCategories = async(module_id)=>{
   console.log('getCategories' ,response.data );
   return response.data.categories;
 };
+
+//Get areas
+export const getAllAreas = async()=>{
+  const response = await API.get('/provider/getAllAreas')
+  return response.data
+}

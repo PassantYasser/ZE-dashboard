@@ -1,4 +1,4 @@
-import { getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
+import { getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -70,6 +70,19 @@ export const getCategoriesThunk = createAsyncThunk(
   }
 );
 
+export const getAllAreasThunk = createAsyncThunk(
+  'services/getAllAreasThunk',
+    async(_,{rejectWithValue})=>{
+      try{
+        const response = await getAllAreas();
+        console.log('getAllAreas slice' ,response.data);
+        return response
+      } catch (error) {
+        return rejectWithValue(error.response?.data || error.message);
+      } 
+    }
+)
+
 
 const initialState = {
     services: [],
@@ -78,6 +91,7 @@ const initialState = {
     serviceAnalysis: null,
     getmodules: null,
     getCategories: null,
+    getAreas : null,
 
     loadingList: false, 
     loadingDetails: false,  
@@ -165,7 +179,22 @@ const servicesSlice = createSlice({
       .addCase(getCategoriesThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
-      });
+      })
+
+      // ✅ Get areas
+      .addCase(getAllAreasThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getAllAreasThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getAreas = action.payload
+      })
+      .addCase(getAllAreasThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
 
   },
 });
