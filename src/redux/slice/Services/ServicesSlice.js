@@ -75,7 +75,6 @@ export const getAllAreasThunk = createAsyncThunk(
     async(_,{rejectWithValue})=>{
       try{
         const response = await getAllAreas();
-        console.log('getAllAreas slice' ,response.data);
         return response
       } catch (error) {
         return rejectWithValue(error.response?.data || error.message);
