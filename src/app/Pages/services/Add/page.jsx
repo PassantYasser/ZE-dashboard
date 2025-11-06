@@ -60,7 +60,59 @@ function AddPage() {
     }
   };
 
+//   const handleSubmit = (e) => {
+//   e.preventDefault();
+//   const data = new FormData();
 
+//   data.append('category_id', formData.category_id);
+//   data.append('title', formData.title);
+//   data.append('long_description', formData.long_description);
+//   data.append('price', formData.price);
+
+//   data.append('is_active', formData.is_active);
+//   data.append('pricing_type', formData.pricing_type);
+//   data.append('price_on_inspection', formData.price_on_inspection);
+//   data.append('discount', formData.discount);
+//   data.append('discount_type', formData.discount_type);
+//   // data.append('from', formData.from);
+//   // data.append('to', formData.to);
+//   // data.append("provider_id", '2'); 
+//   data.append("provider_id", localStorage.getItem("provider_id"));
+//   data.append("module_id", "1");   
+
+
+//   // ✅ Append array of images
+//   if (Array.isArray(formData.images)) {
+//     formData.images.forEach((file) => {
+//       data.append('images[]', file);
+//     });
+
+//   }
+
+//   // ✅ Append array of provider area IDs
+//   if (Array.isArray(formData.provider_areas_id)) {
+//     formData.provider_areas_id.forEach((id) => {
+//       data.append('provider_areas_id[]', id);
+//     });
+//   }
+
+//   //✅ Append array of days
+//   //   if (Array.isArray(formData.days)) {
+//   //   formData.days.forEach((id) => {
+//   //     data.append('days[]', id);
+//   //   });
+//   // }
+
+//   dispatch(addServiceThunk(data))
+//     .unwrap()
+//     .then(() => {
+//       console.log("Success! Navigating...");
+//       navigate('/services'); 
+//     })
+//     .catch((error) => {
+//       console.error("Error submitting form:", error);
+//     });
+// };
 
   console.log(formData);
 
