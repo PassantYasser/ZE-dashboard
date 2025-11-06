@@ -65,6 +65,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   // Subcategory 2
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState("");
+  const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
   const optionSubcategory =getCategories || [];;
 
@@ -72,6 +73,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   // SubService 3
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState("");
+  const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
   const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child.title) || []) || [];
 
@@ -231,7 +233,6 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                   setSearchValue1(e.target.value);
                   setOpen1(true);
                   setSelected1(null);
-                  handleChange("module_id", "");
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
@@ -278,37 +279,57 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Subcategory")}
           </label>
-          <div className="relative w-full " ref={dropdownRef2}>
+
+          <div className="relative w-full" ref={dropdownRef2}>
             <div
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
               onClick={() => setOpen2(!open2)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
-              <span className={selected2 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {/* {selected2 || t("Select a subcategory")} */}
-                {selected2?.title || selected2 || t("Select a subcategory")}
-              </span>
-              <span className="ml-2">
+              {/* 🔍 Input for search + typing */}
+              <input
+                type="text"
+                placeholder={t("Select a subcategory")}
+                value={searchValue2 || selected2?.title || selected2 || ""}
+                onChange={(e) => {
+                  setSearchValue2(e.target.value);
+                  setOpen2(true);
+                  setSelected2(null);
+                }}
+                className="h-15 p-3  w-full text-[#364152] focus:outline-none"
+              />
+
+              {/* 🔽 Dropdown arrow */}
+              <span className="absolute left-3 pointer-events-none">
                 {open2 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                  <img src="/images/icons/ArrowUp.svg" alt="up" />
                 ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                  <img src="/images/icons/ArrowDown.svg" alt="down" />
                 )}
               </span>
             </div>
+
+            {/* 🔽 Dropdown list */}
             {open2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {optionSubcategory.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setSelected2(option.title);
-                      setOpen2(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option.title}
-                  </li>
-                ))}
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                {optionSubcategory
+                  .filter((option) =>
+                    option.title
+                      ?.toLowerCase()
+                      .includes(searchValue2.toLowerCase())
+                  )
+                  .map((option, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setSelected2(option);
+                        setSearchValue2("");
+                        setOpen2(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option.title}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
@@ -319,36 +340,57 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Sub-service name")}
           </label>
-          <div className="relative w-full " ref={dropdownRef3}>
+
+          <div className="relative w-full" ref={dropdownRef3}>
             <div
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
               onClick={() => setOpen3(!open3)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
-              <span className={selected3 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {selected3 || t("Select the sub-service")}
-              </span>
-              <span className="ml-2">
+              <input
+                type="text"
+                placeholder={t("Select the sub-service")}
+                value={searchValue3 || selected3?.title || selected3 || ""}
+                onChange={(e) => {
+                  setSearchValue3(e.target.value);
+                  setOpen3(true);
+                  setSelected3("");
+                }}
+                className="h-15 p-3  w-full text-[#364152] focus:outline-none"
+              />
+
+              {/* 🔽 Dropdown arrow */}
+              <span className="absolute left-3 pointer-events-none">
                 {open3 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                  <img src="/images/icons/ArrowUp.svg" alt="up" />
                 ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                  <img src="/images/icons/ArrowDown.svg" alt="down" />
                 )}
               </span>
             </div>
+
+            {/* 🔽 Dropdown list */}
             {open3 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {optionSubService.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setSelected3(option);
-                      setOpen3(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option}
-                  </li>
-                ))}
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                {optionSubService
+                  .filter((option) =>
+                    (option?.title || option)
+                      ?.toString()
+                      .toLowerCase()
+                      .includes(searchValue3.toLowerCase())
+                  )
+                  .map((option, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setSelected3(option);
+                        setSearchValue3("");
+                        setOpen3(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option?.title || option}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
@@ -359,26 +401,18 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Service Activity Location")}
           </label>
-          <div className="relative w-full " ref={dropdownRef4}>
+
+          <div className="relative w-full" ref={dropdownRef4}>
             <div
               onClick={() => setOpen4(!open4)}
-              className="  p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex  items-center flex-wrap gap-2"
+              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
             >
-              {/* Arrow icon on the left */}
-              <span className="absolute left-3">
-                {open4 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
-              </span>
-
               {/* Selected tags / placeholder */}
               {selected4.length > 0 ? (
                 selected4.map((item, index) => (
                   <span
                     key={index}
-                    className="flex items-center  gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                    className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
                   >
                     {item}
                     <button
@@ -394,8 +428,17 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                   </span>
                 ))
               ) : (
-                <span className="text-[#9A9A9A] absolute right-3 ">{t("Select City")}</span>
+                <span className="text-[#9A9A9A]">{t("Select City")}</span>
               )}
+
+              {/* Arrow icon on the right */}
+              <span className="absolute left-3">
+                {open4 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
+              </span>
             </div>
 
             {/* Dropdown options */}
