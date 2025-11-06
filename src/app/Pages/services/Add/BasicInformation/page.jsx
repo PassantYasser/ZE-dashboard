@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
 
 
-function BasicInformationPage({handleGoBack ,handleNext }) {
+function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,handleSubmit ,setFormData }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
@@ -27,13 +27,6 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   const fileInputRef = useRef(null);
   const [images, setImages] = useState([]);
   const MAX_IMAGES = 7;
-  // const handleClick = () => {
-  //   if (images.length < MAX_IMAGES) {
-  //     fileInputRef.current.click();
-  //   } else {
-  //     alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
-  //   }
-  // };
   const handleFilesChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -83,16 +76,16 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
 
   // Time 5
   const [open5, setOpen5] = useState(false);
-  const [tempTime, setTempTime] = useState(null); // temp selected value
-  const [confirmedTime, setConfirmedTime] = useState(null); // confirmed by "OK" button
+  const [tempTime, setTempTime] = useState(null); 
+  const [confirmedTime, setConfirmedTime] = useState(null);
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
 
   const handleOkClick = () => {
-    setConfirmedTime(tempTime); // confirm time
-    setOpen5(false); // close clock
+    setConfirmedTime(tempTime);
+    setOpen5(false);
   };
-  // close dropdowns when clicking outside
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
@@ -114,7 +107,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
       onClick={() => fileInputRef.current.click()}
       className="w-full p-8 border border-dashed border-[#9AA4B2] cursor-pointer"
     >
-      {/* hidden input (مرة واحدة بس) */}
+      {/* hidden input  */}
       <input
         type="file"
         ref={fileInputRef}
@@ -240,6 +233,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                     onClick={() => {
                       setSelected1(option);
                       setOpen1(false);
+                      handleChange("module_id", option.id);  
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
@@ -281,6 +275,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
                     onClick={() => {
                       setSelected2(option.title);
                       setOpen2(false);
+                      
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
