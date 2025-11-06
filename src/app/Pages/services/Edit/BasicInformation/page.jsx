@@ -53,6 +53,7 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
   // MainClassification 1
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState("");
+  const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
   const optionMainClassification =getmodules || [];
   useEffect(() => {
@@ -215,37 +216,58 @@ function BasicInformationPage({handleGoBack ,handleNext }) {
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Main classification")}
           </label>
-          <div className="relative w-full " ref={dropdownRef1}>
+
+          <div className="relative w-full" ref={dropdownRef1}>
             <div
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
               onClick={() => setOpen1(!open1)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
             >
-              <span className={selected1 ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                {/* {selected1 || t("Select the main category")} */}
-                {selected1?.name || t("Select the main category")}
-              </span>
-              <span className="ml-2">
+              {/* Input */}
+              <input
+                type="text"
+                placeholder={t("Select the main category")}
+                value={searchValue1 || selected1?.name || ""}
+                onChange={(e) => {
+                  setSearchValue1(e.target.value);
+                  setOpen1(true);
+                  setSelected1(null);
+                  handleChange("module_id", "");
+                }}
+                className="h-15 p-3 w-full text-[#364152] focus:outline-none"
+              />
+
+              {/* 🔽 Dropdown arrow */}
+              <span className="absolute left-3 cursor-pointer">
                 {open1 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                  <img src="/images/icons/ArrowUp.svg" alt="up" />
                 ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                  <img src="/images/icons/ArrowDown.svg" alt="down" />
                 )}
               </span>
             </div>
+
+            {/* 🔽 Dropdown options */}
             {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10  max-h-48 overflow-y-auto">
-                {optionMainClassification.map((option, index) => (
-                  <li
-                    key={option.id || index}
-                    onClick={() => {
-                      setSelected1(option);
-                      setOpen1(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option.name || option}
-                  </li>
-                ))}
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                {optionMainClassification
+                  .filter((option) =>
+                    option.name
+                      ?.toLowerCase()
+                      .includes(searchValue1.toLowerCase())
+                  )
+                  .map((option, index) => (
+                    <li
+                      key={option.id || index}
+                      onClick={() => {
+                        setSelected1(option);
+                        setSearchValue1("");
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option.name}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
