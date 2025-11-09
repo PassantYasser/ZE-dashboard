@@ -79,8 +79,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   const [selected3, setSelected3] = useState("");
   const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child.title) || []) || [];
-
+  const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child) || []) || [];
 
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
@@ -140,7 +139,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   return (
     <>
     {/* upload image */}
-     
+    
     <div className="flex flex-col gap-6">
       <div
         onClick={() => fileInputRef.current.click()}
@@ -340,65 +339,63 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
 
     
         {/* Sub-service name 3 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Sub-service name")}
-          </label>
+         <div className="flex flex-col">
+    <label className="text-[#364152] text-base font-normal mb-3">
+      {t("Sub-service name")}
+    </label>
 
-          <div className="relative w-full" ref={dropdownRef3}>
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen3(!open3)}
+    <div className="relative w-full" ref={dropdownRef3}>
+      <div
+        className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+        onClick={() => setOpen3(!open3)}
+      >
+        <input
+          type="text"
+          placeholder={t("Select the sub-service")}
+          value={searchValue3 || selected3?.title  || selected3 || "" }
+          onChange={(e) => {
+            setSearchValue3(e.target.value);
+            setSelected3(null);
+            setOpen3(true);
+          }}
+          className="h-15 p-3 w-full text-[#364152] focus:outline-none"
+        />
+
+        {/* 🔽 Dropdown arrow */}
+        <span className="absolute left-3 pointer-events-none">
+          {open3 ? (
+            <img src="/images/icons/ArrowUp.svg" alt="up" />
+          ) : (
+            <img src="/images/icons/ArrowDown.svg" alt="down" />
+          )}
+        </span>
+      </div>
+
+      {/* 🔽 Dropdown list */}
+      {open3 && (
+        <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+        {optionSubService
+          .filter(option => 
+            option && option.toString().toLowerCase().includes(searchValue3.toLowerCase())
+          )
+          .map((option, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                handleChange("category_id", option.id); 
+                setSelected3(option);
+                setOpen3(false);
+              }}
+              className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
             >
-              <input
-                type="text"
-                placeholder={t("Select the sub-service")}
-                value={searchValue3 || selected3?.title || selected3 || ""}
-                onChange={(e) => {
-                  setSearchValue3(e.target.value);
-                  setOpen3(true);
-                  setSelected3("");
-                }}
-                className="h-15 p-3  w-full text-[#364152] focus:outline-none"
-              />
-
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 pointer-events-none">
-                {open3 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
-              </span>
-            </div>
-
-            {/* 🔽 Dropdown list */}
-            {open3 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionSubService
-                  .filter((option) =>
-                    (option?.title || option)
-                      ?.toString()
-                      .toLowerCase()
-                      .includes(searchValue3.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected3(option);
-                        setSearchValue3("");
-                        setOpen3(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option?.title || option}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-        </div>
+              {option.title}
+            </li>
+          ))
+        }
+        </ul>
+      )}
+    </div>
+  </div>
 
 
     
