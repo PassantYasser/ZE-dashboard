@@ -36,13 +36,11 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
       return;
     }
 
-    // للمعاينة
     setPreviewImages((prev) => [
       ...prev,
       ...files.map((file) => URL.createObjectURL(file)),
     ]);
 
-    // تخزين الملفات الحقيقية في formData.images
     handleChange("images", [...(formData.images || []), ...files]);
   };
 
@@ -92,13 +90,11 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   // const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
     const optionServiceActivityLocation =
     getAreas?.areas?.map((area) => ({
-      id: area.id, // 👈 مهم جدًا نستخدم الـ id الحقيقي
+      id: area.id, 
       city: area.city,
     })) || [];
 
-  // 🔹 لما تختاري مدينة نحدث الـ formData مباشرة
   const handleSelectArea = (option) => {
-    // لو مش موجودة أضيفها
     if (!formData.provider_areas_id.some((a) => a.id === option.id)) {
       const updated = [...formData.provider_areas_id, option];
       handleChange("provider_areas_id", updated);
@@ -146,7 +142,6 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
     {/* upload image */}
      
     <div className="flex flex-col gap-6">
-      {/* صورة الرفع */}
       <div
         onClick={() => fileInputRef.current.click()}
         className="w-full p-8 border border-dashed border-[#9AA4B2] cursor-pointer rounded-md"
