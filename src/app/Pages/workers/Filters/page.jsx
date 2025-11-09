@@ -8,17 +8,9 @@ const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
 function FiltersPage({ open, handleClose }) {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState([]);
-  const options = [t("active"), t("pending"), t("refused"), t("stopped"), t("inactive")];
+  
 
-  const handleChange = (option) => {
-    setSelected((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
-    );
-  };
-
+  
   // workplaces 
     const [open1, setOpen1] = useState(false);
     const [selected1, setSelected1] = useState("");
@@ -138,7 +130,6 @@ function FiltersPage({ open, handleClose }) {
                         setSelected1(option);
                         setSearchValue1("");
                         setOpen1(false);
-                        handleChange("module_id", option.id);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
