@@ -101,13 +101,17 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   // Time 5
   const [open5, setOpen5] = useState(false);
   const [tempTime, setTempTime] = useState(null); 
-  const [confirmedTime, setConfirmedTime] = useState(null);
+  const [confirmedTime, setConfirmedTime] = useState(
+    formData.duration ? dayjs(formData.duration, "HH:mm") : null
+  );
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
 
   const handleOkClick = () => {
     setConfirmedTime(tempTime);
     setOpen5(false);
+  const formatted = dayjs(tempTime).format("HH:mm");
+  handleChange("duration", formatted);
   };
 
   useEffect(() => {
@@ -417,66 +421,66 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
 
     
         {/* Service Activity Location 4 */}
-       <div className="flex flex-col">
-      <label className="text-[#364152] text-base font-normal mb-3">
-        {t("Service Activity Location")}
-      </label>
+        <div className="flex flex-col">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Service Activity Location")}
+          </label>
 
-      <div className="relative w-full" ref={dropdownRef4}>
-        <div
-          onClick={() => setOpen4(!open4)}
-          className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
-        >
-          {/* Selected tags */}
-          {formData.provider_areas_id.length > 0 ? (
-            formData.provider_areas_id.map((item, index) => (
-              <span
-                key={index}
-                className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
-              >
-                {item.city}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRemoveArea(index);
-                  }}
-                  className="text-[#364152]"
-                >
-                  <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
-                </button>
+          <div className="relative w-full" ref={dropdownRef4}>
+            <div
+              onClick={() => setOpen4(!open4)}
+              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+            >
+              {/* Selected tags */}
+              {formData.provider_areas_id.length > 0 ? (
+                formData.provider_areas_id.map((item, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                  >
+                    {item.city}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveArea(index);
+                      }}
+                      className="text-[#364152]"
+                    >
+                      <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))
+              ) : (
+                <span className="text-[#9A9A9A]">{t("Select City")}</span>
+              )}
+
+              {/* Arrow icon */}
+              <span className="absolute left-3">
+                {open4 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
+                )}
               </span>
-            ))
-          ) : (
-            <span className="text-[#9A9A9A]">{t("Select City")}</span>
-          )}
+            </div>
 
-          {/* Arrow icon */}
-          <span className="absolute left-3">
-            {open4 ? (
-              <img src="/images/icons/ArrowUp.svg" alt="" />
-            ) : (
-              <img src="/images/icons/ArrowDown.svg" alt="" />
+            {/* Dropdown options */}
+            {open4 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                {optionServiceActivityLocation.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSelectArea(option)}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option.city}
+                  </li>
+                ))}
+              </ul>
             )}
-          </span>
+          </div>
         </div>
-
-        {/* Dropdown options */}
-        {open4 && (
-          <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-            {optionServiceActivityLocation.map((option, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelectArea(option)}
-                className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-              >
-                {option.city}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
 
 
         {/* Average length of service 5 */}
