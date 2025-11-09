@@ -23,25 +23,38 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   }, [dispatch]);
 
 
-  //upload images
+  // upload images
   const fileInputRef = useRef(null);
-  const [images, setImages] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
   const MAX_IMAGES = 7;
+
   const handleFilesChange = (e) => {
     const files = Array.from(e.target.files);
 
-    // prevent adding more than 7
-    if (images.length + files.length > MAX_IMAGES) {
+    if ((formData.images?.length || 0) + files.length > MAX_IMAGES) {
       alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
       return;
     }
 
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...prev, ...newImages]);
+    // للمعاينة
+    setPreviewImages((prev) => [
+      ...prev,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+
+    // تخزين الملفات الحقيقية في formData.images
+    handleChange("images", [...(formData.images || []), ...files]);
   };
+
   const handleDelete = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+    handleChange(
+      "images",
+      formData.images.filter((_, i) => i !== index)
+    );
   };
+
+
 
   // MainClassification 1
   const [open1, setOpen1] = useState(false);
@@ -131,101 +144,75 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   return (
     <>
     {/* upload image */}
-    <div
-      onClick={() => fileInputRef.current.click()}
-      className="w-full p-8 border border-dashed border-[#9AA4B2] cursor-pointer"
-    >
-      {/* hidden input  */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        multiple
-        accept=".svg,.png,.jpg,.jpeg"
-        className="hidden"
-        onChange={handleFilesChange}
-      />
+     
+    <div className="flex flex-col gap-6">
+      {/* صورة الرفع */}
+      <div
+        onClick={() => fileInputRef.current.click()}
+        className="w-full p-8 border border-dashed border-[#9AA4B2] cursor-pointer rounded-md"
+      >
+        <input
+          type="file"
+          ref={fileInputRef}
+          multiple
+          accept=".svg,.png,.jpg,.jpeg"
+          className="hidden"
+          onChange={handleFilesChange}
+        />
 
-      {images.length === 0 ? (
-        <>
-          {/* icon */}
-          <div className="flex items-center justify-center">
+        {previewImages.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4">
             <div className="bg-[#E3E8EF] w-14 h-14 rounded-full flex items-center justify-center">
               <div className="bg-[#EEF2F6] w-12 h-12 rounded-full flex items-center justify-center">
                 <img src="/images/icons/upload images.svg" alt="upload" />
               </div>
             </div>
-          </div>
-
-          {/* text */}
-          <div className="flex flex-col items-center mt-5">
-            <p className="text-sm text-center">
-              <span className="text-[#364152] font-semibold">{t("Click to upload")} </span>
-              <span className="text-[#9AA4B2] font-medium">{t("Or drag and drop files")}</span>
+            <p className="text-center text-sm">
+              <span className="font-semibold text-[#364152]">{t("Click to upload")}</span>{" "}
+              <span className="font-medium text-[#9AA4B2]">{t("Or drag and drop files")}</span>
             </p>
-            <p className="text-[#494C4D] text-sm font-normal m-3">
+            <p className="text-[#494C4D] text-sm font-normal">
               ({t("Maximum")} 15MB) SVG, PNG, JPG
             </p>
             <p className="text-sm font-normal">
-              <span className="text-[#9AA4B2]">{t("Maximum number of photos")} :</span>
-              <span className="text-[#202939]"> {MAX_IMAGES} {t("Photos")}</span>
+              <span className="text-[#9AA4B2]">{t("Maximum number of photos")} :</span>{" "}
+              <span className="text-[#202939]">{MAX_IMAGES} {t("Photos")}</span>
             </p>
           </div>
-        </>
-      ) : (
-        <>
-          <div className="grid grid-cols-4 lg1:grid-cols-7 gap-4">
-            {images.map((src, idx) => (
-              <div
-                key={idx}
-                className="relative w-32.5 h-27.5 border border-[#C8C8C8] rounded-[6px] overflow-hidden flex  items-center justify-center"
-              >
-                {/* image */}
-                <img
-                  src={src}
-                  alt={`uploaded-${idx}`}
-                  className="w-full h-full object-cover"
-                />
-
-                {/* delete button */}
+        ) : (
+          <div className="grid grid-cols-7 gap-4">
+            {previewImages.map((src, idx) => (
+              <div key={idx} className="relative w-32.5 h-27.5 border border-[#C8C8C8] rounded-[6px] overflow-hidden flex items-center justify-center">
+                <img src={src} alt={`uploaded-${idx}`} className="w-full h-full object-cover" />
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // يمنع فتح input
-                    handleDelete(idx);
-                  }}
-                  className="absolute top-3.5 left-3.5 bg-[#FEE4E2] border border-[#F04438] rounded-[3px] p-1"
+                  onClick={(e) => { e.stopPropagation(); handleDelete(idx); }}
+                  className="absolute top-2 left-2 bg-[#FEE4E2] border border-[#F04438] rounded-[3px] p-1"
                 >
-                  <img src="/images/icons/delete Red.svg" alt="" />
+                  <img src="/images/icons/delete Red.svg" alt="delete" />
                 </button>
               </div>
             ))}
 
-            {/* زرار الإضافة */}
-            {images.length < 7 && (
+            {previewImages.length < MAX_IMAGES && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation(); // يمنع تكرار الفتح
-                  fileInputRef.current.click();
-                }}
-                className="w-28 h-28 py-6 px-7.5 border border-[#CDD5DF] bg-[#F8FAFC] rounded-[6px] flex items-center justify-center"
+                onClick={(e) => { e.stopPropagation(); fileInputRef.current.click(); }}
+                className="w-28 h-28 border border-[#CDD5DF] bg-[#F8FAFC] rounded-[6px] flex items-center justify-center"
               >
-                <img src="/images/icons/AddGrayIcon.svg" alt="" />
+                <img src="/images/icons/AddGrayIcon.svg" alt="add" />
               </button>
             )}
           </div>
+        )}
 
-          {/* الرسالة تحت الصور */}
-          {images.length >= 7 && (
-            <div className="flex gap-2 mt-6 bg-[#FFFCF5] border border-[#FEC84B] rounded-2xl px-3 py-1.5">
-              <img src="/images/icons/i.svg" alt="" />
-              <p>
-                {t(
-                  "You have reached the maximum number of image uploads (7 images). If you want to upload a new image, please delete an existing image first."
-                )}
-              </p>
-            </div>
-          )}
-        </>
-      )}
+        {previewImages.length >= MAX_IMAGES && (
+          <div className="flex gap-2 mt-4 bg-[#FFFCF5] border border-[#FEC84B] rounded-md px-3 py-1.5 text-sm">
+            <img src="/images/icons/i.svg" alt="info" />
+            <p>{t("You have reached the maximum number of image uploads (7 images). If you want to upload a new image, please delete an existing image first.")}</p>
+          </div>
+        )}
+      </div>
+
+    
     </div>
 
     <form className="mt-8">
