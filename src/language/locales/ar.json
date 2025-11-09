@@ -294,6 +294,16 @@
   "job":"الوظيفية",
   "Working hours":"مواعيد العمل",
   
+  "Worker filtering":"فلتره العمال",
+  "Precise filtering of workers and orders to quickly find what you are looking for.":"فلترة دقيقة للعمال والطلبات للوصول لما تبحث عنه بسرعة.",
+  "Show results":"عرض النتائج",
+  "Reset":"إعادة تعيين",
+  "workplaces":"أماكن العمل",
+  "Select status":"اختار الحالة",
+  "Select job":"اختر الوظيفية",
+  "Select workplaces":"اختر أماكن العمل",
+  
+
 
 
 

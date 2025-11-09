@@ -294,6 +294,15 @@
   "job":"job",
   "Working hours":"Working hours",
   
+  "Worker filtering":"Worker filtering",
+  "Precise filtering of workers and orders to quickly find what you are looking for.":"Precise filtering of workers and orders to quickly find what you are looking for.",
+  "Show results":"Show results",
+  "Reset":"Reset",
+  "workplaces":"workplaces",
+  "Select status":"Select status",
+  "Select job":"Select job",
+  "Select workplaces":"Select workplaces",
+  
   
 
 
