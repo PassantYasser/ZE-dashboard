@@ -81,10 +81,10 @@ export default function TableRequest() {
     };
 
   return (
-    <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
-      <table className="min-w-full border border-[#E3E8EF] text-sm text-right ">
+    <div className="mt-8 mb-5 rounded-[3px] border border-[#E3E8EF] overflow-x-auto">
+      <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
         {/* Table Head */}
-        <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] ">
+        <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] sticky top-0 z-10">
           <tr>
             <th className="p-4 font-normal">{t("order number")}</th>
             <th className="p-4 font-normal">{t("Customer name")}</th>
