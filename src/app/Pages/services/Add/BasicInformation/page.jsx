@@ -541,15 +541,15 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
         </label>
         <div className="relative w-full">
           <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            value={formData.long_description || ""}
+            onChange={(e) => handleChange("long_description", e.target.value)} 
             placeholder={t("Write a description of the service.")}
             maxLength={5000}
             className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3  text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
           />
           {/* counter inside the box */}
           <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-            5000/{text.length}
+            5000/{formData.long_description?.length || 0}
           </span>
         </div>
       </div>
