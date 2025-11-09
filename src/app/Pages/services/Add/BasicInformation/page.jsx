@@ -76,7 +76,27 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   const [selected4, setSelected4] = useState("");
   const [searchValue4, setSearchValue4] = useState("");
   const dropdownRef4 = useRef(null);
-  const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
+  // const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
+    const optionServiceActivityLocation =
+    getAreas?.areas?.map((area) => ({
+      id: area.id, // 👈 مهم جدًا نستخدم الـ id الحقيقي
+      city: area.city,
+    })) || [];
+
+  // 🔹 لما تختاري مدينة نحدث الـ formData مباشرة
+  const handleSelectArea = (option) => {
+    // لو مش موجودة أضيفها
+    if (!formData.provider_areas_id.some((a) => a.id === option.id)) {
+      const updated = [...formData.provider_areas_id, option];
+      handleChange("provider_areas_id", updated);
+    }
+    setOpen4(false);
+  };
+
+  const handleRemoveArea = (index) => {
+    const updated = formData.provider_areas_id.filter((_, i) => i !== index);
+    handleChange("provider_areas_id", updated);
+  };
 
   // Time 5
   const [open5, setOpen5] = useState(false);
@@ -397,71 +417,66 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
 
     
         {/* Service Activity Location 4 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Service Activity Location")}
-          </label>
+       <div className="flex flex-col">
+      <label className="text-[#364152] text-base font-normal mb-3">
+        {t("Service Activity Location")}
+      </label>
 
-          <div className="relative w-full" ref={dropdownRef4}>
-            <div
-              onClick={() => setOpen4(!open4)}
-              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
-            >
-              {/* Selected tags / placeholder */}
-              {selected4.length > 0 ? (
-                selected4.map((item, index) => (
-                  <span
-                    key={index}
-                    className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelected4(selected4.filter((_, i) => i !== index));
-                      }}
-                      className="text-[#364152]"
-                    >
-                      <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))
-              ) : (
-                <span className="text-[#9A9A9A]">{t("Select City")}</span>
-              )}
-
-              {/* Arrow icon on the right */}
-              <span className="absolute left-3">
-                {open4 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
+      <div className="relative w-full" ref={dropdownRef4}>
+        <div
+          onClick={() => setOpen4(!open4)}
+          className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+        >
+          {/* Selected tags */}
+          {formData.provider_areas_id.length > 0 ? (
+            formData.provider_areas_id.map((item, index) => (
+              <span
+                key={index}
+                className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+              >
+                {item.city}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveArea(index);
+                  }}
+                  className="text-[#364152]"
+                >
+                  <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                </button>
               </span>
-            </div>
+            ))
+          ) : (
+            <span className="text-[#9A9A9A]">{t("Select City")}</span>
+          )}
 
-            {/* Dropdown options */}
-            {open4 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionServiceActivityLocation.map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      if (!selected4.includes(option)) {
-                        setSelected4([...selected4, option]);
-                      }
-                      setOpen4(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option}
-                  </li>
-                ))}
-              </ul>
+          {/* Arrow icon */}
+          <span className="absolute left-3">
+            {open4 ? (
+              <img src="/images/icons/ArrowUp.svg" alt="" />
+            ) : (
+              <img src="/images/icons/ArrowDown.svg" alt="" />
             )}
-          </div>
+          </span>
         </div>
+
+        {/* Dropdown options */}
+        {open4 && (
+          <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            {optionServiceActivityLocation.map((option, index) => (
+              <li
+                key={index}
+                onClick={() => handleSelectArea(option)}
+                className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+              >
+                {option.city}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
 
 
         {/* Average length of service 5 */}
