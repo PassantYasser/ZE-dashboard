@@ -1,39 +1,39 @@
+
 "use client";
 import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AddServiceThunk } from "@/redux/slice/Services/ServicesSlice";
 
 function AddPage() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-  const dispatch = useDispatch()
-  const {addService} = useSelector((state)=>state.services)
-
-  const [formData , setFormData] = useState({
-    images:[],
-    module_id:'',
-    category_id :'',
-    provider_areas_id:[],
-    duration:'',
-    long_description:'',
-    inspection_price:'',
-    price_on_inspection:'',
-    pricing_type:'',
-    discount:'',
-    discount_type:'',
-
-  })
+  // ✅ formData في المكون الأب، مش هيتصفر أثناء التنقل بين التابات
+  const [formData, setFormData] = useState({
+    images: [],
+    module_id: "",
+    category_id: "",
+    provider_areas_id: [],
+    duration: "",
+    long_description: "",
+    inspection_price: "",
+    price_on_inspection: "",
+    pricing_type: "",
+    discount: "",
+    discount_type: "",
+  });
 
   const handleChange = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -41,7 +41,6 @@ function AddPage() {
     const data = new FormData();
     Object.keys(formData).forEach((key) => {
       const value = formData[key];
-
       if (Array.isArray(value)) {
         value.forEach((item) => data.append(`${key}[]`, item));
       } else {
@@ -49,10 +48,7 @@ function AddPage() {
       }
     });
 
-    // Dispatch async thunk
     const result = await dispatch(AddServiceThunk(data));
-
-    // Handle success or failure
     if (AddServiceThunk.fulfilled.match(result)) {
       console.log("Service added successfully ✅", result.payload);
     } else {
@@ -60,106 +56,32 @@ function AddPage() {
     }
   };
 
-//   const handleSubmit = (e) => {
-//   e.preventDefault();
-//   const data = new FormData();
-
-//   data.append('category_id', formData.category_id);
-//   data.append('title', formData.title);
-//   data.append('long_description', formData.long_description);
-//   data.append('price', formData.price);
-
-//   data.append('is_active', formData.is_active);
-//   data.append('pricing_type', formData.pricing_type);
-//   data.append('price_on_inspection', formData.price_on_inspection);
-//   data.append('discount', formData.discount);
-//   data.append('discount_type', formData.discount_type);
-//   // data.append('from', formData.from);
-//   // data.append('to', formData.to);
-//   // data.append("provider_id", '2'); 
-//   data.append("provider_id", localStorage.getItem("provider_id"));
-//   data.append("module_id", "1");   
-
-
-//   // ✅ Append array of images
-//   if (Array.isArray(formData.images)) {
-//     formData.images.forEach((file) => {
-//       data.append('images[]', file);
-//     });
-
-//   }
-
-//   // ✅ Append array of provider area IDs
-//   if (Array.isArray(formData.provider_areas_id)) {
-//     formData.provider_areas_id.forEach((id) => {
-//       data.append('provider_areas_id[]', id);
-//     });
-//   }
-
-//   //✅ Append array of days
-//   //   if (Array.isArray(formData.days)) {
-//   //   formData.days.forEach((id) => {
-//   //     data.append('days[]', id);
-//   //   });
-//   // }
-
-//   dispatch(addServiceThunk(data))
-//     .unwrap()
-//     .then(() => {
-//       console.log("Success! Navigating...");
-//       navigate('/services'); 
-//     })
-//     .catch((error) => {
-//       console.error("Error submitting form:", error);
-//     });
-// };
-
-  console.log(formData);
-
-  const router = useRouter();
+  // ✅ التابات
   const [openId, setOpenId] = useState("basic");
   const tabs = [
-    {
-      id: "basic",
-      label: t("Basic information"),
-      Component: BasicInformationPage,
-    },
-    {
-      id: "days",
-      label: t("Available days and times"),
-      Component: SchedulePage,
-    },
-    { 
-      id: "pricing", 
-      label: t("Pricing"), 
-      Component: PricingPage 
-    },
+    { id: "basic", label: t("Basic information"), Component: BasicInformationPage },
+    { id: "days", label: t("Available days and times"), Component: SchedulePage },
+    { id: "pricing", label: t("Pricing"), Component: PricingPage },
   ];
 
   const currentIndex = tabs.findIndex((tab) => tab.id === openId);
 
   const handleNext = () => {
-    if (currentIndex < tabs.length - 1) {
-      setOpenId(tabs[currentIndex + 1].id);
-    }
+    if (currentIndex < tabs.length - 1) setOpenId(tabs[currentIndex + 1].id);
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) {
-      setOpenId(tabs[currentIndex - 1].id);
-    }
+    if (currentIndex > 0) setOpenId(tabs[currentIndex - 1].id);
   };
 
   const handleGoBack = () => {
     router.back();
   };
-
-  
-
+console.log(formData);
   return (
     <MainLayout>
       <div className="flex flex-col h-full">
-      
+        {/* Header */}
         <section className="mb-4">
           <p className="text-[#364152] text-2xl font-medium mb-5">
             {t("Add a new service")}
@@ -169,45 +91,47 @@ function AddPage() {
           </p>
         </section>
 
+        {/* Tabs */}
         <section className="w-full mt-4 flex flex-col flex-1 overflow-hidden">
-          {/* tabs */}
           <div className="flex justify-around border-b border-gray-300">
             {tabs.map((tab) => (
               <div
                 key={tab.id}
-                className={`px-4 py-6 w-full text-center text-base cursor-default
+                className={`px-4 py-6 w-full text-center text-base cursor-pointer transition-all duration-200
                   ${
                     openId === tab.id
                       ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                      : "text-[#697586] font-normal"
+                      : "text-[#697586] font-normal hover:text-[#C69815]"
                   }`}
+                onClick={() => setOpenId(tab.id)}
               >
                 {tab.label}
               </div>
             ))}
           </div>
 
-          {/* scroll component*/}
+          {/* ✅ هنا التعديل المهم */}
           <div className="flex-1 overflow-y-auto mt-6 px-2">
             {tabs.map((tab) => (
-              <div key={tab.id}>
-                {openId === tab.id && (
-                  <tab.Component
-                    formData={formData}
-                    handleChange={handleChange}
-                    handleSubmit={handleSubmit}
-                    setFormData={setFormData}
-
-                    handleGoBack={handleGoBack}
-                    handlePrev={handlePrev}
-                    handleNext={handleNext}
-                  />
-                )}
+              <div
+                key={tab.id}
+                style={{
+                  display: openId === tab.id ? "block" : "none",
+                }}
+              >
+                <tab.Component
+                  formData={formData}
+                  setFormData={setFormData}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
+                  handleGoBack={handleGoBack}
+                  handlePrev={handlePrev}
+                  handleNext={handleNext}
+                />
               </div>
             ))}
           </div>
         </section>
-
       </div>
     </MainLayout>
   );
