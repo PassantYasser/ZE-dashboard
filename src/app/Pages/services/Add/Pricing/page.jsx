@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit ,setFormData }) {
+function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit ,loadingDetails }) {
   const { t } = useTranslation();
   const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
   
@@ -171,7 +171,30 @@ const [selectedValue2, setSelectedValue2] = useState("");
           </div>
         )}
       </form>
-      
+        <div className="my-12 flex gap-3">
+        <button 
+          onClick={handlePrev} 
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
+        >
+          {t('the previous')}
+        </button>
+        {/* <button
+          onClick={handleGoBack} 
+          className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
+        >
+            {t('save')}
+        </button> */}
+        <button
+          onClick={handleSubmit}
+          disabled={loadingDetails}
+          className={`border w-58 h-13.5 py-2.5 px-4 rounded-[3px] ${
+            loadingDetails ? "bg-gray-400 cursor-not-allowed" : "bg-[#C69815] cursor-pointer"
+          } text-[#fff] text-base font-medium`}
+        >
+          {loadingDetails ? t("Saving...") : t("save")}
+        </button>
+
+        </div>
   
     </>
     

@@ -7,12 +7,14 @@ import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddServiceThunk } from "@/redux/slice/Services/ServicesSlice";
 
 function AddPage() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const {loadingDetails}= useSelector((state) => state.services)
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -118,6 +120,7 @@ console.log(formData);
                 }}
               >
                 <tab.Component
+                loadingDetails={loadingDetails}
                   formData={formData}
                   setFormData={setFormData}
                   handleChange={handleChange}
