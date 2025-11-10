@@ -2,19 +2,30 @@
 import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack}) {
+function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit ,setFormData }) {
   const { t } = useTranslation();
   const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
-  const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState("");
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState("");
+  
 
-  const dropdownRef1 = useRef(null);
-  const dropdownRef2 = useRef(null);
+const [open1, setOpen1] = useState(false);
+const [selected1, setSelected1] = useState("");
+const dropdownRef1 = useRef(null);
+const [selectedValue1, setSelectedValue1] = useState(""); 
+const options = [
+  { label: t("constant value"), value: "flat" },
+  { label: t("By the hour"), value: "hour" },
+  { label: t("in kilograms"), value: "kilo" },
+  { label: t("per meter"), value: "meter" },
+];
 
-  const options = [t("Per Hour"), t("Per Service"), t("Per Visit")];
-  const optionRates = [t("%"), t("EGP")];
+const [open2, setOpen2] = useState(false);
+const [selected2, setSelected2] = useState("");
+const dropdownRef2 = useRef(null);
+const optionRates = [
+  {label:t("percentage") ,  value:"percent"},
+  {label:t("constant value") , value:"flat"}
+];
+const [selectedValue2, setSelectedValue2] = useState(""); 
 
   return (
     <>
@@ -44,6 +55,8 @@ function PricingPage({handlePrev , handleGoBack}) {
             {/* price form (always visible) */}
             <input
               type="text"
+              value={formData.inspection_price}
+              onChange={(e)=> handleChange("inspection_price", e.target.value)}
               className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
               placeholder={t("Enter the service price")}
             />
@@ -81,12 +94,14 @@ function PricingPage({handlePrev , handleGoBack}) {
                       <li
                         key={index}
                         onClick={() => {
-                          setSelected1(option);
+                          setSelected1(option.label);      
+                          setSelectedValue1(option.value); 
                           setOpen1(false);
+                          handleChange("pricing_type", option.value);
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {option}
+                        {option.label}
                       </li>
                     ))}
                   </ul>
@@ -105,6 +120,8 @@ function PricingPage({handlePrev , handleGoBack}) {
               {/* Input field */}
               <input
                 type="text"
+                value={formData.discount}
+                onChange={(e)=>handleChange('discount',e.target.value)}
                 placeholder={t("Enter the discount price")}
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
               />
@@ -115,7 +132,11 @@ function PricingPage({handlePrev , handleGoBack}) {
                   onClick={() => setOpen2(!open2)}
                   className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
                 >
-                  <span className="text-[#4B5565]">
+                  <span
+                    className={
+                      selected2 ? "text-[#364152]" : "text-[#9A9A9A]"
+                    }
+                    >
                     {selected2 || t("Rate")}
                   </span>
                   <span>
@@ -133,12 +154,14 @@ function PricingPage({handlePrev , handleGoBack}) {
                       <li
                         key={index}
                         onClick={() => {
-                          setSelected2(option);
+                          setSelected2(option.label);
+                          setSelectedValue2(option.value); 
                           setOpen2(false);
+                          handleChange("discount_type", option.value);
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {option}
+                        {option.label}
                       </li>
                     ))}
                   </ul>
@@ -149,20 +172,7 @@ function PricingPage({handlePrev , handleGoBack}) {
         )}
       </form>
       
-      <div className="my-12 flex gap-3">
-        <button 
-          onClick={handlePrev} 
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
-        >
-          {t('the previous')}
-        </button>
-        <button
-          onClick={handleGoBack} 
-          className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
-        >
-            {t('save')}
-        </button>
-        </div>
+  
     </>
     
   );

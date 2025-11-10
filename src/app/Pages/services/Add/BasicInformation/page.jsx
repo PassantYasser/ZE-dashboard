@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
 
 
-function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,handleSubmit ,setFormData }) {
+function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange}) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
@@ -87,7 +87,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange ,
   const [searchValue4, setSearchValue4] = useState("");
   const dropdownRef4 = useRef(null);
   // const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
-    const optionServiceActivityLocation =
+  const optionServiceActivityLocation =
     getAreas?.areas?.map((area) => ({
       id: area.id, 
       city: area.city,
