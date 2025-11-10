@@ -38,24 +38,48 @@ function AddPage() {
     }));
   };
 
-  const handleSubmit = async () => {
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => {
-      const value = formData[key];
-      if (Array.isArray(value)) {
-        value.forEach((item) => data.append(`${key}[]`, item));
-      } else {
-        data.append(key, value);
-      }
-    });
+  // const handleSubmit = async () => {
+  //   const data = new FormData();
+  //   Object.keys(formData).forEach((key) => {
+  //     const value = formData[key];
+  //     if (Array.isArray(value)) {
+  //       value.forEach((item) => data.append(`${key}[]`, item));
+  //     } else {
+  //       data.append(key, value);
+  //     }
+  //   });
 
-    const result = await dispatch(AddServiceThunk(data));
-    if (AddServiceThunk.fulfilled.match(result)) {
-      console.log("Service added successfully ✅", result.payload);
+  //   const result = await dispatch(AddServiceThunk(data));
+  //   if (AddServiceThunk.fulfilled.match(result)) {
+  //     console.log("Service added successfully ✅", result.payload);
+  //   } else {
+  //     console.error("Failed to add service ❌", result.payload);
+  //   }
+  // };
+const handleSubmit = async () => {
+  const data = new FormData();
+
+  Object.keys(formData).forEach((key) => {
+    const value = formData[key];
+
+    if (key === "provider_areas_id" && Array.isArray(value)) {
+      // نحول كل object إلى ID فقط
+      value.forEach((item) => data.append("provider_areas_id[]", item.id));
+    } else if (Array.isArray(value)) {
+      value.forEach((item) => data.append(`${key}[]`, item));
     } else {
-      console.error("Failed to add service ❌", result.payload);
+      data.append(key, value);
     }
-  };
+  });
+
+  const result = await dispatch(AddServiceThunk(data));
+
+  if (AddServiceThunk.fulfilled.match(result)) {
+    console.log("Service added successfully ✅", result.payload);
+  } else {
+    console.error("Failed to add service ❌", result.payload);
+  }
+};
 
   const [openId, setOpenId] = useState("basic");
   const tabs = [
