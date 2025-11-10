@@ -70,6 +70,7 @@ const handleSubmit = async () => {
 
   if (AddServiceThunk.fulfilled.match(result)) {
     console.log("Service added successfully ✅", result.payload);
+    handleGoBack();
   } else {
     console.error("Failed to add service ❌", result.payload);
   }
