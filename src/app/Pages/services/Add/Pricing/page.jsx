@@ -2,7 +2,7 @@
 import React, { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit ,loadingDetails }) {
+function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit,setFormData ,loadingDetails }) {
   const { t } = useTranslation();
   const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
   
@@ -42,7 +42,14 @@ const [selectedValue2, setSelectedValue2] = useState("");
                 <input
                   type="checkbox"
                   checked={isPriceOnInspection}
-                  onChange={(e) => setIsPriceOnInspection(e.target.checked)}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setIsPriceOnInspection(checked); 
+                    setFormData({
+                      ...formData,
+                      price_on_inspection: checked, 
+                    });
+                  }}
                   className="peer appearance-none w-6 h-6 border border-[#CDD5DF] rounded-[3px] cursor-pointer 
                   checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] 
                   checked:before:content-['✓'] checked:before:text-white 
