@@ -15,7 +15,6 @@ function AddPage() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // ✅ formData في المكون الأب، مش هيتصفر أثناء التنقل بين التابات
   const [formData, setFormData] = useState({
     images: [],
     module_id: "",
@@ -56,7 +55,6 @@ function AddPage() {
     }
   };
 
-  // ✅ التابات
   const [openId, setOpenId] = useState("basic");
   const tabs = [
     { id: "basic", label: t("Basic information"), Component: BasicInformationPage },
