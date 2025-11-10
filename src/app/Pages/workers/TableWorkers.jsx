@@ -1,5 +1,6 @@
 "use client";
 import { fontWeight } from "@mui/system";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -63,6 +64,7 @@ export default function TableWorkers() {
             <th className="p-4 font-normal">{t("Working hours")}</th>
             <th className="p-4 font-normal">{t("phone number")}</th>
             <th className="p-4 font-normal">{t("Status")}</th>
+            <th className="p-4 font-normal">{t("procedures")}</th>
           </tr>
         </thead>
 
@@ -91,6 +93,11 @@ export default function TableWorkers() {
             
               <td className='p-4   '>
                 {StatusRender(row.status)}
+              </td>
+              <td className=" flex justify-center p-4"> 
+              <Link href='/Pages/workers/Edit'>
+                  <img src="/images/icons/EditBlack.svg" alt="" />
+              </Link>
               </td>
             </tr>
           ))}
