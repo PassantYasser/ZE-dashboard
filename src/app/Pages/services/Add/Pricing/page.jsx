@@ -24,7 +24,7 @@ function PricingPage({handlePrev , handleGoBack}) {
           {/* price field */}
           <div className={`flex flex-col gap-4  ${isPriceOnInspection ? 'w-[50%]':'w-full'}`}>
             <div className="flex justify-between">
-              <label className="text-[#364152]">{t("Service Price")}</label>
+              <label className="text-[#364152]">{t("Price of examination and inspection")}</label>
       
               {/* checkbox */}
               <div className="flex gap-1 items-center">
@@ -49,11 +49,11 @@ function PricingPage({handlePrev , handleGoBack}) {
             />
           </div>
       
-          {/* pricing type dropdown (hide when checked) */}
+        
           {!isPriceOnInspection && (
+            // {/* pricing type dropdown (hide when checked) */}
             <div className="flex flex-col gap-4 w-full">
               <label className="text-[#364152]">{t("Pricing Type")}</label>
-      
               <div className="relative w-full mb-6" ref={dropdownRef1}>
                 <div
                   onClick={() => setOpen1(!open1)}
@@ -109,7 +109,7 @@ function PricingPage({handlePrev , handleGoBack}) {
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
               />
       
-              {/* Dropdown */}
+              {/* Dropdown sale */}
               <div className="relative w-[15%]" ref={dropdownRef2}>
                 <div
                   onClick={() => setOpen2(!open2)}
