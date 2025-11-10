@@ -1,7 +1,7 @@
 
 "use client";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
@@ -18,6 +18,7 @@ function AddPage() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
+    provider_id:'',
     images: [],
     module_id: "",
     category_id: "",
@@ -30,6 +31,17 @@ function AddPage() {
     discount: "",
     discount_type: "",
   });
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("provider_id");
+    if (storedId) {
+      setFormData((prev) => ({
+        ...prev,
+        provider_id: storedId,
+      }));
+    }
+  }, []);
+
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({
@@ -84,6 +96,9 @@ const handleSubmit = async () => {
     router.back();
   };
 console.log(formData);
+
+
+
   return (
     <MainLayout>
       <div className="flex flex-col h-full">
