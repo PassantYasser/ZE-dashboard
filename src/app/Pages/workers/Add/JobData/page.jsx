@@ -34,16 +34,29 @@ function JobDataPage() {
     }, []);
   
 
+    //map
+  const [open, setOpen] = useState(false);
+  const [address, setAddress] = useState("");
 
-      const [open, setOpen] =useState(false);
-    
-      const handleClickOpen = () => {
-        setOpen(true);
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
-      };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
+const handleLocationSelect = async (lat, lng) => {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+    );
+    const data = await response.json();
+    const formattedAddress = data.display_name || "Unknown address";
+    setAddress(formattedAddress);
+    setOpen(false);
+  } catch (error) {
+    console.error("Error fetching address:", error);
+    setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
+  }
+};
+
   return (
     <>
     <form className='grid grid-cols-2 gap-6'>
@@ -108,22 +121,20 @@ function JobDataPage() {
             )}
           </div>
       </div>
-
-      {/* Employee address */}
-      <div className="flex flex-col ">
+    
+        {/* Employee address */}
+        <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Employee address")}
           </label>
-          <textarea
+        <textarea
             readOnly
-            placeholder={t('Enter the address')}
+            placeholder={t("Enter the address")}
+            value={address} 
             onClick={handleClickOpen}
-            className="h-15  p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
-            >
-
-          </textarea>
-        
-      </div>
+            className="h-15 p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
+          />
+        </div>
 
       {/* workplace */}
       <div className="flex flex-col">
@@ -193,11 +204,12 @@ function JobDataPage() {
       
 
     </form>
+
 {/* 🗺️ Map Dialog Component */}
-      <MapDialog 
-        open={open} 
-        handleClose={handleClose} 
-    
+      <MapDialog
+        open={open}
+        handleClose={handleClose}
+        onSelectLocation={handleLocationSelect} 
       />
     </>
   )

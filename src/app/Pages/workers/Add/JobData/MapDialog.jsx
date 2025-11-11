@@ -5,22 +5,12 @@ import Dialog from "@mui/material/Dialog";
 import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((m) => m.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((m) => m.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((m) => m.Marker),
-  { ssr: false }
-);
+const MapContainer = dynamic(() => import("react-leaflet").then((m) => m.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import("react-leaflet").then((m) => m.TileLayer), { ssr: false });
+const Marker = dynamic(() => import("react-leaflet").then((m) => m.Marker), { ssr: false });
 
 let L;
 let markerIcon;
-
 if (typeof window !== "undefined") {
   L = require("leaflet");
   markerIcon = new L.Icon({
@@ -40,19 +30,15 @@ function LocationPicker({ position, setPosition }) {
       setPosition([e.latlng.lat, e.latlng.lng]);
     },
   });
-
   return position && markerIcon ? <Marker position={position} icon={markerIcon} /> : null;
 }
 
-export default function MapDialog({ open, handleClose, formData, setFormData }) {
-  const [mapPosition, setMapPosition] = useState([
-    formData?.latitude ? parseFloat(formData.latitude) : 24.7136,
-    formData?.longitude ? parseFloat(formData.longitude) : 46.6753,
-  ]);
+export default function MapDialog({ open, handleClose, onSelectLocation }) {
+  const [mapPosition, setMapPosition] = useState([24.7136, 46.6753]); // Default Riyadh
 
   // ✅ Detect user location initially
   useEffect(() => {
-    if (!formData?.latitude && !formData?.longitude && navigator.geolocation) {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setMapPosition([pos.coords.latitude, pos.coords.longitude]);
@@ -61,17 +47,15 @@ export default function MapDialog({ open, handleClose, formData, setFormData }) 
         { enableHighAccuracy: true }
       );
     }
-  }, [formData?.latitude, formData?.longitude]);
+  }, []);
 
-  // ✅ Confirm and save coordinates (no backend call)
-  const handleConfirm = () => {
-    setFormData((prev) => ({
-      ...prev,
-      latitude: mapPosition[0].toString(),
-      longitude: mapPosition[1].toString(),
-    }));
-    handleClose();
-  };
+  // ✅ Confirm and send coordinates to parent
+const handleConfirm = () => {
+  if (typeof onSelectLocation === "function") {
+    onSelectLocation(mapPosition[0].toFixed(5), mapPosition[1].toFixed(5));
+  }
+  handleClose(); // still close the dialog
+};
 
   return (
     <Dialog open={open} onClose={handleClose} PaperProps={{ className: "ServicePage-dialog" }}>
