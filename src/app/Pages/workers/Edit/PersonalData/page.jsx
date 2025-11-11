@@ -197,7 +197,6 @@ function PersonalDataPage() {
           </label>
 
           <div className="relative mt-3">
-            {/* Eye icon (left side) */}
             <span
               onClick={() => setShowPassword(!showPassword)}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
@@ -236,7 +235,6 @@ function PersonalDataPage() {
                 </span>
                 <span>{t("Use at least one uppercase letter")}</span>
               </li>
-
               <li
                 className={
                   rules.symbol
@@ -249,7 +247,6 @@ function PersonalDataPage() {
                 </span>
                 <span>{t("Use at least one symbol")}</span>
               </li>
-
               <li
                 className={
                   rules.number
@@ -262,7 +259,6 @@ function PersonalDataPage() {
                 </span>
                 <span>{t("Use at least one number")}</span>
               </li>
-
               <li
                 className={
                   rules.length
