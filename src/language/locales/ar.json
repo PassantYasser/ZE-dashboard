@@ -320,7 +320,10 @@
   "Update employee data to ensure information accuracy and improve service quality.":"قم بتحديث بيانات العامل لضمان دقة المعلومات وتحسين جودة الخدمة.",
   "Image selection":"اختيار الصورة",
   "replace":"استبدل",
-  
+  "Enter your password":"أدخل كلمة المرور",
+  "Re-enter your password":"عد إدخال كلمة المرور",
+  "Passwords match":"تطابق كلمات المرور",
+  "Passwords do not match":"كلمات المرور غير متطابقة",
 
 
 
