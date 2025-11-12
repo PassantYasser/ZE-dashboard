@@ -54,7 +54,7 @@ export default function TableWorkers() {
 
   return (
     <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
-      <table className="min-w-full border border-[#E3E8EF] text-sm text-right ">
+      <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
         {/* Table Head */}
         <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] ">
           <tr>
