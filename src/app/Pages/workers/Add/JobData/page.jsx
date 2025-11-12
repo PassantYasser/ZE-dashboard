@@ -116,7 +116,7 @@ function JobDataPage() {
       setTaxProgress(0);
     };
 
-    
+
   return (
     <>
     <form className='grid grid-cols-2 gap-6 mb-6'>
@@ -274,6 +274,7 @@ function JobDataPage() {
         </LocalizationProvider> */}
       </div>
 
+      {/* Front national ID card photo */}
       <div className="flex flex-col">
         <label className="text-[#364152] text-base font-normal mb-3">{t("Front national ID card photo")}</label>
         {!file ? (
@@ -344,7 +345,7 @@ function JobDataPage() {
         )}
       </div>
 
-
+      {/* Back national ID card photo */}
       <div className="flex flex-col ">
         <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
 
