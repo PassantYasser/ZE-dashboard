@@ -17,7 +17,7 @@ function NavWorker({handleClickOpen}) {
       <AddBtn
           href="/Pages/workers/Add"
           label="Adding a worker"
-          className="hidden lg1:flex"
+          className=""
         />
       </section>
 
