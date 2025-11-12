@@ -274,152 +274,156 @@ function JobDataPage() {
         </LocalizationProvider> */}
       </div>
 
-      {/* Front national ID card photo */}
-      <div className="flex flex-col">
-        <label className="text-[#364152] text-base font-normal mb-3">{t("Front national ID card photo")}</label>
-        {!file ? (
-          <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
-            <img
-              src="/images/icons/upload.svg"
-              alt="upload"
-              className="w-5 h-5 absolute left-3"
-            />
-            <span className="flex-1">
-              {t("Upload a photo of the front of your national ID card")}
-            </span>
-            <input
-              type="file"
-              accept="application/pdf"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
-        ) : progress < 100? (
-          // === Upload in progress UI ===
-          <div className="border border-[#C8C8C8] rounded-[3px] p-3">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
-                <span className="text-sm text-[#364152] font-medium">
-                  {file.name}
-                </span>
-              </div>
-              <button onClick={handleRemove} className="text-[#C69815]">
-                <img src="/images/icons/cancel-circle.svg" alt="" />
-              </button>
-            
-            </div>
-
-            <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
-              <p className='flex gap-2'>
-                <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
-                <img src="/images/icons/loading.svg" alt="" />
-                <span>{t("Loading...")}</span>
-              </p>
-            </div>
-
-            <div className="w-full bg-gray-200 h-1 mt-1 rounded">
-              <div
-                className="bg-[#C69815] h-1 rounded"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-          </div>
-
-        ) : (
-
-          // Final UI after upload complete
-          <div className="border border-[#C8C8C8]   h-15 rounded-[3px] p-3 flex items-center justify-between">
-              {/* file name + icon */}
-            <div className="flex items-center gap-2">
-              <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
-              <span className="text-sm text-[#656565] font-medium">{file.name}</span>
-            </div>
-            {/* delete button */}
-            <button onClick={handleRemove}>
-              <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
-            </button>
-
-          
-          </div>
-        )}
-      </div>
-
-      {/* Back national ID card photo */}
-      <div className="flex flex-col ">
-        <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
-
-        {!taxFile ? (
-          <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
-            <img
-              src="/images/icons/upload.svg"
-              alt="upload"
-              className="w-5 h-5 absolute left-3"
-            />
-            <span className="flex-1">
-              {t("Upload a photo of the back of your national ID card")}
-            </span>
-            <input
-              type="file"
-              accept="application/pdf"
-              className="hidden"
-              onChange={handleTaxesFileChange}
-            />
-          </label>
-        ) : taxProgress < 100? (
-          // === Upload in progress UI ===
-          <div className="border border-[#C8C8C8] rounded-[3px] p-3">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
-                <span className="text-sm text-[#364152] font-medium">
-                  {taxFile.name}
-                </span>
-              </div>
-              <button onClick={handleTaxRemove} className="text-[#C69815]">
-                <img src="/images/icons/cancel-circle.svg" alt="" />
-              </button>
-            
-            </div>
-
-            <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
-              <p className='flex gap-2'>
-                <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
-                <img src="/images/icons/loading.svg" alt="" />
-                <span>{t("Loading...")}</span>
-              </p>
-              {/* <span>{progress}%</span> */}
-            </div>
-
-            <div className="w-full bg-gray-200 h-1 mt-1 rounded">
-              <div
-                className="bg-[#C69815] h-1 rounded"
-                style={{ width: `${taxProgress}%` }}
-              ></div>
-            </div>
-          </div>
-
-        ) : (
-          // Final UI after upload complete
-          <div className="border border-[#C8C8C8]  h-15 rounded-[3px] p-3 flex items-center justify-between">
-              {/* file name + icon */}
-            <div className="flex items-center gap-2 ">
-              <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
-              <span className="text-sm text-[#656565] font-medium">{taxFile.name}</span>
-            </div>
-            {/* delete button */}
-            <button onClick={handleTaxRemove}>
-              <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
-            </button>
-          </div>
-        )}
-      </div>
+    
       
 
   
 
 
     </form>
+    <div className='w-full flex flex-col gap-3 lg1:flex-row '>
+        {/* Front national ID card photo */}
+        <div className="flex flex-col w-full">
+          <label className="text-[#364152] text-base font-normal mb-3">{t("Front national ID card photo")}</label>
+          {!file ? (
+            <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+              <img
+                src="/images/icons/upload.svg"
+                alt="upload"
+                className="w-5 h-5 absolute left-3"
+              />
+              <span className="flex-1">
+                {t("Upload a photo of the front of your national ID card")}
+              </span>
+              <input
+                type="file"
+                accept="application/pdf"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </label>
+          ) : progress < 100? (
+            // === Upload in progress UI ===
+            <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+              <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                  <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                  <span className="text-sm text-[#364152] font-medium">
+                    {file.name}
+                  </span>
+                </div>
+                <button onClick={handleRemove} className="text-[#C69815]">
+                  <img src="/images/icons/cancel-circle.svg" alt="" />
+                </button>
+              
+              </div>
+
+              <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
+                <p className='flex gap-2'>
+                  <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
+                  <img src="/images/icons/loading.svg" alt="" />
+                  <span>{t("Loading...")}</span>
+                </p>
+              </div>
+
+              <div className="w-full bg-gray-200 h-1 mt-1 rounded">
+                <div
+                  className="bg-[#C69815] h-1 rounded"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+
+          ) : (
+
+            // Final UI after upload complete
+            <div className="border border-[#C8C8C8]   h-15 rounded-[3px] p-3 flex items-center justify-between">
+                {/* file name + icon */}
+              <div className="flex items-center gap-2">
+                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                <span className="text-sm text-[#656565] font-medium">{file.name}</span>
+              </div>
+              {/* delete button */}
+              <button onClick={handleRemove}>
+                <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
+              </button>
+
+            
+            </div>
+          )}
+        </div>
+
+        {/* Back national ID card photo */}
+        <div className="flex flex-col w-full">
+          <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
+
+          {!taxFile ? (
+            <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+              <img
+                src="/images/icons/upload.svg"
+                alt="upload"
+                className="w-5 h-5 absolute left-3"
+              />
+              <span className="flex-1">
+                {t("Upload a photo of the back of your national ID card")}
+              </span>
+              <input
+                type="file"
+                accept="application/pdf"
+                className="hidden"
+                onChange={handleTaxesFileChange}
+              />
+            </label>
+          ) : taxProgress < 100? (
+            // === Upload in progress UI ===
+            <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+              <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                  <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                  <span className="text-sm text-[#364152] font-medium">
+                    {taxFile.name}
+                  </span>
+                </div>
+                <button onClick={handleTaxRemove} className="text-[#C69815]">
+                  <img src="/images/icons/cancel-circle.svg" alt="" />
+                </button>
+              
+              </div>
+
+              <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
+                <p className='flex gap-2'>
+                  <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
+                  <img src="/images/icons/loading.svg" alt="" />
+                  <span>{t("Loading...")}</span>
+                </p>
+                {/* <span>{progress}%</span> */}
+              </div>
+
+              <div className="w-full bg-gray-200 h-1 mt-1 rounded">
+                <div
+                  className="bg-[#C69815] h-1 rounded"
+                  style={{ width: `${taxProgress}%` }}
+                ></div>
+              </div>
+            </div>
+
+          ) : (
+            // Final UI after upload complete
+            <div className="border border-[#C8C8C8]  h-15 rounded-[3px] p-3 flex items-center justify-between">
+                {/* file name + icon */}
+              <div className="flex items-center gap-2 ">
+                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                <span className="text-sm text-[#656565] font-medium">{taxFile.name}</span>
+              </div>
+              {/* delete button */}
+              <button onClick={handleTaxRemove}>
+                <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
+              </button>
+            </div>
+          )}
+        </div>
+    </div>
+    
 
     {/* 🗺️ Map Dialog Component */}
       <MapDialog
