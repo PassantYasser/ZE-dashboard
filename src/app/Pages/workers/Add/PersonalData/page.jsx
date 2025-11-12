@@ -141,7 +141,7 @@ function PersonalDataPage() {
         </div>
       </div>
 
-      <form action="" className="grid grid-cols-1 lg1:grid-cols-2 gap-6 mb-10">
+      <form action="" className="grid grid-cols-2 gap-6 mb-6">
         {/* first name */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">{t('First Name')}</label>
@@ -325,15 +325,16 @@ function PersonalDataPage() {
         </div>
 
 
+
+      </form>
         {/* National ID number */}
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full mb-6">
           <label className="text-[#364152] text-base font-normal">{t('National ID number')}</label>
           <input 
             type="text" 
             placeholder={t('Enter your national ID number')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
-      </form>
     </>
   );
 }
