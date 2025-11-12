@@ -3,8 +3,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 
+import dayjs from 'dayjs';
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileTimeRangePicker } from '@mui/x-date-pickers-pro/MobileTimeRangePicker';
+import { LicenseInfo } from '@mui/x-license';
+
+
 function JobDataPage() {
   const {t}= useTranslation();
+  LicenseInfo.setLicenseKey('YOUR_TRIAL_KEY_HERE');
+
 
     //job
     const [open1, setOpen1] = useState(false);
@@ -37,29 +47,79 @@ function JobDataPage() {
     //map
   const [open, setOpen] = useState(false);
   const [address, setAddress] = useState("");
-
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleLocationSelect = async (lat, lng) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+      );
+      const data = await response.json();
+      const formattedAddress = data.display_name || "Unknown address";
+      setAddress(formattedAddress);
+      setOpen(false);
+    } catch (error) {
+      console.error("Error fetching address:", error);
+      setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
+    }
+  };
 
+//
 
-const handleLocationSelect = async (lat, lng) => {
-  try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-    );
-    const data = await response.json();
-    const formattedAddress = data.display_name || "Unknown address";
-    setAddress(formattedAddress);
-    setOpen(false);
-  } catch (error) {
-    console.error("Error fetching address:", error);
-    setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
-  }
-};
+  //Front national ID card photo
+    const [file, setFile] = useState(null);
+    const [progress, setProgress] = useState(0);
+  
+    const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0];
+      if (selectedFile && selectedFile.type === "application/pdf") {
+        setFile(selectedFile);
+  
+        let uploaded = 0;
+        const interval = setInterval(() => {
+          uploaded += 20;
+          if (uploaded >= 100) {
+            uploaded = 100;
+            clearInterval(interval);
+          }
+          setProgress(uploaded);
+        }, 500);
+      }
+    };
+  
+    const handleRemove = () => {
+      setFile(null);
+      setProgress(0);
+    };
+    
+    //Front national ID card photo
+    const [taxFile , setTaxFile]= useState(null);
+    const[taxProgress , setTaxProgress]= useState(0);
+    
+    const handleTaxesFileChange = (e)=>{
+      const selectTaxFile = e.target.files[0];
+      if(selectTaxFile && selectTaxFile.type === "application/pdf" ){
+        setTaxFile(selectTaxFile);
+        let uploaded=0;
+        const interval = setInterval(() => {
+          uploaded += 20;
+          if (uploaded >= 100) {
+            uploaded = 100;
+            clearInterval(interval);
+          }
+          setTaxProgress(uploaded);
+        }, 500);
+      }
+    }
+    const handleTaxRemove = () => {
+      setTaxFile(null);
+      setTaxProgress(0);
+    };
 
+    
   return (
     <>
-    <form className='grid grid-cols-2 gap-6'>
+    <form className='grid grid-cols-2 gap-6 mb-6'>
 
       {/* job */}
       <div className="flex flex-col">
@@ -122,19 +182,19 @@ const handleLocationSelect = async (lat, lng) => {
           </div>
       </div>
     
-        {/* Employee address */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Employee address")}
-          </label>
-        <textarea
-            readOnly
-            placeholder={t("Enter the address")}
-            value={address} 
-            onClick={handleClickOpen}
-            className="h-15 p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
-          />
-        </div>
+      {/* Employee address */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Employee address")}
+        </label>
+      <textarea
+          readOnly
+          placeholder={t("Enter the address")}
+          value={address} 
+          onClick={handleClickOpen}
+          className="h-15 p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
+        />
+      </div>
 
       {/* workplace */}
       <div className="flex flex-col">
@@ -197,15 +257,170 @@ const handleLocationSelect = async (lat, lng) => {
           </div>
       </div>
 
+      {/* Working hours */}
+      <div className='flex flex-col'>
+        <label className="text-[#364152] text-base font-normal">{t('Working hours')}</label>
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['MobileTimeRangePicker']}>
+
+            <DemoItem  component="MobileTimeRangePicker">
+              <MobileTimeRangePicker
+                defaultValue={[dayjs('2022-04-17T15:30'), dayjs('2022-04-17T18:30')]}
+              
+              />
+            </DemoItem>
+
+          </DemoContainer>
+        </LocalizationProvider> */}
+      </div>
+
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">{t("Front national ID card photo")}</label>
+        {!file ? (
+          <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+            <img
+              src="/images/icons/upload.svg"
+              alt="upload"
+              className="w-5 h-5 absolute left-3"
+            />
+            <span className="flex-1">
+              {t("Upload a photo of the front of your national ID card")}
+            </span>
+            <input
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </label>
+        ) : progress < 100? (
+          // === Upload in progress UI ===
+          <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                <span className="text-sm text-[#364152] font-medium">
+                  {file.name}
+                </span>
+              </div>
+              <button onClick={handleRemove} className="text-[#C69815]">
+                <img src="/images/icons/cancel-circle.svg" alt="" />
+              </button>
+            
+            </div>
+
+            <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
+              <p className='flex gap-2'>
+                <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
+                <img src="/images/icons/loading.svg" alt="" />
+                <span>{t("Loading...")}</span>
+              </p>
+            </div>
+
+            <div className="w-full bg-gray-200 h-1 mt-1 rounded">
+              <div
+                className="bg-[#C69815] h-1 rounded"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
+
+        ) : (
+
+          // Final UI after upload complete
+          <div className="border border-[#C8C8C8]   h-15 rounded-[3px] p-3 flex items-center justify-between">
+              {/* file name + icon */}
+            <div className="flex items-center gap-2">
+              <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+              <span className="text-sm text-[#656565] font-medium">{file.name}</span>
+            </div>
+            {/* delete button */}
+            <button onClick={handleRemove}>
+              <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
+            </button>
+
+          
+          </div>
+        )}
+      </div>
 
 
+      <div className="flex flex-col ">
+        <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
 
+        {!taxFile ? (
+          <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+            <img
+              src="/images/icons/upload.svg"
+              alt="upload"
+              className="w-5 h-5 absolute left-3"
+            />
+            <span className="flex-1">
+              {t("Upload a photo of the back of your national ID card")}
+            </span>
+            <input
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+              onChange={handleTaxesFileChange}
+            />
+          </label>
+        ) : taxProgress < 100? (
+          // === Upload in progress UI ===
+          <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+                <span className="text-sm text-[#364152] font-medium">
+                  {taxFile.name}
+                </span>
+              </div>
+              <button onClick={handleTaxRemove} className="text-[#C69815]">
+                <img src="/images/icons/cancel-circle.svg" alt="" />
+              </button>
+            
+            </div>
+
+            <div className="flex items-center justify-between mt-2 text-xs text-[#364152] p-3">
+              <p className='flex gap-2'>
+                <span className='text-[#9D919F] text-sm font-normal '> • 60 ك ب من 120 م ب</span>
+                <img src="/images/icons/loading.svg" alt="" />
+                <span>{t("Loading...")}</span>
+              </p>
+              {/* <span>{progress}%</span> */}
+            </div>
+
+            <div className="w-full bg-gray-200 h-1 mt-1 rounded">
+              <div
+                className="bg-[#C69815] h-1 rounded"
+                style={{ width: `${taxProgress}%` }}
+              ></div>
+            </div>
+          </div>
+
+        ) : (
+          // Final UI after upload complete
+          <div className="border border-[#C8C8C8]  h-15 rounded-[3px] p-3 flex items-center justify-between">
+              {/* file name + icon */}
+            <div className="flex items-center gap-2 ">
+              <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
+              <span className="text-sm text-[#656565] font-medium">{taxFile.name}</span>
+            </div>
+            {/* delete button */}
+            <button onClick={handleTaxRemove}>
+              <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
+            </button>
+          </div>
+        )}
+      </div>
       
-      
+
+  
+
 
     </form>
 
-{/* 🗺️ Map Dialog Component */}
+    {/* 🗺️ Map Dialog Component */}
       <MapDialog
         open={open}
         handleClose={handleClose}
