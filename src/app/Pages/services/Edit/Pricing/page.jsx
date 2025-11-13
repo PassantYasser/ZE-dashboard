@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 function PricingPage({handlePrev , handleGoBack , service}) {
   const { t } = useTranslation();
-  const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
+  const [isPriceOnInspection, setIsPriceOnInspection] = useState(service?.price_on_inspection || false);
 
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState(service?.pricing_type || "");
@@ -17,7 +17,14 @@ function PricingPage({handlePrev , handleGoBack , service}) {
   t("per meter"),
   ];  
   
-  useEffect(() => {
+
+
+  const [open2, setOpen2] = useState(false);
+  const [selected2, setSelected2] = useState(service?.discount_type);
+  const dropdownRef2 = useRef(null);
+  const optionRates = [t("percentage"), t("constant value")];
+
+    useEffect(() => {
     if (service?.pricing_type) {
       setSelected1(service.pricing_type);
     };
@@ -25,13 +32,10 @@ function PricingPage({handlePrev , handleGoBack , service}) {
     if (service?.discount_type) {
       setSelected1(service.discount_type);
     }
+    if (service?.price_on_inspection !== undefined) {
+    setIsPriceOnInspection(service.price_on_inspection);
+  }
   }, [service]);
-
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState(service?.discount_type);
-  const dropdownRef2 = useRef(null);
-  const optionRates = [t("percentage"), t("constant value")];
-
   return (
     <>
       <form action="" className="flex flex-col gap-8">
