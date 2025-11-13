@@ -29,28 +29,28 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
   const [images, setImages] = useState([]);
   const MAX_IMAGES = 7;
   
-const handleFilesChange = (e) => {
-  const files = Array.from(e.target.files);
-  if (images.length + files.length > MAX_IMAGES) {
-    alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
-    return;
-  }
-  const newImages = files.map(file => URL.createObjectURL(file));
-  setImages(prev => [...prev, ...newImages]);
-};
+  const handleFilesChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (images.length + files.length > MAX_IMAGES) {
+      alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
+      return;
+    }
+    const newImages = files.map(file => URL.createObjectURL(file));
+    setImages(prev => [...prev, ...newImages]);
+  };
 
-const handleDelete = (index) => {
-  setImages(prev => prev.filter((_, i) => i !== index));
-};
+  const handleDelete = (index) => {
+    setImages(prev => prev.filter((_, i) => i !== index));
+  };
 
-useEffect(() => {
-  if (service?.images && service.images.length > 0) {
-    // map backend image paths to full URLs
-    const existingImages = service.images.map(img => `${IMAGE_BASE_URL}${img.image_path}`);
-    setImages(existingImages);
-  }
-}, [service]);
+  useEffect(() => {
+    if (service?.images && service.images.length > 0) {
+      const existingImages = service.images.map(img => `${IMAGE_BASE_URL}${img.image_path}`);
+      setImages(existingImages);
+    }
+  }, [service]);
 
+  
 
   // MainClassification 1
   const [open1, setOpen1] = useState(false);
