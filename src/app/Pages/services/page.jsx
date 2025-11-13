@@ -12,22 +12,14 @@ import { getAllServicesThunk } from "@/redux/slice/Services/ServicesSlice";
 import Pagination from "./Pagination";
 
 
-// dynamically import FiltersPage with no SSR
 const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
 
 function ServicesPage() {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
-  // this ensures everything only renders on the client
-  // const [isClient, setIsClient] = useState(false);
-  // useEffect(() => setIsClient(true), []);
-  // if (!isClient) return null;
-
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-
 
 
   //link api data to cards
@@ -41,6 +33,8 @@ function ServicesPage() {
   }, [dispatch, currentPage , perPage]);
 
   const handlePageChange = (page) => setCurrentPage(page);
+
+
   return (
     <MainLayout>
       <section>
@@ -51,6 +45,8 @@ function ServicesPage() {
           </p>
           <AddBtn href="/Pages/services/Add" label="Add a sub-service" />
         </div>
+
+        
 
         <div className="flex justify-between">
           <SearchForm placeholderKey="Search by worker name, job title, or phone number" />

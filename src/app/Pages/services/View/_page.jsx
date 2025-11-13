@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getServiceAnalysisByIdThunk, getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
-// ✅ Dynamically import tab components (disable SSR to avoid window/sessionStorage errors)
 const DetailsPage = dynamic(
   () => import("./Details/page"),
   { ssr: false }
