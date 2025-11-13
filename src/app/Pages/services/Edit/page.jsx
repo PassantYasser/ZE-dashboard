@@ -29,7 +29,6 @@ function EditPage() {
     return <p>No service loaded. Please open a service first.</p>;
   }
 
-console.log('service' , service?.long_description);
   const tabs = [
     {
       id: "basic",
@@ -101,6 +100,7 @@ console.log('service' , service?.long_description);
               <div key={tab.id}>
                 {openId === tab.id && (
                   <tab.Component
+                    service={service}
                     handleGoBack={handleGoBack}
                     handlePrev={handlePrev}
                     handleNext={handleNext}
