@@ -24,18 +24,22 @@ function PricingPage({handlePrev , handleGoBack , service}) {
   const dropdownRef2 = useRef(null);
   const optionRates = [t("percentage"), t("constant value")];
 
-    useEffect(() => {
+  useEffect(() => {
     if (service?.pricing_type) {
       setSelected1(service.pricing_type);
     };
     
     if (service?.discount_type) {
       setSelected1(service.discount_type);
-    }
+    };
+
     if (service?.price_on_inspection !== undefined) {
     setIsPriceOnInspection(service.price_on_inspection);
-  }
+    };
+    
   }, [service]);
+
+
   return (
     <>
       <form action="" className="flex flex-col gap-8">

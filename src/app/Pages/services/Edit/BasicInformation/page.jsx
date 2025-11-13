@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
+import { IMAGE_BASE_URL } from "../../../../../../config/imageUrl";
 
 
 function BasicInformationPage({handleGoBack ,handleNext ,service}) {
@@ -28,21 +29,28 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
   const [images, setImages] = useState([]);
   const MAX_IMAGES = 7;
   
-  const handleFilesChange = (e) => {
-    const files = Array.from(e.target.files);
+const handleFilesChange = (e) => {
+  const files = Array.from(e.target.files);
+  if (images.length + files.length > MAX_IMAGES) {
+    alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
+    return;
+  }
+  const newImages = files.map(file => URL.createObjectURL(file));
+  setImages(prev => [...prev, ...newImages]);
+};
 
-    // prevent adding more than 7
-    if (images.length + files.length > MAX_IMAGES) {
-      alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
-      return;
-    }
+const handleDelete = (index) => {
+  setImages(prev => prev.filter((_, i) => i !== index));
+};
 
-    const newImages = files.map((file) => URL.createObjectURL(file));
-    setImages((prev) => [...prev, ...newImages]);
-  };
-  const handleDelete = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  };
+useEffect(() => {
+  if (service?.images && service.images.length > 0) {
+    // map backend image paths to full URLs
+    const existingImages = service.images.map(img => `${IMAGE_BASE_URL}${img.image_path}`);
+    setImages(existingImages);
+  }
+}, [service]);
+
 
   // MainClassification 1
   const [open1, setOpen1] = useState(false);
@@ -158,7 +166,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
               >
                 {/* image */}
                 <img
-                  src={src}
+                  src={images[idx]}
                   alt={`uploaded-${idx}`}
                   className="w-full h-full object-cover"
                 />
