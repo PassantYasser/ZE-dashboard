@@ -411,8 +411,8 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
               className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
             >
               {/* Selected tags */}
-              {formData.provider_areas_id.length > 0 ? (
-                formData.provider_areas_id.map((item, index) => (
+              {formData?.provider_areas_id.length > 0 ? (
+                formData?.provider_areas_id.map((item, index) => (
                   <span
                     key={index}
                     className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
@@ -520,7 +520,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
         </label>
         <div className="relative w-full">
           <textarea
-            value={formData.long_description || ""}
+            value={formData?.long_description || ""}
             onChange={(e) => handleChange("long_description", e.target.value)} 
             placeholder={t("Write a description of the service.")}
             maxLength={5000}
@@ -528,7 +528,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           />
           {/* counter inside the box */}
           <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-            5000/{formData.long_description?.length || 0}
+            5000/{formData?.long_description?.length || 0}
           </span>
         </div>
       </div>
