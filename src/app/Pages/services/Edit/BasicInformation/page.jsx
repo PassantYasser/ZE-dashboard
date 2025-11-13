@@ -88,15 +88,15 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
 
   // Time 5
   const [open5, setOpen5] = useState(false);
-  const [tempTime, setTempTime] = useState(null); // temp selected value
-  const [confirmedTime, setConfirmedTime] = useState(null); // confirmed by "OK" button
+  const [tempTime, setTempTime] = useState(null);
+  const [confirmedTime, setConfirmedTime] = useState(null); 
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
 
   
   const handleOkClick = () => {
-    setConfirmedTime(tempTime); // confirm time
-    setOpen5(false); // close clock
+    setConfirmedTime(tempTime);
+    setOpen5(false); 
   };
   // close dropdowns when clicking outside
   useEffect(() => {

@@ -62,7 +62,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
             {/* price form (always visible) */}
             <input
               type="text"
-              value={formData.inspection_price}
+              value={formData?.inspection_price}
               onChange={(e)=> handleChange("inspection_price", e.target.value)}
               className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
               placeholder={t("Enter the service price")}
@@ -127,7 +127,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
               {/* Input field */}
               <input
                 type="text"
-                value={formData.discount}
+                value={formData?.discount}
                 onChange={(e)=>handleChange('discount',e.target.value)}
                 placeholder={t("Enter the discount price")}
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
