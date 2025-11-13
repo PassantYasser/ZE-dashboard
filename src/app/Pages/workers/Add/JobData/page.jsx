@@ -3,17 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 
-import dayjs from 'dayjs';
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileTimeRangePicker } from '@mui/x-date-pickers-pro/MobileTimeRangePicker';
-import { LicenseInfo } from '@mui/x-license';
-
-
 function JobDataPage() {
   const {t}= useTranslation();
-  LicenseInfo.setLicenseKey('YOUR_TRIAL_KEY_HERE');
 
 
     //job
