@@ -1,21 +1,36 @@
 
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack}) {
+function PricingPage({handlePrev , handleGoBack , service}) {
   const { t } = useTranslation();
   const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
+
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState("");
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState("");
-
+  const [selected1, setSelected1] = useState(service?.pricing_type || "");
   const dropdownRef1 = useRef(null);
-  const dropdownRef2 = useRef(null);
+  const options = [
+  t("constant value"),
+  t("By the hour"),
+  t("in kilograms"),
+  t("per meter"),
+  ];  
+  
+  useEffect(() => {
+    if (service?.pricing_type) {
+      setSelected1(service.pricing_type);
+    };
+    
+    if (service?.discount_type) {
+      setSelected1(service.discount_type);
+    }
+  }, [service]);
 
-  const options = [t("Per Hour"), t("Per Service"), t("Per Visit")];
-  const optionRates = [t("%"), t("EGP")];
+  const [open2, setOpen2] = useState(false);
+  const [selected2, setSelected2] = useState(service?.discount_type);
+  const dropdownRef2 = useRef(null);
+  const optionRates = [t("percentage"), t("constant value")];
 
   return (
     <>
@@ -44,7 +59,8 @@ function PricingPage({handlePrev , handleGoBack}) {
       
             {/* price form (always visible) */}
             <input
-              type="text"
+              type="text" 
+              defaultValue={service?.price}
               className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
               placeholder={t("Enter the service price")}
             />
@@ -52,6 +68,7 @@ function PricingPage({handlePrev , handleGoBack}) {
       
           {/* pricing type dropdown (hide when checked) */}
           {!isPriceOnInspection && (
+            // Pricing Type
             <div className="flex flex-col gap-4 w-full">
               <label className="text-[#364152]">{t("Pricing Type")}</label>
       
@@ -106,6 +123,7 @@ function PricingPage({handlePrev , handleGoBack}) {
               {/* Input field */}
               <input
                 type="text"
+                defaultValue={service?.discount}
                 placeholder={t("Enter the discount price")}
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
               />
