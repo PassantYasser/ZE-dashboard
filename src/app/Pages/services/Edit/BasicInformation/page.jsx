@@ -95,15 +95,27 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
   // Time 5
   const [open5, setOpen5] = useState(false);
   const [tempTime, setTempTime] = useState(null);
-  const [confirmedTime, setConfirmedTime] = useState(null); 
+  const parseDuration = (durationStr) => {
+    if (!durationStr) return null;
+    const match = durationStr.match(/(\d+)h\s*(\d+)m/);
+    if (!match) return null;
 
+    const hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+
+    return dayjs().hour(hours).minute(minutes).second(0);
+  };
+
+  const [confirmedTime, setConfirmedTime] = useState(parseDuration(service?.duration));
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
-
+ 
   
   const handleOkClick = () => {
     setConfirmedTime(tempTime);
     setOpen5(false); 
   };
+
+  
   // close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -496,7 +508,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
             <div className="bg-[#eef2f6] p-4 w-[320px]">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MultiSectionDigitalClock
-                  value={tempTime}
+                  value={tempTime || confirmedTime}
                   onChange={(newValue) => setTempTime(newValue)}
                   ampm={false}
                   timeSteps={{ minutes: 15 }}
