@@ -16,12 +16,20 @@ import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
+import { useSelector } from "react-redux";
 
 function EditPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const [openId, setOpenId] = useState("basic");
 
+  const { service } = useSelector((state) => state.services);
+
+  if (!service) {
+    return <p>No service loaded. Please open a service first.</p>;
+  }
+
+console.log('service' , service?.long_description);
   const tabs = [
     {
       id: "basic",

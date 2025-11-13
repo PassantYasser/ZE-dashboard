@@ -2,6 +2,7 @@
 import DeletePage from '@/app/Components/Model/Delete/page';
 import { t } from 'i18next'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,6 +20,12 @@ function DetailsPage({handleClose ,status ,service}) {
     setOpen(false);
   };
 
+  const router = useRouter();
+
+  const handleEditClick = () => {
+    handleClose();
+    router.push("/Pages/services/Edit");
+  };
 
   return (
     <>
@@ -199,11 +206,14 @@ function DetailsPage({handleClose ,status ,service}) {
 
       {/* btns */}
       <section className='flex gap-3 mx-6 mb-6'>
-        <Link href="/Pages/services/Edit" className='border bg-[var(--color-primary)] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '>
+        <button      
+          onClick={handleEditClick}
+          className='border bg-[var(--color-primary)] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '
+        >
           <span className='text-base font-medium'>{t('Modify the service')}</span>
           <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
           
-        </Link>
+        </button>
           {status==='stopped' || status==='refused' ?(
             <button onClick={handleClickOpen} className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer'>
               {t('delete')}
