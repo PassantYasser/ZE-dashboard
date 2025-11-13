@@ -82,9 +82,15 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
 
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
-  const [selected4, setSelected4] = useState("");
+  const [selected4, setSelected4] = useState([]);
   const dropdownRef4 = useRef(null);
   const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
+  useEffect(() => {
+  if (service?.areas) {
+    const cities = service.areas.map(area => area.city);
+    setSelected4(cities); // نعرض المدن اللي تخص الخدمة
+  }
+}, [service]);
 
   // Time 5
   const [open5, setOpen5] = useState(false);
