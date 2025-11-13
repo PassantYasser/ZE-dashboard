@@ -110,7 +110,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
   const [open5, setOpen5] = useState(false);
   const [tempTime, setTempTime] = useState(null); 
   const [confirmedTime, setConfirmedTime] = useState(
-    formData.duration ? dayjs(formData.duration, "HH:mm") : null
+    formData?.duration ? dayjs(formData.duration, "HH:mm") : null
   );
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
