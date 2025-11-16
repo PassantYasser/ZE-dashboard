@@ -88,7 +88,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
   useEffect(() => {
   if (service?.areas) {
     const cities = service.areas.map(area => area.city);
-    setSelected4(cities); // نعرض المدن اللي تخص الخدمة
+    setSelected4(cities); 
   }
 }, [service]);
 
@@ -108,12 +108,12 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
 
   const [confirmedTime, setConfirmedTime] = useState(parseDuration(service?.duration));
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
- 
   
   const handleOkClick = () => {
     setConfirmedTime(tempTime);
     setOpen5(false); 
   };
+
 
   
   // close dropdowns when clicking outside
