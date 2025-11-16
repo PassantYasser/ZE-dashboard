@@ -2,9 +2,8 @@
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
-import PersonalDataPage from "./PersonalData/page";
-import JobDataPage from "./JobData/page";
 import Link from "next/link";
+import EditInfoDataPage from "./EditInfoData/page";
 
 function EditPage() {
   const { t } = useTranslation();
@@ -16,7 +15,7 @@ function EditPage() {
     <MainLayout>
       <div className="flex flex-col h-full">
         {/* Header */}
-        <section className="mb-4 flex justify-between">
+        <section className="mb-8 flex justify-between">
 
           {/* title */}
           <div>
@@ -34,6 +33,9 @@ function EditPage() {
           </Link>
           
         </section>
+
+        <EditInfoDataPage/>
+
 
         
       </div>
