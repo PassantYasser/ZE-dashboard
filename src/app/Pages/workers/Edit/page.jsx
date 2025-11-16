@@ -13,7 +13,7 @@ function EditPage() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col">
         {/* Header */}
         <section className="mb-8 flex justify-between">
 
@@ -34,7 +34,10 @@ function EditPage() {
           
         </section>
 
-        <EditInfoDataPage/>
+        
+        <section className="mb-6">
+          <EditInfoDataPage/>
+        </section>
 
 
         
