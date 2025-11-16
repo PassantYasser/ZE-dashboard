@@ -39,7 +39,7 @@ function Password({openPassword , setOpenPassword}) {
     <>
       <Dialog 
         open={openPassword} 
-        onClose={() => setOpenEmail(false)}
+        onClose={() => setOpenPassword(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{ className: "ServicePage-dialog" }}
