@@ -2,7 +2,8 @@
 import { Dialog } from '@mui/material';
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import PhoneNumeber from './Dialogs/PhoneNumeber';
+import PhoneNumber from './Dialogs/PhoneNumber';
+import Email from './Dialogs/Email';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -37,8 +38,14 @@ function EditInfoDataPage() {
       if (fileInputRef.current) fileInputRef.current.value = "";
     };
   
-    //
-    const [open, setOpen] = useState(false);
+    /** */
+    //PhoneNumber
+    const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
+
+    //Email
+    const [openEmail , setOpenEmail] = useState(false);
+
+    // const [open , setOpen] = useState(false);
 
   return (
     <>
@@ -91,7 +98,7 @@ function EditInfoDataPage() {
             <p className='text-[#364152] text-base font-normal '>01255248459</p>
           </div>
           <div className='flex justify-center items-center'>
-            <button onClick={() => setOpen(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+            <button onClick={() => setOpenPhoneNumber(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
               <img src="/images/icons/EditYellow.svg"  alt="" />
             </button>
           </div>
@@ -104,7 +111,7 @@ function EditInfoDataPage() {
             <p className='text-[#364152] text-base font-normal '>Exmple@gmail.com</p>
           </div>
           <div className='flex justify-center items-center'>
-            <button className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+            <button onClick={() => setOpenEmail(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" alt="" />
             </button>
           </div>
@@ -180,7 +187,8 @@ function EditInfoDataPage() {
 
 
 
-      <PhoneNumeber open={open} setOpen={setOpen}/>
+      <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber}/>
+      <Email openEmail={openEmail} setOpenEmail={setOpenEmail} />
 
     </>
   )

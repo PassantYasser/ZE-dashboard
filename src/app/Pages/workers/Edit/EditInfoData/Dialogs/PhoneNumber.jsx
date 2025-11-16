@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-function PhoneNumeber({open , setOpen}) {
+function PhoneNumber({openPhoneNumber , setOpenPhoneNumber}) {
   const {t}= useTranslation();
 
   return (
@@ -13,13 +13,13 @@ function PhoneNumeber({open , setOpen}) {
     
 
     <Dialog 
-      open={open} 
-      onClose={() => setOpen(false)}
+      open={openPhoneNumber} 
+      onClose={() => setOpenPhoneNumber(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
     >
-    <button className='pt-8 px-6 pb-2 cursor-pointer' onClick={()=>setOpen(false)}>
+    <button className='pt-8 px-6 pb-2 cursor-pointer' onClick={()=>setOpenPhoneNumber(false)}>
       <p className='border rounded-[100%] w-10 h-10 flex justify-center items-center  '>
         <img src="/images/icons/xx.svg" alt="" />
       </p>
@@ -39,7 +39,7 @@ function PhoneNumeber({open , setOpen}) {
       </div>
 
       <form action="" className=' px-6 '>
-          {/* Mobile number */}
+        {/* Mobile number */}
         <div className="flex flex-col ">
           <label className="text-[#364152] text-base font-normal mb-3 block">
             {t("Mobile number")}
@@ -78,4 +78,4 @@ function PhoneNumeber({open , setOpen}) {
   )
 }
 
-export default PhoneNumeber
+export default PhoneNumber
