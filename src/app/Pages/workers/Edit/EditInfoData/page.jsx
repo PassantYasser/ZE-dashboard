@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PhoneNumber from './Dialogs/PhoneNumber';
 import Email from './Dialogs/Email';
+import Password from './Dialogs/Password';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -44,6 +45,9 @@ function EditInfoDataPage() {
 
     //Email
     const [openEmail , setOpenEmail] = useState(false);
+
+    //Password
+    const [openPassword , setOpenPassword] = useState(false);
 
     // const [open , setOpen] = useState(false);
 
@@ -124,7 +128,7 @@ function EditInfoDataPage() {
             <p className='text-[#364152] text-base font-normal '>************</p>
           </div>
           <div className='flex justify-center items-center'>
-            <button className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+            <button onClick={() => setOpenPassword(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" alt="" />
             </button>
           </div>
@@ -189,6 +193,7 @@ function EditInfoDataPage() {
 
       <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber}/>
       <Email openEmail={openEmail} setOpenEmail={setOpenEmail} />
+      <Password openPassword={openPassword} setOpenPassword={setOpenPassword}/>
 
     </>
   )
