@@ -28,9 +28,12 @@ function EditPage() {
           </div>
 
           {/* btn back to table */}
-          <Link href='/Pages/workers'  className=" py-2.5 px-4 flex items-center border border-[var(--color-primary)] rounded-[3px] text-[var(--color-primary)] text-base font-medium cursor-pointer">
+          <div className=" flex items-center">
+            <Link href='/Pages/workers'  className=" w-48 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] text-[var(--color-primary)] text-base font-medium cursor-pointer">
             {t('Return to the workers page')}
           </Link>
+          </div>
+          
           
         </section>
 
