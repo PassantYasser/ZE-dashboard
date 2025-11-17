@@ -8,6 +8,7 @@ import Password from './Dialogs/Password';
 import WorkAreas from './Dialogs/WorkAreas';
 import Map from './Dialogs/Location/Map';
 import Location from './Dialogs/Location/Location';
+import WorkingHours from './Dialogs/WorkingHours';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -55,11 +56,11 @@ function EditInfoDataPage() {
     //Location
     const [openLocation , setOpenLocation] = useState(false);
     
-  
-
-
     //Work areas
     const [openWorkAreas , setOpenWorkAreas] = useState(false);
+
+    //WorkingHours
+    const [openWorkingHours , setOpenWorkingHours] = useState(false);
 
     // const [open , setOpen] = useState(false);
 
@@ -153,7 +154,7 @@ function EditInfoDataPage() {
             <p className='text-[#364152] text-base font-normal '>03:00م  - 04:00ص</p>
           </div>
           <div className='flex justify-center items-center'>
-            <button className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+            <button onClick={()=>setOpenWorkingHours(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" alt="" />
             </button>
           </div>
@@ -206,6 +207,7 @@ function EditInfoDataPage() {
       <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber}/>
       <Email openEmail={openEmail} setOpenEmail={setOpenEmail} />
       <Password openPassword={openPassword} setOpenPassword={setOpenPassword}/>
+      <WorkingHours openWorkingHours={openWorkingHours} setOpenWorkingHours={setOpenWorkingHours}/>
       <Location openLocation={openLocation} setOpenLocation={setOpenLocation}/>
       <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas}  />
 

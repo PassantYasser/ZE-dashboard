@@ -1,9 +1,9 @@
 import React from 'react'
 
-function -() {
+function NationalIdentityInformation() {
   return (
-    <div>-</div>
+    <div>NationalIdentityInformation</div>
   )
 }
 
-export default -
+export default NationalIdentityInformation
