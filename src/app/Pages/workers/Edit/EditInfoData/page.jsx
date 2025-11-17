@@ -6,9 +6,9 @@ import PhoneNumber from './Dialogs/PhoneNumber';
 import Email from './Dialogs/Email';
 import Password from './Dialogs/Password';
 import WorkAreas from './Dialogs/WorkAreas';
-import Map from './Dialogs/Location/Map';
 import Location from './Dialogs/Location/Location';
 import WorkingHours from './Dialogs/WorkingHours';
+import NationalIdentityInformation from './Dialogs/NationalIdentityInformation';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -47,22 +47,13 @@ function EditInfoDataPage() {
     //PhoneNumber
     const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
 
-    //Email
-    const [openEmail , setOpenEmail] = useState(false);
-
-    //Password
-    const [openPassword , setOpenPassword] = useState(false);
     
-    //Location
-    const [openLocation , setOpenLocation] = useState(false);
-    
-    //Work areas
-    const [openWorkAreas , setOpenWorkAreas] = useState(false);
-
-    //WorkingHours
-    const [openWorkingHours , setOpenWorkingHours] = useState(false);
-
-    // const [open , setOpen] = useState(false);
+    const [openEmail , setOpenEmail] = useState(false); //Email  
+    const [openPassword , setOpenPassword] = useState(false); //Password
+    const [openLocation , setOpenLocation] = useState(false); //Location  
+    const [openWorkAreas , setOpenWorkAreas] = useState(false); //Work areas
+    const [openWorkingHours , setOpenWorkingHours] = useState(false); //WorkingHours
+    const [openNationalIdentityInformation , setOpenNationalIdentityInformation] = useState(false); //NationalIdentityInformation
 
   return (
     <>
@@ -192,7 +183,7 @@ function EditInfoDataPage() {
             <p className='text-[#364152] text-base font-normal mb-2'>{t('National Identity Information')}</p>
           </div>
           <div className='flex justify-center items-center'>
-              <button className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)]  rounded-[3px] cursor-pointer'>
+              <button onClick={()=> setOpenNationalIdentityInformation(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)]  rounded-[3px] cursor-pointer'>
             <img src="/images/icons/arrowyellowOnly.svg" alt="" />
           </button>
           </div>
@@ -210,6 +201,7 @@ function EditInfoDataPage() {
       <WorkingHours openWorkingHours={openWorkingHours} setOpenWorkingHours={setOpenWorkingHours}/>
       <Location openLocation={openLocation} setOpenLocation={setOpenLocation}/>
       <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas}  />
+      <NationalIdentityInformation openNationalIdentityInformation={openNationalIdentityInformation}  setOpenNationalIdentityInformation={setOpenNationalIdentityInformation}/>
 
     </>
   )
