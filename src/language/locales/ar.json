@@ -325,7 +325,7 @@
   "Passwords do not match":"كلمات المرور غير متطابقة",
   "Choose the job":"اختار الوظيفية",
   "Employee address":"عنوان الموظف",
-  "workplace":"مكان العمل",
+  "Workplaces":"اماكن العمل",
   "Identify the workplace":"حدد مكان العمل",
   "Enter the address":"ادخل العنوان",
   "Return to the workers page":"الرجوع لصفحة العمال",
@@ -338,6 +338,8 @@
   "Change email":"تغيير البريد الإلكتروني",
   "New email":"البريد الإلكتروني الجديد",
   "Enter your new email address":"ادخل البريد الالكتروني الجديد",
+  "Changing workplace":"تغيير اماكن العمل",
+  "Identify the workplaces":"تحديد أماكن العمل",
   
 
   

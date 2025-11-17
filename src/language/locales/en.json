@@ -325,7 +325,7 @@
   "Passwords do not match":"Passwords do not match",
   "Choose the job":"Choose the job",
   "Employee address":"Employee address",
-  "workplace":"workplace",
+  "Workplaces":"Workplaces",
   "Identify the workplace":"Identify the workplace",
   "Enter the address":"Enter the address",
   "Return to the workers page":"Return to the workers page",
@@ -338,6 +338,8 @@
   "Change email":"Change email",
   "New email":"New email",
   "Enter your new email address":"Enter your new email address",
+  "Changing workplace":"Changing workplace",
+  "Identify the workplaces":"Identify the workplaces",
   
   
 

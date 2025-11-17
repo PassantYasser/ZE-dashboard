@@ -16,7 +16,7 @@ function Email({openEmail , setOpenEmail}) {
           PaperProps={{ className: "ServicePage-dialog" }}
         >
         <button className='pt-8 px-6 pb-2 cursor-pointer' onClick={()=>setOpenEmail(false)}>
-          <p className='border rounded-[100%] w-10 h-10 flex justify-center items-center  '>
+          <p className='border border-[#DDD] rounded-[100%] w-10 h-10 flex justify-center items-center  '>
             <img src="/images/icons/xx.svg" alt="" />
           </p>
         </button>

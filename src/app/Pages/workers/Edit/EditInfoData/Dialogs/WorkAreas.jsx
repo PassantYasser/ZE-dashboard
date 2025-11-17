@@ -1,0 +1,147 @@
+"use client"
+import { Dialog } from '@mui/material'
+import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next';
+
+function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
+      const {t}= useTranslation();
+
+      //   // Employee address
+      //     const [open2, setOpen2] = useState(false);
+      //     const [selected2, setSelected2] = useState("");
+      //     const [searchValue2, setSearchValue2] = useState("");
+      //     const dropdownRef2 = useRef(null);
+      //     const optionEmployeeAddress =[
+      //       'qq',"ww","ss","rr"
+      //     ];
+
+      
+
+        // ServiceActivityLocation 4
+        const [open4, setOpen4] = useState(false);
+        const [selected4, setSelected4] = useState([]);
+        const dropdownRef4 = useRef(null);
+        const optionWorkplace = [
+          "www","eeee","fff","1vvvvvvvvvvvvvvvvvvvvvvvvvvev","d"
+        ]
+    
+        useEffect(() => {
+          const handleClickOutside = (event) => {
+            if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
+          };
+          document.addEventListener("mousedown", handleClickOutside);
+          return () => document.removeEventListener("mousedown", handleClickOutside);
+        }, []);
+  return (
+    <>
+        <Dialog 
+        open={openWorkAreas} 
+        onClose={() => setOpenWorkAreas(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{ className: "ServicePage-dialog" }}
+      >
+      <button className='pt-8 px-6 pb-2 cursor-pointer' onClick={()=>setOpenWorkAreas(false)}>
+        <p className='border border-[#DDD] rounded-[100%] w-10 h-10 flex justify-center items-center  '>
+          <img src="/images/icons/xx.svg" alt="" />
+        </p>
+      </button>
+
+
+      <div className='flex flex-col gap-5 items-center justify-center mb-8'>
+        {/* icon */}
+        <div className='bg-[#EEF2F6] w-17.5 h-17.5 rounded-[100%] flex items-center justify-center '>
+          <div className='bg-[#CDD5DF] w-12.5 h-12.5 rounded-[100%] flex items-center justify-center'>
+            <img src="/images/icons/Workplaces.svg" className="w-7.5 h-7.5"  />
+          </div>
+        </div>
+
+        {/* title */}
+        <p className='text-[var(--color-primary)] text-xl font-bold'>{t('Changing workplace')}</p>
+
+      </div>
+      
+        <form action="" className=' px-6 '>
+      
+          <div className="flex flex-col">
+            <label className="text-[#364152] text-base font-normal mb-3">
+              {t("Workplaces")}
+            </label>
+
+            <div className="relative w-full" ref={dropdownRef4}>
+              <div
+                onClick={() => setOpen4(!open4)}
+                className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+              >
+                {/* Selected tags / placeholder */}
+                {selected4.length > 0 ? (
+                  selected4.map((item, index) => (
+                    <span
+                      key={index}
+                      className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                    >
+                      {item}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelected4(selected4.filter((_, i) => i !== index));
+                        }}
+                        className="text-[#364152]"
+                      >
+                        <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-[#9A9A9A]">{t("Identify the workplaces")}</span>
+                )}
+
+                {/* Arrow icon on the right */}
+                <span className="absolute left-3">
+                  {open4 ? (
+                    <img src="/images/icons/ArrowUp.svg" alt="" />
+                  ) : (
+                    <img src="/images/icons/ArrowDown.svg" alt="" />
+                  )}
+                </span>
+              </div>
+
+              {/* Dropdown options */}
+              {open4 && (
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                  {optionWorkplace.map((option, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        if (!selected4.includes(option)) {
+                          setSelected4([...selected4, option]);
+                        }
+                        setOpen4(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          <div className='my-6 flex gap-3'>
+            <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              {t('save')}
+            </button>
+            <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              {t('cancel')}
+            </button>
+          </div>
+        </form>
+      
+      </Dialog>
+    </>
+  )
+}
+
+export default WorkAreas

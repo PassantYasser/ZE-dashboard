@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PhoneNumber from './Dialogs/PhoneNumber';
 import Email from './Dialogs/Email';
 import Password from './Dialogs/Password';
+import WorkAreas from './Dialogs/WorkAreas';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -48,6 +49,9 @@ function EditInfoDataPage() {
 
     //Password
     const [openPassword , setOpenPassword] = useState(false);
+    
+    //Work areas
+    const [openWorkAreas , setOpenWorkAreas] = useState(false);
 
     // const [open , setOpen] = useState(false);
 
@@ -160,14 +164,14 @@ function EditInfoDataPage() {
           </div>
         </div>
 
-        {/* Work areas */}
+        {/* workplace */}
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
-            <p className='text-[#697586] text-base font-normal mb-2'>{t('Work areas')}</p>
+            <p className='text-[#697586] text-base font-normal mb-2'>{t('Workplaces')}</p>
             <p className='text-[#364152] text-base font-normal '>مصر الجديدة - مدينة نصر</p>
           </div>
           <div className='flex justify-center items-center'>
-            <button className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+            <button onClick={()=>setOpenWorkAreas(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" alt="" />
             </button>
           </div>
@@ -194,6 +198,7 @@ function EditInfoDataPage() {
       <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber}/>
       <Email openEmail={openEmail} setOpenEmail={setOpenEmail} />
       <Password openPassword={openPassword} setOpenPassword={setOpenPassword}/>
+      <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas}  />
 
     </>
   )
