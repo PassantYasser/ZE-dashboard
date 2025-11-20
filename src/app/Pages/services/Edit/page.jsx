@@ -1,15 +1,13 @@
 "use client";
 import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation"; // useSearchParams for query params
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
-
-import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice"; // your thunk to fetch service by ID
+import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice"; 
 
 export default function EditPage() {
   const { t } = useTranslation();
