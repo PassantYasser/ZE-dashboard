@@ -138,25 +138,24 @@ useEffect(() => {
   // Time 5
   const [open5, setOpen5] = useState(false);
   const [tempTime, setTempTime] = useState(null);
-  const parseDuration = (durationStr) => {
-    if (!durationStr) return null;
-    const match = durationStr.match(/(\d+)h\s*(\d+)m/);
-    if (!match) return null;
 
-    const hours = parseInt(match[1], 10);
-    const minutes = parseInt(match[2], 10);
-
-    return dayjs().hour(hours).minute(minutes).second(0);
+  const parseDuration = (str) => {
+    if (!str) return null;
+    const match = str.match(/(\d+):(\d+)/);
+    if (! match) return null;
+    return dayjs().hour(match[1]).minute(match[2]).second(0);
   };
 
   const [confirmedTime, setConfirmedTime] = useState(parseDuration(service?.duration));
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
   
+
   const handleOkClick = () => {
     setConfirmedTime(tempTime);
     setOpen5(false); 
   };
 
+  console.log((service?.duration));
 
   
   // close dropdowns when clicking outside
