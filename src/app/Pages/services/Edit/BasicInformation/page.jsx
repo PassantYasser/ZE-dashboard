@@ -64,8 +64,8 @@ const optionMainClassification = getmodules || [];
 useEffect(() => {
   if (selected1?.id) {
     dispatch(getCategoriesThunk(selected1.id));
-    setSelected2(null);  
-    setSelected3(null);  
+//    setSelected2(null);  
+//    setSelected3(null);  
   }
 }, [selected1, dispatch]);
 
@@ -78,11 +78,6 @@ const [searchValue2, setSearchValue2] = useState("");
 const dropdownRef2 = useRef(null);
 const optionSubcategory = getCategories || [];
 
-useEffect(() => {
-  if (selected2) {
-    setSelected3(null);
-  }
-}, [selected2]);
 
 // ======================
 // Sub-service 3
@@ -107,6 +102,8 @@ useEffect(() => {
     dispatch(getCategoriesThunk(service.module.id));
   }
 }, [service, dispatch]);
+
+
 
 // Prefill Subcategory and Sub-service ONLY after getCategories loaded
 useEffect(() => {
@@ -414,7 +411,6 @@ useEffect(() => {
               onChange={(e) => {
                 setSearchValue3(e.target.value);
                 setOpen3(true);
-                setSelected3("");
               }}
               className="h-15 p-3  w-full text-[#364152] focus:outline-none"
             />
@@ -447,10 +443,13 @@ useEffect(() => {
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
                     {option?.title}
+                    
                   </li>
+              
                 ))}
             </ul>
           )}
+  
         </div>
       </div>
     

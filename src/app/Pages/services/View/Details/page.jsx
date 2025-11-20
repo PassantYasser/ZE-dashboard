@@ -21,10 +21,9 @@ function DetailsPage({handleClose ,status ,service}) {
   };
 
   const router = useRouter();
-
   const handleEditClick = () => {
     handleClose();
-    router.push("/Pages/services/Edit");
+    router.push(`/Pages/services/Edit?id=${service?.id}`);
   };
 
   return (
