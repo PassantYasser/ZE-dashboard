@@ -72,8 +72,8 @@ function DetailsPage({handleClose ,status ,service}) {
 
         {/* Description */}
         <section className='my-6'>
-          <span className='text-[#364152] text-base font-medium'>{t('Service Description')}</span>
-          <p className='text-[#697586] text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
+          <span className='text-[#364152] text-base font-medium '>{t('Service Description')}</span>
+          <p className='text-[#697586] break-words  text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
           {service?.long_description}
           </p>
         </section>
@@ -149,18 +149,29 @@ function DetailsPage({handleClose ,status ,service}) {
 
         </section>
 
-        {/* date-time */}
+        {/* date-time */}      
         <section className='mb-4 '>
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/date-time.svg" alt="" />
             <p className='text-[#364152]'>{t('Available times and days')}</p>
           </div>
+
           <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] p-3'>
-            {service?.days.map((day, index)=>(
-              <div key={index}>
-                <div className='flex justify-between '>
-                  <p className='text-[#697586] text-sm font-normal'>{day?.day} </p>
-                  <div className='flex flex-col gap-3 items-end'>
+            
+            {(!service?.days || service?.days.length === 0 ||
+              !service?.days.some((d) => d.times?.length > 0)) ? (
+              
+              <p className='text-[#697586] text-sm font-normal'>
+                {t("No available times")}
+              </p>
+            
+            ) : (
+              service?.days.map((day, index) => (
+                <div key={index}>
+                  <div className='flex justify-between'>
+                    <p className='text-[#697586] text-sm font-normal'>{day?.day}</p>
+
+                    <div className='flex flex-col gap-3 items-end'>
                       {day?.times.map((time, idx) => (
                         <p
                           className='text-[#697586] text-sm font-normal'
@@ -170,16 +181,17 @@ function DetailsPage({handleClose ,status ,service}) {
                         </p>
                       ))}
                     </div>
-                  
+                  </div>
+
+                  {index !== service?.days.length - 1 && (
+                    <div className="w-full h-px bg-[#CDD5DF] my-3"></div>
+                  )}
                 </div>
-                {index !== service?.days.length - 1 && (
-                  <div className="w-full h-px bg-[#CDD5DF] my-3"></div>
-                )}
-              </div>
-            ))}
-          
+              ))
+            )}
           </div>
         </section>
+
 
         {/* Available areas */}
         <section >

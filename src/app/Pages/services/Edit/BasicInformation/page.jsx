@@ -52,32 +52,78 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
 
   
 
-  // MainClassification 1
-  const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState("");
-  const [searchValue1, setSearchValue1] = useState("");
-  const dropdownRef1 = useRef(null);
-  const optionMainClassification =getmodules || [];
-  useEffect(() => {
-    if (selected1?.id) {
-      dispatch(getCategoriesThunk(selected1.id));
-    }
-  }, [selected1, dispatch]);
+// ======================
+// Main Classification 1
+// ======================
+const [open1, setOpen1] = useState(false);
+const [selected1, setSelected1] = useState(null);
+const [searchValue1, setSearchValue1] = useState("");
+const dropdownRef1 = useRef(null);
+const optionMainClassification = getmodules || [];
 
-  // Subcategory 2
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState("");
-  const [searchValue2, setSearchValue2] = useState("");
-  const dropdownRef2 = useRef(null);
-  const optionSubcategory =getCategories || [];;
+useEffect(() => {
+  if (selected1?.id) {
+    dispatch(getCategoriesThunk(selected1.id));
+    setSelected2(null);  
+    setSelected3(null);  
+  }
+}, [selected1, dispatch]);
 
+// ======================
+// Subcategory 2
+// ======================
+const [open2, setOpen2] = useState(false);
+const [selected2, setSelected2] = useState(null);
+const [searchValue2, setSearchValue2] = useState("");
+const dropdownRef2 = useRef(null);
+const optionSubcategory = getCategories || [];
 
-  // SubService 3
-  const [open3, setOpen3] = useState(false);
-  const [selected3, setSelected3] = useState("");
-  const [searchValue3, setSearchValue3] = useState("");
-  const dropdownRef3 = useRef(null);
-  const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child.title) || []) || [];
+useEffect(() => {
+  if (selected2) {
+    setSelected3(null);
+  }
+}, [selected2]);
+
+// ======================
+// Sub-service 3
+// ======================
+const [open3, setOpen3] = useState(false);
+const [selected3, setSelected3] = useState(null);
+const [searchValue3, setSearchValue3] = useState("");
+const dropdownRef3 = useRef(null);
+const optionSubService = selected2?.children || [];
+
+useEffect(() => {
+  if (!service) return;
+
+  // Prefill Main classification
+  if (service?.module) {
+    setSelected1({
+      id: service.module.id,
+      name: service.module.name,
+    });
+
+    // Load categories for this module
+    dispatch(getCategoriesThunk(service.module.id));
+  }
+}, [service, dispatch]);
+
+// Prefill Subcategory and Sub-service ONLY after getCategories loaded
+useEffect(() => {
+  if (!service) return;
+  if (!selected1) return; // لازم Main classification موجود
+  if (!getCategories || getCategories.length === 0) return; // data جاهزة
+
+  // Subcategory
+  const foundSub = getCategories.find(cat => cat.id === service?.main_category?.id);
+  if (foundSub) setSelected2(foundSub);
+
+  // Sub-service
+  const foundChild = foundSub?.children?.find(child => child.id === service?.category?.id);
+  if (foundChild) setSelected3(foundChild);
+
+}, [getCategories, service, selected1]);
+
 
 
   // ServiceActivityLocation 4
@@ -234,303 +280,294 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
     <form className="mt-8">
       <section className="grid lg768:grid-cols-2 lg1:grid-cols-2 gap-6">
         
-        {/* Main classification 1 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Main classification")}
-          </label>
+      {/* Main classification 1 */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Main classification")}
+        </label>
 
-          <div className="relative w-full" ref={dropdownRef1}>
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen1(!open1)}
-            >
-              {/* Input */}
-              <input
-                type="text"
-                placeholder={t("Select the main category")}
-                value={searchValue1 || selected1?.name || ""}
-                onChange={(e) => {
-                  setSearchValue1(e.target.value);
-                  setOpen1(true);
-                  setSelected1(null);
-                }}
-                className="h-15 p-3 w-full text-[#364152] focus:outline-none"
-              />
+        <div className="relative w-full" ref={dropdownRef1}>
+          <div
+            className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            onClick={() => setOpen1(!open1)}
+          >
+            <input
+              type="text"
+              placeholder={t("Select the main category")}
+              value={searchValue1 || selected1?.name || ""}
+              onChange={(e) => {
+                setSearchValue1(e.target.value);
+                setOpen1(true);
+                setSelected1(null);
+              }}
+              className="h-15 p-3 w-full text-[#364152] focus:outline-none"
+            />
 
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 cursor-pointer">
-                {open1 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
-              </span>
-            </div>
-
-            {/* 🔽 Dropdown options */}
-            {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionMainClassification
-                  .filter((option) =>
-                    option.name
-                      ?.toLowerCase()
-                      .includes(searchValue1.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={option.id || index}
-                      onClick={() => {
-                        setSelected1(option);
-                        setSearchValue1("");
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-        </div>
-    
-        {/* Subcategory 2 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Subcategory")}
-          </label>
-
-          <div className="relative w-full" ref={dropdownRef2}>
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen2(!open2)}
-            >
-              {/* 🔍 Input for search + typing */}
-              <input
-                type="text"
-                placeholder={t("Select a subcategory")}
-                value={searchValue2 || selected2?.title || selected2 || ""}
-                onChange={(e) => {
-                  setSearchValue2(e.target.value);
-                  setOpen2(true);
-                  setSelected2(null);
-                }}
-                className="h-15 p-3  w-full text-[#364152] focus:outline-none"
-              />
-
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 pointer-events-none">
-                {open2 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
-              </span>
-            </div>
-
-            {/* 🔽 Dropdown list */}
-            {open2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionSubcategory
-                  .filter((option) =>
-                    option.title
-                      ?.toLowerCase()
-                      .includes(searchValue2.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected2(option);
-                        setSearchValue2("");
-                        setOpen2(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option.title}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-        </div>
-    
-        {/* Sub-service name 3 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Sub-service name")}
-          </label>
-
-          <div className="relative w-full" ref={dropdownRef3}>
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen3(!open3)}
-            >
-              <input
-                type="text"
-                placeholder={t("Select the sub-service")}
-                value={searchValue3 || selected3?.title || selected3 || ""}
-                onChange={(e) => {
-                  setSearchValue3(e.target.value);
-                  setOpen3(true);
-                  setSelected3("");
-                }}
-                className="h-15 p-3  w-full text-[#364152] focus:outline-none"
-              />
-
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 pointer-events-none">
-                {open3 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
-              </span>
-            </div>
-
-            {/* 🔽 Dropdown list */}
-            {open3 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionSubService
-                  .filter((option) =>
-                    (option?.title || option)
-                      ?.toString()
-                      .toLowerCase()
-                      .includes(searchValue3.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelected3(option);
-                        setSearchValue3("");
-                        setOpen3(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option?.title || option}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-        </div>
-    
-        {/* Service Activity Location 4 */}
-        <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Service Activity Location")}
-          </label>
-
-          <div className="relative w-full" ref={dropdownRef4}>
-            <div
-              onClick={() => setOpen4(!open4)}
-              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
-            >
-              {/* Selected tags / placeholder */}
-              {selected4.length > 0 ? (
-                selected4.map((item, index) => (
-                  <span
-                    key={index}
-                    className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelected4(selected4.filter((_, i) => i !== index));
-                      }}
-                      className="text-[#364152]"
-                    >
-                      <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
-                    </button>
-                  </span>
-                ))
+            <span className="absolute left-3 cursor-pointer">
+              {open1 ? (
+                <img src="/images/icons/ArrowUp.svg" alt="up" />
               ) : (
-                <span className="text-[#9A9A9A]">{t("Select City")}</span>
+                <img src="/images/icons/ArrowDown.svg" alt="down" />
               )}
+            </span>
+          </div>
 
-              {/* Arrow icon on the right */}
-              <span className="absolute left-3">
-                {open4 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="" />
-                )}
-              </span>
-            </div>
-
-            {/* Dropdown options */}
-            {open4 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionServiceActivityLocation.map((option, index) => (
+          {open1 && (
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              {optionMainClassification
+                .filter((option) =>
+                  option.name
+                    ?.toLowerCase()
+                    .includes(searchValue1.toLowerCase())
+                )
+                .map((option, index) => (
                   <li
-                    key={index}
+                    key={option.id || index}
                     onClick={() => {
-                      if (!selected4.includes(option)) {
-                        setSelected4([...selected4, option]);
-                      }
-                      setOpen4(false);
+                      setSelected1(option);
+                      setSearchValue1("");
+                      setOpen1(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {option}
+                    {option.name}
                   </li>
                 ))}
-              </ul>
-            )}
-          </div>
+            </ul>
+          )}
         </div>
+      </div>
 
-        {/* Average length of service 5 */}
-        <div className="flex flex-col mb-6">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("Average length of service")}
-          </label>
+      {/* Subcategory 2 */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Subcategory")}
+        </label>
 
-          {/* Clickable box */}
+        <div className="relative w-full" ref={dropdownRef2}>
           <div
-            onClick={() => setOpen5(true)}
-            className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            onClick={() => setOpen2(!open2)}
           >
-            <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
-              {formattedTime || t("Average length of service")}
-            </span>
-            <span className="ml-2">
-              <img src="/images/icons/timepicker.svg" alt="" />
+            <input
+              type="text"
+              placeholder={t("Select a subcategory")}
+              value={searchValue2 || selected2?.title || ""}
+              onChange={(e) => {
+                setSearchValue2(e.target.value);
+                setOpen2(true);
+                setSelected2(null);
+              }}
+              className="h-15 p-3  w-full text-[#364152] focus:outline-none"
+            />
+
+            <span className="absolute left-3 pointer-events-none">
+              {open2 ? (
+                <img src="/images/icons/ArrowUp.svg" alt="up" />
+              ) : (
+                <img src="/images/icons/ArrowDown.svg" alt="down" />
+              )}
             </span>
           </div>
 
-          {/* Calendar Popup (Dialog) */}
-          <Dialog open={open5} onClose={() => setOpen5(false)}>
-            <div className="bg-[#eef2f6] p-4 w-[320px]">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MultiSectionDigitalClock
-                  value={tempTime || confirmedTime}
-                  onChange={(newValue) => setTempTime(newValue)}
-                  ampm={false}
-                  timeSteps={{ minutes: 15 }}
-                  sx={{
-                    width: "100%",
-                    "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                    "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                  }}
-                />
-              </LocalizationProvider>
-
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={handleOkClick}
-                  className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
-                >
-                  {t("Add")}
-                </button>
-              </div>
-            </div>
-          </Dialog>
+          {open2 && (
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              {optionSubcategory
+                .filter((option) =>
+                  option.title
+                    ?.toLowerCase()
+                    .includes(searchValue2.toLowerCase())
+                )
+                .map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected2(option);
+                      setSearchValue2("");
+                      setOpen2(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option.title}
+                  </li>
+                ))}
+            </ul>
+          )}
         </div>
+      </div>
+
+      {/* Sub-service name 3 */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Sub-service name")}
+        </label>
+
+        <div className="relative w-full" ref={dropdownRef3}>
+          <div
+            className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            onClick={() => setOpen3(!open3)}
+          >
+            <input
+              type="text"
+              placeholder={t("Select the sub-service")}
+              value={searchValue3 || selected3?.title || ""}
+              onChange={(e) => {
+                setSearchValue3(e.target.value);
+                setOpen3(true);
+                setSelected3("");
+              }}
+              className="h-15 p-3  w-full text-[#364152] focus:outline-none"
+            />
+
+            <span className="absolute left-3 pointer-events-none">
+              {open3 ? (
+                <img src="/images/icons/ArrowUp.svg" alt="up" />
+              ) : (
+                <img src="/images/icons/ArrowDown.svg" alt="down" />
+              )}
+            </span>
+          </div>
+
+          {open3 && (
+            <ul className="absolute left-0 right-0 border bg-white border-[#C8C8C8] rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              {optionSubService
+                .filter((option) =>
+                  option?.title
+                    ?.toLowerCase()
+                    .includes(searchValue3.toLowerCase())
+                )
+                .map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setSelected3(option);
+                      setSearchValue3("");
+                      setOpen3(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option?.title}
+                  </li>
+                ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    
+      {/* Service Activity Location 4 */}
+      <div className="flex flex-col">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Service Activity Location")}
+        </label>
+
+        <div className="relative w-full" ref={dropdownRef4}>
+          <div
+            onClick={() => setOpen4(!open4)}
+            className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+          >
+            {/* Selected tags / placeholder */}
+            {selected4.length > 0 ? (
+              selected4.map((item, index) => (
+                <span
+                  key={index}
+                  className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                >
+                  {item}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelected4(selected4.filter((_, i) => i !== index));
+                    }}
+                    className="text-[#364152]"
+                  >
+                    <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                  </button>
+                </span>
+              ))
+            ) : (
+              <span className="text-[#9A9A9A]">{t("Select City")}</span>
+            )}
+
+            {/* Arrow icon on the right */}
+            <span className="absolute left-3">
+              {open4 ? (
+                <img src="/images/icons/ArrowUp.svg" alt="" />
+              ) : (
+                <img src="/images/icons/ArrowDown.svg" alt="" />
+              )}
+            </span>
+          </div>
+
+          {/* Dropdown options */}
+          {open4 && (
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              {optionServiceActivityLocation.map((option, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    if (!selected4.includes(option)) {
+                      setSelected4([...selected4, option]);
+                    }
+                    setOpen4(false);
+                  }}
+                  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                >
+                  {option}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* Average length of service 5 */}
+      <div className="flex flex-col mb-6">
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Average length of service")}
+        </label>
+
+        {/* Clickable box */}
+        <div
+          onClick={() => setOpen5(true)}
+          className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+        >
+          <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
+            {formattedTime || t("Average length of service")}
+          </span>
+          <span className="ml-2">
+            <img src="/images/icons/timepicker.svg" alt="" />
+          </span>
+        </div>
+
+        {/* Calendar Popup (Dialog) */}
+        <Dialog open={open5} onClose={() => setOpen5(false)}>
+          <div className="bg-[#eef2f6] p-4 w-[320px]">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <MultiSectionDigitalClock
+                value={tempTime || confirmedTime}
+                onChange={(newValue) => setTempTime(newValue)}
+                ampm={false}
+                timeSteps={{ minutes: 15 }}
+                sx={{
+                  width: "100%",
+                  "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
+                  "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
+                }}
+              />
+            </LocalizationProvider>
+
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleOkClick}
+                className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
+              >
+                {t("Add")}
+              </button>
+            </div>
+          </div>
+        </Dialog>
+      </div>
 
 
       </section>
@@ -563,10 +600,17 @@ function BasicInformationPage({handleGoBack ,handleNext ,service}) {
 
     {/* btns */}
     <div className="my-12 flex gap-3">
-      <button onClick={handleGoBack} 
-      className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">{t('cancel')}</button>
-      <button onClick={handleNext} 
-        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer">{t('the next')}</button>
+      <button 
+        onClick={handleGoBack} 
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">
+          {t('cancel')}
+      </button>
+      
+      <button 
+        onClick={handleNext} 
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer">
+          {t('the next')}
+      </button>
     </div>
         
     </>

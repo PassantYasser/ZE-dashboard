@@ -52,41 +52,56 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
     );
   };
 
+  useEffect(() => {
+    dispatch(getmodulesThunk());
+  }, [dispatch]);
 
-
-  // MainClassification 1
+  // =========================
+  // Main Classification (1)
+  // =========================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState("");
+  const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionMainClassification =getmodules || [];
+  const optionMainClassification = getmodules || [];
+
   useEffect(() => {
     if (selected1?.id) {
       dispatch(getCategoriesThunk(selected1.id));
+      // ⭐ Reset dropdown 2 + 3 when changing main category
+      setSelected2(null);
+      setSearchValue2("");
+      setSelected3(null);
+      setSearchValue3("");
     }
   }, [selected1, dispatch]);
 
-  // Subcategory 2
+  // =========================
+  // Subcategory (2)
+  // =========================
   const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState("");
+  const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const optionSubcategory =getCategories || [];;
+  const optionSubcategory = getCategories || [];
 
-
-  // SubService 3
+  // =========================
+  // Sub-service (3)
+  // =========================
   const [open3, setOpen3] = useState(false);
-  const [selected3, setSelected3] = useState("");
+  const [selected3, setSelected3] = useState(null);
   const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionSubService =  getCategories?.flatMap(cat => cat.children?.map(child => child) || []) || [];
 
+  // ⭐ ONLY children of selected category
+  const optionSubService = selected2?.children || [];
+
+  
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState("");
   const [searchValue4, setSearchValue4] = useState("");
   const dropdownRef4 = useRef(null);
-  // const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
   const optionServiceActivityLocation =
     getAreas?.areas?.map((area) => ({
       id: area.id, 
@@ -139,7 +154,6 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
   return (
     <>
     {/* upload image */}
-    
     <div className="flex flex-col gap-6">
       <div
         onClick={() => fileInputRef.current.click()}
@@ -212,7 +226,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
     <form className="mt-8">
       <section className="grid lg768:grid-cols-2 lg1:grid-cols-2 gap-6">
         
-        {/* Main classification 1 */}
+        {/* ==========  Main classification 1  ========== */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Main classification")}
@@ -223,7 +237,6 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
               className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
               onClick={() => setOpen1(!open1)}
             >
-              {/* Input */}
               <input
                 type="text"
                 placeholder={t("Select the main category")}
@@ -232,12 +245,10 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
                   setSearchValue1(e.target.value);
                   setOpen1(true);
                   setSelected1(null);
-                  handleChange("module_id", "");
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
 
-              {/* 🔽 Dropdown arrow */}
               <span className="absolute left-3 cursor-pointer">
                 {open1 ? (
                   <img src="/images/icons/ArrowUp.svg" alt="up" />
@@ -247,27 +258,24 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
               </span>
             </div>
 
-            {/* 🔽 Dropdown options */}
             {open1 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionMainClassification
-                  .filter((option) =>
-                    option.name
-                      ?.toLowerCase()
-                      .includes(searchValue1.toLowerCase())
+                  .filter((opt) =>
+                    opt.name?.toLowerCase().includes(searchValue1.toLowerCase())
                   )
-                  .map((option, index) => (
+                  .map((opt) => (
                     <li
-                      key={option.id || index}
+                      key={opt.id}
                       onClick={() => {
-                        setSelected1(option);
+                        setSelected1(opt);
                         setSearchValue1("");
                         setOpen1(false);
-                        handleChange("module_id", option.id);
+                        handleChange("module_id", opt.id);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {option.name}
+                      {opt.name}
                     </li>
                   ))}
               </ul>
@@ -275,8 +283,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           </div>
         </div>
 
-  
-        {/* Subcategory 2 */}
+        {/* ========== Subcategory 2 ========== */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Subcategory")}
@@ -285,13 +292,20 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           <div className="relative w-full" ref={dropdownRef2}>
             <div
               className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen2(!open2)}
+              onClick={() => {
+                if (!selected1) return; 
+                setOpen2(!open2);
+              }}
             >
-              {/* 🔍 Input for search + typing */}
               <input
                 type="text"
-                placeholder={t("Select a subcategory")}
-                value={searchValue2 || selected2?.title || selected2 || ""}
+                placeholder={
+                  selected1
+                    ? t("Select a subcategory")
+                    : t("Select main category first")
+                }
+                disabled={!selected1}
+                value={searchValue2 || selected2?.title || ""}
                 onChange={(e) => {
                   setSearchValue2(e.target.value);
                   setOpen2(true);
@@ -300,7 +314,6 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
                 className="h-15 p-3  w-full text-[#364152] focus:outline-none"
               />
 
-              {/* 🔽 Dropdown arrow */}
               <span className="absolute left-3 pointer-events-none">
                 {open2 ? (
                   <img src="/images/icons/ArrowUp.svg" alt="up" />
@@ -310,8 +323,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
               </span>
             </div>
 
-            {/* 🔽 Dropdown list */}
-            {open2 && (
+            {open2 && selected1 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionSubcategory
                   .filter((option) =>
@@ -319,13 +331,16 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
                       ?.toLowerCase()
                       .includes(searchValue2.toLowerCase())
                   )
-                  .map((option, index) => (
+                  .map((option) => (
                     <li
-                      key={index}
+                      key={option.id}
                       onClick={() => {
                         setSelected2(option);
                         setSearchValue2("");
                         setOpen2(false);
+                        // reset dropdown 3
+                        setSelected3(null);
+                        setSearchValue3("");
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -337,8 +352,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           </div>
         </div>
 
-    
-        {/* Sub-service name 3 */}
+        {/* ========== Sub-Service 3 ========== */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Sub-service name")}
@@ -347,21 +361,28 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           <div className="relative w-full" ref={dropdownRef3}>
             <div
               className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen3(!open3)}
+              onClick={() => {
+                if (!selected2) return;
+                setOpen3(!open3);
+              }}
             >
               <input
                 type="text"
-                placeholder={t("Select the sub-service")}
-                value={searchValue3 || selected3?.title  || selected3 || "" }
+                placeholder={
+                  selected2
+                    ? t("Select the sub-service")
+                    : t("Select subcategory first")
+                }
+                disabled={!selected2}
+                value={searchValue3 || selected3?.title || ""}
                 onChange={(e) => {
                   setSearchValue3(e.target.value);
-                  setSelected3(null);
                   setOpen3(true);
+                  setSelected3(null);
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
 
-              {/* 🔽 Dropdown arrow */}
               <span className="absolute left-3 pointer-events-none">
                 {open3 ? (
                   <img src="/images/icons/ArrowUp.svg" alt="up" />
@@ -371,35 +392,35 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
               </span>
             </div>
 
-            {/* 🔽 Dropdown list */}
-            {open3 && (
+            {open3 && selected2 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-              {optionSubService
-                .filter(option => 
-                  option && option.toString().toLowerCase().includes(searchValue3.toLowerCase())
-                )
-                .map((option, index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      handleChange("category_id", option.id); 
-                      setSelected3(option);
-                      setOpen3(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {option.title}
-                  </li>
-                ))
-              }
+                {optionSubService
+                  .filter((opt) =>
+                    opt.title
+                      ?.toLowerCase()
+                      .includes(searchValue3.toLowerCase())
+                  )
+                  .map((opt) => (
+                    <li
+                      key={opt.id}
+                      onClick={() => {
+                        setSelected3(opt);
+                        setOpen3(false);
+                        setSearchValue3("");
+                        handleChange("category_id", opt.id);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {opt.title}
+                    </li>
+                  ))}
               </ul>
             )}
           </div>
         </div>
 
 
-    
-        {/* Service Activity Location 4 */}
+        {/* ==========  Service Activity Location 4  ========== */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Service Activity Location")}
@@ -462,7 +483,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
         </div>
 
 
-        {/* Average length of service 5 */}
+        {/* ==========  Average length of service 5  ========== */}
         <div className="flex flex-col mb-6">
           <label className="text-[#364152] text-base font-normal mb-3">
             {t("Average length of service")}
@@ -513,7 +534,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
 
       </section>
 
-      {/* Service Description */}
+      {/* ==========  Service Description  ========== */}
       <div className="flex flex-col">
         <label className="text-[#364152] text-base font-normal mb-3">
           {t("Service Description")}
@@ -532,6 +553,7 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
           </span>
         </div>
       </div>
+      
     </form>
 
 
@@ -541,10 +563,19 @@ function BasicInformationPage({handleGoBack ,handleNext ,formData,handleChange})
 
     {/* btns */}
     <div className="my-12 flex gap-3">
-      <button onClick={handleGoBack} 
-      className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">{t('cancel')}</button>
-      <button onClick={handleNext} 
-        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer">{t('the next')}</button>
+
+      <button 
+        onClick={handleGoBack} 
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">
+          {t('cancel')}
+      </button>
+
+      <button 
+        onClick={handleNext} 
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer">
+          {t('the next')}
+      </button>
+
     </div>
         
     </>
