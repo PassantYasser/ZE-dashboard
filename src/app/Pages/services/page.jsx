@@ -10,6 +10,7 @@ import ServiceCard from "@/app/Components/Cards/ServiceCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllServicesThunk } from "@/redux/slice/Services/ServicesSlice";
 import Pagination from "./Pagination";
+import { CircularProgress } from "@mui/material";
 
 
 const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
@@ -61,14 +62,19 @@ function ServicesPage() {
         </div>
       </section>
 
-      <section className="mt-10 mb-8 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
+      <section className="mt-10 w-full mb-8 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
         {/* <ServiceCard /> */}
         {!loading && !error && services?.length > 0 ? (
           services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))
         ) : (
-          !loading && <p>No services found.</p>
+          !loading && (
+            <div className="">
+              <CircularProgress color="warning" size={60}  />
+            </div>
+            
+          )
         )}
       </section>
       
