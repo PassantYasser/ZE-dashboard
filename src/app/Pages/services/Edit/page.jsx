@@ -66,16 +66,36 @@ export default function EditPage() {
         duration: service.duration || "",
         long_description: service.long_description || "",
         inspection_price: service.inspection_price || "",
-        price_on_inspection: service.price_on_inspection || "",
+        price_on_inspection: !!service.price_on_inspection, // convert to boolean
         pricing_type: service.pricing_type || "",
         discount: service.discount || "",
         discount_type: service.discount_type || "",
       });
     }, [service]);
 
-  const handleSave = () => {
+//   const handleSave = () => {
+//   if (!service?.id) return;
+//     dispatch(updateServiceThunk({ id: service.id, formData }))
+//     .unwrap()
+//     .then(() => router.back())
+//     .catch((err) => console.error("Failed to update service:", err));
+// };
+const handleSave = () => {
   if (!service?.id) return;
-    dispatch(updateServiceThunk({ id: service.id, formData }))
+
+  const submitFormData = new FormData();
+
+  Object.entries(formData).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => submitFormData.append(`${key}[]`, v));
+    } else if (typeof value === "boolean") {
+      submitFormData.append(key, value ? "1" : "0"); // convert boolean to 1/0
+    } else if (value !== undefined && value !== null) {
+      submitFormData.append(key, value);
+    }
+  });
+
+  dispatch(updateServiceThunk({ id: service.id, formData: submitFormData }))
     .unwrap()
     .then(() => router.back())
     .catch((err) => console.error("Failed to update service:", err));

@@ -61,8 +61,10 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
               <div className="flex gap-1 items-center">
                 <input
                   type="checkbox"
-                  checked={isPriceOnInspection}
-                  onChange={(e) => setIsPriceOnInspection(e.target.checked)}
+                  checked={formData.price_on_inspection === true}
+                  onChange={(e) =>
+                    handleChange("price_on_inspection", e.target.checked) // update formData
+                  } 
                   className="peer appearance-none w-6 h-6 border border-[#CDD5DF] rounded-[3px] cursor-pointer 
                   checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] 
                   checked:before:content-['✓'] checked:before:text-white 
@@ -83,7 +85,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
           </div>
       
           {/* pricing type dropdown (hide when checked) */}
-          {!isPriceOnInspection && (
+          {!formData.price_on_inspection &&  (
             // Pricing Type
             <div className="flex flex-col gap-4 w-full">
               <label className="text-[#364152]">{t("Pricing Type")}</label>
@@ -127,7 +129,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
         </div>
       
         {/*************************************** sale *************************** */}
-        {!isPriceOnInspection && (
+        {!formData.price_on_inspection && (
 
           /*Discount*/
           <div className="flex flex-col gap-2">
