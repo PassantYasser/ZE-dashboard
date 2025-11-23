@@ -27,7 +27,53 @@ export default function EditPage() {
     }
   }, [serviceId, dispatch]);
 
-  if (!service) return <p>Loading service...</p>;
+  // if (!service) return <p>Loading service...</p>;
+
+
+  //update service *******************************************/
+    const [formData, setFormData] = useState({
+      provider_id:'',
+      images: [],
+      module_id: "",
+      category_id: "",
+      provider_areas_id: [],
+      duration: "",
+      long_description: "",
+      inspection_price: "",
+      price_on_inspection: "",
+      pricing_type: "",
+      discount: "",
+      discount_type: "",
+    });
+
+    const handleChange = (key, value) => {
+      setFormData((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    };
+
+    useEffect(() => {
+      if (!service) return;
+
+      setFormData({
+        provider_id: service.provider_id || "",
+        images: service.images || [],         // old images from API
+        module_id: service.module_id || "",
+        category_id: service.category_id || "",
+        provider_areas_id: service.provider_areas_id || [],
+        duration: service.duration || "",
+        long_description: service.long_description || "",
+        inspection_price: service.inspection_price || "",
+        price_on_inspection: service.price_on_inspection || "",
+        pricing_type: service.pricing_type || "",
+        discount: service.discount || "",
+        discount_type: service.discount_type || "",
+      });
+    }, [service]);
+
+
+    
 
   const tabs = [
     { id: "basic", label: t("Basic information"), Component: BasicInformationPage },
@@ -82,10 +128,15 @@ export default function EditPage() {
                   <tab.Component
                     key={tab.id}
                     service={service}
+
+                    formData={formData}
+                    setFormData={setFormData}
+                    handleChange={handleChange}
+
                     handleGoBack={handleGoBack}
                     handlePrev={handlePrev}
                     handleNext={handleNext}
-                  />
+                  /> 
                 )
             )}
           </div>

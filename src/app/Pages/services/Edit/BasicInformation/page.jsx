@@ -11,17 +11,22 @@ import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/s
 import { IMAGE_BASE_URL } from "../../../../../../config/imageUrl";
 
 
-function BasicInformationPage({handleGoBack ,handleNext ,service}) {
+function BasicInformationPage({handleGoBack ,handleNext ,service ,formData, setFormData ,handleChange}) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
   const {getmodules ,getCategories , getAreas } = useSelector((state) => state.services);
-
   useEffect(() => {
     dispatch(getmodulesThunk());
     dispatch(getCategoriesThunk());
     dispatch(getAllAreasThunk())
   }, [dispatch]);
+
+
+  console.log('formData',formData);
+
+
+
 
 
   //upload images
@@ -155,7 +160,6 @@ useEffect(() => {
     setOpen5(false); 
   };
 
-  console.log((service?.duration));
 
   
   // close dropdowns when clicking outside

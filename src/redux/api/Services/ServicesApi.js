@@ -38,10 +38,21 @@ export const getAllAreas = async()=>{
   return response.data
 }
 /******************* */
+
+//add service 
 export const AddService = async (formData) => {
   const response = await API.post('/provider/services', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-  console.log('AddService',response.data);
+  // console.log('AddService',response.data);
   return response.data;
+}
+
+//update service by id 
+export const updateService = async (service_id , formData)=>{
+  const response = await API.post(`/provider/services/${service_id}` ,formData , {
+      headers: { 'Content-Type': 'multipart/form-data' },
+  } );
+  console.log('updateService',response.data);
+  return response.data
 }
