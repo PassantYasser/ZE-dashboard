@@ -45,6 +45,7 @@ export default function EditPage() {
       pricing_type: "",
       discount: "",
       discount_type: "",
+      provider_areas_id:[],
     });
 
     const handleChange = (key, value) => {
@@ -71,6 +72,7 @@ export default function EditPage() {
         pricing_type: service.pricing_type || "",
         discount: service.discount || "",
         discount_type: service.discount_type || "",
+        provider_areas_id: service.areas.map(area => area.id),
       });
     }, [service]);
 
@@ -93,6 +95,27 @@ export default function EditPage() {
       } else if (typeof value === "boolean") {
         submitFormData.append(key, value ? "1" : "0"); 
       } else if (value !== undefined && value !== null) {
+        submitFormData.append(key, value);
+      }
+
+
+      if (key === "images") {
+        value.forEach(img => {
+          if (img instanceof File) {
+            submitFormData.append("images[]", img); // new uploads
+          } else {
+            submitFormData.append("old_images[]", img.id); // old images
+          }
+        });
+      }
+
+      else if (Array.isArray(value)) {
+        value.forEach((v) => submitFormData.append(`${key}[]`, v));
+      } 
+      else if (typeof value === "boolean") {
+        submitFormData.append(key, value ? "1" : "0");
+      } 
+      else if (value !== undefined && value !== null) {
         submitFormData.append(key, value);
       }
     });

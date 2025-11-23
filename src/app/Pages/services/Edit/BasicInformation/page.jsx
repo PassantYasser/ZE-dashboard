@@ -131,11 +131,13 @@ useEffect(() => {
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState([]);
   const dropdownRef4 = useRef(null);
-  const optionServiceActivityLocation = getAreas?.areas?.map(area => area.city) || [];
+  const optionServiceActivityLocation = getAreas?.areas || [];
   useEffect(() => {
   if (service?.areas) {
-    const cities = service.areas.map(area => area.city);
-    setSelected4(cities); 
+
+    const areasId =service.areas.map(area => area.id); 
+    setSelected4(areasId);
+    handleChange("provider_areas_id", selected4);
   }
 }, [service]);
 
@@ -472,13 +474,34 @@ useEffect(() => {
             className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
           >
             {/* Selected tags / placeholder */}
-            {selected4.length > 0 ? (
+            {optionServiceActivityLocation.map((option, index) => (
+              selected4.includes(option.id) ?
+                  <span
+                  key={index}
+                  className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                >
+                  {option.city}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("selected areas",selected4);
+                      setSelected4(selected4.filter(item => item.id !== option.id));
+                    }}
+                    className="text-[#364152]"
+                  >
+                    <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                  </button>
+                </span>
+                  : ""
+            ))}
+            {/* {selected4.length > 0 ? (
               selected4.map((item, index) => (
                 <span
                   key={index}
                   className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
                 >
-                  {item}
+                  {item.city}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -493,7 +516,7 @@ useEffect(() => {
               ))
             ) : (
               <span className="text-[#9A9A9A]">{t("Select City")}</span>
-            )}
+            )} */}
 
             {/* Arrow icon on the right */}
             <span className="absolute left-3">
@@ -509,18 +532,20 @@ useEffect(() => {
           {open4 && (
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionServiceActivityLocation.map((option, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    if (!selected4.includes(option)) {
-                      setSelected4([...selected4, option]);
-                    }
-                    setOpen4(false);
-                  }}
-                  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                >
-                  {option}
-                </li>
+<li
+  key={option.id}
+  onClick={() => {
+    if (!selected4.includes(option.id)) {
+      const updated = [...selected4, option.id];
+      setSelected4(updated);
+      handleChange("provider_areas_id", updated);  //✨ اضيف الـ IDs للـ formData 
+    }
+    setOpen4(false);
+  }}
+  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+>
+  {option.city}
+</li>
               ))}
             </ul>
           )}
