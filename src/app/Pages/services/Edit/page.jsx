@@ -59,12 +59,13 @@ export default function EditPage() {
 
       setFormData({
         provider_id: service.provider_id || "",
-        images: service.images || [],         // old images from API
+        images: service.images || [],        
         module_id: service.module_id || "",
         category_id: service.category_id || "",
         provider_areas_id: service.provider_areas_id || [],
         duration: service.duration || "",
         long_description: service.long_description || "",
+        price: service.price || "",
         inspection_price: service.inspection_price || "",
         price_on_inspection: !!service.price_on_inspection, // convert to boolean
         pricing_type: service.pricing_type || "",
@@ -80,26 +81,27 @@ export default function EditPage() {
 //     .then(() => router.back())
 //     .catch((err) => console.error("Failed to update service:", err));
 // };
-const handleSave = () => {
-  if (!service?.id) return;
 
-  const submitFormData = new FormData();
+  const handleSave = () => {
+    if (!service?.id) return;
 
-  Object.entries(formData).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach((v) => submitFormData.append(`${key}[]`, v));
-    } else if (typeof value === "boolean") {
-      submitFormData.append(key, value ? "1" : "0"); // convert boolean to 1/0
-    } else if (value !== undefined && value !== null) {
-      submitFormData.append(key, value);
-    }
-  });
+    const submitFormData = new FormData();
 
-  dispatch(updateServiceThunk({ id: service.id, formData: submitFormData }))
-    .unwrap()
-    .then(() => router.back())
-    .catch((err) => console.error("Failed to update service:", err));
-};
+    Object.entries(formData).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => submitFormData.append(`${key}[]`, v));
+      } else if (typeof value === "boolean") {
+        submitFormData.append(key, value ? "1" : "0"); 
+      } else if (value !== undefined && value !== null) {
+        submitFormData.append(key, value);
+      }
+    });
+
+    dispatch(updateServiceThunk({ id: service.id, formData: submitFormData }))
+      .unwrap()
+      .then(() => router.back())
+      .catch((err) => console.error("Failed to update service:", err));
+  };
 
   console.log('formData',formData);
 
