@@ -11,7 +11,7 @@ import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/s
 import { IMAGE_BASE_URL } from "../../../../../../config/imageUrl";
 
 
-function BasicInformationPage({handleGoBack ,handleNext ,service ,formData, setFormData ,handleChange}) {
+function BasicInformationPage({handleGoBack ,handleNext ,service ,formData ,handleChange}) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch()
@@ -23,7 +23,6 @@ function BasicInformationPage({handleGoBack ,handleNext ,service ,formData, setF
   }, [dispatch]);
 
 
-  console.log('formData',formData);
 
 
 
@@ -158,6 +157,7 @@ useEffect(() => {
   const handleOkClick = () => {
     setConfirmedTime(tempTime);
     setOpen5(false); 
+    handleChange("duration", tempTime ? dayjs(tempTime).format("HH:mm") : "");
   };
 
 
@@ -327,6 +327,8 @@ useEffect(() => {
                       setSelected1(option);
                       setSearchValue1("");
                       setOpen1(false);
+
+                        handleChange("module_id", option.id);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
@@ -442,6 +444,8 @@ useEffect(() => {
                       setSelected3(option);
                       setSearchValue3("");
                       setOpen3(false);
+
+                      handleChange("category_id", option.id);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
@@ -581,18 +585,18 @@ useEffect(() => {
         </label>
         <div className="relative w-full">
           <textarea
-            value={service?.long_description}
-            onChange={(e) => setText(e.target.value)}
+            value={formData.long_description}
+            onChange={(e) => handleChange("long_description", e.target.value)}
             placeholder={t("Write a description of the service.")}
             maxLength={5000}
-            className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3  text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
+            className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
           />
-          {/* counter inside the box */}
           <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-            5000/{text.length}
+            5000/{formData.long_description.length}
           </span>
         </div>
       </div>
+
     </form>
 
 

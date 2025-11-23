@@ -103,7 +103,7 @@ export const updateServiceThunk = createAsyncThunk(
     try{
       const response = await updateService(id, formData)
       console.log('updateServiceThunk' , response);
-      return response.data
+      return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }

@@ -7,7 +7,7 @@ import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
-import { getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice"; 
+import { getServiceByIdThunk, updateServiceThunk } from "@/redux/slice/Services/ServicesSlice"; 
 
 export default function EditPage() {
   const { t } = useTranslation();
@@ -39,6 +39,7 @@ export default function EditPage() {
       provider_areas_id: [],
       duration: "",
       long_description: "",
+      price:"",
       inspection_price: "",
       price_on_inspection: "",
       pricing_type: "",
@@ -72,8 +73,17 @@ export default function EditPage() {
       });
     }, [service]);
 
+  const handleSave = () => {
+  if (!service?.id) return;
+    dispatch(updateServiceThunk({ id: service.id, formData }))
+    .unwrap()
+    .then(() => router.back())
+    .catch((err) => console.error("Failed to update service:", err));
+};
 
-    
+  console.log('formData',formData);
+
+
 
   const tabs = [
     { id: "basic", label: t("Basic information"), Component: BasicInformationPage },
@@ -122,23 +132,24 @@ export default function EditPage() {
 
           {/* Tab Content */}
           <div className="flex-1 overflow-y-auto mt-6 px-2">
-            {tabs.map(
-              (tab) =>
-                openId === tab.id && (
-                  <tab.Component
-                    key={tab.id}
-                    service={service}
+          {tabs.map((tab) => (
+  <div
+    key={tab.id}
+    style={{ display: openId === tab.id ? "block" : "none" }}
+  >
+    <tab.Component
+      service={service}
+      formData={formData}
+      setFormData={setFormData}
+      handleChange={handleChange}
+      handleSave={handleSave}
+      handleGoBack={handleGoBack}
+      handlePrev={handlePrev}
+      handleNext={handleNext}
+    />
+  </div>
+))}
 
-                    formData={formData}
-                    setFormData={setFormData}
-                    handleChange={handleChange}
-
-                    handleGoBack={handleGoBack}
-                    handlePrev={handlePrev}
-                    handleNext={handleNext}
-                  /> 
-                )
-            )}
           </div>
         </section>
       </div>

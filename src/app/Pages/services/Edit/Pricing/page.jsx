@@ -3,26 +3,33 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack , service}) {
+function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChange , handleSave}) {
   const { t } = useTranslation();
+
+
   const [isPriceOnInspection, setIsPriceOnInspection] = useState(service?.price_on_inspection || false);
 
+  // pricing type dropdown
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(service?.pricing_type || "");
+  const [selected1, setSelected1] = useState("");
   const dropdownRef1 = useRef(null);
+  const [selectedValue1, setSelectedValue1] = useState(""); 
   const options = [
-  t("constant value"),
-  t("By the hour"),
-  t("in kilograms"),
-  t("per meter"),
-  ];  
+    { label: t("constant value"), value: "flat" },
+    { label: t("By the hour"), value: "hour" },
+    { label: t("in kilograms"), value: "kilo" },
+    { label: t("per meter"), value: "meter" },
+  ];
   
 
+  // Discount
+    const [open2, setOpen2] = useState(false);
+    const dropdownRef2 = useRef(null);
 
-  const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState(service?.discount_type);
-  const dropdownRef2 = useRef(null);
-  const optionRates = [t("percentage"), t("constant value")];
+    const optionRates = [
+      { label: t("percentage"), value: "percent" },
+      { label: t("constant value"), value: "flat"}
+    ]
 
   useEffect(() => {
     if (service?.pricing_type) {
@@ -68,7 +75,8 @@ function PricingPage({handlePrev , handleGoBack , service}) {
             {/* price form (always visible) */}
             <input
               type="text" 
-              defaultValue={service?.price}
+              value={formData.price || ""}  
+              onChange={(e) => handleChange("price", e.target.value)}
               className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
               placeholder={t("Enter the service price")}
             />
@@ -79,18 +87,14 @@ function PricingPage({handlePrev , handleGoBack , service}) {
             // Pricing Type
             <div className="flex flex-col gap-4 w-full">
               <label className="text-[#364152]">{t("Pricing Type")}</label>
-      
+
               <div className="relative w-full mb-6" ref={dropdownRef1}>
                 <div
                   onClick={() => setOpen1(!open1)}
                   className="h-13.5 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
                 >
-                  <span
-                    className={
-                      selected1 ? "text-[#364152]" : "text-[#9A9A9A]"
-                    }
-                  >
-                    {selected1 || t("Choose the pricing type")}
+                  <span className={formData.pricing_type ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                    {options.find((o) => o.value === formData.pricing_type)?.label || t("Choose the pricing type")}
                   </span>
                   <span className="ml-2">
                     {open1 ? (
@@ -100,19 +104,19 @@ function PricingPage({handlePrev , handleGoBack , service}) {
                     )}
                   </span>
                 </div>
-      
+
                 {open1 && (
                   <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                     {options.map((option, index) => (
                       <li
                         key={index}
                         onClick={() => {
-                          setSelected1(option);
+                          handleChange("pricing_type", option.value);
                           setOpen1(false);
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {option}
+                        {option.label}
                       </li>
                     ))}
                   </ul>
@@ -124,26 +128,30 @@ function PricingPage({handlePrev , handleGoBack , service}) {
       
         {/*************************************** sale *************************** */}
         {!isPriceOnInspection && (
+
+          /*Discount*/
           <div className="flex flex-col gap-2">
             <label className="text-[#364152]">{t("Discount")}</label>
       
             <div className="flex w-full">
+
               {/* Input field */}
               <input
                 type="text"
-                defaultValue={service?.discount}
+                value={formData.discount}
+                onChange={(e) => handleChange("discount", e.target.value)}
                 placeholder={t("Enter the discount price")}
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
               />
       
-              {/* Dropdown */}
+              {/* Dropdown rate */}
               <div className="relative w-[15%]" ref={dropdownRef2}>
                 <div
                   onClick={() => setOpen2(!open2)}
                   className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
                 >
                   <span className="text-[#4B5565]">
-                    {selected2 || t("Rate")}
+                    {optionRates.find(o => o.value === formData.discount_type)?.label || t("Rate")}
                   </span>
                   <span>
                     {open2 ? (
@@ -153,19 +161,19 @@ function PricingPage({handlePrev , handleGoBack , service}) {
                     )}
                   </span>
                 </div>
-      
+
                 {open2 && (
                   <ul className="border border-[#4B5565] bg-white rounded-[3px] shadow-md z-10">
                     {optionRates.map((option, index) => (
                       <li
                         key={index}
                         onClick={() => {
-                          setSelected2(option);
+                          handleChange("discount_type", option.value);
                           setOpen2(false);
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {option}
+                        {option.label}
                       </li>
                     ))}
                   </ul>
@@ -176,7 +184,7 @@ function PricingPage({handlePrev , handleGoBack , service}) {
         )}
       </form>
       
-      <div className="my-12 flex gap-3">
+        <div className="my-12 flex gap-3">
         <button 
           onClick={handlePrev} 
           className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
@@ -184,7 +192,7 @@ function PricingPage({handlePrev , handleGoBack , service}) {
           {t('the previous')}
         </button>
         <button
-          onClick={handleGoBack} 
+          onClick={handleSave} 
           className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
         >
             {t('save')}
