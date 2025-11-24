@@ -67,7 +67,6 @@ const renderButton = (status) => {
 };
 
 
-  // خلي كل واحدة قائمة بدل object واحد
   const [frontFiles, setFrontFiles] = useState([
     { name: "بطاقة الشخصية الأمامية JPG", size: "200 كيلوبايت - 100% تم الرفع", type: "PNG" }
   ]);
@@ -83,7 +82,6 @@ const renderButton = (status) => {
     if (file) {
       const extension = file.name.split('.').pop().toUpperCase();
       const sizeKB = Math.round(file.size / 1024);
-      // ضيف الملف الجديد للملفات القديمة
       setFiles(prev => [
         ...prev,
         { name: file.name, size: `${sizeKB} كيلوبايت`, type: extension }
