@@ -98,26 +98,6 @@ export default function EditPage() {
         submitFormData.append(key, value);
       }
 
-
-      if (key === "images") {
-        value.forEach(img => {
-          if (img instanceof File) {
-            submitFormData.append("images[]", img); // new uploads
-          } else {
-            submitFormData.append("old_images[]", img.id); // old images
-          }
-        });
-      }
-
-      else if (Array.isArray(value)) {
-        value.forEach((v) => submitFormData.append(`${key}[]`, v));
-      } 
-      else if (typeof value === "boolean") {
-        submitFormData.append(key, value ? "1" : "0");
-      } 
-      else if (value !== undefined && value !== null) {
-        submitFormData.append(key, value);
-      }
     });
 
     dispatch(updateServiceThunk({ id: service.id, formData: submitFormData }))
