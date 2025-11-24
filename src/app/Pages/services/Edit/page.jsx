@@ -72,7 +72,7 @@ export default function EditPage() {
         pricing_type: service.pricing_type || "",
         discount: service.discount || "",
         discount_type: service.discount_type || "",
-        provider_areas_id: service.areas.map(area => area.id),
+        // provider_areas_id: service.areas.map(area => area.id),
       });
     }, [service]);
 
