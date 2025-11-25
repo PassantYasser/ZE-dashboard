@@ -2,6 +2,7 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import RequestStatusDataPage from './RequestStatusData/page';
 
 function ViewPage({ open, handleClose}) {
     const { t } = useTranslation();
@@ -51,7 +52,7 @@ function ViewPage({ open, handleClose}) {
 
         <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
 
-        
+        <RequestStatusDataPage />
           
         </Dialog>
     </>
