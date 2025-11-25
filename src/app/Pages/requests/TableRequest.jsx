@@ -9,12 +9,12 @@ function createData(orderNumber, customerName, service, dateTime, worker, worker
 }
 
 const rows = [
-  createData("#001", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "Complete", "$5000"),
-  createData("#002", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "Pending", "$30"),
-  createData("#003", "Khaled Mahmoud", "Electric Fix", "2025-10-13 / 05:00 PM", "Ali Hassan", "https://randomuser.me/api/portraits/men/15.jpg", "in_progress", "$40"),
+  createData("#001", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "accepted", "$5000"),
+  createData("#002", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "pending_approval", "$30"),
+  createData("#003", "Khaled Mahmoud", "Electric Fix", "2025-10-13 / 05:00 PM", "Ali Hassan", "https://randomuser.me/api/portraits/men/15.jpg", "on_going", "$40"),
   createData("#004", "Fatma Hassan", "Cleaning", "2025-10-14 / 09:00 AM", "Noor Samir", "https://randomuser.me/api/portraits/women/22.jpg", "rejected", "$20"),
-    createData("#0011", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "Complete", "$5000"),
-  createData("#0021", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "Pending", "$30"),
+  createData("#0011", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "Complete", "$5000"),
+  createData("#0021", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "on_going", "$30"),
   createData("#0031", "Khaled Mahmoud", "Electric Fix", "2025-10-13 / 05:00 PM", "Ali Hassan", "https://randomuser.me/api/portraits/men/15.jpg", "in_progress", "$40"),
   createData("#0041", "Fatma Hassan", "Cleaning", "2025-10-14 / 09:00 AM", "Noor Samir", "https://randomuser.me/api/portraits/women/22.jpg", "rejected", "$20"),
 
@@ -27,7 +27,16 @@ export default function TableRequest() {
   
     const StatusRender = (status) => {
       switch (status) {
-        case "Complete":
+        case "accepted": //تم القبول
+          return (
+            <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+              <span className=''>{t('accepted')}</span>
+            </div>
+          </div>
+          );
+        case "Complete"://مكتملة
           return (
             <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
@@ -36,8 +45,7 @@ export default function TableRequest() {
             </div>
           </div>
           );
-  
-        case "Pending":
+        case "pending_approval": //في انتظار الموافقة
           return (
             <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
@@ -46,28 +54,25 @@ export default function TableRequest() {
               </div>
             </div>
           );
-  
-          case "in_progress":
-          return (
-            <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
-              <span className=''>{t('in_progress')}</span>
-            </div>
+        case "in_progress": //قيد التنفيذ
+        return (
+          <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
+            <span className=''>{t('in_progress')}</span>
           </div>
-          );
-  
-          case "stopped":
+        </div>
+        );
+        case "on_going": //العامل في الطريق
           return (
-            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
+            <div className=' bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
-                <img src="/images/icons/stopped Status.svg" alt="" className=' mt-1' />
-                <span className=''>{t('stopped')}</span>
+                <img src="/images/icons/on_going Status.svg" alt="" className=' mt-1' />
+                <span className=''>{t('The worker on the road')}</span>
               </div>
             </div>
           );
-  
-          case "rejected":
+        case "rejected": // مرفوضة
           return (
             <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex gap-1'>
@@ -76,7 +81,6 @@ export default function TableRequest() {
               </div>
             </div>
           );
-      
       }
     };
 
