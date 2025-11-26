@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import DescriptionPage from './Description/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
@@ -118,10 +119,18 @@ function RequestStatusDataPage() {
         </div>
       </div>
       
+      
+      {/* Description message and voice */}
+      <DescriptionPage/>
 
     </section>
 
-  
+
+    
+
+
+
+  {/* //Btns */}
     {status === 'pending_approval' &&(
       <>
         <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
