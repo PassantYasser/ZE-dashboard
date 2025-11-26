@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 function AddressPage() {
   const [open, setOpen] = useState(false);
 
-  // 🔥 Dynamic Data Here (edit as you need)
 
   return (
     <>
