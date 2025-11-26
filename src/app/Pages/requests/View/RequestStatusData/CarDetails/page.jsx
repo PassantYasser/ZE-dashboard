@@ -10,9 +10,8 @@ function CarDetailsPage() {
   
   return (
     <>
-      <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] mt-6 '>
         
-      <div className="w-full p-3 shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] overflow-hidden bg-white select-none mt-6">
+      <section className="w-full mt-6 p-3 shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] overflow-hidden bg-white select-none mt-6">
             {/* Header */}
             <button
               onClick={() => setOpen(!open)}
@@ -76,9 +75,8 @@ function CarDetailsPage() {
               
               </div>
             )}
-          </div>
+          </section>
 
-      </section>
 
     </>
   )
