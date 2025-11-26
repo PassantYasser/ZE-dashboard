@@ -364,6 +364,19 @@
   "voice message":"رسالة صوتية",
   "Illustrative images":"صور توضيحية",
 
+  "Apartment number":"رقم الشقة",
+  "The role":"الدور",
+  "Building name":"اسم المبني",
+  "Street name":"اسم الشارع",
+  "P.O. Box number": "رقم الصندوق البريدي",
+  "Nearest landmark": "أقرب معلم",
+  "Additional instructions":"تعليمات إضافية",
+  "Neighborhood name":"اسم الحي",
+  "Title classification":"تصنيف العنوان",
+  "Title type":"نوع العنوان",
+  "City":"المدينة",
+  "area":"المنطقة",
+  "State":"الدولة",
   
 
 

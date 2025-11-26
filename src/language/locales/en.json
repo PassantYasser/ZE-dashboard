@@ -363,6 +363,20 @@
   "status description": "status description",
   "voice message":"voice message",
   "Illustrative images":"Illustrative images",
+
+  "Apartment number":"Apartment number",
+  "The role":"The role",
+  "Building name":"Building name",
+  "Street name":"Street name",
+  "P.O. Box number": "P.O. Box number",
+  "Nearest landmark": "Nearest landmark",
+  "Additional instructions":"Additional instructions",
+  "Neighborhood name":"Neighborhood name",
+  "Title classification":"Title classification",
+  "Title type":"Title type",
+  "City":"City",
+  "area":"area",
+  "State":"State",
   
 
   
