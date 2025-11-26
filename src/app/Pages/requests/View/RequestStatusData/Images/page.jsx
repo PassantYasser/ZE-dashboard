@@ -55,7 +55,7 @@ const images = [
 
           
           {/* Image Dots */}
-          <div className="fixed  left-1/2 -translate-x-1/2 bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] flex items-center gap-1.5">
+          <div className="absolute bottom-4  left-1/2 -translate-x-1/2 bg-white/55 h-5.5 px-3 py-1.5 rounded-[20px] flex items-center gap-1.5">
             {images.map((_, index) => (
               <button
                 key={index}
