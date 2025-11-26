@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DescriptionPage from './Description/page';
 import ImagesPage from './Images/page';
 import AddressPage from './Address/page';
+import CarDetailsPage from './CarDetails/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
@@ -128,7 +129,11 @@ function RequestStatusDataPage() {
       {/* Images */}
       <ImagesPage/>
 
+      {/* Address */}
       <AddressPage/>
+
+      {/* Car Details */}
+      <CarDetailsPage/>
     </section>
 
 

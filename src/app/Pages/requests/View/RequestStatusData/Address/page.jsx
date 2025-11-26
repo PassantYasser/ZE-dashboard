@@ -1,10 +1,11 @@
 "use client";
-import { t } from 'i18next';
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
 
 function AddressPage() {
   const [open, setOpen] = useState(false);
 
+  const {t}= useTranslation();
 
   return (
     <>
@@ -16,7 +17,7 @@ function AddressPage() {
       >
         <span className="text-[#0F022E] text-base font-normal flex items-center gap-2">
           <img src="/images/icons/location2.svg" alt="" />
-          تفاصيل العنوان
+          {t('Address details')}
         </span>
 
         <div
@@ -101,7 +102,7 @@ function AddressPage() {
             <span className="text-[#0F022E]  font-medium">القاهرة</span>
           </div>
 
-          <div className="flex gap-0.5  text-sm py-4">
+          <div className="flex gap-0.5  text-sm pt-4">
             <span className="text-[#575757]  font-normal">{t('State')} :</span>
             <span className="text-[#0F022E]  font-medium">مصر</span>
           </div>

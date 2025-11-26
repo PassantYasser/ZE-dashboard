@@ -377,7 +377,16 @@
   "City":"المدينة",
   "area":"المنطقة",
   "State":"الدولة",
-  
+  "Address details":"تفاصيل العنوان",
+  "Car details":"تفاصيل السيارة",
+  "Brand":"العلامة التجارية",
+  "Model":"الموديل",
+  "Year of issue":"سنة الإصدار",
+  "Type of transfer":"نوع النقلة ",
+  "Fuel type":"نوع الوقود",
+  "Number of seats":"عدد المقاعد",
+  "Plate number":"رقم اللوحة",
+
 
 
 

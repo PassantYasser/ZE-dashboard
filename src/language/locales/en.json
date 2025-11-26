@@ -377,9 +377,15 @@
   "City":"City",
   "area":"area",
   "State":"State",
-  
-
-  
+  "Address details":"Address details",
+  "Car details":"Car details",
+  "Brand":"Brand",
+  "Model":"Model",
+  "Year of issue":"Year of issue",
+  "Type of transfer":"Type of transfer",
+  "Fuel type":"Fuel type",
+  "Number of seats":"Number of seats",
+  "Plate number":"Plate number",
 
 
 
