@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import DescriptionPage from './Description/page';
+import ImagesPage from './Images/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
@@ -122,6 +123,9 @@ function RequestStatusDataPage() {
       
       {/* Description message and voice */}
       <DescriptionPage/>
+
+      {/* Images */}
+      <ImagesPage/>
 
     </section>
 

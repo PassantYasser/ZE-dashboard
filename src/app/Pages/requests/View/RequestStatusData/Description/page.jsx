@@ -23,26 +23,26 @@ const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
     isPlaying ? audioRef.current.pause() : audioRef.current.play();
   };
 
-const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
-useEffect(() => {
-  const audio = audioRef.current;
-  if (!audio) return;
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-  const update = () => {
-    setCurrentTime(audio.currentTime);
-    setProgress(audio.currentTime / audio.duration || 0); // نسبة التقدم
-  };
+    const update = () => {
+      setCurrentTime(audio.currentTime);
+      setProgress(audio.currentTime / audio.duration || 0); // نسبة التقدم
+    };
 
-  audio.addEventListener("timeupdate", update);
-  audio.addEventListener("play", () => setIsPlaying(true));
-  audio.addEventListener("pause", () => setIsPlaying(false));
-  audio.addEventListener("ended", () => setIsPlaying(false));
+    audio.addEventListener("timeupdate", update);
+    audio.addEventListener("play", () => setIsPlaying(true));
+    audio.addEventListener("pause", () => setIsPlaying(false));
+    audio.addEventListener("ended", () => setIsPlaying(false));
 
-  return () => {
-    audio.removeEventListener("timeupdate", update);
-  };
-}, []);
+    return () => {
+      audio.removeEventListener("timeupdate", update);
+    };
+  }, []);
 
   return (
     <>
