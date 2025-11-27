@@ -115,11 +115,11 @@ function RequestStatusDataPage() {
         <div className='flex justify-between  w-full'>
           <div className='flex  gap-1.5 w-full'>
             <img src="/images/icons/date.svg" alt="" className='w-6 h-6' />
-            <p className='text-[#575757] text-sm font-normal'>الاحد 24 أغسطس</p>
+            <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>الاحد 24 أغسطس</p>
           </div>
           <div className='flex justify-end gap-1.5  w-full'>
             <img src="/images/icons/time.svg" alt=""  className='w-6 h-6'/>
-            <p className='text-[#575757] text-sm font-normal'> 02:10 م </p>
+            <p className='text-[#575757] text-sm font-normal flex justify-center items-center'> 02:10 م </p>
           </div>
 
         </div>
