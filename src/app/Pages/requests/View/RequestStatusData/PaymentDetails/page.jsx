@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 function PaymentDetailsPage() {
   const { t } = useTranslation();
 
-  const invoice_url =null; //link to invoice file empty or not
+  const invoice_url ='http//'; //link to invoice file empty or not
   return (
     <>
       <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 mt-6'>

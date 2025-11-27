@@ -6,6 +6,7 @@ import ImagesPage from './Images/page';
 import AddressPage from './Address/page';
 import CarDetailsPage from './CarDetails/page';
 import PaymentDetailsPage from './PaymentDetails/page';
+import CustomerPage from './Customer/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
@@ -124,6 +125,9 @@ function RequestStatusDataPage() {
       </div>
       
       
+      {/* Customer Info */}
+      <CustomerPage/>
+
       {/* Description message and voice */}
       <DescriptionPage/>
 
@@ -139,7 +143,7 @@ function RequestStatusDataPage() {
       {/* Payment Details */}
       <PaymentDetailsPage/>
 
-      
+
     </section>
 
 
