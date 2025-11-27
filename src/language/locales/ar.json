@@ -390,7 +390,9 @@
   "Payment details":"بيانات الدفع",
   "Discount value":"قيمة الخصم",
   "Final price":"السعر النهائي",
-  
+  "invoice":"الفاتورة",
+  "Cash paid":" مدفوع نقدا",
+
 
   "":"" 
 }
