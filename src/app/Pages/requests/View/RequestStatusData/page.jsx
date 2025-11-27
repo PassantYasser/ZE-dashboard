@@ -114,11 +114,11 @@ function RequestStatusDataPage() {
 
         <div className='flex justify-between  w-full'>
           <div className='flex  gap-1.5 w-full'>
-            <img src="/images/icons/date.svg" alt="" />
+            <img src="/images/icons/date.svg" alt="" className='w-6 h-6' />
             <p className='text-[#575757] text-sm font-normal'>الاحد 24 أغسطس</p>
           </div>
           <div className='flex justify-end gap-1.5  w-full'>
-            <img src="/images/icons/time.svg" alt="" />
+            <img src="/images/icons/time.svg" alt=""  className='w-6 h-6'/>
             <p className='text-[#575757] text-sm font-normal'> 02:10 م </p>
           </div>
 
@@ -129,18 +129,7 @@ function RequestStatusDataPage() {
 
 
       {/* Workers data */}
-
       <WorkersDataPage status={status} assigned_handymen={assigned_handymen}/>
-
-
-
-
-
-
-
-
-
-
 
       {/* Customer Info */}
       <CustomerPage/>
