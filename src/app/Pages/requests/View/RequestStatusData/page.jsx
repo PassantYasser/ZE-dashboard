@@ -7,6 +7,7 @@ import AddressPage from './Address/page';
 import CarDetailsPage from './CarDetails/page';
 import PaymentDetailsPage from './PaymentDetails/page';
 import CustomerPage from './Customer/page';
+import WorkersDataPage from './WorkersData/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
@@ -124,7 +125,23 @@ function RequestStatusDataPage() {
         </div>
       </div>
       
-      
+
+
+
+      {/* Workers data */}
+
+      <WorkersDataPage status={status} assigned_handymen={assigned_handymen}/>
+
+
+
+
+
+
+
+
+
+
+
       {/* Customer Info */}
       <CustomerPage/>
 
