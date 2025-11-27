@@ -12,7 +12,7 @@ import WorkersDataPage from './WorkersData/page';
 function RequestStatusDataPage() {
   const { t } = useTranslation();
 
-  const status = 'completed';
+  const status = 'accepted';
   const assigned_handymen =["a"]; 
 
   const StatusRender = (status) => {
