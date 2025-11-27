@@ -387,8 +387,10 @@
   "Number of seats":"عدد المقاعد",
   "Plate number":"رقم اللوحة",
 
-
-
+  "Payment details":"بيانات الدفع",
+  "Discount value":"قيمة الخصم",
+  "Final price":"السعر النهائي",
+  
 
   "":"" 
 }
