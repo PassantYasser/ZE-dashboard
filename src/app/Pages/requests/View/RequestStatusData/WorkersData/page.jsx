@@ -40,7 +40,7 @@ function WorkersDataPage({status , assigned_handymen}) {
 
               <div className='flex items-center gap-2 '>
                 <p className='bg-[#007AFF] text-[#fff] w-8.5 h-8.5 flex justify-center rounded-[999px]'>ع</p>
-                <p className='text-[#364152]  text-sm font-normal'>عماداحمد</p>
+                <p className='text-[#364152]  text-sm font-normal'>عماد احمد</p>
               </div>
 
               {/* call */}
