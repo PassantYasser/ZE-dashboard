@@ -2,12 +2,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SearchForm({ placeholderKey }) {
+function SearchForm({ placeholderKey ,width }) {
   const {t}= useTranslation();
 // 546--556
   return (
     <>
-      <div className="relative w-[546px] lg1:w-[556px] h-14 ">
+      <div className={`relative h-14`} style={{ width: width || '546px' }}>
         <img
           src="/images/icons/search.svg"
           alt="search"

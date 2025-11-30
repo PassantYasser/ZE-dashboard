@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import DescriptionPage from './Description/page';
 import ImagesPage from './Images/page';
@@ -8,12 +8,14 @@ import CarDetailsPage from './CarDetails/page';
 import PaymentDetailsPage from './PaymentDetails/page';
 import CustomerPage from './Customer/page';
 import WorkersDataPage from './WorkersData/page';
+import MainRequestViewPage from '../MainRequestView/page';
+import Appoint_SpecialistPage from '../Appoint_Specialist/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
 
   const status = 'accepted';
-  const assigned_handymen =["a"]; 
+  const assigned_handymen =[]; 
 
   const StatusRender = (status) => {
     switch (status) {
@@ -87,131 +89,41 @@ function RequestStatusDataPage() {
     }
   };
   
+  const [activeSection, setActiveSection] = useState(1);
+
   return (
     <>
-    <section className='px-6 mb-6'>
-
-      {/* request Data card */}
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 '>
-        <div className='flex justify-between'>
-          <p className='text-[#697586] text-sm font-normal flex items-center'>
-            <span>{t('request')}/</span>
-            <span>56525</span>
-          </p>
-
-          <div>
-              {StatusRender(status)}
-          </div>
-        </div>
-
-        <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
-
-        <div>
-          <p className='text-[#121926] text-base font-medium'>تصليح إطار سيارة</p>
-        </div>
-
-        <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
-
-        <div className='flex justify-between  w-full'>
-          <div className='flex  gap-1.5 w-full'>
-            <img src="/images/icons/date.svg" alt="" className='w-6 h-6' />
-            <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>الاحد 24 أغسطس</p>
-          </div>
-          <div className='flex justify-end gap-1.5  w-full'>
-            <img src="/images/icons/time.svg" alt=""  className='w-6 h-6'/>
-            <p className='text-[#575757] text-sm font-normal flex justify-center items-center'> 02:10 م </p>
-          </div>
-
-        </div>
-      </div>
-      
+        {/* section1 */}
+        {activeSection === 1 && (
+          <>
+          <MainRequestViewPage 
+            StatusRender={StatusRender} 
+            status={status} 
+            assigned_handymen={assigned_handymen} 
+            setActiveSection={setActiveSection}
+          />
+          
+          </>
+          
+        )}
 
 
+        {/* section 2*/}
+        {activeSection === 2 && (
+          <>
+            <Appoint_SpecialistPage  setActiveSection={setActiveSection}/>
+          </>
+          
+        )}
 
-      {/* Workers data */}
-      <WorkersDataPage status={status} assigned_handymen={assigned_handymen}/>
-
-      {/* Customer Info */}
-      <CustomerPage/>
-
-      {/* Description message and voice */}
-      <DescriptionPage/>
-
-      {/* Images */}
-      <ImagesPage/>
-
-      {/* Address */}
-      <AddressPage/>
-
-      {/* Car Details */}
-      <CarDetailsPage/>
-
-      {/* Payment Details */}
-      <PaymentDetailsPage/>
-
-
-    </section>
+  
 
 
     
 
 
 
-  {/* //Btns */}
-    {status === 'pending_approval' &&(
-      <>
-        <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
-        <div className='px-6 pb-6 flex gap-3'>
-          <button className=' w-50 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('approval')}
-          </button>
-          <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('reject')}
-          </button>
-        </div>
-      </>
-      
-    )}
-
-    {status === 'accepted' && (assigned_handymen.length === 0 ? (
-      <>
-        <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
-        <div className='px-6 pb-6 flex gap-3'>
-          <button className=' w-43.5 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('Appoint a specialist')}
-          </button>
-          <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('cancel')}
-          </button>
-        </div>
-      </>
-    ) : (
-      <>
-        <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
-        <div className='px-6 pb-6 flex gap-3'>
-          <button className=' w-43.5 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('Reset')}
-          </button>
-          <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('cancel')}
-          </button>
-        </div>
-      </>
-  )
-    )}
-
-    {status === 'on_going' && (
-      <>
-        <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
-        <div className='px-6 pb-6  '>
-          <button className=' w-full h-13.5 bg-[#E3E8EF] text-[#9AA4B2] text-base font-medium rounded-[3px] cursor-pointer '>
-            {t('Reset')}
-          </button>
-        </div>
-      </>
-      
-    )}
-
+  
       
     </>
   )
