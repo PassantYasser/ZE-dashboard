@@ -39,24 +39,20 @@ function FiltersPage({ open, handleClose }) {
     const dropdownRef2 = useRef(null);
     const optionservice = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
 
-    // service (3)
-// =========================
-const [open3, setOpen3] = useState(false);
-const [selected3, setSelected3] = useState(null);
-const [searchValue3, setSearchValue3] = useState("");
-const dropdownRef3 = useRef(null);
-const optionStatus = [
-  'gg',
-  'hhhh',
-  'iiii',
-  'jjjj',
-  'kkkk',
-  'llll',
-  'mmmm',
-  'nnnn',
-  'oooo',
-  'pppp'
-];
+    // Status (3)
+    // =========================
+    const [open3, setOpen3] = useState(false);
+    const [selected3, setSelected3] = useState(null);
+    const [searchValue3, setSearchValue3] = useState("");
+    const dropdownRef3 = useRef(null);
+    const optionStatus = [
+    "accepted",
+    "completed",
+    "pending_approval",
+    "in_progress",
+    "on_going",
+    "rejected"
+  ];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -265,7 +261,7 @@ const optionStatus = [
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {t(opt)}
                     </li>
                   ))}
               </ul>
