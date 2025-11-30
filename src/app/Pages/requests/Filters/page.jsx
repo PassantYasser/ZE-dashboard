@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
+import {DateRangePicker} from "@heroui/react";
+
 
 // Dynamically import Dialog to avoid SSR
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
@@ -227,7 +229,7 @@ function FiltersPage({ open, handleClose }) {
               <input
                 type="text"
                 placeholder={t("Select status")}
-                value={selected3 || searchValue3}
+                value={t(selected3) || searchValue3}
                 onChange={(e) => {
                   setSearchValue3(e.target.value);
                   setOpen3(true);
@@ -268,17 +270,29 @@ function FiltersPage({ open, handleClose }) {
             )}
           </div>
         </div>
+  <div className="flex w-full flex-wrap md:flex-nowrap gap-4" >
+    <DateRangePicker
+      label="Stay duration"
+      visibleMonths={2}
+      classNames={{
+        calendar: "bg-white , border",          // main calendar background
+        content: "bg-red-500",           // popover body background
+        base: "bg-green-50",                // input background
+      }}
+    />
+    
+  </div>
 
 
       </section>
 
       
       <section className="p-6 flex gap-4 ">
-        <button className="w-42.5 h-13.5 bg-[var(--color-primary)]  text-[#fff] rounded-[3px] text-base font-medium">
+        <button className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
           {t('Show results')}
         </button>
 
-        <button className="w-35 h-13.5 border border-[var(--color-primary)]  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+        <button className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
           {t('Reset')}
         </button>
       </section>
