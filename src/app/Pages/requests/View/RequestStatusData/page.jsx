@@ -1,20 +1,13 @@
 "use client"
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import DescriptionPage from './Description/page';
-import ImagesPage from './Images/page';
-import AddressPage from './Address/page';
-import CarDetailsPage from './CarDetails/page';
-import PaymentDetailsPage from './PaymentDetails/page';
-import CustomerPage from './Customer/page';
-import WorkersDataPage from './WorkersData/page';
 import MainRequestViewPage from '../MainRequestView/page';
 import Appoint_SpecialistPage from '../Appoint_Specialist/page';
 
 function RequestStatusDataPage() {
   const { t } = useTranslation();
 
-  const status = 'pending_approval';
+  const status = 'accepted';
   const assigned_handymen =[]; 
 
   const StatusRender = (status) => {
