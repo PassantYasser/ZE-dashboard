@@ -125,7 +125,15 @@ function RejectedDialogPage({ open, handleClose}) {
         </div>
       </section>
 
+      <section className="px-6 pb-6 flex gap-4 ">
+        <button className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+          {t('send')}
+        </button>
 
+        <button className="w-35 h-13.5 border border-[#B42318] cursor-pointer  text-[#B42318] rounded-[3px] text-base font-medium">
+          {t('cancel')}
+        </button>
+      </section>
     
 
     </Dialog>
