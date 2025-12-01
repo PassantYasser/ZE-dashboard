@@ -404,6 +404,13 @@
   "to set":"تحديد",
   "The factor was identified":"تم تحديد العامل",
   "the reason":"السبب",
+
+  "Do you want to decline the request?":"هل تريد رفض الطلب ؟",
+  "Refusing the request means not following up on it or implementing it.":"رفض الطلب يعني عدم متابعته أو تنفيذه",
+  "Reason for rejection":"سبب الرفض",
+  "Choose the reason for rejection":"اختار سبب الرفض",
+  "Explaining the reason for rejection":"توضيح سبب الرفض",
+  "Explain the reason for the rejection to the customer.":"وضح للعميل سبب الرفض",
   
 
 

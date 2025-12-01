@@ -14,7 +14,7 @@ import Appoint_SpecialistPage from '../Appoint_Specialist/page';
 function RequestStatusDataPage() {
   const { t } = useTranslation();
 
-  const status = 'accepted';
+  const status = 'pending_approval';
   const assigned_handymen =[]; 
 
   const StatusRender = (status) => {

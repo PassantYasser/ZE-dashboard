@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import WorkersDataPage from '../RequestStatusData/WorkersData/page';
 import CustomerPage from '../RequestStatusData/Customer/page';
@@ -9,9 +9,15 @@ import AddressPage from '../RequestStatusData/Address/page';
 import CarDetailsPage from '../RequestStatusData/CarDetails/page';
 import PaymentDetailsPage from '../RequestStatusData/PaymentDetails/page';
 import RejectedCompPage from '../RequestStatusData/RejectedComp/page';
+import RejectedDialogPage from './RejectedDialog/page';
 
-function MainRequestViewPage({StatusRender,status,assigned_handymen ,setActiveSection}) {
+function MainRequestViewPage({StatusRender,status,assigned_handymen ,setActiveSection  }) {
   const { t } = useTranslation();
+
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
   return (
     <>
       {/* Title */}
@@ -93,7 +99,10 @@ function MainRequestViewPage({StatusRender,status,assigned_handymen ,setActiveSe
             <button className=' w-50 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
               {t('approval')}
             </button>
-            <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
+            <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '
+            onClick={() => ( handleClickOpen())}
+
+             >
               {t('reject')}
             </button>
           </div>
@@ -142,6 +151,8 @@ function MainRequestViewPage({StatusRender,status,assigned_handymen ,setActiveSe
         
       )}
 
+
+    <RejectedDialogPage open={open} handleClose={handleClose}  />
     </>
   )
 }

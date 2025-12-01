@@ -405,6 +405,12 @@
   "The factor was identified":"The factor was identified",
   "the reason":"the reason",
   
+  "Do you want to decline the request?":"Do you want to decline the request?",
+  "Refusing the request means not following up on it or implementing it.":"Refusing the request means not following up on it or implementing it.",
+  "Reason for rejection":"Reason for rejection",
+  "Choose the reason for rejection":"Choose the reason for rejection",
+  "Explaining the reason for rejection":"Explaining the reason for rejection",
+  "Explain the reason for the rejection to the customer.":"Explain the reason for the rejection to the customer.",
 
 
   
