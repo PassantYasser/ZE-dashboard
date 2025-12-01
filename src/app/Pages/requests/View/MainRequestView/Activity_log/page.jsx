@@ -5,12 +5,46 @@ import { useTranslation } from 'react-i18next';
 function Activity_logPage({setActiveSubSection}) {
   const { t } = useTranslation();
 
-  const action_type = 'negative';       // positive , negative logo
+  const action_type = 'positive';       // positive , negative logo
   const action_by_data = [{id:'employee' , label:t('employee')} ,
                           {id:'user' , label:t('user')},
                           {id:'handyman' , label:t('handyman')}
                           ]; 
 const action_by = 'employee';
+
+
+  const details_type = "LE";  
+  const value = "400";
+
+  const formatTime = (v) => {
+    try {
+      const d = new Date(v);
+      return d.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+    } catch {
+      return v;
+    }
+  };
+const renderDetails = () => {
+  switch (details_type) {
+    case "LE":
+      return <span>{value} جنيه</span>;
+
+    case "time":
+      return <span>{formatTime(value)}</span>;
+
+    case "rate":
+      return (
+        <span className="flex items-center gap-1">
+          <span className="text-yellow-500">★</span>
+          {value}
+        </span>
+      );
+
+    default:
+      return {value};
+  }
+};
+
   return (
     <>
 
@@ -56,7 +90,6 @@ const action_by = 'employee';
               الثلاثاء  9سبتمبر 2025 02:00 م 
             </p>
 
-
             </div>
 
             <div className='flex flex-col gap-4   w-full '>
@@ -64,15 +97,13 @@ const action_by = 'employee';
                 خالد محمد
               </p>
 
-              
-
               <div className="flex flex-wrap gap-1 ">
                 <p className="text-[#364152] text-sm font-normal">
                   قام قبول الطلب
                 </p>
 
-                <p className="text-[#364152] text-sm font-normal">
-                  ( هشام خالد)
+                <p className="text-[#4B5565] text-sm font-normal">
+                  ({renderDetails()})
                 </p>
               </div>
 
