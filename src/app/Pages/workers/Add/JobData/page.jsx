@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
+import TimeRangePicker from './TimeRangePicker';
 
 function JobDataPage() {
   const {t}= useTranslation();
@@ -106,6 +107,12 @@ function JobDataPage() {
       setTaxFile(null);
       setTaxProgress(0);
     };
+
+  // Working hours
+  const [workingHours, setWorkingHours] = useState({
+    start: '09:00',
+    end: '17:00',
+  });
 
 
   return (
@@ -250,19 +257,13 @@ function JobDataPage() {
 
       {/* Working hours */}
       <div className='flex flex-col'>
-        <label className="text-[#364152] text-base font-normal">{t('Working hours')}</label>
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['MobileTimeRangePicker']}>
-
-            <DemoItem  component="MobileTimeRangePicker">
-              <MobileTimeRangePicker
-                defaultValue={[dayjs('2022-04-17T15:30'), dayjs('2022-04-17T18:30')]}
-              
-              />
-            </DemoItem>
-
-          </DemoContainer>
-        </LocalizationProvider> */}
+        {/* <label className="text-[#364152] text-base font-normal">{t('Working hours')}</label> */}
+        <TimeRangePicker
+            value={workingHours}
+            onChange={setWorkingHours}
+            label={t('Working hours')}
+            language="ar"
+          />
       </div>
 
     
