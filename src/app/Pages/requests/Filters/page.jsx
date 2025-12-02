@@ -1,8 +1,16 @@
 "use client";
+// import React, { useEffect, useRef, useState } from "react";
+// import dynamic from "next/dynamic";
+// import { useTranslation } from "react-i18next";
+// import {DateRangePicker} from "@heroui/react";
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
-import {DateRangePicker} from "@heroui/react";
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css';
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
+import { ar } from 'date-fns/locale'; // Arabic locale
 
 
 // Dynamically import Dialog to avoid SSR
@@ -60,12 +68,26 @@ function FiltersPage({ open, handleClose }) {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
       if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);   
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false); 
+      if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);   
+  
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+
+  /*  ========== calender ========== */
+  const [open4, setOpen4] = useState(false);
+  const dropdownRef4 = useRef(null);
+
+  const [state, setState] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: 'selection'
+    }
+  ]);
 
   return (
     <Dialog
@@ -270,18 +292,104 @@ function FiltersPage({ open, handleClose }) {
             )}
           </div>
         </div>
-  <div className="flex w-full flex-wrap md:flex-nowrap gap-4" >
-    <DateRangePicker
-      label="Stay duration"
-      visibleMonths={2}
-      classNames={{
-        calendar: "bg-white , border",          // main calendar background
-        content: "bg-red-500",           // popover body background
-        base: "bg-green-50",                // input background
-      }}
-    />
-    
-  </div>
+
+
+        {/* ========== calender ========== */}
+        <div className="flex flex-col mt-4">
+          <label className="text-[#364152] text-base font-normal mb-3">
+            {t("Service history")}
+          </label>
+
+          <div className="relative w-full">
+            <div
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              onClick={() => setOpen4(true)}
+            >
+              <input
+                type="text"
+                placeholder={t("Select date range")}
+                value={
+                  state[0].startDate && state[0].endDate
+                    ? `${state[0].startDate.toLocaleDateString()} - ${state[0].endDate.toLocaleDateString()}`
+                    : ""
+                }
+                readOnly
+                className="h-15 p-3 w-full text-[#364152] focus:outline-none cursor-pointer"
+              />
+
+              <span className="absolute left-4 pointer-events-none">
+                <img src="/images/icons/calender.svg" alt="calendar" />
+              </span>
+            </div>
+          </div>
+
+
+
+
+          {/* Date Range Picker Modal */}
+          <Dialog
+            open={open4}
+            onClose={() => setOpen4(false)}
+            aria-labelledby="date-picker-dialog"
+            PaperProps={{ className: "rerquest-dialog", dir: "rtl" }}
+          >
+            {/* title of calender */}
+            <section className="flex justify-between px-6 mt-6 ">
+              <button
+                onClick={() => setOpen4(false)}
+                className="border border-[#CDD5DF] w-12 h-12 cursor-pointer rounded-[100px] flex justify-center items-center"
+              >
+                <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
+              </button>
+              <div className="w-14 h-14 bg-[#EEF2F6] rounded-[100px] flex justify-center items-center">
+                <p className="bg-[#E3E8EF] flex items-center justify-center w-10 h-10 rounded-[100px]">
+                  <img src="/images/icons/FilterGreyicon.svg" alt="" className="w-6 h-6" />
+                </p>
+              </div>
+            </section>
+
+
+            <span className="border-[0.5px] border-[#E3E8EF] my-2" />
+
+            <section className="p-6 flex items-center justify-center ">
+              <div dir="ltr" className="inline-block ">
+                <div className="  ">
+                    <DateRangePicker
+                      onChange={item => setState([item.selection])}
+                      showSelectionPreview={true}
+                      moveRangeOnFirstSelection={false}
+                      months={2}
+                      ranges={state}
+                      direction="horizontal"
+                      preventSnapRefocus={true}
+                      calendarFocus="backwards"
+                      locale={ar}
+                      staticRanges={[]}
+                      inputRanges={[]}
+                      rangeColors={["var(--color-primary)"]}
+                      
+                    />
+                </div>
+              
+              </div>
+            </section>
+
+            {/* btns of calender */}
+            <section className="p-6 flex gap-4 ">
+              <button className="w-23 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+                {t('apply')}
+              </button>
+
+              <button className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+                {t('cancel')}
+              </button>
+            </section>
+
+
+
+
+          </Dialog>
+        </div>
 
 
       </section>

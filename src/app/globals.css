@@ -109,3 +109,69 @@ font-size: 50px;
 }
 
 
+
+/*calenderb in request filter*/
+
+.rdrDefinedRangesWrapper {
+  display: none;
+}
+
+
+/* end select btn */
+.rdrEndEdge {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+/* start select btn */
+.rdrStartEdge {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+}
+
+/* hover btn  */
+.rdrDayEndPreview {
+  border-radius: 0 !important;
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+}
+
+
+/* .rdrDayStartPreview {
+  border-radius: 0 !important;
+  border-top-left-radius: 5px !important;
+  border-bottom-left-radius: 5px !important;
+
+} */
+
+  .rdrInRange {
+    background-color: #d8c486 !important;
+    color: white;
+    border-radius: 0;
+
+  }
+
+
+  .rdrDateDisplayWrapper{
+    background-color: white !important;
+  }
+  .rdrDateDisplay{
+    padding-left: 30px !important;
+    padding-right: 30px !important; 
+    background-color: white !important;  
+  }
+
+  .rdrMonth {
+    padding-left: 30px !important;
+    padding-right: 30px !important;   
+  }
+
+  .rdrMonthAndYearWrapper {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
