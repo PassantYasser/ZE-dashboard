@@ -2,12 +2,19 @@
 
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import TimeRangePicker from './TimeRangePicker';
 
 function WorkingHours({openWorkingHours , setOpenWorkingHours}) {
     const {t}= useTranslation();
-  
+
+    // Working hours
+    const [workingHours, setWorkingHours] = useState({
+      start: '09:00',
+      end: '17:00',
+    });
+
   return (
     <>
       <Dialog 
@@ -40,10 +47,12 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours}) {
           <form action="" className=' px-6 '>
             {/* Working hours */}
             <div className="flex flex-col">
-              <label className="text-[#364152] text-base font-normal">{t('Working hours')}</label>
-              <input 
-                type="text" 
-                className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
+              <TimeRangePicker
+                value={workingHours}
+                onChange={setWorkingHours}
+                label={t('Working hours')}
+                language="ar"
+              />
             </div>
 
             <div className='my-6 flex gap-3'>
