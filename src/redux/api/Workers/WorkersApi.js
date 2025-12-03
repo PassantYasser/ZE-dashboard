@@ -7,3 +7,10 @@ export  const getAllWorkers = async(page = 1, limit = 10)=>{
   console.log('response.data', response.data);
   return response.data ;
 }
+
+//get designations 
+export const getDesignations = async()=>{
+  const response = await API.get('/designations')
+  return response.data.data
+
+}

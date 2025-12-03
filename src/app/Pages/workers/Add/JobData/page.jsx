@@ -3,9 +3,18 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 import TimeRangePicker from './TimeRangePicker';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAreasThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function JobDataPage() {
+function JobDataPage({getDesignations}) {
   const {t}= useTranslation();
+  
+    //api
+    const dispatch = useDispatch()
+    const {getAreas } = useSelector(state=>state.services)
+    useEffect(() => {
+      dispatch(getAllAreasThunk()); 
+    }, [dispatch])
 
 
     //job
@@ -13,18 +22,14 @@ function JobDataPage() {
     const [selected1, setSelected1] = useState("");
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const optionJob=[
-      'qq',"ww","ss","rr"
-    ];
+    const optionJob=getDesignations || []
   
     // Employee address
     const [open2, setOpen2] = useState(false);
     const [selected2, setSelected2] = useState("");
     const [searchValue2, setSearchValue2] = useState("");
     const dropdownRef2 = useRef(null);
-    const optionEmployeeAddress =[
-      'qq',"ww","ss","rr"
-    ];
+    const optionEmployeeAddress =getAreas?.areas || [];
   
 
     useEffect(() => {
@@ -158,21 +163,21 @@ function JobDataPage() {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionJob
                   .filter((option) =>
-                    option
+                    option?.name
                       ?.toLowerCase()
                       .includes(searchValue1.toLowerCase())
                   )
                   .map((option, index) => (
                     <li
-                      key={option}
+                      key={option.id}
                       onClick={() => {
-                        setSelected1(option);
+                        setSelected1(option?.name);
                         setSearchValue1("");
                         setOpen1(false);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {option}
+                      {option.name}
                     </li>
                   ))}
               </ul>
@@ -197,7 +202,7 @@ function JobDataPage() {
       {/* workplace */}
       <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
-            {t("workplace")}
+            {t("workplaces")}
           </label>
     
           <div className="relative w-full" ref={dropdownRef2}>
@@ -233,21 +238,21 @@ function JobDataPage() {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionEmployeeAddress
                   .filter((option) =>
-                    option
+                    option?.city
                       ?.toLowerCase()
                       .includes(searchValue2.toLowerCase())
                   )
                   .map((option, index) => (
                     <li
-                      key={option}
+                      key={option.id}
                       onClick={() => {
-                        setSelected2(option);
+                        setSelected2(option?.city);
                         setSearchValue2("");
                         setOpen2(false);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {option}
+                      {option.city}
                     </li>
                   ))}
               </ul>

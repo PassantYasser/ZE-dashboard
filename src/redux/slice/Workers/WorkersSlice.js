@@ -1,6 +1,7 @@
-import { getAllWorkers } from "@/redux/api/Workers/WorkersApi";
+import { getAllWorkers, getDesignations } from "@/redux/api/Workers/WorkersApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+//get all workers
 export const getAllWorkersThunk = createAsyncThunk(
   "workers/getAllWorkers",
   async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
@@ -12,6 +13,19 @@ export const getAllWorkersThunk = createAsyncThunk(
       return rejectWithValue(error.response.data);
     }
   }
+);
+
+// get Designations
+export const getDesignationsThunk = createAsyncThunk(
+  'workers/getDesignationsThunk',
+  async(_,{rejectWithValue})=>{
+    try{
+      const response = await getDesignations();
+      return response
+    } catch (error) {
+        return rejectWithValue(error.response?.data || error.message);
+      } 
+  }
 )
 
 const initialState ={
@@ -20,6 +34,7 @@ const initialState ={
   error: null,
   currentPage: 1,
   totalPages: 1,
+  getDesignations : null
 }
 const WorkersSlice = createSlice({
   name: "workers",
@@ -47,7 +62,20 @@ const WorkersSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       }
-      );
+      )
+      // ✅ Get designations
+      .addCase(getDesignationsThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getDesignationsThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getDesignations = action.payload
+      })
+      .addCase(getDesignationsThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
   },
 })
 export const { setPage } = WorkersSlice.actions;

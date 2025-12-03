@@ -4,9 +4,20 @@ import React, { useEffect, useState } from "react";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import PersonalDataPage from "./PersonalData/page";
 import JobDataPage from "./JobData/page";
+import { useDispatch, useSelector } from "react-redux";
+import { getDesignationsThunk } from "@/redux/slice/Workers/WorkersSlice";
 
 function AddPage() {
   const { t } = useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const{getDesignations} = useSelector(state=>state.workers)
+  useEffect(()=>{
+    dispatch(getDesignationsThunk())
+  },[dispatch])
+
+  console.log('getDesignations', getDesignations);
 
   const [openId, setOpenId] = useState("Personal");
   const tabs = [
@@ -77,6 +88,7 @@ function AddPage() {
                   handleGoBack={handleGoBack}
                   handlePrev={handlePrev}
                   handleNext={handleNext}
+                  getDesignations={getDesignations}
                 />
               </div>
             ))}
