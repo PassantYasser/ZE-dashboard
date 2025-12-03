@@ -3,6 +3,7 @@ import { fontWeight } from "@mui/system";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 
 function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber , status) {
   return { UserCode, worker, workerImg, job, WorkingHours, phoneNumber, status};
@@ -23,34 +24,33 @@ createData("#010", "عبد العزيز حسن", "https://randomuser.me/api/port
 ];
 
 
-export default function TableWorkers() {
+export default function TableWorkers({workers}) {
   const { t } = useTranslation();
 
-  
-    const StatusRender = (status) => {
-      switch (status) {
-        case "active":
-          return (
-            <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-              <span className=''>{t('active')}</span>
-            </div>
+
+  const StatusRender = (status) => {
+    if (status === true || status === "true") {
+      return (
+        <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+            <span>{t('active')}</span>
           </div>
-          );
-  
-          case "inactive":
-          return (
-            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
-              <div className='py-1.5 px-3 flex gap-1'>
-                <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-                <span className=''>{t('inactive')}</span>
-              </div>
-            </div>
-          );
-      
-      }
-    };
+        </div>
+      );
+    } else {
+      return (
+        <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/refused Status.svg" alt="" className='mt-1'/>
+            <span>{t('inactive')}</span>
+          </div>
+        </div>
+      );
+    }
+  };
+
+  console.log('workers', workers);
 
   return (
     <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
@@ -70,38 +70,43 @@ export default function TableWorkers() {
 
         {/* Table Body */}
         <tbody>
-          {rows.map((row) => (
+        {workers.length > 0 ? (
+          workers.map((worker) => (
             <tr
-              key={row.UserCode}
-              className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
+              key={worker.id}
+              className="hover:bg-[#F9F5E8] hover:border-0 hover:cursor-pointer border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
             >
-            
-              <td className="p-4  ">{row.UserCode}</td>
+              <td className="p-4">{worker?.id}#</td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
                   <img
-                    src={row.workerImg}
-                    alt={row.worker}
+                    src={`${IMAGE_BASE_URL}${worker?.image}`}
+                    alt={worker.worker}
                     className="w-8 h-8 rounded-full object-cover"
                   />
-                  <span>{row.worker}</span>
+                  <span>{worker?.firstname} {worker?.lastname}</span>
                 </div>
               </td>
-              <td className="p-4  ">{row.job}</td>
-              <td className="p-4   ">{row.WorkingHours}</td>
-              <td className="p-4   ">{row.phoneNumber}</td>
-            
-              <td className='p-4   '>
-                {StatusRender(row.status)}
-              </td>
-              <td className=" flex justify-center p-4"> 
-              <Link href='/Pages/workers/Edit'>
+              <td className="p-4">{worker?.designation?.name}</td>
+              <td className="p-4">{worker?.working_time}</td>
+              <td className="p-4">{worker?.phone}</td>
+              <td className="p-4">{StatusRender(worker.is_active)}</td>
+              <td className="flex justify-center p-4">
+                <Link href="/Pages/workers/Edit">
                   <img src="/images/icons/EditBlack.svg" alt="" />
-              </Link>
+                </Link>
               </td>
             </tr>
-          ))}
+          ))
+        ) : (
+          <tr>
+            <td colSpan={7} className="text-center p-4">
+              لا يوجد بيانات
+            </td>
+          </tr>
+          )}
         </tbody>
+
       </table>
     </div>
   );
