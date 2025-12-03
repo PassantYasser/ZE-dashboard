@@ -634,14 +634,14 @@ function BasicInformationPage({ handleGoBack, handleNext, service, formData, han
           </label>
           <div className="relative w-full">
             <textarea
-              value={formData.long_description}
+              value={formData?.long_description}
               onChange={(e) => handleChange("long_description", e.target.value)}
               placeholder={t("Write a description of the service.")}
               maxLength={5000}
               className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
             />
             <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-              5000/{formData.long_description.length}
+              5000/{formData?.long_description.length}
             </span>
           </div>
         </div>
