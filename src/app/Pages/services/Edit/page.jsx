@@ -59,19 +59,19 @@ export default function EditPage() {
       if (!service) return;
 
       setFormData({
-        provider_id: service.provider_id || "",
-        images: service.images || [],        
-        module_id: service.module_id || "",
-        category_id: service.category_id || "",
-        provider_areas_id: service.provider_areas_id || [],
-        duration: service.duration || "",
-        long_description: service.long_description || "",
-        price: service.price || "",
-        inspection_price: service.inspection_price || "",
-        price_on_inspection: !!service.price_on_inspection, // convert to boolean
-        pricing_type: service.pricing_type || "",
-        discount: service.discount || "",
-        discount_type: service.discount_type || "",
+        provider_id: service?.provider_id || "",
+        images: service?.images || [],        
+        module_id: service?.module_id || "",
+        category_id: service?.category_id || "",
+        provider_areas_id: service?.provider_areas_id || [],
+        duration: service?.duration || "",
+        long_description: service?.long_description || "",
+        price: service?.price || "",
+        inspection_price: service?.inspection_price || "",
+        price_on_inspection: !!service?.price_on_inspection, // convert to boolean
+        pricing_type: service?.pricing_type || "",
+        discount: service?.discount || "",
+        discount_type: service?.discount_type || "",
         // provider_areas_id: service.areas.map(area => area.id),
       });
     }, [service]);
