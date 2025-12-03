@@ -95,8 +95,8 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
                   onClick={() => setOpen1(!open1)}
                   className="h-13.5 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
                 >
-                  <span className={formData.pricing_type ? "text-[#364152]" : "text-[#9A9A9A]"}>
-                    {options.find((o) => o.value === formData.pricing_type)?.label || t("Choose the pricing type")}
+                  <span className={formData?.pricing_type ? "text-[#364152]" : "text-[#9A9A9A]"}>
+                    {options.find((o) => o.value === formData?.pricing_type)?.label || t("Choose the pricing type")}
                   </span>
                   <span className="ml-2">
                     {open1 ? (
