@@ -24,14 +24,14 @@ function WorkersPage() {
       dispatch(getAllWorkersThunk());
     }, [dispatch]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>{error}</p>;
 
 
   return (
     <MainLayout>
       <NavWorker handleClickOpen={handleClickOpen}/>
-      <TableWorkers workers={workers}/>
+      <TableWorkers workers={workers} loading={loading}/>
       <Pagination/>
 
       <FiltersPage open={open} handleClose={handleClose} />

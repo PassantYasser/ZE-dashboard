@@ -4,27 +4,16 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
+import { CircularProgress } from "@mui/material";
 
 function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber , status) {
   return { UserCode, worker, workerImg, job, WorkingHours, phoneNumber, status};
 }
 
-const rows = [
-createData("#001", "عصام محمد", "https://randomuser.me/api/portraits/men/32.jpg", "سباك", "9ص إلى 5م", "0115588996655", "active"),
-createData("#002", "أحمد علي", "https://randomuser.me/api/portraits/men/45.jpg", "كهربائي", "10ص إلى 6م", "01022446688", "inactive"),
-createData("#003", "محمود عبد الله", "https://randomuser.me/api/portraits/men/12.jpg", "نجّار", "8ص إلى 4م", "01233445566", "active"),
-createData("#004", "حسن إبراهيم", "https://randomuser.me/api/portraits/men/65.jpg", "فني تكييف", "11ص إلى 7م", "01577889900", "inactive"),
-createData("#005", "ياسر جمال", "https://randomuser.me/api/portraits/men/23.jpg", "حداد", "9ص إلى 5م", "01099887766", "active"),
-createData("#006", "علي عبد الرحمن", "https://randomuser.me/api/portraits/men/56.jpg", "نقاش", "8ص إلى 4م", "01111222333", "inactive"),
-createData("#007", "عمرو محمود", "https://randomuser.me/api/portraits/men/38.jpg", "فني صيانة", "10ص إلى 6م", "01277889900", "active"),
-createData("#008", "إبراهيم سعيد", "https://randomuser.me/api/portraits/men/29.jpg", "عامل نظافة", "7ص إلى 3م", "01044556677", "inactive"),
-createData("#009", "محمد طارق", "https://randomuser.me/api/portraits/men/47.jpg", "عامل دهانات", "9ص إلى 5م", "01122334455", "active"),
-createData("#010", "عبد العزيز حسن", "https://randomuser.me/api/portraits/men/51.jpg", "فني ميكانيكا", "8ص إلى 4م", "01566778899", "inactive"),
-
-];
 
 
-export default function TableWorkers({workers}) {
+
+export default function TableWorkers({workers , loading}) {
   const { t } = useTranslation();
 
 
@@ -70,44 +59,47 @@ export default function TableWorkers({workers}) {
 
         {/* Table Body */}
         <tbody>
-        {workers.length > 0 ? (
-          workers.map((worker) => (
-            <tr
-              key={worker.id}
-              className="hover:bg-[#F9F5E8] hover:border-0 hover:cursor-pointer border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
-            >
-              <td className="p-4">{worker?.id}#</td>
-              <td className="p-4">
-                <div className="flex items-center gap-2">
-                  <img
-                    src={`${IMAGE_BASE_URL}${worker?.image}`}
-                    alt={worker.worker}
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
-                  <span>{worker?.firstname} {worker?.lastname}</span>
-                </div>
-              </td>
-              <td className="p-4">{worker?.designation?.name}</td>
-              <td className="p-4">{worker?.working_time}</td>
-              <td className="p-4">{worker?.phone}</td>
-              <td className="p-4">{StatusRender(worker.is_active)}</td>
-              <td className="flex justify-center p-4">
-                <Link href="/Pages/workers/Edit">
-                  <img src="/images/icons/EditBlack.svg" alt="" />
-                </Link>
+          {loading ? (
+            <tr>
+              <td colSpan={7} className="text-center py-10">
+                <CircularProgress size="3rem" color="warning" />
               </td>
             </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan={7} className="text-center p-4">
-              لا يوجد بيانات
-            </td>
-          </tr>
+          ) : workers.length > 0 ? (
+            workers.map((worker) => (
+              <tr
+                key={worker.id}
+                className="hover:bg-[#F9F5E8] hover:border-0 hover:cursor-pointer border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
+              >
+                <td className="p-4">{worker?.id}#</td>
+                <td className="p-4">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={`${IMAGE_BASE_URL}${worker?.image}`}
+                      alt={worker.worker}
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                    <span>{worker?.firstname} {worker?.lastname}</span>
+                  </div>
+                </td>
+                <td className="p-4">{worker?.designation?.name}</td>
+                <td className="p-4">{worker?.working_time}</td>
+                <td className="p-4">{worker?.phone}</td>
+                <td className="p-4">{StatusRender(worker.is_active)}</td>
+                <td className="flex justify-center p-4">
+                  <Link href="/Pages/workers/Edit">
+                    <img src="/images/icons/EditBlack.svg" alt="" />
+                  </Link>
+                </td>
+              </tr>
+            ))
+          ) : (
+            " "
           )}
         </tbody>
 
       </table>
+  
     </div>
   );
 }
