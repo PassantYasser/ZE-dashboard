@@ -153,7 +153,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
                   className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
                 >
                   <span className="text-[#4B5565]">
-                    {optionRates.find(o => o.value === formData.discount_type)?.label || t("Rate")}
+                    {optionRates.find(o => o.value === formData?.discount_type)?.label || t("Rate")}
                   </span>
                   <span>
                     {open2 ? (
