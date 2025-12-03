@@ -97,7 +97,11 @@ export default function TableWorkers({workers , loading}) {
               </tr>
             ))
           ) : (
-            " "
+           <tr>
+      <td colSpan={7} className="text-center py-10">
+        {t("No workers found")}
+      </td>
+    </tr>
           )}
         </tbody>
 
