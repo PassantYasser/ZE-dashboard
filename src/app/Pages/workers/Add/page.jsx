@@ -17,7 +17,6 @@ function AddPage() {
     dispatch(getDesignationsThunk())
   },[dispatch])
 
-  console.log('getDesignations', getDesignations);
 
   const [openId, setOpenId] = useState("Personal");
   const tabs = [
