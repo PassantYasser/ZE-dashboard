@@ -61,7 +61,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
               <div className="flex gap-1 items-center">
                 <input
                   type="checkbox"
-                  checked={formData.price_on_inspection === true}
+                  checked={formData?.price_on_inspection === true}
                   onChange={(e) =>
                     handleChange("price_on_inspection", e.target.checked) // update formData
                   } 
@@ -77,7 +77,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
             {/* price form (always visible) */}
             <input
               type="text" 
-              value={formData.price || ""}  
+              value={formData?.price || ""}  
               onChange={(e) => handleChange("price", e.target.value)}
               className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
               placeholder={t("Enter the service price")}
@@ -85,7 +85,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
           </div>
       
           {/* pricing type dropdown (hide when checked) */}
-          {!formData.price_on_inspection &&  (
+          {!formData?.price_on_inspection &&  (
             // Pricing Type
             <div className="flex flex-col gap-4 w-full">
               <label className="text-[#364152]">{t("Pricing Type")}</label>
@@ -129,7 +129,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
         </div>
       
         {/*************************************** sale *************************** */}
-        {!formData.price_on_inspection && (
+        {!formData?.price_on_inspection && (
 
           /*Discount*/
           <div className="flex flex-col gap-2">
@@ -140,7 +140,7 @@ function PricingPage({handlePrev , handleGoBack , service ,formData ,handleChang
               {/* Input field */}
               <input
                 type="text"
-                value={formData.discount}
+                value={formData?.discount}
                 onChange={(e) => handleChange("discount", e.target.value)}
                 placeholder={t("Enter the discount price")}
                 className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
