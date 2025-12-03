@@ -86,10 +86,13 @@ export default function TableWorkers({workers , loading}) {
                 <td className="p-4">{worker?.working_time}</td>
                 <td className="p-4">{worker?.phone}</td>
                 <td className="p-4">{StatusRender(worker.is_active)}</td>
-                <td className="flex justify-center p-4">
+                <td className="flex gap-4 justify-center p-4">
                   <Link href="/Pages/workers/Edit">
-                    <img src="/images/icons/EditBlack.svg" alt="" />
+                    <img src="/images/icons/EditBlack.svg" alt=""  className="w-6 h-6"/>
                   </Link>
+                  <button>
+                    <img src="/images/icons/delete-darkRed.svg" alt="" className="w-6 h-6" />
+                  </button>
                 </td>
               </tr>
             ))
