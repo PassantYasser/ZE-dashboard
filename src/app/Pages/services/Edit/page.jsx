@@ -1,15 +1,15 @@
 "use client";
 import { useTranslation } from "react-i18next";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
 import PricingPage from "./Pricing/page";
-import { getServiceByIdThunk, updateServiceThunk } from "@/redux/slice/Services/ServicesSlice"; 
+import { getServiceByIdThunk, updateServiceThunk } from "@/redux/slice/Services/ServicesSlice";
 
-export default function EditPage() {
+function EditPageContent() {
   const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -31,58 +31,58 @@ export default function EditPage() {
 
 
   //update service *******************************************/
-    const [formData, setFormData] = useState({
-      provider_id:'',
-      images: [],
-      module_id: "",
-      category_id: "",
-      provider_areas_id: [],
-      duration: "",
-      long_description: "",
-      price:"",
-      inspection_price: "",
-      price_on_inspection: "",
-      pricing_type: "",
-      discount: "",
-      discount_type: "",
-      provider_areas_id:[],
+  const [formData, setFormData] = useState({
+    provider_id: '',
+    images: [],
+    module_id: "",
+    category_id: "",
+    provider_areas_id: [],
+    duration: "",
+    long_description: "",
+    price: "",
+    inspection_price: "",
+    price_on_inspection: "",
+    pricing_type: "",
+    discount: "",
+    discount_type: "",
+    provider_areas_id: [],
+  });
+
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  useEffect(() => {
+    if (!service) return;
+
+    setFormData({
+      provider_id: service?.provider_id || "",
+      images: service?.images || [],
+      module_id: service?.module_id || "",
+      category_id: service?.category_id || "",
+      provider_areas_id: service?.provider_areas_id || [],
+      duration: service?.duration || "",
+      long_description: service?.long_description || "",
+      price: service?.price || "",
+      inspection_price: service?.inspection_price || "",
+      price_on_inspection: !!service?.price_on_inspection, // convert to boolean
+      pricing_type: service?.pricing_type || "",
+      discount: service?.discount || "",
+      discount_type: service?.discount_type || "",
+      // provider_areas_id: service.areas.map(area => area.id),
     });
+  }, [service]);
 
-    const handleChange = (key, value) => {
-      setFormData((prev) => ({
-        ...prev,
-        [key]: value,
-      }));
-    };
-
-    useEffect(() => {
-      if (!service) return;
-
-      setFormData({
-        provider_id: service?.provider_id || "",
-        images: service?.images || [],        
-        module_id: service?.module_id || "",
-        category_id: service?.category_id || "",
-        provider_areas_id: service?.provider_areas_id || [],
-        duration: service?.duration || "",
-        long_description: service?.long_description || "",
-        price: service?.price || "",
-        inspection_price: service?.inspection_price || "",
-        price_on_inspection: !!service?.price_on_inspection, // convert to boolean
-        pricing_type: service?.pricing_type || "",
-        discount: service?.discount || "",
-        discount_type: service?.discount_type || "",
-        // provider_areas_id: service.areas.map(area => area.id),
-      });
-    }, [service]);
-
-//   const handleSave = () => {
-//   if (!service?.id) return;
-//     dispatch(updateServiceThunk({ id: service.id, formData }))
-//     .unwrap()
-//     .then(() => router.back())
-//     .catch((err) => console.error("Failed to update service:", err));
-// };
+  //   const handleSave = () => {
+  //   if (!service?.id) return;
+  //     dispatch(updateServiceThunk({ id: service.id, formData }))
+  //     .unwrap()
+  //     .then(() => router.back())
+  //     .catch((err) => console.error("Failed to update service:", err));
+  // };
 
   const handleSave = () => {
     if (!service?.id) return;
@@ -93,7 +93,7 @@ export default function EditPage() {
       if (Array.isArray(value)) {
         value.forEach((v) => submitFormData.append(`${key}[]`, v));
       } else if (typeof value === "boolean") {
-        submitFormData.append(key, value ? "1" : "0"); 
+        submitFormData.append(key, value ? "1" : "0");
       } else if (value !== undefined && value !== null) {
         submitFormData.append(key, value);
       }
@@ -106,7 +106,7 @@ export default function EditPage() {
       .catch((err) => console.error("Failed to update service:", err));
   };
 
-  console.log('formData',formData);
+  console.log('formData', formData);
 
 
 
@@ -144,11 +144,10 @@ export default function EditPage() {
             {tabs.map((tab) => (
               <div
                 key={tab.id}
-                className={`px-4 py-6 w-full text-center text-base cursor-default ${
-                  openId === tab.id
-                    ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                    : "text-[#697586] font-normal"
-                }`}
+                className={`px-4 py-6 w-full text-center text-base cursor-default ${openId === tab.id
+                  ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                  : "text-[#697586] font-normal"
+                  }`}
               >
                 {tab.label}
               </div>
@@ -157,27 +156,35 @@ export default function EditPage() {
 
           {/* Tab Content */}
           <div className="flex-1 overflow-y-auto mt-6 px-2">
-          {tabs.map((tab) => (
-  <div
-    key={tab.id}
-    style={{ display: openId === tab.id ? "block" : "none" }}
-  >
-    <tab.Component
-      service={service}
-      formData={formData}
-      setFormData={setFormData}
-      handleChange={handleChange}
-      handleSave={handleSave}
-      handleGoBack={handleGoBack}
-      handlePrev={handlePrev}
-      handleNext={handleNext}
-    />
-  </div>
-))}
+            {tabs.map((tab) => (
+              <div
+                key={tab.id}
+                style={{ display: openId === tab.id ? "block" : "none" }}
+              >
+                <tab.Component
+                  service={service}
+                  formData={formData}
+                  setFormData={setFormData}
+                  handleChange={handleChange}
+                  handleSave={handleSave}
+                  handleGoBack={handleGoBack}
+                  handlePrev={handlePrev}
+                  handleNext={handleNext}
+                />
+              </div>
+            ))}
 
           </div>
         </section>
       </div>
     </MainLayout>
+  );
+}
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditPageContent />
+    </Suspense>
   );
 }
