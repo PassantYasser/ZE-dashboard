@@ -316,6 +316,9 @@ function SchedulePage({ handleNext, handlePrev }) {
 
 
 
+
+
+
       {/* Added Periods section */}
       <section className="mt-5">
         <label className="text-[#364152] text-base font-semibold">
