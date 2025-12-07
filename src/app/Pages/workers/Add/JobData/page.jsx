@@ -256,12 +256,21 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               {optionWorkplace.map((option, index) => (
                 <li
                   key={index}
-                  onClick={() => {
-                    if (!selected2.includes(option)) {
-                      setSelected2([...selected2, option]);
-                    }
-                    setOpen2(false);
-                  }}
+                onClick={() => {
+                  if (!selected2.some(item => item.id === option.id)) {
+                    const updatedSelected = [...selected2, option];
+                    setSelected2(updatedSelected);
+
+                    // تحديث formData
+                    setFormData(prev => ({
+                      ...prev,
+                      provider_areas: updatedSelected.map(item => item.id), // IDs فقط
+                    }));
+                  }
+
+                  setOpen2(false);
+                }}
+
                   className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                 >
                   {option.city}
