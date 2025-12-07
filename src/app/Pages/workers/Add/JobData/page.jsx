@@ -72,7 +72,12 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
       const selectedFile = e.target.files[0];
       if (selectedFile && selectedFile.type === "application/pdf") {
         setFile(selectedFile);
-  
+        
+
+        setFormData((prev)=>({
+          ...prev , 
+          id_front:selectedFile,
+        }))
         let uploaded = 0;
         const interval = setInterval(() => {
           uploaded += 20;
@@ -88,6 +93,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
     const handleRemove = () => {
       setFile(null);
       setProgress(0);
+
+        setFormData((prev)=>({
+          ...prev , 
+          id_front:null,
+        }))
     };
     
     //Front national ID card photo
@@ -99,6 +109,12 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
       if(selectTaxFile && selectTaxFile.type === "application/pdf" ){
         setTaxFile(selectTaxFile);
         let uploaded=0;
+
+          setFormData((prev)=>({
+          ...prev , 
+          id_back:selectTaxFile,
+        }))
+
         const interval = setInterval(() => {
           uploaded += 20;
           if (uploaded >= 100) {
@@ -112,6 +128,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
     const handleTaxRemove = () => {
       setTaxFile(null);
       setTaxProgress(0);
+
+        setFormData((prev)=>({
+          ...prev , 
+          id_back:null,
+        }))
     };
 
     // Working hours
