@@ -100,19 +100,19 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         }))
     };
     
-    //Front national ID card photo
-    const [taxFile , setTaxFile]= useState(null);
-    const[taxProgress , setTaxProgress]= useState(0);
+    //back national ID card photo
+    const [BackFile , setBackFile]= useState(null);
+    const[BackProgress , setBackProgress]= useState(0);
     
-    const handleTaxesFileChange = (e)=>{
-      const selectTaxFile = e.target.files[0];
-      if(selectTaxFile && selectTaxFile.type === "application/pdf" ){
-        setTaxFile(selectTaxFile);
+    const handleBackFileChange = (e)=>{
+      const selectBackFile = e.target.files[0];
+      if(selectBackFile && selectBackFile.type === "application/pdf" ){
+        setBackFile(selectBackFile);
         let uploaded=0;
 
           setFormData((prev)=>({
           ...prev , 
-          id_back:selectTaxFile,
+          id_back:selectBackFile,
         }))
 
         const interval = setInterval(() => {
@@ -121,13 +121,13 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
             uploaded = 100;
             clearInterval(interval);
           }
-          setTaxProgress(uploaded);
+          setBackProgress(uploaded);
         }, 500);
       }
     }
-    const handleTaxRemove = () => {
-      setTaxFile(null);
-      setTaxProgress(0);
+    const handleBackRemove = () => {
+      setBackFile(null);
+      setBackProgress(0);
 
         setFormData((prev)=>({
           ...prev , 
@@ -395,7 +395,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         <div className="flex flex-col w-full">
           <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
 
-          {!taxFile ? (
+          {!BackFile ? (
             <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
               <img
                 src="/images/icons/upload.svg"
@@ -409,20 +409,20 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                 type="file"
                 accept="application/pdf"
                 className="hidden"
-                onChange={handleTaxesFileChange}
+                onChange={handleBackFileChange}
               />
             </label>
-          ) : taxProgress < 100? (
+          ) : BackProgress < 100? (
             // === Upload in progress UI ===
             <div className="border border-[#C8C8C8] rounded-[3px] p-3">
               <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                   <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
                   <span className="text-sm text-[#364152] font-medium">
-                    {taxFile.name}
+                    {BackFile.name}
                   </span>
                 </div>
-                <button onClick={handleTaxRemove} className="text-[#C69815]">
+                <button onClick={handleBackRemove} className="text-[#C69815]">
                   <img src="/images/icons/cancel-circle.svg" alt="" />
                 </button>
               
@@ -440,7 +440,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               <div className="w-full bg-gray-200 h-1 mt-1 rounded">
                 <div
                   className="bg-[#C69815] h-1 rounded"
-                  style={{ width: `${taxProgress}%` }}
+                  style={{ width: `${BackProgress}%` }}
                 ></div>
               </div>
             </div>
@@ -451,10 +451,10 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                 {/* file name + icon */}
               <div className="flex items-center gap-2 ">
                 <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
-                <span className="text-sm text-[#656565] font-medium">{taxFile.name}</span>
+                <span className="text-sm text-[#656565] font-medium">{BackFile.name}</span>
               </div>
               {/* delete button */}
-              <button onClick={handleTaxRemove}>
+              <button onClick={handleBackRemove}>
                 <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[#C69815]" />
               </button>
             </div>
