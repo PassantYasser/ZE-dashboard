@@ -16,7 +16,6 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
     dispatch(getAllAreasThunk())
   },[dispatch])
   
-  console.log('edit getAreas',getAreas?.areas);
 
 
 
