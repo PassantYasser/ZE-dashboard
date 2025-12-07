@@ -6,32 +6,37 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
-      const {t}= useTranslation();
+  const {t}= useTranslation();
 
-    
-      //api 
-      const dispatch = useDispatch();
-      const {getAreas} = useSelector(state=>state.services)
-      useEffect(()=>{
-        dispatch(getAllAreasThunk())
-      },[dispatch])
-      
-        console.log('edit getAreas',getAreas?.areas);
-        // Workplace 4
-        const [open4, setOpen4] = useState(false);
-        const [selected4, setSelected4] = useState([]);
-        const dropdownRef4 = useRef(null);
-        const optionWorkplace = [
-          "www","eeee","fff","1vvvvvvvvvvvvvvvvvvvvvvvvvvev","d"
-        ]
-    
-        useEffect(() => {
-          const handleClickOutside = (event) => {
-            if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
-          };
-          document.addEventListener("mousedown", handleClickOutside);
-          return () => document.removeEventListener("mousedown", handleClickOutside);
-        }, []);
+
+  //api 
+  const dispatch = useDispatch();
+  const {getAreas} = useSelector(state=>state.services)
+  useEffect(()=>{
+    dispatch(getAllAreasThunk())
+  },[dispatch])
+  
+  console.log('edit getAreas',getAreas?.areas);
+
+
+
+
+  // Workplace 4
+  const [open4, setOpen4] = useState(false);
+  const [selected4, setSelected4] = useState([]);
+  const [searchValue4, setSearchValue4] = useState("");
+  const dropdownRef4 = useRef(null);
+  const optionWorkplace = getAreas?.areas || []
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+
   return (
     <>
       <Dialog 
@@ -80,7 +85,7 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
                       key={index}
                       className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
                     >
-                      {item}
+                      {item?.city}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -121,7 +126,7 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {option}
+                      {option.city}
                     </li>
                   ))}
                 </ul>

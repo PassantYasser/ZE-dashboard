@@ -29,12 +29,14 @@ function JobDataPage({getDesignations}) {
     const [selected2, setSelected2] = useState("");
     const [searchValue2, setSearchValue2] = useState("");
     const dropdownRef2 = useRef(null);
-    const optionworkplace =getAreas?.areas || [];
+    const optionWorkplace =getAreas?.areas || [];
   
 
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
+
       };
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -201,63 +203,69 @@ function JobDataPage({getDesignations}) {
 
       {/* workplace */}
       <div className="flex flex-col">
-          <label className="text-[#364152] text-base font-normal mb-3">
-            {t("workplaces")}
-          </label>
-    
-          <div className="relative w-full" ref={dropdownRef2}>
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen2(!open2)}
-            >
-              {/* Input */}
-              <input
-                type="text"
-                placeholder={t("Identify the workplace")}
-                value={searchValue2 || selected2}
-                onChange={(e) => {
-                  setSearchValue2(e.target.value);
-                  setOpen2(true);
-                  setSelected2(null);
-                }}
-                className="h-15 p-3 w-full text-[#364152] focus:outline-none"
-              />
-    
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 cursor-pointer">
-                {open2 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
-              </span>
-            </div>
-    
-            {/* 🔽 Dropdown options */}
-            {open2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionworkplace
-                  .filter((option) =>
-                    option?.city
-                      ?.toLowerCase()
-                      .includes(searchValue2.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={option.id}
-                      onClick={() => {
-                        setSelected2(option?.city);
-                        setSearchValue2("");
-                        setOpen2(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option.city}
-                    </li>
-                  ))}
-              </ul>
+        <label className="text-[#364152] text-base font-normal mb-3">
+          {t("Workplaces")}
+        </label>
+
+        <div className="relative w-full" ref={dropdownRef2}>
+          <div
+            onClick={() => setOpen2(!open2)}
+            className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+          >
+            {/* Selected tags / placeholder */}
+            {selected2.length > 0 ? (
+              selected2.map((item, index) => (
+                <span
+                  key={index}
+                  className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                >
+                  {item?.city}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelected2(selected2.filter((_, i) => i !== index));
+                    }}
+                    className="text-[#364152]"
+                  >
+                    <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                  </button>
+                </span>
+              ))
+            ) : (
+              <span className="text-[#9A9A9A]">{t("Identify the workplaces")}</span>
             )}
+
+            {/* Arrow icon on the right */}
+            <span className="absolute left-3">
+              {open2 ? (
+                <img src="/images/icons/ArrowUp.svg" alt="" />
+              ) : (
+                <img src="/images/icons/ArrowDown.svg" alt="" />
+              )}
+            </span>
           </div>
+
+          {/* Dropdown options */}
+          {open2 && (
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              {optionWorkplace.map((option, index) => (
+                <li
+                  key={index}
+                  onClick={() => {
+                    if (!selected2.includes(option)) {
+                      setSelected2([...selected2, option]);
+                    }
+                    setOpen2(false);
+                  }}
+                  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                >
+                  {option.city}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
       {/* Working hours */}
