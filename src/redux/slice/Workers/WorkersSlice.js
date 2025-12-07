@@ -7,7 +7,6 @@ export const getAllWorkersThunk = createAsyncThunk(
   async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
     try {
       const response = await getAllWorkers(page, limit);
-      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);

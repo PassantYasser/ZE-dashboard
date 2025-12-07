@@ -39,7 +39,6 @@ export default function TableWorkers({workers , loading}) {
     }
   };
 
-  console.log('workers', workers);
 
   return (
     <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
