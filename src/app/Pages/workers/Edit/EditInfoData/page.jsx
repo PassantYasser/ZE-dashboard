@@ -9,6 +9,7 @@ import WorkAreas from './Dialogs/WorkAreas';
 import Location from './Dialogs/Location/Location';
 import WorkingHours from './Dialogs/WorkingHours';
 import NationalIdentityInformation from './Dialogs/NationalIdentityInformation';
+import Job from './Dialogs/Job';
 
 function EditInfoDataPage() {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ function EditInfoDataPage() {
     const [openWorkAreas , setOpenWorkAreas] = useState(false); //Work areas
     const [openWorkingHours , setOpenWorkingHours] = useState(false); //WorkingHours
     const [openNationalIdentityInformation , setOpenNationalIdentityInformation] = useState(false); //NationalIdentityInformation
-
+    const [openJob , setOpenJob] =useState(false);  //Job
   return (
     <>
       {/* image */}
@@ -190,6 +191,18 @@ function EditInfoDataPage() {
         
         </div>
 
+        {/* Job */}
+        <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
+          <div>
+            <p className='text-[#697586] text-base font-normal mb-2'>{t('job')}</p>
+            <p className='text-[#364152] text-base font-normal '>سباك</p>
+          </div>
+          <div className='flex justify-center items-center'>
+            <button onClick={()=>setOpenJob(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+              <img src="/images/icons/EditYellow.svg" alt="" />
+            </button>
+          </div>
+        </div>
 
       </section>
 
@@ -202,6 +215,7 @@ function EditInfoDataPage() {
       <Location openLocation={openLocation} setOpenLocation={setOpenLocation}/>
       <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas}  />
       <NationalIdentityInformation openNationalIdentityInformation={openNationalIdentityInformation}  setOpenNationalIdentityInformation={setOpenNationalIdentityInformation}/>
+      <Job openJob={openJob} setOpenJob={setOpenJob}/>
 
     </>
   )
