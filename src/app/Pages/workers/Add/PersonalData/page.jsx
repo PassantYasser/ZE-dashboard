@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
 
-function PersonalDataPage() {
+function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,handleChange }) {
   const { t } = useTranslation();
 
   // images
@@ -146,7 +146,10 @@ function PersonalDataPage() {
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">{t('First Name')}</label>
           <input 
-            type="text" 
+            type="text"
+            name='firstname' 
+            value={formData?.firstname}
+            onChange={handleChange}
             placeholder={t('Enter first name')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
@@ -156,6 +159,9 @@ function PersonalDataPage() {
           <label className="text-[#364152] text-base font-normal">{t('Last Name')}</label>
           <input 
             type="text" 
+            name='lastname'
+            value={formData?.lastname}
+            onChange={handleChange}
             placeholder={t('Enter last name/family name')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
@@ -165,6 +171,9 @@ function PersonalDataPage() {
           <label className="text-[#364152] text-base font-normal">{t('Email')}</label>
           <input 
             type="text" 
+            name='email'
+            value={formData?.email}
+            onChange={handleChange}
             placeholder={t('Enter your email')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
@@ -178,6 +187,14 @@ function PersonalDataPage() {
           <div className="relative">
             <PhoneInput
               country={"sa"}
+              value={formData?.phone}  
+              onChange={(value, country) => {
+                setFormData({
+                  ...formData,
+                  phone: value,               
+                  country_code: country.dialCode  
+                });
+              }}
               placeholder="000000000"
               containerClass="!w-full"
               inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
@@ -324,8 +341,6 @@ function PersonalDataPage() {
           )}
         </div>
 
-
-
       </form>
         {/* National ID number */}
         <div className="flex flex-col w-full mb-6">
@@ -335,6 +350,24 @@ function PersonalDataPage() {
             placeholder={t('Enter your national ID number')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
+
+      
+    {/* btns */}
+    <div className="my-12 flex gap-3">
+
+      <button 
+        onClick={handleGoBack}
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer">
+          {t('cancel')}
+      </button>
+
+      <button 
+        onClick={handleNext}
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer">
+          {t('the next')}
+      </button>
+
+    </div>
     </>
   );
 }

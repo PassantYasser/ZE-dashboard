@@ -6,7 +6,7 @@ import TimeRangePicker from './TimeRangePicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAreasThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function JobDataPage({getDesignations}) {
+function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handleChange ,handleSubmit  }) {
   const {t}= useTranslation();
   
     //api
@@ -44,24 +44,24 @@ function JobDataPage({getDesignations}) {
   
 
     //map
-  const [open, setOpen] = useState(false);
-  const [address, setAddress] = useState("");
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleLocationSelect = async (lat, lng) => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-      );
-      const data = await response.json();
-      const formattedAddress = data.display_name || "Unknown address";
-      setAddress(formattedAddress);
-      setOpen(false);
-    } catch (error) {
-      console.error("Error fetching address:", error);
-      setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
-    }
-  };
+    const [open, setOpen] = useState(false);
+    const [address, setAddress] = useState("");
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const handleLocationSelect = async (lat, lng) => {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+        );
+        const data = await response.json();
+        const formattedAddress = data.display_name || "Unknown address";
+        setAddress(formattedAddress);
+        setOpen(false);
+      } catch (error) {
+        console.error("Error fetching address:", error);
+        setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
+      }
+    };
 
 //
 
@@ -115,11 +115,11 @@ function JobDataPage({getDesignations}) {
       setTaxProgress(0);
     };
 
-  // Working hours
-  const [workingHours, setWorkingHours] = useState({
-    start: '09:00',
-    end: '17:00',
-  });
+    // Working hours
+    const [workingHours, setWorkingHours] = useState({
+      start: '09:00',
+      end: '17:00',
+    });
 
 
   return (
@@ -429,6 +429,22 @@ function JobDataPage({getDesignations}) {
         </div>
     </div>
     
+      <div className="my-12 flex gap-3">
+      <button
+        onClick={handlePrev} 
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
+      >
+        {t('the previous')}
+      </button>
+      <button
+        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
+      >
+          {t('save')}
+      </button>
+  
+
+      </div>
+  
 
     {/* 🗺️ Map Dialog Component */}
       <MapDialog

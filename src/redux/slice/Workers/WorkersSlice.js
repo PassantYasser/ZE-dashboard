@@ -1,4 +1,4 @@
-import { getAllWorkers, getDesignations } from "@/redux/api/Workers/WorkersApi";
+import { addWorker, getAllWorkers, getDesignations } from "@/redux/api/Workers/WorkersApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //get all workers
@@ -27,8 +27,23 @@ export const getDesignationsThunk = createAsyncThunk(
   }
 )
 
+//add new worker
+export const addWorkerThunk = createAsyncThunk(
+  'worker/addWorkerThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await addWorker(formData)
+      console.log('addworkerSlice' ,response.data );
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState ={
   workers: [],
+  addWorker:null ,
   loading: false,
   error: null,
   currentPage: 1,
@@ -74,6 +89,19 @@ const WorkersSlice = createSlice({
       .addCase(getDesignationsThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
+      })
+      // ✅ Add new worker
+      .addCase(addWorkerThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(addWorkerThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addWorker = action.payload;
+      })
+      .addCase(addWorkerThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
       })
   },
 })

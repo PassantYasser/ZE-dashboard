@@ -6,17 +6,83 @@ import PersonalDataPage from "./PersonalData/page";
 import JobDataPage from "./JobData/page";
 import { useDispatch, useSelector } from "react-redux";
 import { getDesignationsThunk } from "@/redux/slice/Workers/WorkersSlice";
+import { useRouter } from "next/navigation";
 
 function AddPage() {
   const { t } = useTranslation();
-
+ const router = useRouter(); 
   //api
   const dispatch = useDispatch()
-  const{getDesignations} = useSelector(state=>state.workers)
+  const{getDesignations , addWorker} = useSelector(state=>state.workers)
   useEffect(()=>{
     dispatch(getDesignationsThunk())
   },[dispatch])
 
+  const [formData, setFormData] = useState({
+    image:[],
+    firstname:'',
+    lastname:'',
+    email:'',
+    phone:'',
+    country_code:'',
+    password:'',
+    password_confirmation:'',
+    national_id:'',
+    designation_id:'',
+    provider_areas:[],
+    address:'',
+    working_time:'',
+    id_front:'',
+    id_back:''
+  })
+
+  const handleChange = (e) => {
+  const { name, value, files } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: files ? files[0] : value
+  }));
+};
+
+  const handleSubmit = () => {
+    const data = new FormData();
+
+    data.append("firstname", formData.firstname);
+    data.append("lastname", formData.lastname);
+    data.append("email", formData.email);
+    data.append("phone", formData.phone);
+    data.append("country_code", formData.country_code);
+    data.append("password", formData.password);
+    data.append("password_confirmation", formData.password_confirmation);
+    data.append("national_id", formData.national_id);
+    data.append("designation_id", formData.designation_id);
+    data.append("address", formData.address);
+    data.append("working_time", formData.working_time);
+
+    // image uploads
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    if (formData.id_front) {
+      data.append("id_front", formData.id_front);
+    }
+
+    if (formData.id_back) {
+      data.append("id_back", formData.id_back);
+    }
+
+    // provider areas
+    formData.provider_areas.forEach((areaId) => {
+      data.append("provider_areas[]", areaId);
+    });
+
+    dispatch(addWorkerThunk(data));
+  };
+
+
+  console.log('addWorkerrr',formData);
 
   const [openId, setOpenId] = useState("Personal");
   const tabs = [
@@ -36,6 +102,7 @@ function AddPage() {
 
   const handleGoBack = () => {
     router.back();
+
   };
 ;
 
@@ -88,6 +155,10 @@ function AddPage() {
                   handlePrev={handlePrev}
                   handleNext={handleNext}
                   getDesignations={getDesignations}
+                  formData={formData}
+                  setFormData={setFormData}
+                  handleChange={handleChange}
+                  handleSubmit={handleSubmit}
                 />
               </div>
             ))}
