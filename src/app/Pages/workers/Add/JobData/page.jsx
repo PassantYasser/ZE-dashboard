@@ -24,12 +24,12 @@ function JobDataPage({getDesignations}) {
     const dropdownRef1 = useRef(null);
     const optionJob=getDesignations || []
   
-    // Employee address
+    // workplace 
     const [open2, setOpen2] = useState(false);
     const [selected2, setSelected2] = useState("");
     const [searchValue2, setSearchValue2] = useState("");
     const dropdownRef2 = useRef(null);
-    const optionEmployeeAddress =getAreas?.areas || [];
+    const optionworkplace =getAreas?.areas || [];
   
 
     useEffect(() => {
@@ -185,7 +185,7 @@ function JobDataPage({getDesignations}) {
           </div>
       </div>
     
-      {/* Employee address */}
+      {/* Employee address  */}
       <div className="flex flex-col">
         <label className="text-[#364152] text-base font-normal mb-3">
           {t("Employee address")}
@@ -236,7 +236,7 @@ function JobDataPage({getDesignations}) {
             {/* 🔽 Dropdown options */}
             {open2 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionEmployeeAddress
+                {optionworkplace
                   .filter((option) =>
                     option?.city
                       ?.toLowerCase()

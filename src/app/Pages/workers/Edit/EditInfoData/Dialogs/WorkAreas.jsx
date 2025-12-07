@@ -1,23 +1,23 @@
 "use client"
+import { getAllAreasThunk } from '@/redux/slice/Services/ServicesSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
       const {t}= useTranslation();
 
-      //   // Employee address
-      //     const [open2, setOpen2] = useState(false);
-      //     const [selected2, setSelected2] = useState("");
-      //     const [searchValue2, setSearchValue2] = useState("");
-      //     const dropdownRef2 = useRef(null);
-      //     const optionEmployeeAddress =[
-      //       'qq',"ww","ss","rr"
-      //     ];
-
+    
+      //api 
+      const dispatch = useDispatch();
+      const {getAreas} = useSelector(state=>state.services)
+      useEffect(()=>{
+        dispatch(getAllAreasThunk())
+      },[dispatch])
       
-
-        // ServiceActivityLocation 4
+        console.log('edit getAreas',getAreas?.areas);
+        // Workplace 4
         const [open4, setOpen4] = useState(false);
         const [selected4, setSelected4] = useState([]);
         const dropdownRef4 = useRef(null);
@@ -34,7 +34,7 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
         }, []);
   return (
     <>
-        <Dialog 
+      <Dialog 
         open={openWorkAreas} 
         onClose={() => setOpenWorkAreas(false)}
         aria-labelledby="alert-dialog-title"
