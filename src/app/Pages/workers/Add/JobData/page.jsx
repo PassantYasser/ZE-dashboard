@@ -175,6 +175,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                         setSelected1(option?.name);
                         setSearchValue1("");
                         setOpen1(false);
+
+                        setFormData((prev)=>({
+                          ...prev ,
+                          designation_id:option?.id,
+                        }))
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
