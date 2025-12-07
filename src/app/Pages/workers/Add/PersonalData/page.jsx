@@ -52,20 +52,26 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
 
   // ✅ Handle password input and update rules
   const handlePasswordChange = (e) => {
-    const value = e.target.value;
-    setPassword(value);
+  const value = e.target.value;
+  setFormData(prev => ({ ...prev, password: value }));
 
-    setRules({
-      uppercase: /[A-Z]/.test(value),
-      symbol: /[!@#$%^&*(),.?":{}|<>]/.test(value),
-      number: /[0-9]/.test(value),
-      length: value.length >= 8,
-    });
-  };
+  setRules({
+    uppercase: /[A-Z]/.test(value),
+    symbol: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+    number: /[0-9]/.test(value),
+    length: value.length >= 8,
+  });
+};
+
+const handleConfirmPasswordChange = (e) => {
+  setFormData(prev => ({ ...prev, password_confirmation: e.target.value }));
+};
+
 
   // ✅ Check if passwords match
   const passwordsMatch =
-    confirmPassword.length > 0 && password === confirmPassword;
+    formData?.password_confirmation.length > 0 &&
+    formData?.password === formData?.password_confirmation;
 
   return (
     <>
@@ -224,17 +230,16 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
                 <img src="/images/icons/eyeOpen.svg" alt="Show password" />
               )}
             </span>
-
-            {/* Input field */}
             <input
               type={showPassword ? "text" : "password"}
-              value={password}
+              value={formData.password}
               placeholder={t("Enter your password")}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               onChange={handlePasswordChange}
               className="w-full h-15 p-3 pl-10 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal"
             />
+          
           </div>
 
           {/* Show rules only when focused */}
@@ -312,20 +317,20 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
                 <img src="/images/icons/eyeOpen.svg" alt="Show password" />
               )}
             </span>
-
-            <input
-              type={showPasswordConfirm ? "text" : "password"}
-              value={confirmPassword}
-              placeholder={t("Re-enter your password")}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal ${
-                confirmPassword
-                  ? passwordsMatch
-                    ? "border-green-500"
-                    : "border-red-500"
-                  : "border-[#C8C8C8]"
-              }`}
-            />
+              <input
+                type={showPasswordConfirm ? "text" : "password"}
+                value={formData.password_confirmation}
+                placeholder={t("Re-enter your password")}
+                onChange={handleConfirmPasswordChange}
+                className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal ${
+                  formData.password_confirmation
+                    ? formData.password === formData.password_confirmation
+                      ? "border-green-500"
+                      : "border-red-500"
+                    : "border-[#C8C8C8]"
+                }`}
+              />
+          
           </div>
 
           {confirmPassword.length > 0 && (
@@ -347,6 +352,9 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
           <label className="text-[#364152] text-base font-normal">{t('National ID number')}</label>
           <input 
             type="text" 
+            name="national_id"
+            value={formData?.national_id}
+            onChange={handleChange}
             placeholder={t('Enter your national ID number')}
             className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
         </div>
