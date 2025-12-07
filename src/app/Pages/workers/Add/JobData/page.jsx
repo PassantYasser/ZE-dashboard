@@ -26,7 +26,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
   
     // workplace 
     const [open2, setOpen2] = useState(false);
-    const [selected2, setSelected2] = useState("");
+    const [selected2, setSelected2] = useState([]);
     const dropdownRef2 = useRef(null);
     const optionWorkplace =getAreas?.areas || [];
   
