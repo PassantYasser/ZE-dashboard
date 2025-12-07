@@ -18,24 +18,41 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const allowedTypes = ["image/webp", "image/png", "image/svg+xml", "image/jpeg"];
     if (!allowedTypes.includes(file.type)) {
       alert(t("Please select a valid image file (WEBP, PNG, SVG, JPG)"));
       return;
     }
+
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
       alert(t("File size should not exceed 5MB"));
       return;
     }
+
     const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
+
+    // ⭐ ربط الصورة بالـ formData
+    setFormData((prev) => ({
+      ...prev,
+      image: file,
+    }));
   };
 
+
   const handleDeleteFile = () => {
-    setImagePreview(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
+  setImagePreview(null);
+  if (fileInputRef.current) fileInputRef.current.value = "";
+
+  // ⭐ مسح الصورة من formData
+  setFormData((prev) => ({
+    ...prev,
+    image: null,
+  }));
+};
+
 
   //
   const [showPassword, setShowPassword] = useState(false);
@@ -139,6 +156,7 @@ const handleConfirmPasswordChange = (e) => {
           )}
           <input
             ref={fileInputRef}
+            name="image"
             type="file"
             accept=".webp,.png,.svg,.jpg,.jpeg,image/webp,image/png,image/svg+xml"
             onChange={handleFileChange}

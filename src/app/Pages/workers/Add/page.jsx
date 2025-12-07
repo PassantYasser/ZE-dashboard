@@ -19,7 +19,7 @@ function AddPage() {
   },[dispatch])
 
   const [formData, setFormData] = useState({
-    image:[],
+    image:null,
     firstname:'',
     lastname:'',
     email:'',
@@ -32,8 +32,8 @@ function AddPage() {
     provider_areas:[],
     address:'',
     working_time:'',
-    id_front:'',
-    id_back:''
+    id_front:null,
+    id_back:null
   })
 
   const handleChange = (e) => {
