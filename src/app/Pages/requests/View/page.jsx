@@ -4,20 +4,23 @@ import React from 'react'
 import { useTranslation } from 'react-i18next';
 import RequestStatusDataPage from './RequestStatusData/page';
 
-function ViewPage({ open, handleClose}) {
-    const { t } = useTranslation();
-  
+// Force dynamic rendering - this page should not be statically generated
+export const dynamic = 'force-dynamic';
+
+function ViewPage({ open, handleClose }) {
+  const { t } = useTranslation();
+
   return (
     <>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          PaperProps={{
-            className: "RequestsViewPage-dialog",
-          }}
-        >
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{
+          className: "RequestsViewPage-dialog",
+        }}
+      >
         {/* Close Button */}
         <section className="px-6 mt-6 flex justify-end">
           <button
@@ -27,13 +30,13 @@ function ViewPage({ open, handleClose}) {
             <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
           </button>
         </section>
-        
-      
+
+
 
 
         <RequestStatusDataPage />
-          
-        </Dialog>
+
+      </Dialog>
     </>
   )
 }
