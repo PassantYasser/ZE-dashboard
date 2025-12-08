@@ -7,6 +7,7 @@ export default function TimeRangePicker({
     onChange,
     label = 'Working Hours',
     language = 'ar',
+    
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [startTime, setStartTime] = useState(value.start);

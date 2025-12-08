@@ -137,8 +137,8 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
 
     // Working hours
     const [workingHours, setWorkingHours] = useState({
-      start: '09:00',
-      end: '17:00',
+      start: '00:00',
+      end: '00:00',
     });
 
 
@@ -306,9 +306,17 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         {/* <label className="text-[#364152] text-base font-normal">{t('Working hours')}</label> */}
         <TimeRangePicker
             value={workingHours}
-            onChange={setWorkingHours}
+            onChange={(timeRange)=>{
+              setWorkingHours(timeRange)
+
+              setFormData((prev)=>({
+                ...prev,
+                working_time:timeRange
+              }))
+            }}
             label={t('Working hours')}
             language="ar"
+            
           />
       </div>
 
