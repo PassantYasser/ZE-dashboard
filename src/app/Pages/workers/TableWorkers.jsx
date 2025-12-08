@@ -73,11 +73,21 @@ export default function TableWorkers({workers , loading}) {
                 <td className="p-4">{worker?.id}#</td>
                 <td className="p-4">
                   <div className="flex items-center gap-2">
-                    <img
+                    {worker?.image === null ? (
+                      <div className="w-8 h-8 rounded-full bg-[#C8C8C8] flex justify-center items-center ">
+                        <span className="font-medium text-sm">
+                          {worker?.firstname?.charAt(0)}
+                          {worker?.lastname?.charAt(0)}
+                        </span>
+                      </div>
+                    ):(
+                      <img
                       src={`${IMAGE_BASE_URL}${worker?.image}`}
                       alt={worker.worker}
                       className="w-8 h-8 rounded-full object-cover"
                     />
+                    )}
+                  
                     <span>{worker?.firstname} {worker?.lastname}</span>
                   </div>
                 </td>
