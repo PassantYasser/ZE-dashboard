@@ -300,9 +300,16 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
             onChange={(timeRange)=>{
               setWorkingHours(timeRange)
 
+              function formatTime12(time24) {
+                const [hour, minute] = time24.split(':').map(Number);
+                const period = hour >= 12 ? 'م' : 'ص';
+                const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+                return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
+              }
+
               setFormData((prev)=>({
                 ...prev,
-                working_time:timeRange
+                working_time: `${formatTime12(timeRange.start)} - ${formatTime12(timeRange.end)}` // خليهم جنب بعض
               }))
             }}
             label={t('Working hours')}
@@ -461,7 +468,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         </div>
     </div>
     
-      <div className="my-12 flex gap-3">
+    <div className="my-12 flex gap-3">
       <button
         onClick={handlePrev} 
         className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
