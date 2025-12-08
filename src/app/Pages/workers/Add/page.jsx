@@ -50,47 +50,7 @@ function AddPage() {
   }));
 };
 
-  // const handleSubmit = () => {
-  //   const data = new FormData();
-
-  //   data.append("firstname", formData?.firstname);
-  //   data.append("lastname", formData?.lastname);
-  //   data.append("email", formData?.email);
-  //   data.append("phone", formData?.phone);
-  //   data.append("country_code", formData?.country_code);
-  //   data.append("password", formData?.password);
-  //   data.append("password_confirmation", formData?.password_confirmation);
-  //   data.append("national_id", formData?.national_id);
-  //   data.append("designation_id", formData?.designation_id);
-  //   data.append("address", formData?.address);
-  //   data.append("working_time", formData?.working_time);
-  //   data.append('longitude' , formData?.longitude)
-  //   data.append('latitude' , formData?.latitude)
-  //   data.append('city' , formData?.city)
-  //   data.append('country' , formData?.country)
-  //   data.append('state' , formData?.state)
-
-
-  //   // image uploads
-  //   if (formData.image) {
-  //     data.append("image", formData?.image);
-  //   }
-
-  //   if (formData.id_front) {
-  //     data.append("id_front", formData?.id_front);
-  //   }
-
-  //   if (formData.id_back) {
-  //     data.append("id_back", formData?.id_back);
-  //   }
-
-  //   // provider areas
-  //   formData?.provider_areas.forEach((areaId) => {
-  //     data.append("provider_areas[]", areaId);
-  //   });
-
-  //   dispatch(addWorkerThunk(data));
-  // };
+  
 const handleSubmit = async () => {
   const data = new FormData();
 
