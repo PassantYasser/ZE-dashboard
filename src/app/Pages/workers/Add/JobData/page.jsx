@@ -43,23 +43,14 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
   
 
     //map
-    const [open, setOpen] = useState(false);
-    const [address, setAddress] = useState("");
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const handleLocationSelect = async (lat, lng) => {
-      try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
-        );
-        const data = await response.json();
-        const formattedAddress = data.display_name || "Unknown address";
-        setAddress(formattedAddress);
-        setOpen(false);
-      } catch (error) {
-        console.error("Error fetching address:", error);
-        setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
-      }
+    const [open, setOpen] =useState(false);
+  
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
     };
 
 //
@@ -220,7 +211,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
       <textarea
           readOnly
           placeholder={t("Enter the address")}
-          value={address} 
+          value={formData?.address || ""}
           onClick={handleClickOpen}
           className="h-15 p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
         />
@@ -478,6 +469,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         {t('the previous')}
       </button>
       <button
+      onClick={handleSubmit}
         className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
       >
           {t('save')}
@@ -491,7 +483,8 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
       <MapDialog
         open={open}
         handleClose={handleClose}
-        onSelectLocation={handleLocationSelect} 
+        formData={formData} 
+        setFormData={setFormData} 
       />
     </>
   )

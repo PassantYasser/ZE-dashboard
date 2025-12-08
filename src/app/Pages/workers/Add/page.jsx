@@ -5,7 +5,7 @@ import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import PersonalDataPage from "./PersonalData/page";
 import JobDataPage from "./JobData/page";
 import { useDispatch, useSelector } from "react-redux";
-import { getDesignationsThunk } from "@/redux/slice/Workers/WorkersSlice";
+import { addWorkerThunk, getDesignationsThunk } from "@/redux/slice/Workers/WorkersSlice";
 import { useRouter } from "next/navigation";
 
 function AddPage() {
@@ -31,6 +31,11 @@ function AddPage() {
     designation_id:'',
     provider_areas:[],
     address:'',
+    longitude:'',
+    latitude:'',
+    city:'',
+    country:'',
+    state:'',   
     working_time:'',
     id_front:null,
     id_back:null
@@ -45,41 +50,88 @@ function AddPage() {
   }));
 };
 
-  const handleSubmit = () => {
-    const data = new FormData();
+  // const handleSubmit = () => {
+  //   const data = new FormData();
 
-    data.append("firstname", formData.firstname);
-    data.append("lastname", formData.lastname);
-    data.append("email", formData.email);
-    data.append("phone", formData.phone);
-    data.append("country_code", formData.country_code);
-    data.append("password", formData.password);
-    data.append("password_confirmation", formData.password_confirmation);
-    data.append("national_id", formData.national_id);
-    data.append("designation_id", formData.designation_id);
-    data.append("address", formData.address);
-    data.append("working_time", formData.working_time);
+  //   data.append("firstname", formData?.firstname);
+  //   data.append("lastname", formData?.lastname);
+  //   data.append("email", formData?.email);
+  //   data.append("phone", formData?.phone);
+  //   data.append("country_code", formData?.country_code);
+  //   data.append("password", formData?.password);
+  //   data.append("password_confirmation", formData?.password_confirmation);
+  //   data.append("national_id", formData?.national_id);
+  //   data.append("designation_id", formData?.designation_id);
+  //   data.append("address", formData?.address);
+  //   data.append("working_time", formData?.working_time);
+  //   data.append('longitude' , formData?.longitude)
+  //   data.append('latitude' , formData?.latitude)
+  //   data.append('city' , formData?.city)
+  //   data.append('country' , formData?.country)
+  //   data.append('state' , formData?.state)
 
-    // image uploads
-    if (formData.image) {
-      data.append("image", formData.image);
+
+  //   // image uploads
+  //   if (formData.image) {
+  //     data.append("image", formData?.image);
+  //   }
+
+  //   if (formData.id_front) {
+  //     data.append("id_front", formData?.id_front);
+  //   }
+
+  //   if (formData.id_back) {
+  //     data.append("id_back", formData?.id_back);
+  //   }
+
+  //   // provider areas
+  //   formData?.provider_areas.forEach((areaId) => {
+  //     data.append("provider_areas[]", areaId);
+  //   });
+
+  //   dispatch(addWorkerThunk(data));
+  // };
+const handleSubmit = async () => {
+  const data = new FormData();
+
+  // append all fields
+  data.append("firstname", formData.firstname);
+  data.append("lastname", formData.lastname);
+  data.append("email", formData.email);
+  data.append("phone", formData.phone);
+  data.append("country_code", formData.country_code);
+  data.append("password", formData.password);
+  data.append("password_confirmation", formData.password_confirmation);
+  data.append("national_id", formData.national_id);
+  data.append("designation_id", formData.designation_id);
+  data.append("address", formData.address);
+  data.append("working_time", formData.working_time);
+  data.append("longitude", formData.longitude);
+  data.append("latitude", formData.latitude);
+  data.append("city", formData.city);
+  data.append("country", formData.country);
+  data.append("state", formData.state);
+
+  if (formData.image) data.append("image", formData.image);
+  if (formData.id_front) data.append("id_front", formData.id_front);
+  if (formData.id_back) data.append("id_back", formData.id_back);
+
+  formData.provider_areas.forEach(areaId => {
+    data.append("provider_areas[]", areaId);
+  });
+
+  try {
+    const resultAction = await dispatch(addWorkerThunk(data));
+
+    if (addWorkerThunk.fulfilled.match(resultAction)) {
+      router.back();
+    } else {
+      console.log("Failed to add worker", resultAction);
     }
-
-    if (formData.id_front) {
-      data.append("id_front", formData.id_front);
-    }
-
-    if (formData.id_back) {
-      data.append("id_back", formData.id_back);
-    }
-
-    // provider areas
-    formData.provider_areas.forEach((areaId) => {
-      data.append("provider_areas[]", areaId);
-    });
-
-    dispatch(addWorkerThunk(data));
-  };
+  } catch (error) {
+    console.log("Error submitting form", error);
+  }
+};
 
 
   console.log('addWorkerrr',formData);

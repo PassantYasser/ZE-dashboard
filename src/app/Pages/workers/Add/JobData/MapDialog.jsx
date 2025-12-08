@@ -11,6 +11,7 @@ const Marker = dynamic(() => import("react-leaflet").then((m) => m.Marker), { ss
 
 let L;
 let markerIcon;
+
 if (typeof window !== "undefined") {
   L = require("leaflet");
   markerIcon = new L.Icon({
@@ -30,15 +31,19 @@ function LocationPicker({ position, setPosition }) {
       setPosition([e.latlng.lat, e.latlng.lng]);
     },
   });
+
   return position && markerIcon ? <Marker position={position} icon={markerIcon} /> : null;
 }
 
-export default function MapDialog({ open, handleClose, onSelectLocation }) {
-  const [mapPosition, setMapPosition] = useState([24.7136, 46.6753]); // Default Riyadh
+export default function MapDialog({ open, handleClose, formData, setFormData }) {
+  const [mapPosition, setMapPosition] = useState([
+    formData?.latitude ? parseFloat(formData.latitude) : 24.7136,
+    formData?.longitude ? parseFloat(formData.longitude) : 46.6753,
+  ]);
 
   // ✅ Detect user location initially
   useEffect(() => {
-    if (navigator.geolocation) {
+    if (!formData?.latitude && !formData?.longitude && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           setMapPosition([pos.coords.latitude, pos.coords.longitude]);
@@ -47,15 +52,40 @@ export default function MapDialog({ open, handleClose, onSelectLocation }) {
         { enableHighAccuracy: true }
       );
     }
-  }, []);
+  }, [formData?.latitude, formData?.longitude]);
 
-  // ✅ Confirm and send coordinates to parent
-const handleConfirm = () => {
-  if (typeof onSelectLocation === "function") {
-    onSelectLocation(mapPosition[0].toFixed(5), mapPosition[1].toFixed(5));
-  }
-  handleClose(); // still close the dialog
-};
+  // ✅ Reverse Geocoding
+  const fetchAddressFromCoords = async (latitude, longitude) => {
+    const apiKey = "AIzaSyBSf-rM8flnZXMLaXaHpVSVMQBs7Rq8M84";
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.status === "OK") {
+        const addressComponents = data.results[0].address_components;
+        const address = data.results[0].formatted_address;
+        const getComp = (type) =>
+          addressComponents.find((c) => c.types.includes(type))?.long_name || "";
+
+        setFormData((prev) => ({
+          ...prev,
+          latitude: latitude.toString(),
+          longitude: longitude.toString(),
+          address,
+          country: getComp("country"),
+          state: getComp("administrative_area_level_1"),
+          city: getComp("administrative_area_level_2"),
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching address:", error);
+    }
+  };
+
+  const handleConfirm = () => {
+    fetchAddressFromCoords(mapPosition[0], mapPosition[1]);
+    handleClose();
+  };
 
   return (
     <Dialog open={open} onClose={handleClose} PaperProps={{ className: "ServicePage-dialog" }}>
