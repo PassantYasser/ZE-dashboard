@@ -39,6 +39,7 @@ export default function TableWorkers({workers , loading}) {
     }
   };
 
+const [imgError, setImgError] = useState(false);
 
   return (
     <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
@@ -73,7 +74,7 @@ export default function TableWorkers({workers , loading}) {
                 <td className="p-4">{worker?.id}#</td>
                 <td className="p-4">
                   <div className="flex items-center gap-2">
-                    {worker?.image === null ? (
+                    {worker?.image === null || imgError ? (
                       <div className="w-8 h-8 rounded-full bg-[#C8C8C8] flex justify-center items-center ">
                         <span className="font-medium text-sm">
                           {worker?.firstname?.charAt(0)}
@@ -85,6 +86,7 @@ export default function TableWorkers({workers , loading}) {
                       src={`${IMAGE_BASE_URL}${worker?.image}`}
                       alt={worker.worker}
                       className="w-8 h-8 rounded-full object-cover"
+                      onError={() => setImgError(true)} 
                     />
                     )}
                   
