@@ -14,7 +14,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
 
-  const [activeIndex, setActiveIndex] = useState(null); // track clicked li
+  const [activeIndex, setActiveIndex] = useState(null);
 
     const pathname = usePathname();
 
@@ -28,6 +28,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     router.push("/Auth/Login"); 
   }
 
+const [openFinance, setOpenFinance] = useState(false);
 
   return (
     
@@ -76,7 +77,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 //open 
                   <div  className='flex gap-4 items-center py-4 px-2'>
                     <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") ? "invert" : ""}/>
-                    <p className={`text-base font-normal${pathname.startsWith("/Pages/dashboard") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
+                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/dashboard") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>
@@ -92,7 +93,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 //open 
                   <div  className='flex gap-4 items-center py-4 px-2'>
                     <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/Pages/requests") ? "invert" : ""}/>
-                    <p className={`text-base font-normal${pathname.startsWith("/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Requests')}</p>
+                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Requests')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>
@@ -108,7 +109,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/workers.svg" alt="" className={pathname.startsWith("/Pages/workers") ? "invert" : ""}/>
-                  <p className={`text-base font-normal${pathname.startsWith("/workers") ? "text-[#fff]" : "text-[#364152]"}`}>{t('workers')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/workers") ? "text-[#fff]" : "text-[#364152]"}`}>{t('workers')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-4 px-2'>
@@ -124,7 +125,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/services") ? "invert" : ""}/>
-                  <p className={`text-base font-normal${pathname.startsWith("/Pages/services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
@@ -140,7 +141,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/Subscription.svg" alt="" className={pathname.startsWith("/Pages/Subscription") ? "invert" : ""}/>
-                  <p className={`text-base font-normal${pathname.startsWith("/Subscription") ? "text-[#fff]" : "text-[#364152]"}`}>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Subscription") ? "text-[#fff]" : "text-[#364152]"}`}>
                     {t('Subscription')}
                   </p>
                 </div>
@@ -158,7 +159,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/conversations.svg" alt="" className={pathname.startsWith("/Pages/conversations") ? "invert" : ""}/>
-                  <p className={`text-base font-normal${pathname.startsWith("/Pages/conversations") ? "text-[#fff]" : "text-[#364152]"}`}>{t('conversations')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/conversations") ? "text-[#fff]" : "text-[#364152]"}`}>{t('conversations')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
@@ -168,7 +169,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/finance") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/finance") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/finance" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -182,7 +183,88 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                 </div>
               )}
             </Link>
+          </li> */}
+
+          {/* Finance Dropdown */}
+          <li className={` cursor-pointer rounded transition ${pathname.startsWith("/Pages/finance") ? "bg-[var(--color-primary)] text-white" : ""}`}>
+            <div
+              onClick={() => setOpenFinance(!openFinance)}
+              className={`flex items-center justify-between ml-5 `}
+            >
+            
+              <div className={`${open ? "flex gap-4" : "flex justify-center"}  items-center py-4 px-2`}>
+                <img
+                  src="/images/icons/Finance.svg"
+                  alt=""
+                  className={pathname.startsWith("/Pages/finance") ? "invert" : ""}
+                />
+
+                {/* Text (visible only when sidebar open) */}
+                {open && (
+                  <p
+                    className={`text-base font-normal ${
+                      pathname.startsWith("/Pages/finance")
+                        ? "text-white"
+                        : "text-[#364152]"
+                    }`}
+                  >
+                    {t("Finance")}
+                  </p>
+                )}
+              </div>
+              {/* Arrow (only if sidebar is open) */}
+              {open && (
+                <span className={``}>
+                  {openFinance ? (
+                    <img src="/images/icons/arrow-up.svg" alt="open" className='' />
+                  ) : (
+                    <img src="/images/icons/chevron-down.svg" alt="closed" />
+                  )}
+                </span>
+              )}
+
+            </div>
           </li>
+          {/* Dropdown Items */}
+          {openFinance && open && (
+            <ul className="w-full flex flex-col  bg-[#F9F5E8] px-2 py-3">
+
+              <li className={`px-2 py-3  ${pathname === "/Pages/finance/Overview" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
+                <Link
+                  href="/Pages/finance/Overview"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block text-[#364152] "
+                >
+                  {t("Overview")}
+                </Link>
+              </li>
+
+              <li className={`px-2 py-3  ${pathname === "/Pages/finance/Taxes" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
+                <Link
+                  href="/Pages/finance/Taxes"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block text-[#364152] "
+                >
+                  {t("Taxes")}
+                </Link>
+              </li>
+
+              <li className={`px-2 py-3  ${pathname === "/Pages/finance/wallet" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
+                <Link
+                  href="/Pages/finance/wallet"
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="block text-[#364152] "
+                >
+                  {t("wallet")}
+                </Link>
+              </li>
+
+            </ul>
+          )}
+
+
+
+
 
           <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
@@ -190,7 +272,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/technicalSupport")  ? "invert" : ""} />
-                  <p className={`text-base font-normal${pathname.startsWith("/Pages/technicalSupport") ? "text-[#fff]" : "text-[#364152]"}`}>{t('technical support')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/technicalSupport") ? "text-[#fff]" : "text-[#364152]"}`}>{t('technical support')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
@@ -208,7 +290,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
                   <img src="/images/icons/settings.svg" alt=""className={pathname.startsWith("/Pages/settings") ? "invert" : ""} />
-                  <p className={`text-base font-normal${pathname.startsWith("/Pages/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
@@ -218,22 +300,22 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </Link>
           </li>
           
-            <li  className={`cursor-pointer py-2 px-2 rounded   ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <button  onClick={handleLogout}>
-                {open?(
-                //open 
-                  <div className='flex gap-4 items-center'>
-                    <img src="/images/icons/signout.svg" alt="" />
-                    <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
-                  </div>
-                ):(
-                  <div className='flex justify-center items-center'>
-                    <img src="/images/icons/signout.svg" alt="" />
-                  </div>
-              )}
-            </button>
+          <li  className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <button  onClick={handleLogout}>
+              {open?(
+              //open 
+                <div className='flex gap-4 items-center'>
+                  <img src="/images/icons/signout.svg" alt="" />
+                  <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
+                </div>
+              ):(
+                <div className='flex justify-center items-center'>
+                  <img src="/images/icons/signout.svg" alt="" />
+                </div>
+            )}
+          </button>
 
-            </li>
+          </li>
     
 
         </ul>
