@@ -1,9 +1,14 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
+import CardsPage from './Cards/page'
 
 function OverviewPage() {
   return (
-    <MainLayout>OverviewPage</MainLayout>
+    <MainLayout>
+
+      <CardsPage/>
+      
+    </MainLayout>
   )
 }
 
