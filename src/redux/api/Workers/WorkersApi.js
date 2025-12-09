@@ -1,5 +1,6 @@
 import API from "../../../../config/api"
 
+//get all worker
 export  const getAllWorkers = async(page = 1, limit = 10)=>{
   const response = await API.get('/provider/getHandymen',{
     params: { page, limit }
@@ -20,5 +21,12 @@ export const addWorker = async(formData)=>{
     headers: { 'Content-Type': 'multipart/form-data' },
   })
   console.log('addWorker' ,  response.data);
+  return response.data;
+}
+
+//get worker by ID
+export const getWorkerById = async(worker_id)=>{
+  const response = await API.get(`/provider/handyman/${worker_id}`)
+  console.log(response.data);
   return response.data;
 }

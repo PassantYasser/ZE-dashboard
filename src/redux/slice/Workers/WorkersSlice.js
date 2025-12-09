@@ -1,4 +1,4 @@
-import { addWorker, getAllWorkers, getDesignations } from "@/redux/api/Workers/WorkersApi";
+import { addWorker, getAllWorkers, getDesignations, getWorkerById } from "@/redux/api/Workers/WorkersApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //get all workers
@@ -33,8 +33,20 @@ export const addWorkerThunk = createAsyncThunk(
   async(formData , {rejectWithValue})=>{
     try{
       const response = await addWorker(formData)
-      console.log('addworkerSlice' ,response.data );
       return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getWorkerByIdThunk = createAsyncThunk(
+  'worker/getWorkerById',
+  async(worker_id , {rejectWithValue})=>{
+    try{
+      const response = await getWorkerById(worker_id);
+      console.log('slice worker' , response);
+      return response.handyman;
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -44,6 +56,7 @@ export const addWorkerThunk = createAsyncThunk(
 const initialState ={
   workers: [],
   addWorker:null ,
+  worker :null,
   loading: false,
   error: null,
   currentPage: 1,
@@ -53,7 +66,7 @@ const initialState ={
 const WorkersSlice = createSlice({
   name: "workers",
   initialState,
-   reducers: {
+  reducers: {
     setPage: (state, action) => {
       state.currentPage = action.payload;
     },
@@ -63,20 +76,17 @@ const WorkersSlice = createSlice({
       .addCase(getAllWorkersThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
-      }
-      )
+      })
       .addCase(getAllWorkersThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.workers = action.payload.handymen || [];
         state.currentPage = action.payload.meta?.current_page || 1;
         state.totalPages = action.payload.meta?.last_page || 1;
-      }
-      )
+      })
       .addCase(getAllWorkersThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      }
-      )
+      })
       // ✅ Get designations
       .addCase(getDesignationsThunk.pending, (state) => {
         state.loadingList = true;
@@ -92,16 +102,29 @@ const WorkersSlice = createSlice({
       })
       // ✅ Add new worker
       .addCase(addWorkerThunk.pending, (state) => {
-        state.loadingDetails = true;
-        state.errorDetails = null;
+        state.loading = true;
+        state.error = null;
       })
       .addCase(addWorkerThunk.fulfilled, (state, action) => {
-        state.loadingDetails = false;
+        state.loading = false;
         state.addWorker = action.payload;
       })
       .addCase(addWorkerThunk.rejected, (state, action) => {
-        state.loadingDetails = false;
-        state.errorDetails = action.payload;
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ✅ Single worker 
+      .addCase(getWorkerByIdThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getWorkerByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.worker = action.payload;
+      })
+      .addCase(getWorkerByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
   },
 })
