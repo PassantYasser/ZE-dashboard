@@ -5,7 +5,7 @@ import TitleOfCardsPage from './TitleOfCards/page'
 
 function CardsPage() {
   const{t}= useTranslation()
-  const percentage = '-1'
+  const percentage = -8
   return (
     <>
       <TitleOfCardsPage/>
@@ -51,7 +51,6 @@ function CardsPage() {
             
             )}
             
-          
           </div>
 
         </section>
@@ -72,13 +71,29 @@ function CardsPage() {
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            <p className='flex items-center text-sm text-[#17B26A]'>
-              <span>3%</span>
-              <span>+</span>  
-            </p>
-            <p className='flex items-center'>
-              <img src="/images/icons/green_arrow_up.svg" alt="" />
-            </p>
+            {percentage >=0 ? (
+              <>
+              <p className='flex items-center text-sm text-[#17B26A]'>
+                <span>{percentage}%</span>
+                <span>+</span>  
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/green_arrow_up.svg" alt="" />
+              </p>
+              </>
+            
+            ):(
+              <>
+              <p className='flex items-center text-sm text-[#F04438]'>
+                <span>{percentage}%</span>
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/red_arrow_down.svg" alt="" />
+              </p>
+              </>
+            
+            )}
+            
           </div>
 
         </section>
@@ -99,13 +114,29 @@ function CardsPage() {
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            <p className='flex items-center text-sm text-[#17B26A]'>
-              <span>3%</span>
-              <span>+</span>  
-            </p>
-            <p className='flex items-center'>
-              <img src="/images/icons/green_arrow_up.svg" alt="" />
-            </p>
+            {percentage >=0 ? (
+              <>
+              <p className='flex items-center text-sm text-[#17B26A]'>
+                <span>{percentage}%</span>
+                <span>+</span>  
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/green_arrow_up.svg" alt="" />
+              </p>
+              </>
+            
+            ):(
+              <>
+              <p className='flex items-center text-sm text-[#F04438]'>
+                <span>{percentage}%</span>
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/red_arrow_down.svg" alt="" />
+              </p>
+              </>
+            
+            )}
+            
           </div>
 
         </section>
@@ -126,13 +157,29 @@ function CardsPage() {
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            <p className='flex items-center text-sm text-[#17B26A]'>
-              <span>3%</span>
-              <span>+</span>  
-            </p>
-            <p className='flex items-center'>
-              <img src="/images/icons/green_arrow_up.svg" alt="" />
-            </p>
+            {percentage >=0 ? (
+              <>
+              <p className='flex items-center text-sm text-[#17B26A]'>
+                <span>{percentage}%</span>
+                <span>+</span>  
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/green_arrow_up.svg" alt="" />
+              </p>
+              </>
+            
+            ):(
+              <>
+              <p className='flex items-center text-sm text-[#F04438]'>
+                <span>{percentage}%</span>
+              </p>
+              <p className='flex items-center'>
+                <img src="/images/icons/red_arrow_down.svg" alt="" />
+              </p>
+              </>
+            
+            )}
+            
           </div>
 
         </section>
