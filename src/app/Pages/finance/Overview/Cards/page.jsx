@@ -5,7 +5,7 @@ import TitleOfCardsPage from './TitleOfCards/page'
 
 function CardsPage() {
   const{t}= useTranslation()
-  const percentage = -8
+  const percentage = 8
   return (
     <>
       <TitleOfCardsPage/>
