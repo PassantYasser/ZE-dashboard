@@ -43,7 +43,6 @@ export default function TableOfTransactionsPage() {
           </div>
         </div>
         );
-
       case "pending": // مغلق
         return (
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
@@ -102,7 +101,6 @@ export default function TableOfTransactionsPage() {
           {rows.map((row) => (
             <tr
               key={row.TransactionNumber}
-            
               className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
             >
             
@@ -125,7 +123,7 @@ export default function TableOfTransactionsPage() {
       </table>
 
 
-      
+  
     </div>
 
 

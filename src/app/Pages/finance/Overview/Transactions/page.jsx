@@ -1,6 +1,7 @@
 import React from 'react'
 import TitleOfTransactionsPage from './TitleOfTransactions/page'
 import TableOfTransactionsPage from './TableOfTransactions/page'
+import Pagination from './TableOfTransactions/Pagination'
 
 function TransactionsPage() {
   return (
@@ -10,6 +11,8 @@ function TransactionsPage() {
         <TitleOfTransactionsPage/>
 
         <TableOfTransactionsPage/>
+            <Pagination/>
+
       </div>
     </>
   )
