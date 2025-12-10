@@ -433,7 +433,19 @@
   "monetary":"نقدي",
   "Transactions":"المعاملات",
   "Track your financial transactions accurately and easily from one organized place.":"تابع معاملاتك المالية بدقة وسهولة من مكان واحد منظم.",
-  
+
+  "Transaction number":"رقم العملية",
+  "Service name":"اسم الخدمة",
+  "Amount paid":"المبلغ المدفوع",
+  "payment method":"طريقة الدفع",
+
+  "pending_finance":"معلق" ,
+  "paid":"محصل",
+  "refunded":"مسترد",
+  "card":"بطاقة",
+  "cash_":"نقدي",
+
+
 
 
 

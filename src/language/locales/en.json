@@ -433,7 +433,20 @@
   "monetary":"monetary",
   "Transactions":"Transactions",
   "Track your financial transactions accurately and easily from one organized place.":"Track your financial transactions accurately and easily from one organized place.",
+
+  "Transaction number":"Transaction number",
+  "Service name":"Service name",
+  "Amount paid":"Amount paid",
+  "payment method":"payment method",
+
+  "pending_finance":"pending_finance",
+  "paid":"paid",
+  "refunded":"refunded",
+  "card":"card",
+  "cash_":"cash_",
   
+
+
 
   
 
