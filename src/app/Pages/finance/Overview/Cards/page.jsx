@@ -10,7 +10,7 @@ function CardsPage() {
     <>
       <TitleOfCardsPage/>
 
-      <div className='grid grid-cols-4 gap-4'>
+      <div className='grid grid-cols-4 gap-4 mb-12'>
 
         {/* cash */}
         <section className='border border-[#CDD5DF] rounded-[3px] p-4'>
