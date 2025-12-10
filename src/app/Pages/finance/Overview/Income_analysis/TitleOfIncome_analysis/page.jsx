@@ -14,7 +14,7 @@ function TitleOfIncome_analysisPage() {
 
   return (
     <>
-  <div className='flex justify-between   '>
+  <div className='flex justify-between py-4 px-6   '>
     <div className='flex items-center gap-2 '>
       <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-[3px]'>
         <img src="/images/icons/Income analysis.svg" alt="" className='w-6 h-6' />
