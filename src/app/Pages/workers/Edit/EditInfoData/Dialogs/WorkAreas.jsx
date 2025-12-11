@@ -40,7 +40,6 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
     <>
       <Dialog 
         open={openWorkAreas} 
-        onClose={() => setOpenWorkAreas(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{ className: "ServicePage-dialog" }}

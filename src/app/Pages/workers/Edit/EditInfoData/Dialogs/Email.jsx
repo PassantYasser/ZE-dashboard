@@ -10,7 +10,6 @@ function Email({openEmail , setOpenEmail}) {
     <>
       <Dialog 
           open={openEmail} 
-          onClose={() => setOpenEmail(false)}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           PaperProps={{ className: "ServicePage-dialog" }}

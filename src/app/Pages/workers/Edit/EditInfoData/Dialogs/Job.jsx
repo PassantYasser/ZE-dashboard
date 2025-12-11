@@ -26,7 +26,6 @@ function Job({openJob ,setOpenJob}) {
     <>
       <Dialog 
         open={openJob} 
-        onClose={() => setOpenJob(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{ className: "ServicePage-dialog" }}

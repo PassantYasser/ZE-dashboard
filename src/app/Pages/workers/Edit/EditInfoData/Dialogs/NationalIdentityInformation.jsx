@@ -94,7 +94,6 @@ const renderButton = (status) => {
     <>
       <Dialog 
           open={openNationalIdentityInformation} 
-          onClose={() => setOpenNationalIdentityInformation(false)}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           PaperProps={{ className: "ServicePage-dialog" }}

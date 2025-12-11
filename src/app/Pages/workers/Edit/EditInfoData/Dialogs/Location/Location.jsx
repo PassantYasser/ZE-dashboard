@@ -35,7 +35,6 @@ function Location({openLocation , setOpenLocation}) {
     <>
       <Dialog 
           open={openLocation} 
-          onClose={() => setOpenLocation(false)}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
           PaperProps={{ className: "ServicePage-dialog" }}

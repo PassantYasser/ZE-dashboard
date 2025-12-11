@@ -48,7 +48,7 @@ function CardsPage() {
 
       </div>
 
-    <WithdrawDialogPage  open={open}/>
+    <WithdrawDialogPage  open={open} setOpen={setOpen} />
     </>
   )
 }

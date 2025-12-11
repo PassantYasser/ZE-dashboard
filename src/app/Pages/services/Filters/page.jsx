@@ -22,7 +22,6 @@ function FiltersPage({ open, handleClose }) {
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
