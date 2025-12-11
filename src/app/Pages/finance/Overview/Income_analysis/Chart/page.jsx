@@ -68,13 +68,13 @@ function ChartPage() {
       let label = "";
       let range = "";
   
-      if (selected === "شهري") {
+      if (selected === "شهر") {
         // Arabic month names
         const months = [
           "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
           "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
         ];
-        label = "شهري";
+        label = "شهر";
         const month = months[now.getMonth()];
         const year = now.getFullYear();
         range = `1 ${month} - ${new Date(year, now.getMonth() + 1, 0).getDate()} ${month}`;
@@ -103,64 +103,55 @@ function ChartPage() {
   
   return (
     <>
-        
 
-      
-        
+      <section className="flex justify-between  relative z-10 mt-4 py-4 px-6 ">
+        <div className="flex flex-col">
+          <span className="text-[#364152] text-base font-medium">{label}</span>
+          <span className="text-[#697586] text-sm font-medium">{range}</span>
+        </div>
 
-            <section className="flex justify-between  relative z-10 mt-4 py-4 px-6 ">
-              <div className="flex flex-col">
-                <span className="text-[#364152] text-base font-medium">{label}</span>
-                <span className="text-[#697586] text-sm font-medium">{range}</span>
-              </div>
+        <div className="relative">
+        <button
+          className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
+          onClick={() => setOpen(!open)}
+        >
+          {selected}
+          <svg
+            className={`transform transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path stroke="#C69815" strokeWidth="2" d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
 
-              <div className="relative">
-              <button
-                className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
-                onClick={() => setOpen(!open)}
-              >
-                {selected}
-                <svg
-                  className={`transform transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path stroke="#C69815" strokeWidth="2" d="M6 9l6 6 6-6" />
-                </svg>
-              </button>
-
-                  {open && (
-                    <ul className="absolute right-0 mt-1 w-[95px] bg-white border border-[#E3E8EF] rounded shadow-md">
-                      {options.map((option) => (
-                        <li
-                          key={option}
-                          onClick={() => handleSelect(option)}
-                          className="px-3 py-2 text-sm text-right hover:bg-[#FCFCFD] cursor-pointer text-[#475467]"
-                        >
-                          {option}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-              </div>
-            </section>
-        
-            {/* chart */} 
-            <section>
-              <div id="chart" dir="rtl">
-                  <ReactApexChart options={state.options} series={state.series} type="area"  height={210} />
-              </div>
-              <div id="html-dist"></div>
-            </section>
-          
-
-        
+            {open && (
+              <ul className="absolute right-0 mt-1 w-[95px] bg-white border border-[#E3E8EF] rounded shadow-md">
+                {options.map((option) => (
+                  <li
+                    key={option}
+                    onClick={() => handleSelect(option)}
+                    className="px-3 py-2 text-sm text-right hover:bg-[#FCFCFD] cursor-pointer text-[#475467]"
+                  >
+                    {option}
+                  </li>
+                ))}
+              </ul>
+            )}
+        </div>
+      </section>
   
-
-
+      {/* chart */} 
+      <section>
+        <div id="chart" dir="rtl">
+            <ReactApexChart options={state.options} series={state.series} type="area"  height={210} />
+        </div>
+        <div id="html-dist"></div>
+      </section>
+  
     </>
   )
 }
