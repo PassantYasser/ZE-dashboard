@@ -2,13 +2,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllAreasThunk } from "@/redux/slice/Services/ServicesSlice";
 
 // Dynamically import Dialog to avoid SSR
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPage({ open, handleClose }) {
+function FiltersPage({ open, handleClose , getDesignations  }) {
   const { t } = useTranslation();
-  
+
+  //api
+    const dispatch = useDispatch()
+    const {getAreas } = useSelector(state=>state.services)
+    useEffect(() => {
+      dispatch(getAllAreasThunk()); 
+    }, [dispatch])
+
 
   
   // workplaces 
@@ -16,11 +25,9 @@ function FiltersPage({ open, handleClose }) {
     const [selected1, setSelected1] = useState("");
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const optionWorkplaces=[
-      "q","a","w"
-    ];
+    const optionWorkplaces=getAreas?.areas || [];
     
-    
+    //status
     const [open2, setOpen2] = useState(false);
     const [selected2, setSelected2] = useState("");
     const [searchValue2, setSearchValue2] = useState("");
@@ -34,9 +41,7 @@ function FiltersPage({ open, handleClose }) {
     const [selected3, setSelected3] = useState("");
     const [searchValue3, setSearchValue3] = useState("");
     const dropdownRef3 = useRef(null);
-    const optionJob =[
-      "ppp","cccccc","ddddddddddd"
-    ];
+    const optionJob = getDesignations || [];
 
       useEffect(() => {
         const handleClickOutside = (event) => {
@@ -82,60 +87,65 @@ function FiltersPage({ open, handleClose }) {
         {/* workplaces */}
         <div className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3">
-            {t("workplaces")}
+            {t("Workplaces")}
           </label>
 
           <div className="relative w-full" ref={dropdownRef1}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
               onClick={() => setOpen1(!open1)}
+              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
             >
-              {/* Input */}
-              <input
-                type="text"
-                placeholder={t("Select workplaces")}
-                value={searchValue1 || selected1}
-                onChange={(e) => {
-                  setSearchValue1(e.target.value);
-                  setOpen1(true);
-                  setSelected1(null);
-                
-                }}
-                className="h-15 p-3 w-full text-[#364152] focus:outline-none"
-              />
+              {/* Selected tags / placeholder */}
+              {selected1.length > 0 ? (
+                selected1.map((item, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-1.5 h-10 w-fit bg-[#EDE7FD] border border-[#E2E2E2] text-[#505050] text-sm px-3 py-1 rounded-full"
+                  >
+                    {item?.city}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelected1(selected1.filter((_, i) => i !== index));
+                      }}
+                      className="text-[#364152]"
+                    >
+                      <img src="/images/icons/x.svg" alt="" className="w-3 h-3" />
+                    </button>
+                  </span>
+                ))
+              ) : (
+                <span className="text-[#9A9A9A]">{t("Identify the workplaces")}</span>
+              )}
 
-              {/* 🔽 Dropdown arrow */}
-              <span className="absolute left-3 cursor-pointer">
+              {/* Arrow icon on the right */}
+              <span className="absolute left-3">
                 {open1 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
+                  <img src="/images/icons/ArrowUp.svg" alt="" />
                 ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
+                  <img src="/images/icons/ArrowDown.svg" alt="" />
                 )}
               </span>
             </div>
 
-            {/* 🔽 Dropdown options */}
+            {/* Dropdown options */}
             {open1 && (
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {optionWorkplaces
-                  .filter((option) =>
-                    option
-                      ?.toLowerCase()
-                      .includes(searchValue1.toLowerCase())
-                  )
-                  .map((option, index) => (
-                    <li
-                      key={option.id || index}
-                      onClick={() => {
-                        setSelected1(option);
-                        setSearchValue1("");
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {option}
-                    </li>
-                  ))}
+                {optionWorkplaces.map((option, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      if (!selected1.includes(option)) {
+                        setSelected1([...selected1, option]);
+                      }
+                      setOpen1(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {option.city}
+                  </li>
+                ))}
               </ul>
             )}
           </div>
@@ -243,7 +253,7 @@ function FiltersPage({ open, handleClose }) {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionJob
                   .filter((option) =>
-                    option
+                    option?.name
                       ?.toLowerCase()
                       .includes(searchValue3.toLowerCase())
                   )
@@ -251,13 +261,13 @@ function FiltersPage({ open, handleClose }) {
                     <li
                       key={option.id || index}
                       onClick={() => {
-                        setSelected3(option);
+                        setSelected3(option?.name);
                         setSearchValue3("");
                         setOpen3(false);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {option}
+                      {option.name}
                     </li>
                   ))}
               </ul>

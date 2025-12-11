@@ -6,7 +6,7 @@ import NavWorker from './NavWorker'
 import TableWorkers from './TableWorkers'
 import dynamic from 'next/dynamic'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllWorkersThunk, setPage } from '@/redux/slice/Workers/WorkersSlice'
+import { getAllWorkersThunk, getDesignationsThunk, setPage } from '@/redux/slice/Workers/WorkersSlice'
 
 function WorkersPage() {
   const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
@@ -18,11 +18,16 @@ function WorkersPage() {
 
     //api
     const dispatch = useDispatch();
-    const {workers , loading , error, currentPage, totalPages}=useSelector(state=>state.workers)
+    const {workers , loading , error, currentPage, totalPages ,getDesignations}=useSelector(state=>state.workers)
 
     useEffect(() => {
       dispatch(getAllWorkersThunk({ page: currentPage, limit: 10 }));
+      
     }, [dispatch,currentPage]);
+
+    useEffect(()=>{
+      dispatch(getDesignationsThunk())
+    },[dispatch])  
 
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>{error}</p>;
@@ -40,7 +45,7 @@ function WorkersPage() {
         onPageChange={handlePageChange} 
       />
 
-      <FiltersPage open={open} handleClose={handleClose} />
+      <FiltersPage open={open} handleClose={handleClose} getDesignations={getDesignations} />
     </MainLayout>
   )
 }
