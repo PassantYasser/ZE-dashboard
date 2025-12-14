@@ -227,14 +227,14 @@ function EditInfoDataPage({ worker, loading }) {
 
 
 
-      <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber}/>
-      <Email openEmail={openEmail} setOpenEmail={setOpenEmail} />
-      <Password openPassword={openPassword} setOpenPassword={setOpenPassword}/>
-      <WorkingHours openWorkingHours={openWorkingHours} setOpenWorkingHours={setOpenWorkingHours}/>
-      <Location openLocation={openLocation} setOpenLocation={setOpenLocation}/>
-      <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas}  />
-      <NationalIdentityInformation openNationalIdentityInformation={openNationalIdentityInformation}  setOpenNationalIdentityInformation={setOpenNationalIdentityInformation}/>
-      <Job openJob={openJob} setOpenJob={setOpenJob}/>
+      <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber} worker={worker}/>
+      <Email openEmail={openEmail} setOpenEmail={setOpenEmail} worker={worker}/>
+      <Password openPassword={openPassword} setOpenPassword={setOpenPassword} worker={worker}/>
+      <WorkingHours openWorkingHours={openWorkingHours} setOpenWorkingHours={setOpenWorkingHours} worker={worker}/>
+      <Location openLocation={openLocation} setOpenLocation={setOpenLocation} worker={worker}/>
+      <WorkAreas openWorkAreas={openWorkAreas} setOpenWorkAreas={setOpenWorkAreas} worker={worker} />
+      <NationalIdentityInformation openNationalIdentityInformation={openNationalIdentityInformation}  setOpenNationalIdentityInformation={setOpenNationalIdentityInformation} worker={worker}/>
+      <Job openJob={openJob} setOpenJob={setOpenJob} worker={worker}/>
 
     </>
   )

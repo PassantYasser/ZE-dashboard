@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-function WorkAreas({openWorkAreas,setOpenWorkAreas}) {
+function WorkAreas({openWorkAreas,setOpenWorkAreas ,worker}) {
   const {t}= useTranslation();
 
 

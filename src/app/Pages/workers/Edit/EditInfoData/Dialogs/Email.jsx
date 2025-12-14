@@ -3,7 +3,7 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function Email({openEmail , setOpenEmail}) {
+function Email({openEmail , setOpenEmail ,worker}) {
     const {t}= useTranslation();
   
   return (

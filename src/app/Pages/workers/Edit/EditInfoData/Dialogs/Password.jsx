@@ -3,7 +3,7 @@ import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function Password({openPassword , setOpenPassword}) {
+function Password({openPassword , setOpenPassword ,worker}) {
       const {t}= useTranslation();
 
         const [showPassword, setShowPassword] = useState(false);

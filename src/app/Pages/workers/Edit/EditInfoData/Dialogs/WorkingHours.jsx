@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import TimeRangePicker from './TimeRangePicker';
 
-function WorkingHours({openWorkingHours , setOpenWorkingHours}) {
+function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
     const {t}= useTranslation();
 
     // Working hours

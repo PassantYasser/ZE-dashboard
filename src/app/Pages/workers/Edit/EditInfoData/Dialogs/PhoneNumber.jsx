@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-function PhoneNumber({openPhoneNumber , setOpenPhoneNumber}) {
+function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
   const {t}= useTranslation();
 
   return (

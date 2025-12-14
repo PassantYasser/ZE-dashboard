@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Job({openJob ,setOpenJob}) {
+function Job({openJob ,setOpenJob ,worker}) {
     const {t}= useTranslation();
 
       //api

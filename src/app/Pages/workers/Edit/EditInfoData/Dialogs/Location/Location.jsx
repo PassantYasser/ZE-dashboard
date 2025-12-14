@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Map from './Map';
 
-function Location({openLocation , setOpenLocation}) {
+function Location({openLocation , setOpenLocation ,worker}) {
     const {t}= useTranslation();
 
       //Map

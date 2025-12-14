@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from "dayjs";
 
-function NationalIdentityInformation({openNationalIdentityInformation , setOpenNationalIdentityInformation}) {
+function NationalIdentityInformation({openNationalIdentityInformation , setOpenNationalIdentityInformation ,worker}) {
     const {t}= useTranslation();
   
   // التاريخ النهائي
