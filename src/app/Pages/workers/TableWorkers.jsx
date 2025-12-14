@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 import { CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber , status) {
   return { UserCode, worker, workerImg, job, WorkingHours, phoneNumber, status};
@@ -41,6 +42,10 @@ export default function TableWorkers({workers , loading}) {
 
 const [imgError, setImgError] = useState(false);
 
+const router = useRouter();
+const handleEditClick = (id) => {
+  router.push(`/Pages/workers/Edit?id=${id}`);
+};
   return (
     <div className="overflow-x-auto mt-8 rounded-[3px] mb-5">
       <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
@@ -98,9 +103,9 @@ const [imgError, setImgError] = useState(false);
                 <td className="p-4">{worker?.phone}</td>
                 <td className="p-4">{StatusRender(worker.is_active)}</td>
                 <td className="flex gap-4 justify-center p-4">
-                  <Link href="/Pages/workers/Edit">
+                  <button onClick={() => handleEditClick(worker.id)}>
                     <img src="/images/icons/EditBlack.svg" alt=""  className="w-6 h-6"/>
-                  </Link>
+                  </button>
                   <button>
                     <img src="/images/icons/delete-darkRed.svg" alt="" className="w-6 h-6" />
                   </button>

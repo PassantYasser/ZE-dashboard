@@ -28,24 +28,37 @@ function WorkersPage() {
     useEffect(()=>{
       dispatch(getDesignationsThunk())
     },[dispatch])  
+    
+    
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>{error}</p>;
+
   const handlePageChange = (page) => {
       dispatch(setPage(page)); 
     }
 
   return (
     <MainLayout>
-      <NavWorker handleClickOpen={handleClickOpen}/>
-      <TableWorkers workers={workers} loading={loading}/>
+      <NavWorker 
+        handleClickOpen={handleClickOpen}
+      />
+
+      <TableWorkers 
+        workers={workers} 
+        loading={loading}
+      />
+
       <Pagination
         currentPage={currentPage} 
         totalPages={totalPages} 
         onPageChange={handlePageChange} 
       />
 
-      <FiltersPage open={open} handleClose={handleClose} getDesignations={getDesignations} />
+      <FiltersPage 
+        open={open} 
+        handleClose={handleClose} 
+        getDesignations={getDesignations} 
+      />
+
     </MainLayout>
   )
 }
