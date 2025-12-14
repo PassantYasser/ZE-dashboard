@@ -1,6 +1,6 @@
 "use client"
 import { Dialog } from '@mui/material';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PhoneNumber from './Dialogs/PhoneNumber';
 import Email from './Dialogs/Email';
@@ -10,14 +10,26 @@ import Location from './Dialogs/Location/Location';
 import WorkingHours from './Dialogs/WorkingHours';
 import NationalIdentityInformation from './Dialogs/NationalIdentityInformation';
 import Job from './Dialogs/Job';
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
 
-function EditInfoDataPage() {
+function EditInfoDataPage({ worker, loading }) {
   const { t } = useTranslation();
+
+  /**api */
+  const [form, setForm] = useState({
+
+  })
+
+
+
+
+
+
 
   // images
     const fileInputRef = useRef(null);
-    const [imagePreview, setImagePreview] = useState(`/images/Avatar Image.svg`);
   
+    const [imagePreview, setImagePreview] = useState(null)
     const handleFileSelect = () => {
       fileInputRef.current?.click();
     };
@@ -63,19 +75,24 @@ function EditInfoDataPage() {
         <div className="py-4 px-6  w-[35%]">
           <div className="flex flex-col items-center w-full">
               <img
-                src={imagePreview}
+                src={`${IMAGE_BASE_URL}${worker?.image}`}
                 alt="Company Logo"
                 className="w-37.5 h-37.5 object-cover border border-[#EEF2F6] p-1 rounded-full"
               />
 
-              <p className='mt-3 text-[#364152] text-xl font-medium'>أمير هارون </p>
+              <p className='mt-3 text-[#364152] text-xl font-medium'>{`${worker?.firstname} ${worker?.lastname}`}</p>
               <div className='flex gap-2 mt-3.5 mb-6'>
-                <span className='text-[#4B5565] text-lg font-normal'> (نجار) </span>
+                <span className='text-[#4B5565] text-lg font-normal'> {`(${worker?.designation?.name})`}</span>
                 <p className='flex gap-1'>
-                  <span className=' flex items-center'>  
-                    <img src="/images/icons/star.svg" className='w-4 h-4' alt="" />
-                  </span>
-                  <span className='text-[#FDB022] text-sm font-medium flex items-center'>4.5</span>
+                  {worker?.average_rating !== null ? (
+                    <>
+                      <span className=' flex items-center'>  
+                        <img src="/images/icons/star.svg" className='w-4 h-4' alt="" />
+                      </span>
+                      <span className='text-[#FDB022] text-sm font-medium flex items-center'>{worker?.average_rating}</span>
+                    </>
+                  ):""}
+                
                 </p>
               </div>
 
@@ -104,7 +121,7 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('Mobile number')}</p>
-            <p className='text-[#364152] text-base font-normal '>01255248459</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.phone}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={() => setOpenPhoneNumber(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
@@ -117,7 +134,7 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('Email')}</p>
-            <p className='text-[#364152] text-base font-normal '>Exmple@gmail.com</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.email}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={() => setOpenEmail(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
@@ -143,7 +160,7 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('Working hours')}</p>
-            <p className='text-[#364152] text-base font-normal '>03:00م  - 04:00ص</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.working_time}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={()=>setOpenWorkingHours(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
@@ -156,7 +173,7 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('the address')}</p>
-            <p className='text-[#364152] text-base font-normal '>مصر الجديدة</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.address}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={()=>setOpenLocation(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
@@ -169,7 +186,9 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('Workplaces')}</p>
-            <p className='text-[#364152] text-base font-normal '>مصر الجديدة - مدينة نصر</p>
+            <p className='text-[#364152] text-base font-normal '>
+              {worker?.handyman_areas ?.map(area => area.city) .join(" - ")}
+            </p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={()=>setOpenWorkAreas(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
@@ -195,7 +214,7 @@ function EditInfoDataPage() {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('job')}</p>
-            <p className='text-[#364152] text-base font-normal '>سباك</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.designation?.name}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={()=>setOpenJob(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>

@@ -51,7 +51,7 @@ const dispatch = useDispatch();
 
         
         <section className="mb-6">
-          <EditInfoDataPage/>
+          <EditInfoDataPage worker={worker} loading={loading} />
         </section>
 
 
