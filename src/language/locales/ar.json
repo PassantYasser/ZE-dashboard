@@ -455,6 +455,14 @@
   "The maximum amount that can be withdrawn is (225 Egyptian pounds).":"أقصي مبلغ يمكن سحبة هو ( 225 جنية )",
   "Upon acceptance of the withdrawal, the transfer will be made on the 1st and 15th of the month.":"عند قبول السحب سيتم التحويل يوم 1 و 15 في الشهر",
   
+  "Withdrawal transactions":"معاملات السحب",
+  "Track withdrawals and easily check their status.":"تابع عمليات السحب وتحقق من حالتها بسهولة.",
+  "Under review":"قيد المراجعة",
+  "Acceptable":"مقبولة",
+  "Are you sure you want to delete the transaction?":"هل أنت متأكد من حذف المعاملة؟",
+  "This transaction will be permanently deleted and cannot be recovered later.":"سيتم إزالة هذه المعاملة نهائيا ولايمكنك استعادتها لاحقا",
+  
+  
 
 
 
