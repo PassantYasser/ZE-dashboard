@@ -4,8 +4,11 @@ import { useTranslation } from 'react-i18next'
 function ExtractBtn() {
   const {t}=useTranslation()
   return (
-    <button className=' h-14 w-42 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] '>
-      {t('Extract')}
+    <button className=' flex  justify-center items-center  gap-2 h-14 w-42 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+      <p><img src="/images/icons/extract.svg" alt="" /></p>
+      
+      <p>{t('Extract')}</p>
+      
     </button>
   )
 }
