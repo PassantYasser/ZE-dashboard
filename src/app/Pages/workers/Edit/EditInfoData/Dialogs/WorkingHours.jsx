@@ -2,7 +2,7 @@
 
 "use client"
 import { Dialog } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import TimeRangePicker from './TimeRangePicker';
 
@@ -11,9 +11,36 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
 
     // Working hours
     const [workingHours, setWorkingHours] = useState({
-      start: '09:00',
-      end: '17:00',
+      start: '00:00',
+  end: '00:00',
     });
+
+
+    const convertArabicTimeTo24 = (timeStr) => {
+  // timeStr = "11:37 ص"
+  const [time, period] = timeStr.split(" ");
+  let [hours, minutes] = time.split(":").map(Number);
+
+  if (period === "م") { // مساءً
+    if (hours < 12) hours += 12;
+  } else if (period === "ص" && hours === 12) { // منتصف الليل
+    hours = 0;
+  }
+
+  // رجع بصيغة HH:mm
+  return `${hours.toString().padStart(2,"0")}:${minutes.toString().padStart(2,"0")}`;
+};
+
+  useEffect(() => {
+  if(worker?.working_time){
+    const [startRaw, endRaw] = worker.working_time.split(" - ");
+    setWorkingHours({
+      start: convertArabicTimeTo24(startRaw),
+      end: convertArabicTimeTo24(endRaw),
+    });
+  }
+}, [worker, openWorkingHours]);
+
 
   return (
     <>
