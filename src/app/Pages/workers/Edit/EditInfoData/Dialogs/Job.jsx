@@ -15,6 +15,14 @@ function Job({openJob ,setOpenJob ,worker}) {
       },[dispatch])
 
 
+      useEffect(()=>{
+        if(worker?.designation?.name){
+          setSelected1(worker?.designation?.name)
+          setSearchValue1("");
+        }
+      }, [worker, openJob])
+
+
       //job
         const [open1, setOpen1] = useState(false);
         const [selected1, setSelected1] = useState("");
