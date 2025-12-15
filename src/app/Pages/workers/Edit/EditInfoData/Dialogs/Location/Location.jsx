@@ -38,11 +38,11 @@ function Location({openLocation , setOpenLocation ,worker}) {
 
     
     // //api
-    // useEffect(()=>{
-    //   if(worker?.address){
-    //     setAddress(worker?.address)
-    //   }
-    // } , [worker , openLocation])
+    useEffect(()=>{
+      if(worker?.address){
+        setAddress(worker?.address)
+      }
+    } , [worker , openLocation])
   
   return (
     <>
