@@ -119,15 +119,22 @@ const renderButton = (status) => {
 
         </div>
         
-        <form action="" className=' px-6 '>
+        <div className=' px-6 '>
+
+          
           {/* National Identity Information */}
           <div className="flex flex-col w-full mb-6">
             <label className="text-[#364152] text-base font-normal">{t('National ID number')}</label>
             <input 
               type="text" 
+              value={worker?.national_id}
+              readOnly
               placeholder={t('Enter your national ID number')}
               className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
           </div>
+
+
+
           
           {/* Front & Back  national ID card photo */}
           <div className="flex flex-col w-full gap-2">
@@ -137,11 +144,7 @@ const renderButton = (status) => {
                   {/* Front */}
                   {frontFiles.map((file, index) => (
                     <div key={index} className="flex items-center p-4 border border-[#CDD5DF] rounded-[3px] gap-4 bg-white shadow-sm">
-                      {/* <div className="flex-shrink-0">
-                        <div className="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-md">
-                          <span className="text-purple-600 font-bold">{file.type}</span>
-                        </div>
-                      </div> */}
+      
                       <div className="relative w-12 h-12 flex items-center justify-center">
                         <img src="/images/filephoto.svg" className="w-12 h-12" />
                         <span className="absolute bottom-0 right-2  text-white text-[10px] px-1 py-0.5 rounded-sm">
@@ -153,9 +156,7 @@ const renderButton = (status) => {
                         <p className="text-gray-800 font-semibold">{file.name}</p>
                         <p className="text-gray-500 text-sm">{file.size}</p>
                       </div>
-                      {/* <button className="p-2 cursor-pointer" onClick={() => frontInputRef.current.click()}>
-                        <img src="/images/icons/EditYellow.svg" alt="" />
-                      </button> */}
+        
                       {renderButton(status)}
 
                     </div>
@@ -211,11 +212,11 @@ const renderButton = (status) => {
             <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('save')}
             </button>
-            <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+            <button onClick={()=>setOpenNationalIdentityInformation(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('cancel')}
             </button>
           </div>
-        </form>
+        </div>
         
         </Dialog>
 
