@@ -173,7 +173,7 @@ function EditInfoDataPage({ worker, loading }) {
         <div className='border border-[#CDD5DF] flex justify-between py-3 px-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-2'>{t('the address')}</p>
-            <p className='text-[#364152] text-base font-normal '>{worker?.address}</p>
+            <p className='text-[#364152] text-base font-normal '>{worker?.city} - {worker?.state}</p>
           </div>
           <div className='flex justify-center items-center'>
             <button onClick={()=>setOpenLocation(true)} className=' w-10 h-10 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>

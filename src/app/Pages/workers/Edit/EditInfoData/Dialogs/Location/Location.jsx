@@ -2,7 +2,7 @@
 
 "use client"
 import { Dialog } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Map from './Map';
 
@@ -28,8 +28,21 @@ function Location({openLocation , setOpenLocation ,worker}) {
           setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
         }
       };
+
+
+
+
+
+
+
+
     
-    
+    // //api
+    // useEffect(()=>{
+    //   if(worker?.address){
+    //     setAddress(worker?.address)
+    //   }
+    // } , [worker , openLocation])
   
   return (
     <>
@@ -37,7 +50,7 @@ function Location({openLocation , setOpenLocation ,worker}) {
           open={openLocation} 
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
-          PaperProps={{ className: "ServicePage-dialog" }}
+          PaperProps={{ className: "LocationPage-dialog" }}
         >
         <button className='pt-8 px-6 pb-2 cursor-pointer' onClick={()=>setOpenLocation(false)}>
           <p className='border border-[#DDD] rounded-[100%] w-10 h-10 flex justify-center items-center  '>
@@ -59,39 +72,38 @@ function Location({openLocation , setOpenLocation ,worker}) {
 
         </div>
         
-          <form action="" className=' px-6 '>
-            {/* Email */}
-        <div className="flex flex-col relative">
-  <label className="text-[#364152] text-base font-normal mb-3">
-    {t("Address")}
-  </label>
+          <div className=' px-6 '>
+            <div className="flex flex-col relative">
+                  <label className="text-[#364152] text-base font-normal mb-3">
+                    {t("Address")}
+                  </label>
 
-  <input
-    readOnly
-    placeholder={t("Choose the title")}
-    value={address}
-    
-    className="h-15 p-3 pl-10 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
-  />
+                  <textarea
+                    readOnly
+                    placeholder={t("Choose the title")}
+                    value={address}
+                    
+                    className="h-fit p-3 pl-10  resize-none  border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A]"
+                  />
 
-  {/* Icon inside textarea - left side */}
-  <img
-    src="/images/icons/location.svg"
-    alt=""
-    onClick={handleClickOpen}
-    className="w-6 h-6 absolute left-3 top-[55px] cursor-pointer" 
-  />
-</div>
+            {/* Icon inside textarea - left side */}
+            <img
+              src="/images/icons/location.svg"
+              alt=""
+              onClick={handleClickOpen}
+              className="w-6 h-6 absolute left-3 top-[55px] cursor-pointer" 
+            />
+            </div>
 
             <div className='my-6 flex gap-3'>
               <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('save')}
               </button>
-              <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              <button onClick={()=>setOpenLocation(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('cancel')}
               </button>
             </div>
-          </form>
+          </div>
         
         </Dialog>
 
