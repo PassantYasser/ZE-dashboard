@@ -1,11 +1,19 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function Email({openEmail , setOpenEmail ,worker}) {
     const {t}= useTranslation();
-  
+    const [email, setEmail] = useState("");
+
+  useEffect(() => {
+  if (worker?.email) {
+    setEmail(worker.email);
+  }
+}, [worker]);
+
+
   return (
     <>
       <Dialog 
@@ -34,12 +42,14 @@ function Email({openEmail , setOpenEmail ,worker}) {
 
         </div>
         
-          <form action="" className=' px-6 '>
+          <div className=' px-6 '>
             {/* Email */}
             <div className="flex flex-col">
               <label className="text-[#364152] text-base font-normal">{t('New email')}</label>
               <input 
                 type="text" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('Enter your new email address')}
                 className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
             </div>
@@ -48,11 +58,11 @@ function Email({openEmail , setOpenEmail ,worker}) {
               <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('save')}
               </button>
-              <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              <button  onClick={()=>{setOpenEmail(false)}}  className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('cancel')}
               </button>
             </div>
-          </form>
+          </div>
         
         </Dialog>
 
