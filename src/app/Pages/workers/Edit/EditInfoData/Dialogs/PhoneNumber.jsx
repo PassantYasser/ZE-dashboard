@@ -1,6 +1,6 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
@@ -8,6 +8,18 @@ import 'react-phone-input-2/lib/style.css';
 function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
   const {t}= useTranslation();
 
+  const [phone , setPhone] = useState();
+  const [countryCode, setCountryCode] = useState("eg");
+
+  useEffect(()=>{
+    if(worker?.phone){
+      setPhone(worker?.phone)
+    }
+
+    if(worker?.country_code){
+      setCountryCode(worker?.country_code)
+    }
+  } , [worker , openPhoneNumber])
   return (
     <>
     
@@ -37,7 +49,7 @@ function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
 
       </div>
 
-      <form action="" className=' px-6 '>
+      <div className=' px-6 '>
         {/* Mobile number */}
         <div className="flex flex-col ">
           <label className="text-[#364152] text-base font-normal mb-3 block">
@@ -46,7 +58,12 @@ function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
 
           <div className="relative">
             <PhoneInput
-              country={"sa"}
+              country={countryCode}
+              value={phone}
+              onChange={(value , country)=>{
+                setPhone(value);
+                setCountryCode(country?.countryCode);
+              }}      
               placeholder="000000000"
               containerClass="!w-full"
               inputClass="!w-full !h-[60px] !border !border-[#9AA4B2] !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
@@ -63,11 +80,11 @@ function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
           <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
             {t('save')}
           </button>
-          <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+          <button onClick={()=>setOpenPhoneNumber(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
             {t('cancel')}
           </button>
         </div>
-      </form>
+      </div>
 
       
     
