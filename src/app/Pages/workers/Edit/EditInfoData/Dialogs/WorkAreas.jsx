@@ -16,7 +16,12 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas ,worker}) {
     dispatch(getAllAreasThunk())
   },[dispatch])
   
-
+  
+useEffect(()=>{
+    if (worker?.handyman_areas?.length > 0){
+      setSelected4(worker.handyman_areas)
+    }
+  } , [worker , openWorkAreas ])
 
 
 
@@ -64,7 +69,7 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas ,worker}) {
 
       </div>
       
-        <form action="" className=' px-6 '>
+        <div className=' px-6 '>
       
           <div className="flex flex-col">
             <label className="text-[#364152] text-base font-normal mb-3">
@@ -136,11 +141,11 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas ,worker}) {
             <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('save')}
             </button>
-            <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+            <button onClick={()=>setOpenWorkAreas(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('cancel')}
             </button>
           </div>
-        </form>
+        </div>
       
       </Dialog>
     </>

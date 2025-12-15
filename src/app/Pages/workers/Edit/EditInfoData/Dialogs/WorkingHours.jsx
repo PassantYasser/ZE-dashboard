@@ -70,7 +70,7 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
 
         </div>
         
-          <form action="" className=' px-6 '>
+          <div className=' px-6 '>
             {/* Working hours */}
             <div className="flex flex-col">
               <TimeRangePicker
@@ -85,11 +85,11 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
               <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('save')}
               </button>
-              <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              <button onClick={()=>setOpenWorkingHours(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('cancel')}
               </button>
             </div>
-          </form>
+          </div>
         
         </Dialog>
 
