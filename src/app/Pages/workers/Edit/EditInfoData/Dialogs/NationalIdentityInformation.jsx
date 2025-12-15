@@ -1,6 +1,6 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from "dayjs";
 
@@ -8,12 +8,16 @@ function NationalIdentityInformation({openNationalIdentityInformation , setOpenN
     const {t}= useTranslation();
   
   // التاريخ النهائي
-  const id_end_date = '2025/11/24';
+  const id_end_date = worker?.id_end_date;
+
+console.log(" worker?.id_end_date ===",worker?.id_end_date);
 
   const checkEndDate = (date) => {
     const today = dayjs();
     const endDate = dayjs(date);
     const diffInDays = endDate.diff(today, "day");   //   [تاريخ الانتهاء-تاريخ اليوم] 
+
+console.log('diffInDays==' , diffInDays);
 
     if(diffInDays <= 0) {
       return {status: "expired" , message: "يجب تحديث هذا الملف بشكل فوري لتجنب ايقاف الحساب", color: "#F04438", icon:"/images/icons/red warning.svg" };
@@ -29,50 +33,78 @@ function NationalIdentityInformation({openNationalIdentityInformation , setOpenN
   };
 
   const { message, color , icon  ,datee ,status} = checkEndDate(id_end_date);
-const renderButton = (status) => {
-  switch(status) {
-    case "expired":
-      return (
-        <button className="p-2" onClick={() => frontInputRef.current.click()}>
-          <img src="/images/icons/EditYellow.svg" />
-        </button>
-      );
+  const renderButton = (status, inputRef) => {
+    switch(status) {
+      case "expired":
+        return (
+          <button className="p-2" onClick={() => inputRef.current.click()}>
+            <img src="/images/icons/EditYellow.svg" />
+          </button>
+        );
 
-    case "warning":
-      return (
-        <button className="p-2" onClick={() => frontInputRef.current.click()}>
-          <img src="/images/icons/EditYellow.svg" />
-        </button>
-      );
+      case "warning":
+        return (
+          <button className="p-2" onClick={() => inputRef.current.click()}>
+            <img src="/images/icons/EditYellow.svg" />
+          </button>
+        );
 
-    case "expiredToday":
-      return (
-        <button className="p-2" onClick={() => frontInputRef.current.click()}>
-          <img src="/images/icons/EditYellow.svg" />
-        </button>
-      );
+      case "expiredToday":
+        return (
+          <button className="p-2" onClick={() => inputRef.current.click()}>
+            <img src="/images/icons/EditYellow.svg" />
+          </button>
+        );
 
-    case "waiting":
-      return (
-        <img src='/images/icons/remove-circle.svg' />
-        
-      );
+      case "waiting":
+        return (
+          <img src='/images/icons/remove-circle.svg' />
+          
+        );
 
-    case "done":
-      return (
-        
-          <img src="/images/icons/_Checkbox base.svg" />
-      );
-  }
-};
+      case "done":
+        return (
+          
+            <img src="/images/icons/_Checkbox base.svg" />
+        );
+    }
+  };
 
+  // Helper to extract filename from URL
+  const getFileNameFromUrl = (url) => {
+    if (!url) return null;
+    const parts = url.split('/');
+    return parts[parts.length - 1];
+  };
+
+  // Helper to get file extension from URL
+  const getFileExtensionFromUrl = (url) => {
+    if (!url) return 'PNG';
+    const filename = getFileNameFromUrl(url);
+    const ext = filename?.split('.').pop()?.toUpperCase() || 'PNG';
+    return ext;
+  };
 
   const [frontFiles, setFrontFiles] = useState([
-    { name: "بطاقة الشخصية الأمامية JPG", size: "200 كيلوبايت - 100% تم الرفع", type: "PNG" }
+    { name: "بطاقة الشخصية الأمامية", size: "تم الرفع", type: "PNG", url: null }
   ]);
   const [backFiles, setBackFiles] = useState([
-    { name: "بطاقة الشخصية خلفية JPG", size: "200 كيلوبايت - 100% تم الرفع", type: "PNG" }
+    { name: "بطاقة الشخصية خلفية", size: "تم الرفع", type: "PNG", url: null }
   ]);
+
+  // Initialize from backend data when worker changes
+  useEffect(() => {
+    if (worker?.id_front) {
+      const fileName = getFileNameFromUrl(worker.id_front) || "بطاقة الشخصية الأمامية";
+      const fileExt = getFileExtensionFromUrl(worker.id_front);
+      setFrontFiles([{ name: fileName, size: "تم الرفع", type: fileExt, url: worker.id_front }]);
+    }
+    if (worker?.id_back) {
+      const fileName = getFileNameFromUrl(worker.id_back) || "بطاقة الشخصية خلفية";
+      const fileExt = getFileExtensionFromUrl(worker.id_back);
+      setBackFiles([{ name: fileName, size: "تم الرفع", type: fileExt, url: worker.id_back }]);
+    }
+  }, [worker]);
 
   const frontInputRef = useRef(null);
   const backInputRef = useRef(null);
@@ -82,9 +114,8 @@ const renderButton = (status) => {
     if (file) {
       const extension = file.name.split('.').pop().toUpperCase();
       const sizeKB = Math.round(file.size / 1024);
-      setFiles(prev => [
-        ...prev,
-        { name: file.name, size: `${sizeKB} كيلوبايت`, type: extension }
+      setFiles([
+        { name: file.name, size: `${sizeKB} كيلوبايت`, type: extension, url: URL.createObjectURL(file) }
       ]);
     }
   };
@@ -121,7 +152,7 @@ const renderButton = (status) => {
         
         <div className=' px-6 '>
 
-          
+
           {/* National Identity Information */}
           <div className="flex flex-col w-full mb-6">
             <label className="text-[#364152] text-base font-normal">{t('National ID number')}</label>
@@ -148,7 +179,7 @@ const renderButton = (status) => {
                       <div className="relative w-12 h-12 flex items-center justify-center">
                         <img src="/images/filephoto.svg" className="w-12 h-12" />
                         <span className="absolute bottom-0 right-2  text-white text-[10px] px-1 py-0.5 rounded-sm">
-                          PNG
+                          {file.type}
                         </span>
                       </div>
 
@@ -157,7 +188,7 @@ const renderButton = (status) => {
                         <p className="text-gray-500 text-sm">{file.size}</p>
                       </div>
         
-                      {renderButton(status)}
+                      {renderButton(status, frontInputRef)}
 
                     </div>
                   ))}
@@ -175,14 +206,14 @@ const renderButton = (status) => {
                       <div className="relative w-12 h-12 flex items-center justify-center">
                         <img src="/images/filephoto.svg" className="w-12 h-12" />
                         <span className="absolute bottom-0 right-2  text-white text-[10px] px-1 py-0.5 rounded-sm">
-                          PNG
+                          {file.type}
                         </span>
                       </div>
                       <div className="flex-1">
                         <p className="text-gray-800 font-semibold">{file.name}</p>
                         <p className="text-gray-500 text-sm">{file.size}</p>
                       </div>
-                      {renderButton(status)}
+                      {renderButton(status, backInputRef)}
                     </div>
                   ))}
 
