@@ -10,14 +10,12 @@ function NationalIdentityInformation({openNationalIdentityInformation , setOpenN
   // التاريخ النهائي
   const id_end_date = worker?.id_end_date;
 
-console.log(" worker?.id_end_date ===",worker?.id_end_date);
 
   const checkEndDate = (date) => {
     const today = dayjs();
     const endDate = dayjs(date);
     const diffInDays = endDate.diff(today, "day");   //   [تاريخ الانتهاء-تاريخ اليوم] 
 
-console.log('diffInDays==' , diffInDays);
 
     if(diffInDays <= 0) {
       return {status: "expired" , message: "يجب تحديث هذا الملف بشكل فوري لتجنب ايقاف الحساب", color: "#F04438", icon:"/images/icons/red warning.svg" };

@@ -1,4 +1,4 @@
-import { addWorker, getAllWorkers, getDesignations, getWorkerById } from "@/redux/api/Workers/WorkersApi";
+import { addWorker, getAllWorkers, getDesignations, getWorkerById, UpdateWorker } from "@/redux/api/Workers/WorkersApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //get all workers
@@ -40,15 +40,30 @@ export const addWorkerThunk = createAsyncThunk(
   }
 )
 
+//  get worker by id 
 export const getWorkerByIdThunk = createAsyncThunk(
   'worker/getWorkerById',
   async(worker_id , {rejectWithValue})=>{
     try{
       const response = await getWorkerById(worker_id);
-      console.log('slice worker' , response);
+      // console.log('slice worker' , response);
       return response.handyman;
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+//update worker by id
+export const UpdateWorkerThunk = createAsyncThunk(
+  'worker/UpdateWorkerThunk' , 
+  async(formData, thunkAPI)=>{
+    try{
+      const response = await UpdateWorker(formData);
+        console.log('UpdateWorkerThunk',response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 )
@@ -123,6 +138,19 @@ const WorkersSlice = createSlice({
         state.worker = action.payload;
       })
       .addCase(getWorkerByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ✅ Update service
+      .addCase(UpdateWorkerThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(UpdateWorkerThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.worker = action.payload; 
+      })
+      .addCase(UpdateWorkerThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
