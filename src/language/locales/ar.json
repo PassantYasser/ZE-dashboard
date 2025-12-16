@@ -463,6 +463,10 @@
   "This transaction will be permanently deleted and cannot be recovered later.":"سيتم إزالة هذه المعاملة نهائيا ولايمكنك استعادتها لاحقا",
   "Profits and taxes are calculated for the current fiscal year from 01/07/2025 to 31/06/2026":"يتم حساب الارباح والضرائب خلال السنة المالية الحالية من 2025/07/01 الي 2026/06/31",
   
+  "Gross Profit":"أجمالي الربح",
+  "Net Profit":"صافي الربح",
+  "tax due":"الضريبة المستحقة",
+  
   
 
 
