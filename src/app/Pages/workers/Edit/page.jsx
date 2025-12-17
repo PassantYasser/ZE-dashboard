@@ -1,6 +1,6 @@
 "use client";
 import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import MainLayout from "@/app/Components/MainLayout/MainLayout";
 import Link from "next/link";
 import EditInfoDataPage from "./EditInfoData/page";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "next/navigation";
 import { getWorkerByIdThunk } from "@/redux/slice/Workers/WorkersSlice";
 
-function EditPage() {
+function EditPageContent() {
   const { t } = useTranslation();
 
 const dispatch = useDispatch();
@@ -58,6 +58,14 @@ const dispatch = useDispatch();
         
       </div>
     </MainLayout>
+  );
+}
+
+function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditPageContent />
+    </Suspense>
   );
 }
 
