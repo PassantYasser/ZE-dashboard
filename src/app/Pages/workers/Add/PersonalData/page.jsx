@@ -250,7 +250,7 @@ const handleConfirmPasswordChange = (e) => {
             </span>
             <input
               type={showPassword ? "text" : "password"}
-              value={formDat?.password}
+              value={formData?.password}
               placeholder={t("Enter your password")}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
