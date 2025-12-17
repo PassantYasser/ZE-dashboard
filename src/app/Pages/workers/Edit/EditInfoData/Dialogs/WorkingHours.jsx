@@ -5,9 +5,13 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import TimeRangePicker from './TimeRangePicker';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
     const {t}= useTranslation();
+    const dispatch = useDispatch();
+    const { loading } = useSelector(state => state.workers);
 
     // Working hours
     const [workingHours, setWorkingHours] = useState({
@@ -41,6 +45,27 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
   }
 }, [worker, openWorkingHours]);
 
+    // Convert 24-hour time to Arabic format
+    const formatTimeToArabic = (time) => {
+      const [hours, minutes] = time.split(':').map(Number);
+      const period = hours >= 12 ? 'م' : 'ص';
+      const adjustedHours = hours % 12 || 12;
+      return `${adjustedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${period}`;
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const formattedWorkingTime = `${formatTimeToArabic(workingHours.start)} - ${formatTimeToArabic(workingHours.end)}`;
+      
+      const formData = new FormData();
+      formData.append('id', worker?.id);
+      formData.append('working_time', formattedWorkingTime);
+      
+      const result = await dispatch(UpdateWorkerThunk(formData));
+      if (UpdateWorkerThunk.fulfilled.match(result)) {
+        setOpenWorkingHours(false);
+      }
+    };
 
   return (
     <>
@@ -82,8 +107,11 @@ function WorkingHours({openWorkingHours , setOpenWorkingHours ,worker}) {
             </div>
 
             <div className='my-6 flex gap-3'>
-              <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-                {t('save')}
+              <button 
+                onClick={handleSubmit}
+                disabled={loading}
+                className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+                {loading ? t('loading...') : t('save')}
               </button>
               <button onClick={()=>setOpenWorkingHours(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('cancel')}

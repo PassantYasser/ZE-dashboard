@@ -12,13 +12,14 @@ import NationalIdentityInformation from './Dialogs/NationalIdentityInformation';
 import Job from './Dialogs/Job';
 import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
 
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
+import { useDispatch } from 'react-redux';
+
 function EditInfoDataPage({ worker, loading }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   /**api */
-  const [form, setForm] = useState({
-
-  })
 
 
 
@@ -30,11 +31,13 @@ function EditInfoDataPage({ worker, loading }) {
     const fileInputRef = useRef(null);
   
     const [imagePreview, setImagePreview] = useState(null)
+    const [selectedImageFile, setSelectedImageFile] = useState(null);
+
     const handleFileSelect = () => {
       fileInputRef.current?.click();
     };
   
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
       const file = e.target.files[0];
       if (!file) return;
       const allowedTypes = ["image/webp", "image/png", "image/svg+xml", "image/jpeg"];
@@ -47,8 +50,19 @@ function EditInfoDataPage({ worker, loading }) {
         alert(t("File size should not exceed 5MB"));
         return;
       }
+      
       const imageUrl = URL.createObjectURL(file);
       setImagePreview(imageUrl);
+      
+      // Auto upload immediately
+      const formData = new FormData();
+      formData.append('id', worker?.id);
+      formData.append('image', file);
+
+      await dispatch(UpdateWorkerThunk(formData));
+      
+      // Reset input
+      if (fileInputRef.current) fileInputRef.current.value = "";
     };
   
     const handleDeleteFile = () => {
@@ -57,10 +71,7 @@ function EditInfoDataPage({ worker, loading }) {
     };
   
     /** */
-    //PhoneNumber
-    const [openPhoneNumber, setOpenPhoneNumber] = useState(false);
-
-    
+    const [openPhoneNumber, setOpenPhoneNumber] = useState(false);//PhoneNumber
     const [openEmail , setOpenEmail] = useState(false); //Email  
     const [openPassword , setOpenPassword] = useState(false); //Password
     const [openLocation , setOpenLocation] = useState(false); //Location  
@@ -74,11 +85,18 @@ function EditInfoDataPage({ worker, loading }) {
       <div className="  w-full p-8 mb-8 flex justify-center border border-[#CDD5DF] rounded-[3px]">
         <div className="py-4 px-6  w-[35%]">
           <div className="flex flex-col items-center w-full">
+             <div className="relative">
               <img
-                src={`${IMAGE_BASE_URL}${worker?.image}`}
+                src={imagePreview || `${IMAGE_BASE_URL}${worker?.image}`}
                 alt="Company Logo"
-                className="w-37.5 h-37.5 object-cover border border-[#EEF2F6] p-1 rounded-full"
+                className={`w-37.5 h-37.5 object-cover border border-[#EEF2F6] p-1 rounded-full ${loading ? 'opacity-50' : ''}`}
               />
+              {loading && (
+                 <div className="absolute inset-0 flex items-center justify-center">
+                   <div className="w-8 h-8 border-4 border-[var(--color-primary)] border-t-transparent rounded-full animate-spin"></div>
+                 </div>
+              )}
+             </div>
 
               <p className='mt-3 text-[#364152] text-xl font-medium'>{`${worker?.firstname} ${worker?.lastname}`}</p>
               <div className='flex gap-2 mt-3.5 mb-6'>
@@ -98,12 +116,14 @@ function EditInfoDataPage({ worker, loading }) {
 
               <button
                 type="button"
-                className="w-full flex  justify-center gap-2 border text-[var(--color-primary)] font-medium py-2.5 px-4 rounded-[3px] cursor-pointer"
+                className="w-full flex  justify-center gap-2 border text-[var(--color-primary)] font-medium py-2.5 px-4 rounded-[3px] cursor-pointer disabled:opacity-50"
                 onClick={handleFileSelect}
+                disabled={loading}
               >
-                <span>{t("Image selection")}</span>  
-                <span><img src="/images/upload.svg" alt="" /></span>
+                <span>{loading ? t("Updating...") : t("Image selection")}</span>  
+                {!loading && <span><img src="/images/upload.svg" alt="" /></span>}
               </button>
+
           </div>
           <input
             ref={fileInputRef}
@@ -227,7 +247,7 @@ function EditInfoDataPage({ worker, loading }) {
 
 
 
-      <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber} worker={worker}/>
+      <PhoneNumber openPhoneNumber={openPhoneNumber} setOpenPhoneNumber={setOpenPhoneNumber} worker={worker} />
       <Email openEmail={openEmail} setOpenEmail={setOpenEmail} worker={worker}/>
       <Password openPassword={openPassword} setOpenPassword={setOpenPassword} worker={worker}/>
       <WorkingHours openWorkingHours={openWorkingHours} setOpenWorkingHours={setOpenWorkingHours} worker={worker}/>

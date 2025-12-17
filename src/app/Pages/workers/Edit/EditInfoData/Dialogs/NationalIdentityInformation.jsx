@@ -3,6 +3,8 @@ import { Dialog } from '@mui/material'
 import React, { useRef, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from "dayjs";
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function NationalIdentityInformation({openNationalIdentityInformation , setOpenNationalIdentityInformation ,worker}) {
     const {t}= useTranslation();
@@ -113,8 +115,35 @@ function NationalIdentityInformation({openNationalIdentityInformation , setOpenN
       const extension = file.name.split('.').pop().toUpperCase();
       const sizeKB = Math.round(file.size / 1024);
       setFiles([
-        { name: file.name, size: `${sizeKB} كيلوبايت`, type: extension, url: URL.createObjectURL(file) }
+        { name: file.name, size: `${sizeKB} كيلوبايت`, type: extension, url: URL.createObjectURL(file), originFile: file }
       ]);
+    }
+  };
+
+  // Redux
+  const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.workers);
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('id', worker?.id);
+    
+    // Check if new front file selected
+    if (frontFiles.length > 0 && frontFiles[0].originFile) {
+      formData.append('id_front', frontFiles[0].originFile);
+    }
+
+    // Check if new back file selected
+    if (backFiles.length > 0 && backFiles[0].originFile) {
+      formData.append('id_back', backFiles[0].originFile);
+    }
+    
+    // Only dispatch if there are changes (optional check, but good for performance)
+    // But since we might be re-submitting, we'll dispatch anyway
+    
+    const result = await dispatch(UpdateWorkerThunk(formData));
+    if (UpdateWorkerThunk.fulfilled.match(result)) {
+      setOpenNationalIdentityInformation(false);
     }
   };
 
@@ -238,8 +267,11 @@ function NationalIdentityInformation({openNationalIdentityInformation , setOpenN
 
 
           <div className='my-6 flex gap-3'>
-            <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-              {t('save')}
+            <button 
+              onClick={handleSubmit}
+              disabled={loading}
+              className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+              {loading ? t('loading...') : t('save')}
             </button>
             <button onClick={()=>setOpenNationalIdentityInformation(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('cancel')}

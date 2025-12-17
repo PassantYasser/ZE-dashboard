@@ -5,13 +5,21 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Map from './Map';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function Location({openLocation , setOpenLocation ,worker}) {
     const {t}= useTranslation();
+    const dispatch = useDispatch();
+    const { loading } = useSelector(state => state.workers);
 
       //Map
     const [openMap , setOpenMap] = useState(false);
       const [address, setAddress] = useState("");
+      const [city, setCity] = useState("");
+      const [state, setState] = useState("");
+      const [country, setCountry] = useState("");
+
       const handleClickOpen = () => setOpenMap(true);
       const handleClose = () => setOpenMap(false);
       const handleLocationSelect = async (lat, lng) => {
@@ -21,28 +29,45 @@ function Location({openLocation , setOpenLocation ,worker}) {
           );
           const data = await response.json();
           const formattedAddress = data.display_name || "Unknown address";
+          const addr = data.address || {};
+
           setAddress(formattedAddress);
+          setCity(addr.city || addr.town || addr.village || addr.county || "");
+          setState(addr.state || addr.region || "");
+          setCountry(addr.country || "");
+          
           setOpenMap(false);
         } catch (error) {
           console.error("Error fetching address:", error);
-          setAddress(`Latitude: ${lat}, Longitude: ${lng}`); // fallback لو حصل خطأ
+          setAddress(`Latitude: ${lat}, Longitude: ${lng}`); 
         }
       };
-
-
-
-
-
-
-
 
     
     // //api
     useEffect(()=>{
-      if(worker?.address){
-        setAddress(worker?.address)
+      if(worker){
+        setAddress(worker?.address || "");
+        setCity(worker?.city || "");
+        setState(worker?.state || "");
+        setCountry(worker?.country || "");
       }
     } , [worker , openLocation])
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('id', worker?.id);
+      formData.append('address', address);
+      formData.append('city', city);
+      formData.append('state', state);
+      formData.append('country', country);
+      
+      const result = await dispatch(UpdateWorkerThunk(formData));
+      if (UpdateWorkerThunk.fulfilled.match(result)) {
+        setOpenLocation(false);
+      }
+    };
   
   return (
     <>
@@ -96,8 +121,11 @@ function Location({openLocation , setOpenLocation ,worker}) {
             </div>
 
             <div className='my-6 flex gap-3'>
-              <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-                {t('save')}
+              <button 
+                onClick={handleSubmit}
+                disabled={loading}
+                className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+                {loading ? t('loading...') : t('save')}
               </button>
               <button onClick={()=>setOpenLocation(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
                 {t('cancel')}

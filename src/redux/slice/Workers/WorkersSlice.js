@@ -57,16 +57,23 @@ export const getWorkerByIdThunk = createAsyncThunk(
 //update worker by id
 export const UpdateWorkerThunk = createAsyncThunk(
   'worker/UpdateWorkerThunk' , 
-  async(formData, thunkAPI)=>{
+  async(formData, { dispatch, rejectWithValue })=>{
     try{
       const response = await UpdateWorker(formData);
-        console.log('UpdateWorkerThunk',response.data);
-      return response.data;
+        console.log('UpdateWorkerThunk',response);
+        const workerId = formData.get('id');
+      if (workerId) {
+        dispatch(getWorkerByIdThunk(workerId));
+      }
+
+      return response.handyman || response.data || response;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return rejectWithValue(error.response.data);
     }
   }
 )
+
+
 
 const initialState ={
   workers: [],
@@ -148,7 +155,8 @@ const WorkersSlice = createSlice({
       })
       .addCase(UpdateWorkerThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.worker = action.payload; 
+        // Do not update state.worker here to prevent data loss. 
+        // The thunk dispatches getWorkerByIdThunk which will update state.worker with fresh data.
       })
       .addCase(UpdateWorkerThunk.rejected, (state, action) => {
         state.loading = false;

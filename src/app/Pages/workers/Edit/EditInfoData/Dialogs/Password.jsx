@@ -2,9 +2,13 @@
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function Password({openPassword , setOpenPassword ,worker}) {
       const {t}= useTranslation();
+      const dispatch = useDispatch();
+      const { loading } = useSelector(state => state.workers);
 
         const [showPassword, setShowPassword] = useState(false);
         const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -34,6 +38,23 @@ function Password({openPassword , setOpenPassword ,worker}) {
         // ✅ Check if passwords match
         const passwordsMatch =
           confirmPassword.length > 0 && password === confirmPassword;
+
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+          if (!passwordsMatch) return;
+          
+          const formData = new FormData();
+          formData.append('id', worker?.id);
+          formData.append('password', password);
+          formData.append('password_confirmation', confirmPassword);
+          
+          const result = await dispatch(UpdateWorkerThunk(formData));
+          if (UpdateWorkerThunk.fulfilled.match(result)) {
+            setOpenPassword(false);
+            setPassword("");
+            setConfirmPassword("");
+          }
+        };
       
   return (
     <>
@@ -199,10 +220,13 @@ function Password({openPassword , setOpenPassword ,worker}) {
         </div>
 
         <div className='my-6 flex gap-3'>
-          <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-            {t('save')}
+          <button 
+            onClick={handleSubmit}
+            disabled={loading || !passwordsMatch}
+            className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+            {loading ? t('loading...') : t('save')}
           </button>
-          <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+          <button onClick={()=>setOpenPassword(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
             {t('cancel')}
           </button>
         </div>

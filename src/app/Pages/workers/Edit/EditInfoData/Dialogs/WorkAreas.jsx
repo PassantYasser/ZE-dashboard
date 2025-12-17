@@ -1,5 +1,6 @@
 "use client"
 import { getAllAreasThunk } from '@/redux/slice/Services/ServicesSlice';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -12,6 +13,7 @@ function WorkAreas({openWorkAreas,setOpenWorkAreas ,worker}) {
   //api 
   const dispatch = useDispatch();
   const {getAreas} = useSelector(state=>state.services)
+  const { loading } = useSelector(state => state.workers);
   useEffect(()=>{
     dispatch(getAllAreasThunk())
   },[dispatch])
@@ -40,6 +42,20 @@ useEffect(()=>{
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('id', worker?.id);
+    // Send array of area ids
+    selected4.forEach((area, index) => {
+      formData.append(`provider_area_ids[${index}]`, area.id);
+    });
+    
+    const result = await dispatch(UpdateWorkerThunk(formData));
+    if (UpdateWorkerThunk.fulfilled.match(result)) {
+      setOpenWorkAreas(false);
+    }
+  };
 
   return (
     <>
@@ -138,8 +154,11 @@ useEffect(()=>{
           </div>
 
           <div className='my-6 flex gap-3'>
-            <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-              {t('save')}
+            <button 
+              onClick={handleSubmit}
+              disabled={loading}
+              className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+              {loading ? t('loading...') : t('save')}
             </button>
             <button onClick={()=>setOpenWorkAreas(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('cancel')}

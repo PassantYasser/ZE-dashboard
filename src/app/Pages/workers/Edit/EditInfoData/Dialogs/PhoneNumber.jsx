@@ -4,12 +4,29 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
   const {t}= useTranslation();
+  const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.workers);
 
   const [phone , setPhone] = useState();
   const [countryCode, setCountryCode] = useState("eg");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('id', worker?.id);
+    formData.append('phone', phone);
+    formData.append('country_code', countryCode);
+    
+    const result = await dispatch(UpdateWorkerThunk(formData));
+    if (UpdateWorkerThunk.fulfilled.match(result)) {
+      setOpenPhoneNumber(false);
+    }
+  };
 
   useEffect(()=>{
     if(worker?.phone){
@@ -77,8 +94,11 @@ function PhoneNumber({openPhoneNumber , setOpenPhoneNumber ,worker}) {
         </div>
 
         <div className='my-6 flex gap-3'>
-          <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-            {t('save')}
+          <button 
+            onClick={handleSubmit}
+            disabled={loading}
+            className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+            {loading ? t('loading...') : t('save')}
           </button>
           <button onClick={()=>setOpenPhoneNumber(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
             {t('cancel')}

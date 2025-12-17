@@ -1,4 +1,4 @@
-import { getDesignationsThunk } from '@/redux/slice/Workers/WorkersSlice';
+import { getDesignationsThunk, UpdateWorkerThunk } from '@/redux/slice/Workers/WorkersSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -29,6 +29,22 @@ function Job({openJob ,setOpenJob ,worker}) {
         const [searchValue1, setSearchValue1] = useState("");
         const dropdownRef1 = useRef(null);
         const optionJob=getDesignations || []
+        const { loading } = useSelector(state => state.workers);
+
+        const handleSubmit = async () => {
+          const selectedOption = optionJob.find(opt => opt.name === selected1);
+          
+          const formData = new FormData();
+          formData.append('id', worker?.id);
+          if (selectedOption) {
+            formData.append('designation_id', selectedOption.id);
+          }
+          
+          const result = await dispatch(UpdateWorkerThunk(formData));
+          if (UpdateWorkerThunk.fulfilled.match(result)) {
+            setOpenJob(false);
+          }
+        };
   
   return (
     <>
@@ -121,10 +137,13 @@ function Job({openJob ,setOpenJob ,worker}) {
 
 
           <div className='px-6 pb-6 flex gap-3'>
-            <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
-              {t('save')}
+            <button 
+              onClick={handleSubmit} 
+              disabled={loading}
+              className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50'>
+              {loading ? t('loading...') : t('save')}
             </button>
-            <button className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
+            <button onClick={()=>setOpenJob(false)} className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center '>
               {t('cancel')}
             </button>
           </div>
