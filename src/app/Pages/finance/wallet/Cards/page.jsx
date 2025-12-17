@@ -22,10 +22,10 @@ function CardsPage() {
             <p className='bg-[#FEF0C7] w-14 h-14 flex justify-center items-center rounded-[3px]'>
               <img src="/images/icons/Available balance.svg" alt="" className='w-8 h-8' />
             </p>
-            <p className='text-[#4B5565] text-2xl font-normal'>{t('Available balance')}</p>
+            <p className='text-[#4B5565] text-xl lg1:text-2xl font-normal'>{t('Available balance')}</p>
           </div>
 
-          <p className='text-[#202939] text-[32px] font-medium'>20.000 جنية</p>
+          <p className='text-[#202939] text-2xl lg1:text-[32px] font-medium'>20.000 جنية</p>
         </section>
 
         {/* second card */}
@@ -35,10 +35,10 @@ function CardsPage() {
             <p className='bg-[#EDE7FD] w-14 h-14 flex justify-center items-center rounded-[3px]'>
               <img src="/images/icons/Available_withdrawal.svg" alt="" className='w-8 h-8' />
             </p>
-            <p className='text-[#4B5565] text-2xl font-normal'>{t('Available balance for withdrawal')}</p>
+            <p className='text-[#4B5565] text-xl lg1:text-2xl font-normal'>{t('Available balance for withdrawal')}</p>
           </div>
 
-          <p className='text-[#202939] text-[32px] font-medium'>10.000 جنية</p>
+          <p className='text-[#202939] text-2xl lg1:text-[32px] font-medium'>10.000 جنية</p>
 
           <button onClick={()=>setOpen(true)} className='w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] text-base font-medium cursor-pointer my-6'>
             {t('to withdraw')}

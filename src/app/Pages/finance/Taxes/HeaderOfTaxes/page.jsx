@@ -10,7 +10,7 @@ function HeaderOfTaxesPage() {
     <>
     <div className='flex justify-between '>
 
-      <div className=' '>
+      <div className='w-[65%]  lg1:w-fit '>
         <p className='text-[#364152] text-2xl font-medium'>{t('Taxes')}</p>
 
         <div className=' flex items-center bg-[#FEF3F2] h-18 py-3 px-4 rounded-[3px] mt-3 '>
