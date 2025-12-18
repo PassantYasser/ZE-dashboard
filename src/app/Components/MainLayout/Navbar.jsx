@@ -108,7 +108,7 @@ function Navbar({ onMenuClick }) {
               />
               <div className="hidden lg1:block">
                 <p className="text-[#364152] text-base font-medium mt-0.5">{user?.firstname}</p>
-                <p className="text-[#4B5565] text-sm font-normal"> {user?.designation.name_ar}</p>
+                <p className="text-[#4B5565] text-sm font-normal"> {user?.designation?.name}</p>
               </div>
             </div>
           </div>
