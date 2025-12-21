@@ -56,3 +56,9 @@ export const updateService = async (service_id , formData)=>{
   console.log('updateService',response.data);
   return response.data
 }
+
+//delete service
+export const deleteService = async (service_id) => {
+  const response = await API.delete(`/provider/services/${service_id}`);
+  return response.data;
+};

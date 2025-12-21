@@ -1,5 +1,7 @@
 "use client"
 import DeletePage from '@/app/Components/Model/Delete/page';
+import { deleteServiceThunk } from '@/redux/slice/Services/ServicesSlice';
+import { useDispatch } from 'react-redux';
 import { t } from 'i18next'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,9 +23,23 @@ function DetailsPage({handleClose ,status ,service}) {
   };
 
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const handleEditClick = () => {
     handleClose();
     router.push(`/Pages/services/Edit?id=${service?.id}`);
+  };
+
+  const handleDelete = async () => {
+    if (service?.id) {
+      const resultAction = await dispatch(deleteServiceThunk(service.id));
+      if (deleteServiceThunk.fulfilled.match(resultAction)) {
+        // Success
+        handleClosee();
+        handleClose(); 
+        router.push('/Pages/services'); 
+      }
+    }
   };
 
   return (
@@ -236,7 +252,11 @@ function DetailsPage({handleClose ,status ,service}) {
           )}
       </section>
 
-      <DeletePage open={open} handleClosee={handleClosee}/>
+      <DeletePage 
+        open={open} 
+        handleClosee={handleClosee} 
+        onDelete={handleDelete}
+      />
 
   
       

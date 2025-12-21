@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -110,6 +110,17 @@ export const updateServiceThunk = createAsyncThunk(
   }
 )
 
+export const deleteServiceThunk = createAsyncThunk(
+  "services/delete",
+  async (service_id, { rejectWithValue }) => {
+    try {
+      const data = await deleteService(service_id);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 const initialState = {
     services: [],
@@ -247,6 +258,23 @@ const servicesSlice = createSlice({
         state.service = action.payload; 
       })
       .addCase(updateServiceThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+
+      // ✅ Delete service
+      .addCase(deleteServiceThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(deleteServiceThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        // Optimization: remove from list immediately
+        if (state.services) {
+           state.services = state.services.filter(s => s.id !== action.meta.arg);
+        }
+      })
+      .addCase(deleteServiceThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })

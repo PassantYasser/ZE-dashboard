@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 
-function DeletePage({open ,handleClosee }) {
+function DeletePage({open ,handleClosee, onDelete, title, description }) {
   const {t} = useTranslation();
 
   return (
@@ -34,17 +34,20 @@ function DeletePage({open ,handleClosee }) {
 
       <div className='flex flex-col  items-center mb-6'>
         <p className='text-[#0F022E] text-xl font-semibold mb-4'>
-          {t('Are you sure you want to delete the service?')}
+          {title || t('Are you sure you want to delete the service?')}
         </p>
         <p className='text-[#697586] text-base font-normal w-97 text-center '>
-          {t('This service will be removed from your list and will no longer be available to customers.')}
+          {description || t('This service will be removed from your list and will no longer be available to customers.')}
         </p>
       </div>
 
       <div className="w-full h-px bg-[#CDD5DF] mt-6"></div>
 
       <section className='w-full flex p-6 gap-3'>
-        <button className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] '>
+        <button 
+          onClick={onDelete}
+          className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] '
+        >
           <span className='text-base font-medium'>{t('delete')}</span>
         </button>
         <button onClick={handleClosee} className='w-full border border-[#697586] text-[#4B5565]  h-13.5  rounded-[3px] '>
