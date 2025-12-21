@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
+import DeletePage from "./Model/Delete/page";
 
 function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber , status) {
   return { UserCode, worker, workerImg, job, WorkingHours, phoneNumber, status};
@@ -17,6 +18,13 @@ function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber ,
 export default function TableWorkers({workers , loading}) {
   const { t } = useTranslation();
 
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClosee = () => {
+    setOpen(false);
+  };
 
   const StatusRender = (status) => {
     if (status === true || status === "true") {
@@ -103,10 +111,10 @@ const handleEditClick = (id) => {
                 <td className="p-4">{worker?.phone}</td>
                 <td className="p-4">{StatusRender(worker.is_active)}</td>
                 <td className="flex gap-4 justify-center p-4">
-                  <button onClick={() => handleEditClick(worker.id)}>
+                  <button onClick={() => handleEditClick(worker.id)} className="cursor-pointer">
                     <img src="/images/icons/EditBlack.svg" alt=""  className="w-6 h-6"/>
                   </button>
-                  <button>
+                  <button className="cursor-pointer" onClick={handleClickOpen}>
                     <img src="/images/icons/delete-darkRed.svg" alt="" className="w-6 h-6" />
                   </button>
                 </td>
@@ -123,7 +131,13 @@ const handleEditClick = (id) => {
 
       </table>
   
+    <DeletePage 
+        open={open} 
+        handleClosee={handleClosee} 
+      />
     </div>
+
+    
   );
 }
 

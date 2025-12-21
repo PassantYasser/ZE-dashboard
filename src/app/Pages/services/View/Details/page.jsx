@@ -1,5 +1,4 @@
 "use client"
-import DeletePage from '@/app/Components/Model/Delete/page';
 import { deleteServiceThunk } from '@/redux/slice/Services/ServicesSlice';
 import { useDispatch } from 'react-redux';
 import { t } from 'i18next'
@@ -7,6 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DeletePage from '../Model/Delete/page';
 
 function DetailsPage({handleClose ,status ,service}) {
   const {t} = useTranslation();
