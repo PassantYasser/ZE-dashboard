@@ -250,7 +250,7 @@ const handleConfirmPasswordChange = (e) => {
             </span>
             <input
               type={showPassword ? "text" : "password"}
-              value={formData.password}
+              value={formData?.password}
               placeholder={t("Enter your password")}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
@@ -337,12 +337,12 @@ const handleConfirmPasswordChange = (e) => {
             </span>
               <input
                 type={showPasswordConfirm ? "text" : "password"}
-                value={formData.password_confirmation}
+                value={formData?.password_confirmation}
                 placeholder={t("Re-enter your password")}
                 onChange={handleConfirmPasswordChange}
                 className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal ${
-                  formData.password_confirmation
-                    ? formData.password === formData.password_confirmation
+                  formData?.password_confirmation
+                    ? formData?.password === formData?.password_confirmation
                       ? "border-green-500"
                       : "border-red-500"
                     : "border-[#C8C8C8]"
