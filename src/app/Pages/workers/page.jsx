@@ -12,8 +12,21 @@ function WorkersPage() {
   const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
 
     const [open, setOpen] = useState(false);
+    const [filterParams, setFilterParams] = useState({});
+
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const handleApply = (filters) => {
+      setFilterParams(filters);
+      dispatch(setPage(1));
+      handleClose();
+    };
+
+    const handleReset = () => {
+      setFilterParams({});
+      dispatch(setPage(1));
+    };
 
 
     //api
@@ -21,9 +34,9 @@ function WorkersPage() {
     const {workers , loading , error, currentPage, totalPages ,getDesignations}=useSelector(state=>state.workers)
 
     useEffect(() => {
-      dispatch(getAllWorkersThunk({ page: currentPage, limit: 10 }));
+      dispatch(getAllWorkersThunk({ page: currentPage, limit: 10, ...filterParams }));
       
-    }, [dispatch,currentPage]);
+    }, [dispatch,currentPage, filterParams]);
 
     useEffect(()=>{
       dispatch(getDesignationsThunk())
@@ -57,6 +70,9 @@ function WorkersPage() {
         open={open} 
         handleClose={handleClose} 
         getDesignations={getDesignations} 
+        onApply={handleApply}
+        onReset={handleReset}
+        currentFilters={filterParams}
       />
 
     </MainLayout>

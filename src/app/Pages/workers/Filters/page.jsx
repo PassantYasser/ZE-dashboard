@@ -8,7 +8,7 @@ import { getAllAreasThunk } from "@/redux/slice/Services/ServicesSlice";
 // Dynamically import Dialog to avoid SSR
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPage({ open, handleClose , getDesignations  }) {
+function FiltersPage({ open, handleClose , getDesignations, onApply, onReset, currentFilters }) {
   const { t } = useTranslation();
 
   //api
@@ -52,6 +52,35 @@ function FiltersPage({ open, handleClose , getDesignations  }) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
       }, []);
+
+      // Initialize state from currentFilters when dialog opens
+      useEffect(() => {
+        if (open && currentFilters) {
+          // Areas
+          if (currentFilters.areas && currentFilters.areas.length > 0 && optionWorkplaces.length > 0) {
+            const selectedAreas = optionWorkplaces.filter(area => currentFilters.areas.includes(area.id));
+            setSelected1(selectedAreas);
+          } else if (!currentFilters.areas) {
+            setSelected1([]);
+          }
+
+          // Status
+          if (currentFilters.status) {
+            if (currentFilters.status === "active") setSelected2("نشط");
+            if (currentFilters.status === "inactive") setSelected2("غير نشط");
+          } else {
+             setSelected2("");
+          }
+
+          // Designation
+          if (currentFilters.designation_id && optionJob.length > 0) {
+            const job = optionJob.find(opt => opt.id === currentFilters.designation_id);
+            if (job) setSelected3(job.name);
+          } else {
+            setSelected3("");
+          }
+        }
+      }, [open, currentFilters, optionWorkplaces, optionJob]);
     
   return (
     <Dialog
@@ -277,12 +306,34 @@ function FiltersPage({ open, handleClose , getDesignations  }) {
       
 
       <div className="px-6 mt-4 mb-6 flex gap-4">
-        <button className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px] cursor-pointer">
+        <button 
+          onClick={() => {
+            const filters = {};
+            if (selected1.length > 0) {
+              filters.areas = selected1.map((item) => item.id);
+            }
+            if (selected2) {
+              if (selected2 === "نشط") filters.status = "active";
+              if (selected2 === "غير نشط") filters.status = "inactive";
+            }
+            if (selected3) {
+              const job = optionJob.find((opt) => opt.name === selected3);
+              if (job) filters.designation_id = job.id;
+            }
+            onApply(filters);
+          }}
+          className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px] cursor-pointer"
+        >
           {t("Show results")}
         </button>
         <button
           className="border border-[#C69815] text-[#C69815] px-4 py-2.5 w-32.5 h-13.5 rounded-[3px] cursor-pointer"
-          
+          onClick={() => {
+            setSelected1([]);
+            setSelected2("");
+            setSelected3("");
+            onReset();
+          }}
         >
           {t("Reset")}
         </button>

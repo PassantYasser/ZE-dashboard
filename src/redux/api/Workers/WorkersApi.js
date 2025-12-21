@@ -1,9 +1,9 @@
 import API from "../../../../config/api"
 
 //get all worker
-export  const getAllWorkers = async(page = 1, limit = 10)=>{
+export  const getAllWorkers = async(params = {})=>{
   const response = await API.get('/provider/getHandymen',{
-    params: { page, limit }
+    params: params
   })
   return response.data ;
 }

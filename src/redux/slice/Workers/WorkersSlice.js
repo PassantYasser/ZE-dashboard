@@ -4,9 +4,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 //get all workers
 export const getAllWorkersThunk = createAsyncThunk(
   "workers/getAllWorkers",
-  async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await getAllWorkers(page, limit);
+      const response = await getAllWorkers(params);
       return response;
     } catch (error) {
       return rejectWithValue(error.response.data);
