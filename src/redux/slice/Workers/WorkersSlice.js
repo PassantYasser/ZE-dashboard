@@ -1,4 +1,4 @@
-import { addWorker, getAllWorkers, getDesignations, getWorkerById, UpdateWorker } from "@/redux/api/Workers/WorkersApi";
+import { addWorker, getAllWorkers, getDesignations, getWorkerById, UpdateWorker, deleteWorker } from "@/redux/api/Workers/WorkersApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //get all workers
@@ -72,6 +72,20 @@ export const UpdateWorkerThunk = createAsyncThunk(
     }
   }
 )
+
+//delete worker
+export const deleteWorkerThunk = createAsyncThunk(
+  'worker/deleteWorkerThunk',
+  async (worker_id, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await deleteWorker(worker_id);
+      dispatch(getAllWorkersThunk()); // Refresh the list
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 
 
@@ -162,6 +176,18 @@ const WorkersSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // ✅ Delete worker
+      .addCase(deleteWorkerThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteWorkerThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(deleteWorkerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 })
 export const { setPage } = WorkersSlice.actions;

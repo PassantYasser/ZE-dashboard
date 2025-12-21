@@ -7,6 +7,8 @@ import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import DeletePage from "./Model/Delete/page";
+import { useDispatch } from "react-redux";
+import { deleteWorkerThunk } from "@/redux/slice/Workers/WorkersSlice";
 
 function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber , status) {
   return { UserCode, worker, workerImg, job, WorkingHours, phoneNumber, status};
@@ -17,13 +19,25 @@ function createData(UserCode, worker, workerImg,job, WorkingHours, phoneNumber ,
 
 export default function TableWorkers({workers , loading}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const [selectedWorkerId, setSelectedWorkerId] = useState(null);
 
   const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
+  
+  const handleClickOpen = (id) => {
+    setSelectedWorkerId(id);
     setOpen(true);
   };
   const handleClosee = () => {
     setOpen(false);
+    setSelectedWorkerId(null);
+  };
+
+  const handleDeleteWorker = () => {
+    if (selectedWorkerId) {
+      dispatch(deleteWorkerThunk(selectedWorkerId));
+      handleClosee();
+    }
   };
 
   const StatusRender = (status) => {
@@ -114,7 +128,7 @@ const handleEditClick = (id) => {
                   <button onClick={() => handleEditClick(worker.id)} className="cursor-pointer">
                     <img src="/images/icons/EditBlack.svg" alt=""  className="w-6 h-6"/>
                   </button>
-                  <button className="cursor-pointer" onClick={handleClickOpen}>
+                  <button className="cursor-pointer" onClick={() => handleClickOpen(worker.id)}>
                     <img src="/images/icons/delete-darkRed.svg" alt="" className="w-6 h-6" />
                   </button>
                 </td>
@@ -134,6 +148,7 @@ const handleEditClick = (id) => {
     <DeletePage 
         open={open} 
         handleClosee={handleClosee} 
+        onDelete={handleDeleteWorker}
       />
     </div>
 

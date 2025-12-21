@@ -41,3 +41,9 @@ export const UpdateWorker = async(formData)=>{
   console.log('UpdateWorker',response.data);
   return response.data
 }
+
+//delete worker
+export const deleteWorker = async (worker_id) => {
+  const response = await API.post('/removeHandyman', { id: worker_id });
+  return response.data;
+}
