@@ -6,16 +6,34 @@ import { useTranslation } from "react-i18next";
 // Dynamically import Dialog to avoid SSR
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPage({ open, handleClose }) {
+function FiltersPage({ open, handleClose, onApply, onReset, currentFilters }) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState([]);
-  const options = [t("active"), t("pending"), t("refused"), t("stopped"), t("inactive")];
+  
+  const options = [
+    { value: "active", label: t("active") },
+    { value: "pending", label: t("pending") },
+    { value: "refused", label: t("refused") },
+    { value: "stopped", label: t("stopped") },
+    { value: "inactive", label: t("inactive") },
+  ];
 
-  const handleChange = (option) => {
+  // Initialize from currentFilters
+  React.useEffect(() => {
+    if (open && currentFilters && currentFilters.status) {
+       // Support both single string (if user manually edited params) and array
+       const status = Array.isArray(currentFilters.status) ? currentFilters.status : [currentFilters.status];
+       setSelected(status);
+    } else if (open && !currentFilters?.status) {
+      setSelected([]);
+    }
+  }, [open, currentFilters]);
+
+  const handleChange = (value) => {
     setSelected((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
     );
   };
 
@@ -55,19 +73,19 @@ function FiltersPage({ open, handleClose }) {
             <label key={index} className="flex items-center gap-2 mb-4 cursor-pointer">
               <input
                 type="checkbox"
-                checked={selected.includes(option)}
-                onChange={() => handleChange(option)}
+                checked={selected.includes(option.value)}
+                onChange={() => handleChange(option.value)}
                 className="hidden"
               />
               <span
                 className={`w-6 h-6 flex items-center justify-center border rounded-[3px] 
                   ${
-                    selected.includes(option)
+                    selected.includes(option.value)
                       ? "bg-[#C69815] border-[#C69815]"
                       : "bg-white border-[#CDD5DF]"
                   }`}
               >
-                {selected.includes(option) && (
+                {selected.includes(option.value) && (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -85,19 +103,27 @@ function FiltersPage({ open, handleClose }) {
                   </svg>
                 )}
               </span>
-              <span className="text-[#727272] text-base font-normal">{option}</span>
+              <span className="text-[#727272] text-base font-normal">{option.label}</span>
             </label>
           ))}
         </div>
       </section>
 
       <div className="px-6 mt-4 mb-6 flex gap-4">
-        <button className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px] cursor-pointer">
+        <button 
+          onClick={() => {
+            onApply({ status: selected });
+          }}
+          className="bg-[#C69815] text-white px-4 py-2.5 w-42.5 h-13.5 rounded-[3px] cursor-pointer"
+        >
           {t("apply")}
         </button>
         <button
           className="border border-[#C69815] text-[#C69815] px-4 py-2.5 w-32.5 h-13.5 rounded-[3px] cursor-pointer"
-          onClick={handleClose}
+          onClick={() => {
+            setSelected([]);
+            onReset();
+          }}
         >
           {t("cancel")}
         </button>

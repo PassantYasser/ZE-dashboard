@@ -5,7 +5,7 @@ import SearchForm from '@/app/Components/Forms/SearchForm'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NavWorker({handleClickOpen}) {
+function NavWorker({handleClickOpen, onSearch}) {
   const {t} = useTranslation()
   return (
     <>
@@ -22,7 +22,10 @@ function NavWorker({handleClickOpen}) {
       </section>
 
       <section className='flex gap-6'>
-        <SearchForm placeholderKey="Search by order number"/>
+        <SearchForm 
+          placeholderKey="Search by name" 
+          onChange={(e) => onSearch(e.target.value)}
+        />
         <FilterBtn onClick={handleClickOpen}/>
       </section>
 

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SearchForm({ placeholderKey ,width }) {
+function SearchForm({ placeholderKey ,width, ...props }) {
   const {t}= useTranslation();
 // 546--556
   return (
@@ -17,6 +17,7 @@ function SearchForm({ placeholderKey ,width }) {
           type="text"
           placeholder={t(placeholderKey)}
           className="w-full h-14 pl-5  pr-10 border border-[#C8C8C8] rounded-[3px] text-[#364152] placeholder-[#9AA4B2] focus:outline-none"
+          {...props}
         />
       </div>
     </>

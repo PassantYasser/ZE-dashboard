@@ -4,9 +4,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // get all services
 export const getAllServicesThunk = createAsyncThunk(
   "services/getAll",
-  async ({ page = 1, per_page = 10 }, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
-      const data = await getAllServices(page, per_page);
+      const data = await getAllServices(params);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);

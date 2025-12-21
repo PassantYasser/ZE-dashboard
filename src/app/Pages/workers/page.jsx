@@ -28,6 +28,15 @@ function WorkersPage() {
       dispatch(setPage(1));
     };
 
+    const handleSearch = (term) => {
+      setFilterParams(prev => {
+        const newParams = { ...prev, search: term };
+        if (!term) delete newParams.search;
+        return newParams;
+      });
+      dispatch(setPage(1));
+    }
+
 
     //api
     const dispatch = useDispatch();
@@ -53,6 +62,7 @@ function WorkersPage() {
     <MainLayout>
       <NavWorker 
         handleClickOpen={handleClickOpen}
+        onSearch={handleSearch}
       />
 
       <TableWorkers 

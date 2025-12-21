@@ -22,6 +22,39 @@ function ServicesPage() {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [filterParams, setFilterParams] = useState({});
+
+  const handleApplyFilters = (filters) => {
+    setFilterParams((prev) => {
+      const newParams = { ...prev };
+      // Handle Status: If present in filters, update it. If empty array, remove it.
+      if (filters.hasOwnProperty('status')) {
+         if (Array.isArray(filters.status) && filters.status.length === 0) {
+           delete newParams.status;
+         } else {
+           newParams.status = filters.status;
+         }
+      }
+      return newParams;
+    });
+    setCurrentPage(1);
+    handleClose();
+  };
+
+  const handleReset = () => {
+    setFilterParams({});
+    setCurrentPage(1);
+  };
+
+  const handleSearch = (term) => {
+    setFilterParams((prev) => {
+      const newParams = { ...prev, search: term };
+      if (!term) delete newParams.search;
+      return newParams;
+    });
+    setCurrentPage(1);
+  };
+
 
   //link api data to cards
   const dispatch = useDispatch();
@@ -30,8 +63,8 @@ function ServicesPage() {
   const [perPage, setPerPage] = useState(6);
 
   useEffect(() => {
-    dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage }));
-  }, [dispatch, currentPage , perPage]);
+    dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage, ...filterParams }));
+  }, [dispatch, currentPage , perPage, filterParams]);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
@@ -50,7 +83,10 @@ function ServicesPage() {
         
 
         <div className="flex justify-between">
-          <SearchForm placeholderKey="Search by worker name, job title, or phone number" />
+          <SearchForm 
+            placeholderKey="Search by worker name, job title, or phone number" 
+            onChange={(e) => handleSearch(e.target.value)}
+          />
           <div className="lg1:flex lg1:gap-4 gap-6">
             <FilterBtn onClick={handleClickOpen} />
             <AddBtn
@@ -64,17 +100,18 @@ function ServicesPage() {
 
       <section className="mt-10 w-full mb-8 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
         {/* <ServiceCard /> */}
-        {!loading && !error && services?.length > 0 ? (
+        {loading ? (
+           <div className="flex justify-center items-center h-60 w-full col-span-full">
+              <CircularProgress color="warning" size={60}  />
+           </div>
+        ) : !error && services?.length > 0 ? (
           services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))
         ) : (
-          !loading && (
-            <div className="">
-              <CircularProgress color="warning" size={60}  />
-            </div>
-            
-          )
+          <div className="flex justify-center items-center h-60 w-full col-span-full">
+             <p className="text-gray-500 text-xl">{t("No services found")}</p>
+          </div>
         )}
       </section>
       
@@ -84,7 +121,13 @@ function ServicesPage() {
         onPageChange={handlePageChange}
       />
 
-      <FiltersPage open={open} handleClose={handleClose} />
+      <FiltersPage 
+        open={open} 
+        handleClose={handleClose} 
+        onApply={handleApplyFilters}
+        onReset={handleReset}
+        currentFilters={filterParams}
+      />
     </MainLayout>
   );
 }

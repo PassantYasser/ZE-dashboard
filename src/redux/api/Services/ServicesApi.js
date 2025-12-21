@@ -1,8 +1,8 @@
 import API from "../../../../config/api";
 
-export const getAllServices = async (page = 1, per_page = 10) => {
+export const getAllServices = async (params = {}) => {
   const response = await API.get("/provider/services", {
-    params: { page, per_page },
+    params: params,
   });
   return response.data; 
 };
