@@ -3,9 +3,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import TitleOfCardsPage from './TitleOfCards/page'
 
-function CardsPage() {
+function CardsPage({paymentsData}) {
   const{t}= useTranslation()
-  const percentage = 8
+  // const percentage = 8
+  const cash = paymentsData?.weekly_stats?.cash?.percent_change ?? 0;
+const refunded = paymentsData?.weekly_stats?.refunded?.percent_change ?? 0;
+const booking = paymentsData?.weekly_stats?.booking?.percent_change ?? 0;
+const card = paymentsData?.weekly_stats?.card?.percent_change ?? 0;
+
   return (
     <>
       <TitleOfCardsPage/>
@@ -23,15 +28,15 @@ function CardsPage() {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972</p>
+            <p className='text-[#202939] text-lg font-medium'>{paymentsData?.cash_booking_sum}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {percentage >=0 ? (
+            {cash >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{percentage}%</span>
+                <span>{cash}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -42,7 +47,7 @@ function CardsPage() {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{percentage}%</span>
+                <span>{cash}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -66,15 +71,15 @@ function CardsPage() {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972</p>
+            <p className='text-[#202939] text-lg font-medium'>{paymentsData?.refunded_sum}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {percentage >=0 ? (
+            {refunded >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{percentage}%</span>
+                <span>{refunded}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -85,7 +90,7 @@ function CardsPage() {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{percentage}%</span>
+                <span>{refunded}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -109,15 +114,15 @@ function CardsPage() {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972</p>
+            <p className='text-[#202939] text-lg font-medium'>{paymentsData?.total_booking_price}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {percentage >=0 ? (
+            {booking >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{percentage}%</span>
+                <span>{booking}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -128,7 +133,7 @@ function CardsPage() {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{percentage}%</span>
+                <span>{booking}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -152,15 +157,15 @@ function CardsPage() {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972</p>
+            <p className='text-[#202939] text-lg font-medium'>{paymentsData?.card_booking_sum}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {percentage >=0 ? (
+            {card >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{percentage}%</span>
+                <span>{card}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -171,7 +176,7 @@ function CardsPage() {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{percentage}%</span>
+                <span>{card}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />

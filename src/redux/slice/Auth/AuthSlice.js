@@ -24,19 +24,17 @@ export const loginThunk = createAsyncThunk(
     try {
       const data = await login(loginData);
 
-      // 🟢 Save token in both localStorage and cookies
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("provider_id", data.provider.id);
 
-      // Save token in cookies (readable by Next middleware)
       Cookies.set("token", data.access_token, {
         expires: 7, // مدة 7 أيام
         path: "/", // متاحة في كل المسارات
         secure: true, // يفضل لما تكون على https
         sameSite: "strict",
       });
-console.log("After Login -> token:", Cookies.get("token"));
 
+      console.log("After Login -> token:", Cookies.get("token"));
 
       return data;
     } catch (error) {
