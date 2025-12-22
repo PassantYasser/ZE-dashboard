@@ -39,7 +39,11 @@ function BasicInformationPage({ handleGoBack, handleNext, service, formData, han
       alert(`${t("Maximum number of photos")} ${MAX_IMAGES}`);
       return;
     }
-    const newImages = files.map(file => URL.createObjectURL(file));
+    const newImages = files.map(file => ({
+      url: URL.createObjectURL(file), // For preview
+      file: file, // For upload
+      isNew: true
+    }));
     setImages(prev => [...prev, ...newImages]);
   };
 
@@ -48,11 +52,31 @@ function BasicInformationPage({ handleGoBack, handleNext, service, formData, han
   };
 
   useEffect(() => {
-    if (service?.images && service.images.length > 0) {
-      const existingImages = service.images.map(img => `${IMAGE_BASE_URL}${img.image_path}`);
+    if (service?.images) {
+      const existingImages = service.images.map(img => ({
+        id: img.id,
+        url: `${IMAGE_BASE_URL}${img.image_path}`,
+        isNew: false
+      }));
       setImages(existingImages);
     }
   }, [service]);
+
+  // Sync images with parent form data
+  useEffect(() => {
+    // 1. Existing image IDs
+    const existingIds = images
+      .filter(img => !img.isNew)
+      .map(img => img.id);
+
+    // 2. New image files
+    const newFiles = images
+      .filter(img => img.isNew)
+      .map(img => img.file);
+
+    handleChange("image_ids", existingIds);
+    handleChange("image_files", newFiles);
+  }, [images]);
 
 
 
@@ -234,7 +258,7 @@ function BasicInformationPage({ handleGoBack, handleNext, service, formData, han
                 >
                   {/* image */}
                   <img
-                    src={images[idx]}
+                    src={images[idx].url}
                     alt={`uploaded-${idx}`}
                     className="w-full h-full object-cover"
                   />
