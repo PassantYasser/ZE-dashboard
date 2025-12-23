@@ -1,25 +1,12 @@
 "use client"
+import { CircularProgress } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function TableOfTransactionsPage() {
+function TableOfTransactionsPage({TaxesTransactionsData , loading}) {
     const {t} = useTranslation()
     const [active, setActive] = useState("Collected");
-    
-    function createData( TransactionNumber, BookingNumber, dateTime, TaxDue, NetProfit,  Status ) {
-      return { TransactionNumber, BookingNumber, dateTime, TaxDue,NetProfit,  Status };
-    }
 
-    const rows = [
-      createData("12" , "6504" , "15 أبريل 2023 : 10 ص" , "40.00 جنية" , "50.00 جنية" , 'pending'),
-      createData("13" , "6505", "16 أبريل 2023 : 11 ص", "55.00 جنية", "60.00 جنية", "pending"),
-      createData("14" , "6506", "17 أبريل 2023 : 02 م", "30.00 جنية", "45.00 جنية", "exported"),
-      createData("15" , "6507", "18 أبريل 2023 : 09 ص", "80.00 جنية", "90.00 جنية", "pending"),
-      createData("16" , "6508", "19 أبريل 2023 : 01 م", "25.00 جنية", "35.00 جنية", "exported"),
-      createData("17" , "6509", "20 أبريل 2023 : 04 م", "60.00 جنية", "75.00 جنية", "pending"),
-      createData("18", "6510", "21 أبريل 2023 : 12 م", "45.00 جنية", "55.00 جنية", "exported"),
-
-    ];
 
   
     const Status = (Status) => {
@@ -111,23 +98,38 @@ function TableOfTransactionsPage() {
 
           {/* Table Body */}
           <tbody>
-            {rows.map((row) => (
-              <tr
-                key={row.TransactionNumber}
-                className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
-              >
+            {loading?(
+                <tr>
+                  <td colSpan={7} className="text-center py-10">
+                    <CircularProgress size="3rem" color="warning" />
+                  </td>
+                </tr>
+            ):TaxesTransactionsData.length > 0 ?(
+              TaxesTransactionsData.map((finance) => (
+                <tr
+                  key={finance?.service_payment_id}
+                  className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
+                >
+                
+                  <td className="p-4">{finance?.service_payment_id}</td>
+                  <td className="p-4">{finance?.booking_id}#</td>
+                  <td className="p-4">{finance?.created_at}</td>
+                  <td className="p-4">{finance?.total_tax}</td>
+                  <td className="p-4">{finance?.amount}</td>
+                  <td className="p-4">
+                    {Status(finance?.status)}
+                  </td>
               
-                <td className="p-4">{row.TransactionNumber}</td>
-                <td className="p-4">{row.BookingNumber}#</td>
-                <td className="p-4">{row.dateTime}</td>
-                <td className="p-4">{row.TaxDue}</td>
-                <td className="p-4">{row.NetProfit}</td>
-                <td className="p-4">
-                  {Status(row.Status)}
+                </tr>
+              ))
+            ):(
+              <tr>
+                <td colSpan={7} className="text-center py-10">
+                  <CircularProgress size="3rem" color="warning" />
                 </td>
-            
               </tr>
-            ))}
+            )}
+          
           </tbody>
         </table>
 

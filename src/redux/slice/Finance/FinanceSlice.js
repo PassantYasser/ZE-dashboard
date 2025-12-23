@@ -1,4 +1,4 @@
-import { getPaymentsData, getTaxesData, getTransactionsOverview } from "@/redux/api/Finance/FinanceApi";
+import { getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -34,7 +34,7 @@ export const getTaxesDataThunk = createAsyncThunk(
     async(_ ,{rejectWithValue})=>{
       try{
         const response = await getTaxesData()
-        console.log('getTaxesDataThunk' , response.data);
+        // console.log('getTaxesDataThunk' , response.data);
         return response.data
       }catch(error){
         return rejectWithValue(error.response?.data || "Failed to fetch finance data");
@@ -42,11 +42,25 @@ export const getTaxesDataThunk = createAsyncThunk(
     }
 )
 
+export const getTransactionsTaxesThunk = createAsyncThunk(
+  'finance/getTransactionsTaxesThunk' ,
+  async(_ ,{rejectWithValue})=>{
+    try{
+      const response = await getTransactionsTaxes()
+      console.log('getTransactionsTaxesThunk' , response.taxes);
+      return response.taxes
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch finance data");
+    }
+  }
+)
+
 
 const initialState = {
   paymentsData: null,
   TransactionsData:[],
   TaxesData:null,
+  TaxesTransactionsData:[],
   loading: false,
   error: null,
 };
@@ -100,6 +114,19 @@ const FinanceSlice = createSlice({
         state.TaxesData = action.payload;
       })
       .addCase(getTaxesDataThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+// get taxes transaction  (table for finance taxes)
+    .addCase(getTransactionsTaxesThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getTransactionsTaxesThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.TaxesTransactionsData = action.payload;
+      })
+      .addCase(getTransactionsTaxesThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })

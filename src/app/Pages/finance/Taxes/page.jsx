@@ -5,24 +5,25 @@ import HeaderOfTaxesPage from './HeaderOfTaxes/page'
 import CardsPage from './Cards/page'
 import TransactionsPage from './Transactions/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTaxesDataThunk } from '@/redux/slice/Finance/FinanceSlice'
+import { getTaxesDataThunk, getTransactionsTaxesThunk } from '@/redux/slice/Finance/FinanceSlice'
 
 function TaxesPage() {
   const dispatch = useDispatch()
-  const {TaxesData , loading , error} = useSelector((state)=>state.finance)
+  const {TaxesData ,TaxesTransactionsData, loading , error} = useSelector((state)=>state.finance)
 
   useEffect(()=>{
     dispatch(getTaxesDataThunk())
+    dispatch(getTransactionsTaxesThunk())
   },[dispatch])
 
-  console.log('TaxesData' , TaxesData);
+  console.log('TaxesTransactionsData' , TaxesTransactionsData);
   return (
     <MainLayout>
 
     <HeaderOfTaxesPage/>
 
     <CardsPage TaxesData={TaxesData}/>
-    <TransactionsPage/>
+    <TransactionsPage TaxesTransactionsData={TaxesTransactionsData} loading={loading} />
 
     </MainLayout>
   )
