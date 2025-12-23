@@ -24,7 +24,7 @@ export const getTaxesData = async () =>{
 }
 
 // get taxes transaction  (table for finance taxes)
-export const getTransactionsTaxes = async()=>{
-  const response = await API.get('/provider/taxes')
+export const getTransactionsTaxes = async(page = 1)=>{
+  const response = await API.get(`/provider/taxes?page=${page}`)
   return response.data
 }

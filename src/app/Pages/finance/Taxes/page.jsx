@@ -9,12 +9,17 @@ import { getTaxesDataThunk, getTransactionsTaxesThunk } from '@/redux/slice/Fina
 
 function TaxesPage() {
   const dispatch = useDispatch()
-  const {TaxesData ,TaxesTransactionsData, loading , error} = useSelector((state)=>state.finance)
+  const {TaxesData ,TaxesTransactionsData, TaxesPagination, loading , error} = useSelector((state)=>state.finance)
 
   useEffect(()=>{
     dispatch(getTaxesDataThunk())
-    dispatch(getTransactionsTaxesThunk())
+    dispatch(getTransactionsTaxesThunk(1))
   },[dispatch])
+
+  // Handle pagination page change
+  const handlePageChange = (page) => {
+    dispatch(getTransactionsTaxesThunk(page));
+  };
 
   console.log('TaxesTransactionsData' , TaxesTransactionsData);
   return (
@@ -23,7 +28,7 @@ function TaxesPage() {
     <HeaderOfTaxesPage/>
 
     <CardsPage TaxesData={TaxesData}/>
-    <TransactionsPage TaxesTransactionsData={TaxesTransactionsData} loading={loading} />
+    <TransactionsPage TaxesTransactionsData={TaxesTransactionsData} loading={loading} pagination={TaxesPagination} onPageChange={handlePageChange}/>
 
     </MainLayout>
   )

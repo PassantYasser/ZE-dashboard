@@ -3,13 +3,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const Pagination = ({ totalPages = 10, onPageChange }) => {
+const Pagination = ({ pagination, onPageChange }) => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  // Get values from API pagination or use defaults
+  const currentPage = pagination?.current_page || 1;
+  const totalPages = pagination?.last_page || 1;
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
     if (onPageChange) onPageChange(page);
   };
 
