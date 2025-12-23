@@ -111,7 +111,7 @@ const { t, i18n } = useTranslation();
                 <CircularProgress size="3rem" color="warning" />
               </td>
             </tr>
-          ):TransactionsData.length > 0 ? (
+          ):TransactionsData?.length > 0 ? (
             TransactionsData.map((finance) => (
             <tr
               key={finance?.id}

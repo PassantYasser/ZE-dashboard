@@ -112,7 +112,7 @@ function TableOfTransactionsPage({TaxesTransactionsData , loading}) {
                     <CircularProgress size="3rem" color="warning" />
                   </td>
                 </tr>
-            ):filteredData.length > 0 ?(
+            ):filteredData?.length > 0 ?(
               filteredData.map((finance) => (
                 <tr
                   key={finance?.service_payment_id}
