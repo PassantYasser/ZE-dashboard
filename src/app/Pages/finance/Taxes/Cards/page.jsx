@@ -20,11 +20,11 @@ function CardsPage() {
             <p className='text-[#4B5565] text-base font-normal'>{t('Gross Profit')}</p>
           </div>
 
-          <div className='py-2.5'>
+          <div className='pt-2.5'>
             <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
           </div>
 
-          <div className='flex gap-1'>
+          {/* <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
             {percentage >=0 ? (
               <>
@@ -49,7 +49,7 @@ function CardsPage() {
             
             )}
             
-          </div>
+          </div> */}
 
         </section>
 
@@ -63,11 +63,11 @@ function CardsPage() {
             <p className='text-[#4B5565] text-base font-normal'>{t('Net Profit')}</p>
           </div>
 
-          <div className='py-2.5'>
+          <div className='pt-2.5'>
             <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
           </div>
 
-          <div className='flex gap-1'>
+          {/* <div className='flex gap-1'>
             <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
             {percentage >=0 ? (
               <>
@@ -92,7 +92,7 @@ function CardsPage() {
             
             )}
             
-          </div>
+          </div> */}
 
         </section>
 
@@ -106,11 +106,11 @@ function CardsPage() {
             <p className='text-[#4B5565] text-base font-normal'>{t('tax due')}</p>
           </div>
 
-          <div className='py-2.5'>
+          <div className='pt-2.5'>
             <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
           </div>
 
-          <div className='flex gap-1'>
+          {/* <div className='flex gap-1'>
             {percentage >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
@@ -134,7 +134,7 @@ function CardsPage() {
             
             )}
             
-          </div>
+          </div> */}
 
         </section>
 
