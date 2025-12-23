@@ -3,7 +3,7 @@ import TitleOfTransactionsPage from './TitleOfTransactions/page'
 import TableOfTransactionsPage from './TableOfTransactions/page'
 import Pagination from './TableOfTransactions/Pagination'
 
-function TransactionsPage({TransactionsData ,loading}) {
+function TransactionsPage({TransactionsData ,loading, pagination, onPageChange}) {
 
   return (
     <>
@@ -12,7 +12,7 @@ function TransactionsPage({TransactionsData ,loading}) {
         <TitleOfTransactionsPage/>
 
         <TableOfTransactionsPage TransactionsData={TransactionsData} loading={loading}/>
-        <Pagination/>
+        <Pagination pagination={pagination} onPageChange={onPageChange}/>
 
       </div>
     </>

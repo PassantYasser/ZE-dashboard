@@ -11,8 +11,8 @@ export const getPaymentsData = async () => {
 };
 
 // get payment transaction  (table for finance overview)
-export const getTransactionsOverview = async ()=>{
-  const response = await API.get('/provider/service-payments')
+export const getTransactionsOverview = async (page = 1)=>{
+  const response = await API.get(`/provider/service-payments?page=${page}`)
   return response.data
 
 }

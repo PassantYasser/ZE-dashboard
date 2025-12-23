@@ -9,12 +9,17 @@ import { getPaymentsDataThunk, getTransactionsOverviewThunk } from '@/redux/slic
 
 function OverviewPage() {
   const dispatch = useDispatch();
-const { paymentsData,TransactionsData, loading, error } = useSelector((state)=>state.finance);
+const { paymentsData,TransactionsData, TransactionsPagination, loading, error } = useSelector((state)=>state.finance);
 
 useEffect(() => {
   dispatch(getPaymentsDataThunk());
-  dispatch(getTransactionsOverviewThunk())
+  dispatch(getTransactionsOverviewThunk(1))
 }, []);
+
+// Handle pagination page change
+const handlePageChange = (page) => {
+  dispatch(getTransactionsOverviewThunk(page));
+};
 
 // console.log('paymentsData' ,paymentsData);
 
@@ -23,7 +28,7 @@ useEffect(() => {
 
       <CardsPage paymentsData={paymentsData}/>
       <Income_analysisPage/>
-      <TransactionsPage TransactionsData={TransactionsData} loading={loading}/>
+      <TransactionsPage TransactionsData={TransactionsData} loading={loading} pagination={TransactionsPagination} onPageChange={handlePageChange}/>
     </MainLayout>
   )
 }
