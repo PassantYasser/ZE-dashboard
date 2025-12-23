@@ -1,4 +1,4 @@
-import { getPaymentsData, getTransactionsOverview } from "@/redux/api/Finance/FinanceApi";
+import { getPaymentsData, getTaxesData, getTransactionsOverview } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -29,10 +29,24 @@ export const getTransactionsOverviewThunk = createAsyncThunk(
   }
 )
 
+export const getTaxesDataThunk = createAsyncThunk(
+  'finance/getTaxesDataThunk' ,
+    async(_ ,{rejectWithValue})=>{
+      try{
+        const response = await getTaxesData()
+        console.log('getTaxesDataThunk' , response.data);
+        return response.data
+      }catch(error){
+        return rejectWithValue(error.response?.data || "Failed to fetch finance data");
+      }
+    }
+)
+
 
 const initialState = {
   paymentsData: null,
   TransactionsData:[],
+  TaxesData:null,
   loading: false,
   error: null,
 };
@@ -73,6 +87,19 @@ const FinanceSlice = createSlice({
         state.TransactionsData = action.payload;
       })
       .addCase(getTransactionsOverviewThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // get taxes data (cards for finance taxes)
+      .addCase(getTaxesDataThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getTaxesDataThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.TaxesData = action.payload;
+      })
+      .addCase(getTaxesDataThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

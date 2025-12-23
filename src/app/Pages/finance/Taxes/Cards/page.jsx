@@ -2,10 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function CardsPage() {
+function CardsPage({TaxesData}) {
 
     const{t}= useTranslation()
-    const percentage = 8
+    // const percentage = 8
   return (
     <>
         <div className='grid grid-cols-3 gap-4 mb-12 mt-5'>
@@ -21,7 +21,7 @@ function CardsPage() {
           </div>
 
           <div className='pt-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
+            <p className='text-[#202939] text-lg font-medium'>{TaxesData?.total_earnings} جنيه</p>
           </div>
 
           {/* <div className='flex gap-1'>
@@ -64,7 +64,7 @@ function CardsPage() {
           </div>
 
           <div className='pt-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
+            <p className='text-[#202939] text-lg font-medium'>{TaxesData?.withdraw_amount} جنيه</p>
           </div>
 
           {/* <div className='flex gap-1'>
@@ -107,7 +107,7 @@ function CardsPage() {
           </div>
 
           <div className='pt-2.5'>
-            <p className='text-[#202939] text-lg font-medium'>87,972 جنية</p>
+            <p className='text-[#202939] text-lg font-medium'>{TaxesData?.total_taxes} جنيه</p>
           </div>
 
           {/* <div className='flex gap-1'>

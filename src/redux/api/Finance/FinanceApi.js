@@ -16,3 +16,10 @@ export const getTransactionsOverview = async ()=>{
   return response.data
 
 }
+
+// get taxes data (cards for finance taxes)
+export const getTaxesData = async () =>{
+  const response = await API.get('/provider/getTransactionsData')
+  return response.data
+}
+
