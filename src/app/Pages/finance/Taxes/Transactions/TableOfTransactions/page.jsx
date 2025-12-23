@@ -7,7 +7,15 @@ function TableOfTransactionsPage({TaxesTransactionsData , loading}) {
     const {t} = useTranslation()
     const [active, setActive] = useState("Collected");
 
-
+    // Filter data based on active tab
+    const filteredData = TaxesTransactionsData?.filter((item) => {
+      if (active === "Collected") {
+        return item?.status === "pending";
+      } else if (active === "Non-collected") {
+        return item?.status === "exported";
+      }
+      return true;
+    }) || [];
   
     const Status = (Status) => {
       switch (Status) {
@@ -104,8 +112,8 @@ function TableOfTransactionsPage({TaxesTransactionsData , loading}) {
                     <CircularProgress size="3rem" color="warning" />
                   </td>
                 </tr>
-            ):TaxesTransactionsData.length > 0 ?(
-              TaxesTransactionsData.map((finance) => (
+            ):filteredData.length > 0 ?(
+              filteredData.map((finance) => (
                 <tr
                   key={finance?.service_payment_id}
                   className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
