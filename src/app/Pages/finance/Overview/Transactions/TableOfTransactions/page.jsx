@@ -1,26 +1,33 @@
 
 "use client";
+import { CircularProgress } from "@mui/material";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-function createData( TransactionNumber, ServiceName, NameOfTheWorker, CustomerName, dateTime, AmountPaid, paymentMethod, Status ) {
-  return { TransactionNumber, ServiceName, NameOfTheWorker, CustomerName, dateTime, AmountPaid, paymentMethod, Status };
-}
 
-const rows = [
-  createData("11", "سباكة تأسيس", "عبدلله السعيد", "ناصر ماهر", "15 أبريل 2023 : 10 ص", "40.00 جنية", "card", "pending"),
-  createData("12", "كهرباء منزلية", "أحمد علي", "محمد فتحي", "20 أبريل 2023 : 12 م", "75.00 جنية", "cash", "paid"),
-  createData("13", "تنظيف تكييف", "محمود رأفت", "علي صبري", "1 مايو 2023 : 08 ص", "120.00 جنية", "card", "refunded"),
-  createData("14", "نجارة أبواب", "أيمن عادل", "سيد يوسف", "10 مايو 2023 : 04 م", "200.00 جنية", "cash", "pending"),
-  createData("15", "دهانات غرفة", "حسن سامي", "طارق عبدالمجيد", "12 مايو 2023 : 11 ص", "350.00 جنية", "card", "refunded"),
+export default function TableOfTransactionsPage({TransactionsData ,loading}) {
 
-];
-
-
-export default function TableOfTransactionsPage() {
-
-  const { t } = useTranslation();
-
+const { t, i18n } = useTranslation();
+  const formatDateTimeByLang = (dateString, lang) => {
+    if (!dateString) return ""
+    const date = new Date(dateString.replace(" ", "T"));
+    const isArabic = lang === "ar";
+    const formatter = new Intl.DateTimeFormat(
+      isArabic ? "ar-EG" : "en-US",
+      {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      }
+    );
+    const formatted = formatter.format(date);
+    return isArabic
+      ? formatted.replace("،", " :")
+      : formatted.replace(",", " :");
+  };
 
 
   const StatusRender = (Status) => {
@@ -98,27 +105,44 @@ export default function TableOfTransactionsPage() {
 
         {/* Table Body */}
         <tbody>
-          {rows.map((row) => (
+          {loading?(
+            <tr>
+              <td colSpan={7} className="text-center py-10">
+                <CircularProgress size="3rem" color="warning" />
+              </td>
+            </tr>
+          ):TransactionsData.length > 0 ? (
+            TransactionsData.map((finance) => (
             <tr
-              key={row.TransactionNumber}
+              key={finance?.id}
               className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
             >
             
-              <td className="p-4">{row.TransactionNumber}</td>
-              <td className="p-4">{row.ServiceName}</td>
-              <td className="p-4">{row.NameOfTheWorker}</td>
-              <td className="p-4">{row.CustomerName}</td>
-              <td className="p-4">{row.dateTime}</td>
-              <td className="p-4">{row.AmountPaid}</td>
+              <td className="p-4">{finance?.id}</td>
+              <td className="p-4">{finance?.service?.title}</td>
+              <td className="p-4">{finance?.handyman?.firstname} {finance?.handyman?.lastname}</td>
+              <td className="p-4">{finance?.user?.firstname} {finance?.user?.lastname}</td>
               <td className="p-4">
-                {paymentMethod(row.paymentMethod)}
+                {formatDateTimeByLang(finance?.created_at, i18n.language)}
+              </td>
+
+              <td className="p-4">{finance?.amount}{finance?.currency}</td>
+              <td className="p-4">
+                {paymentMethod(finance?.payment_method)}
               </td>
               <td className='p-4'>
-                {StatusRender(row.Status)}
+                {StatusRender(finance?.payment_status)}
               </td>
               
             </tr>
-          ))}
+          ))
+          ):(
+            <tr>
+              <td colSpan={7} className="text-center py-10">
+                <CircularProgress size="3rem" color="warning" />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

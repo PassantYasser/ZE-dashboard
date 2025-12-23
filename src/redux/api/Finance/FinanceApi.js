@@ -6,6 +6,13 @@ export const getPaymentsData = async () => {
   const response = await API.post('/provider/payments-data', {
     provider_id: provider_id
   });
-  console.log('getPaymentsData', response.data);
+  // console.log('getPaymentsData', response.data);
   return response.data;
 };
+
+// get payment transaction  (table for finance overview)
+export const getTransactionsOverview = async ()=>{
+  const response = await API.get('/provider/service-payments')
+  return response.data
+
+}

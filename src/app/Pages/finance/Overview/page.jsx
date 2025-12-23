@@ -5,24 +5,25 @@ import CardsPage from './Cards/page'
 import Income_analysisPage from './Income_analysis/page'
 import TransactionsPage from './Transactions/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPaymentsDataThunk } from '@/redux/slice/Finance/FinanceSlice'
+import { getPaymentsDataThunk, getTransactionsOverviewThunk } from '@/redux/slice/Finance/FinanceSlice'
 
 function OverviewPage() {
   const dispatch = useDispatch();
-const { paymentsData, loading, error } = useSelector((state)=>state.finance);
+const { paymentsData,TransactionsData, loading, error } = useSelector((state)=>state.finance);
 
 useEffect(() => {
   dispatch(getPaymentsDataThunk());
+  dispatch(getTransactionsOverviewThunk())
 }, []);
 
-console.log('paymentsData' ,paymentsData);
+// console.log('paymentsData' ,paymentsData);
 
   return (
     <MainLayout>
 
       <CardsPage paymentsData={paymentsData}/>
       <Income_analysisPage/>
-      <TransactionsPage/>
+      <TransactionsPage TransactionsData={TransactionsData} loading={loading}/>
     </MainLayout>
   )
 }

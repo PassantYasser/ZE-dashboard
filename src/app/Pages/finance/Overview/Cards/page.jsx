@@ -7,9 +7,9 @@ function CardsPage({paymentsData}) {
   const{t}= useTranslation()
   // const percentage = 8
   const cash = paymentsData?.weekly_stats?.cash?.percent_change ?? 0;
-const refunded = paymentsData?.weekly_stats?.refunded?.percent_change ?? 0;
-const booking = paymentsData?.weekly_stats?.booking?.percent_change ?? 0;
-const card = paymentsData?.weekly_stats?.card?.percent_change ?? 0;
+  const refunded = paymentsData?.weekly_stats?.refunded?.percent_change ?? 0;
+  const booking = paymentsData?.weekly_stats?.booking?.percent_change ?? 0;
+  const card = paymentsData?.weekly_stats?.card?.percent_change ?? 0;
 
   return (
     <>
