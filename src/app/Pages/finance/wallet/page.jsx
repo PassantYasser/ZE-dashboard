@@ -8,18 +8,28 @@ import { getTaxesDataThunk, getTransactionsWalletThunk } from '@/redux/slice/Fin
 
 function walletPage() {
   const dispatch = useDispatch()
-  const {TaxesData , WalletTransactionsData ,loading ,error} = useSelector((state)=>state.finance)
+  const {TaxesData , WalletTransactionsData, WalletPagination ,loading ,error} = useSelector((state)=>state.finance)
 
   useEffect(()=>{
     dispatch(getTaxesDataThunk())
     dispatch(getTransactionsWalletThunk())
   } , [dispatch])
 
+  const handlePageChange = (page) => {
+    dispatch(getTransactionsWalletThunk(page))
+  }
+
   return (
     <MainLayout>
       <CardsPage TaxesData={TaxesData}/>
 
-      <TransactionsPage WalletTransactionsData={WalletTransactionsData} loading={loading} error={error}/>
+      <TransactionsPage 
+        WalletTransactionsData={WalletTransactionsData} 
+        loading={loading} 
+        error={error}
+        pagination={WalletPagination}
+        onPageChange={handlePageChange}
+      />
     </MainLayout>
   )
 }

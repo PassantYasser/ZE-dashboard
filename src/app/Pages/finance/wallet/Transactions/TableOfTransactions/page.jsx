@@ -5,7 +5,7 @@ import Pagination from './Pagination';
 import DeleteDialogPage from './DeleteDialog/page';
 import { CircularProgress } from '@mui/material';
 
-function TableOfTransactionsPage({WalletTransactionsData ,loading ,error }) {
+function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, pagination, onPageChange }) {
     const {t , i18n } = useTranslation()
     const [active, setActive] = useState("completed");
 
@@ -187,7 +187,11 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error }) {
     </div>
 
 
-    <Pagination/>
+    <Pagination 
+      totalPages={pagination?.last_page || 1}
+      currentPage={pagination?.current_page || 1}
+      onPageChange={onPageChange}
+    />
 
   
   <DeleteDialogPage open={open} setOpen={setOpen}/>

@@ -68,11 +68,14 @@ export const getTransactionsTaxesThunk = createAsyncThunk(
 // get wallet transaction  (table for finance wallet)
 export const getTransactionsWalletThunk = createAsyncThunk(
   'finance/getTransactionsWalletThunk' ,
-  async(_ , {rejectWithValue})=>{
+  async(page = 1 , {rejectWithValue})=>{
     try{
-      const response = await getTransactionsWallet();
+      const response = await getTransactionsWallet(page);
       console.log('getTransactionsWalletThunk', response);
-      return response.data.transactions
+      return {
+        transactions: response.data.transactions,
+        pagination: response.data.pagination
+      }
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to fetch finance data");
     }
@@ -88,6 +91,7 @@ const initialState = {
   TaxesTransactionsData:[],
   TaxesPagination: null,
   WalletTransactionsData:[],
+  WalletPagination: null,
   loading: false,
   error: null,
 };
@@ -166,7 +170,8 @@ const FinanceSlice = createSlice({
       })
       .addCase(getTransactionsWalletThunk.fulfilled , (state , action)=>{
         state.loading = false;
-        state.WalletTransactionsData = action.payload;
+        state.WalletTransactionsData = action.payload.transactions;
+        state.WalletPagination = action.payload.pagination;
       })
       .addCase(getTransactionsWalletThunk.rejected , (state , action)=>{
         state.loading = false;

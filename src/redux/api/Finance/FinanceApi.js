@@ -30,8 +30,8 @@ export const getTransactionsTaxes = async(page = 1)=>{
 }
 
 // get wallet transaction  (table for finance wallet)
-export const getTransactionsWallet = async()=>{
-  const response = await API.get('/provider/getTransactions')
+export const getTransactionsWallet = async(page = 1)=>{
+  const response = await API.get(`/provider/getTransactions?page=${page}`)
   return response.data
 }
 
