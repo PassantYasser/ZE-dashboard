@@ -476,6 +476,12 @@
   "Are you sure you want to delete this factor?":"هل أنت متأكد من حذف هــذا العامل ؟",
   "This factor will be permanently removed and cannot be recovered later.":"سيتم إزالة هذا العامل نهائيا ولايمكنك استعادتها لاحقا",
   
+  "Transaction settlement":"تصفية المعاملات",
+  "Precise transaction filtering to quickly find what you are looking for.":"فلترة دقيقة للمعاملات للوصول لما تبحث عنه بسرعة.",
+  "Payment status":"حالة الدفع",
+  "Select payment status":"اختر حالة الدفع",
+  "worker":"العامل",
+  "Choose a woker":"اختر عامل",
   
 
 

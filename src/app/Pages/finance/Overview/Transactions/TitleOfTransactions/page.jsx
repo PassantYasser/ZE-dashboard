@@ -1,10 +1,14 @@
 'use client'
 import FilterBtn from '@/app/Components/Buttons/FilterBtn'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import FilterPage from '../Filter/page'
 
 function TitleOfTransactionsPage() {
     const {t} = useTranslation()
+
+    const [open , setOpen]=useState(false);
+
   
   return (
     <>
@@ -20,10 +24,20 @@ function TitleOfTransactionsPage() {
       
     </div>
 
+
+    {/* FilterBtn */}
     <div>
-      <FilterBtn/> 
+      <button 
+        onClick={()=>setOpen(true)}
+        className='flex gap-4  justify-center items-center border h-14 w-37.5  border-[#C69815] rounded-[3px] cursor-pointer'
+      >
+        <img src="/images/icons/FlterIcon.svg" alt=""  className='w-6 h-6'/>
+        <span className='text-[var(--color-primary)] text-base font-medium'>{t('filter')} </span>
+      </button>
     </div>
   </div>
+
+  <FilterPage open={open} setOpen={setOpen}/>
     </>
   )
 }

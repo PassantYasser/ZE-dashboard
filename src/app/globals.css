@@ -68,7 +68,10 @@ font-size: 50px;
   max-width: unset !important;
   width:50.375rem;
 }
-
+.overviewPage-dialog{
+    max-width: unset !important;
+    width: 40rem;
+}
 
 /* 📱 Tablet */
 @media(max-width: 1339px) {
