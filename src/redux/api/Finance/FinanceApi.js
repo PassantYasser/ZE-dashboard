@@ -28,3 +28,10 @@ export const getTransactionsTaxes = async(page = 1)=>{
   const response = await API.get(`/provider/taxes?page=${page}`)
   return response.data
 }
+
+// get wallet transaction  (table for finance wallet)
+export const getTransactionsWallet = async()=>{
+  const response = await API.get('/provider/getTransactions')
+  return response.data
+}
+

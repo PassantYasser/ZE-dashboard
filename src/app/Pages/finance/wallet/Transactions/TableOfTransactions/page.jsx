@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Pagination from './Pagination';
 import DeleteDialogPage from './DeleteDialog/page';
+import { CircularProgress } from '@mui/material';
 
-function TableOfTransactionsPage() {
-    const {t} = useTranslation()
+function TableOfTransactionsPage({WalletTransactionsData ,loading ,error }) {
+    const {t , i18n } = useTranslation()
     const [active, setActive] = useState("completed");
 
 
@@ -57,12 +58,36 @@ function TableOfTransactionsPage() {
 
     const [open , setOpen] = useState(false)
 
-  
+    const formatDateTimeByLang = (dateString, lang) => {
+      if (!dateString) return "";
+
+      const date = new Date(dateString);
+      const isArabic = lang === "ar";
+      const datePart = new Intl.DateTimeFormat(
+        isArabic ? "ar-EG" : "en-US",
+        {
+          day: "numeric",
+          month: isArabic ? "long" : "short",
+          year: "numeric",
+        }
+      ).format(date);
+      const timePart = new Intl.DateTimeFormat(
+        isArabic ? "ar-EG" : "en-US",
+        {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+        }
+      ).format(date);
+      return isArabic
+        ? `${datePart} : ${timePart}`
+        : `${datePart} - ${timePart}`;
+    };
 
 
   return (
     <>
-      {/* title and filter */}
+    {/* title and filter */}
     <div className='flex justify-between'>
       <div className='flex items-center gap-2 '>
         <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-[3px]'>
@@ -123,23 +148,37 @@ function TableOfTransactionsPage() {
 
         {/* Table Body */}
         <tbody>
-          {rows.map((row) => (
-            <tr
-              key={row.TransactionNumber}
-              className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
-            >
-            
-              <td className="p-4">{row.TransactionNumber}</td>
-              <td className="p-4">{row.dateTime}</td>
-              <td className="p-4">{row.AmountPaid}</td>
-              <td className='p-4'>
-                {StatusRender(row.Status)}
-              </td>
-              <td className='py-4 ' onClick={()=>{setOpen(true)}} >
-                <img src="/images/icons/delete-darkRed.svg" alt="" />
+          {loading?(
+              <tr>
+                <td colSpan={7} className="text-center py-10">
+                  <CircularProgress size="3rem" color="warning" />
+                </td>
+              </tr>
+          ):WalletTransactionsData?.length >0 ?(
+            WalletTransactionsData.map((finance) => (
+              <tr
+                key={finance?.id}
+                className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
+              >
+                <td className="p-4">{finance?.id}</td>
+                <td className="p-4">{formatDateTimeByLang(finance?.created_at, i18n.language)}</td>
+                <td className="p-4">{finance?.amount}</td>
+                <td className='p-4'>
+                  {StatusRender(finance?.status)}
+                </td>
+                <td className='py-4 ' onClick={()=>{setOpen(true)}} >
+                  <img src="/images/icons/delete-darkRed.svg" alt="" />
+                </td>
+              </tr>
+          ))
+          ):(
+            <tr>
+              <td colSpan={7} className="text-center py-10">
+                <CircularProgress size="3rem" color="warning" />
               </td>
             </tr>
-          ))}
+          )}
+
         </tbody>
       </table>
 

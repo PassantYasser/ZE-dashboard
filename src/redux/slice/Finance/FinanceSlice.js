@@ -1,4 +1,4 @@
-import { getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes } from "@/redux/api/Finance/FinanceApi";
+import { getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -32,6 +32,8 @@ export const getTransactionsOverviewThunk = createAsyncThunk(
   }
 )
 
+
+// get taxes data (cards for finance taxes)
 export const getTaxesDataThunk = createAsyncThunk(
   'finance/getTaxesDataThunk' ,
     async(_ ,{rejectWithValue})=>{
@@ -45,6 +47,8 @@ export const getTaxesDataThunk = createAsyncThunk(
     }
 )
 
+
+// get taxes transaction  (table for finance taxes)
 export const getTransactionsTaxesThunk = createAsyncThunk(
   'finance/getTransactionsTaxesThunk' ,
   async(page = 1 ,{rejectWithValue})=>{
@@ -61,6 +65,20 @@ export const getTransactionsTaxesThunk = createAsyncThunk(
   }
 )
 
+// get wallet transaction  (table for finance wallet)
+export const getTransactionsWalletThunk = createAsyncThunk(
+  'finance/getTransactionsWalletThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getTransactionsWallet();
+      console.log('getTransactionsWalletThunk', response);
+      return response.data.transactions
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch finance data");
+    }
+  }
+)
+
 
 const initialState = {
   paymentsData: null,
@@ -69,6 +87,7 @@ const initialState = {
   TaxesData:null,
   TaxesTransactionsData:[],
   TaxesPagination: null,
+  WalletTransactionsData:[],
   loading: false,
   error: null,
 };
@@ -126,7 +145,7 @@ const FinanceSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-// get taxes transaction  (table for finance taxes)
+    // get taxes transaction  (table for finance taxes)
     .addCase(getTransactionsTaxesThunk.pending , (state)=>{
         state.loading = true ;
         state.error = null;
@@ -137,6 +156,19 @@ const FinanceSlice = createSlice({
         state.TaxesPagination = action.payload.pagination;
       })
       .addCase(getTransactionsTaxesThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+     // get wallet transaction  (table for finance wallet)
+      .addCase(getTransactionsWalletThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getTransactionsWalletThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.WalletTransactionsData = action.payload;
+      })
+      .addCase(getTransactionsWalletThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })
