@@ -2,11 +2,18 @@
 import React from 'react'
 import TableOfTransactionsPage from './TableOfTransactions/page'
 
-function TransactionsPage({WalletTransactionsData ,loading ,error }) {
+function TransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange }) {
     return (
     <>
       <div className='border border-[#E3E8EF] p-6 rounded-[3px] my-12'>
-        <TableOfTransactionsPage WalletTransactionsData={WalletTransactionsData} loading={loading} error={error} />
+        <TableOfTransactionsPage 
+          WalletTransactionsData={WalletTransactionsData} 
+          loading={loading} 
+          error={error}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       </div>
       
     </>
