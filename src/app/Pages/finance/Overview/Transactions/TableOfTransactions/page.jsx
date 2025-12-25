@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 export default function TableOfTransactionsPage({TransactionsData ,loading}) {
 
-const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const formatDateTimeByLang = (dateString, lang) => {
     if (!dateString) return ""
     const date = new Date(dateString.replace(" ", "T"));
@@ -28,7 +28,6 @@ const { t, i18n } = useTranslation();
       ? formatted.replace("،", " :")
       : formatted.replace(",", " :");
   };
-
 
   const StatusRender = (Status) => {
     switch (Status) {
@@ -82,7 +81,6 @@ const { t, i18n } = useTranslation();
           </div>
         </div>
         );
-
     }
   };
 

@@ -3,8 +3,16 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DeleteDialogPage({open , setOpen}) {
+function DeleteDialogPage({open , setOpen, transactionId, onDelete}) {
   const {t} = useTranslation()
+
+  const handleDelete = () => {
+    if (transactionId && onDelete) {
+      onDelete(transactionId);
+      setOpen(false);
+    }
+  }
+
   return (
     <>
     <Dialog
@@ -40,7 +48,12 @@ function DeleteDialogPage({open , setOpen}) {
       <div className='border border-[#CDD5DF] my-4'></div>
 
       <div className='flex gap-3 my-4 px-6 font-medium text-base'>
-        <button className='bg-[#D92D20] text-white w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer '>{t('delete')}</button>
+        <button 
+          onClick={handleDelete}
+          className='bg-[#D92D20] text-white w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer '
+        >
+          {t('delete')}
+        </button>
         <button className=' border border-[#697586] text-[#4B5565] w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer'
           onClick={()=>{setOpen(false)}}>{t('cancel')}</button>
       </div>

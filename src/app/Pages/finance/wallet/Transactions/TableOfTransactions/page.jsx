@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import Pagination from './Pagination';
 import DeleteDialogPage from './DeleteDialog/page';
 import { CircularProgress } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { deleteTransactionThunk } from '@/redux/slice/Finance/FinanceSlice';
 
 function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange }) {
       const {t , i18n } = useTranslation()
@@ -51,7 +53,13 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
       }
     };
 
+    const dispatch = useDispatch();
     const [open , setOpen] = useState(false)
+    const [selectedTransactionId, setSelectedTransactionId] = useState(null)
+
+    const handleDelete = (transactionId) => {
+      dispatch(deleteTransactionThunk(transactionId))
+    }
 
     const formatDateTimeByLang = (dateString, lang) => {
       if (!dateString) return "";
@@ -137,7 +145,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
             <th className="p-4 font-normal">{t("the date")}/{t("the time")}</th>
             <th className="p-4 font-normal">{t("Amount paid")}</th>
             <th className="p-4 font-normal">{t("Status")}</th>
-            <th className="p-4 font-normal ">{t("procedures")}</th>
+            {active === "review" && <th className="p-4 font-normal ">{t("procedures")}</th>}
           </tr>
         </thead>
 
@@ -145,7 +153,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
         <tbody>
           {loading?(
               <tr>
-                <td colSpan={5} className="text-center py-10">
+                <td colSpan={active === "review" ? 5 : 4} className="text-center py-10">
                   <CircularProgress size="3rem" color="warning" />
                 </td>
               </tr>
@@ -161,14 +169,21 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
                 <td className='p-4'>
                   {StatusRender(finance?.status)}
                 </td>
-                <td className='py-4 ' onClick={()=>{setOpen(true)}} >
-                  <img src="/images/icons/delete-darkRed.svg" alt="" />
-                </td>
+                {active === "review" && (
+                  <td className='py-4 '>
+                    <div onClick={()=>{
+                      setSelectedTransactionId(finance?.id)
+                      setOpen(true)
+                    }}>
+                      <img src="/images/icons/delete-darkRed.svg" alt="" />
+                    </div>
+                  </td>
+                )}
               </tr>
           ))
           ):(
             <tr>
-              <td colSpan={5} className="text-center py-10 text-[#697586]">
+              <td colSpan={active === "review" ? 5 : 4} className="text-center py-10 text-[#697586]">
                 {t('No transactions found for the selected status')}
               </td>
             </tr>
@@ -189,7 +204,12 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
     />
 
   
-  <DeleteDialogPage open={open} setOpen={setOpen}/>
+  <DeleteDialogPage 
+    open={open}
+    setOpen={setOpen}
+    transactionId={selectedTransactionId}
+    onDelete={handleDelete}
+  />
 
     </>
   )

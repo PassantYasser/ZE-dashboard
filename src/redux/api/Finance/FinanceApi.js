@@ -35,3 +35,9 @@ export const getTransactionsWallet = async(page = 1)=>{
   return response.data
 }
 
+// delete transaction (wallet transactions)
+export const deleteTransaction = async(transactionId)=>{
+  const response = await API.post(`/transactions/delete`, { id: transactionId })
+  return response.data
+}
+

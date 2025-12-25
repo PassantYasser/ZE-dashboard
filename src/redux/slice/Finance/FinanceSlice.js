@@ -1,4 +1,4 @@
-import { getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -88,6 +88,20 @@ export const getTransactionsWalletThunk = createAsyncThunk(
     }
   }
 )
+
+// delete transaction (wallet transactions)
+export const deleteTransactionThunk = createAsyncThunk(
+  'finance/deleteTransactionThunk',
+  async(transactionId, {rejectWithValue})=>{
+    try{
+      await deleteTransaction(transactionId);
+      return transactionId;
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to delete transaction");
+    }
+  }
+)
+
 
 
 const initialState = {
@@ -181,6 +195,21 @@ const FinanceSlice = createSlice({
         state.WalletPagination = action.payload.pagination;
       })
       .addCase(getTransactionsWalletThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // delete transaction (wallet transactions)
+      .addCase(deleteTransactionThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteTransactionThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.WalletTransactionsData = state.WalletTransactionsData.filter(
+          (transaction) => transaction.id !== action.payload
+        );
+      })
+      .addCase(deleteTransactionThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
