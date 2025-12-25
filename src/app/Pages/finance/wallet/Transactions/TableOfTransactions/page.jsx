@@ -9,20 +9,15 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
       const {t , i18n } = useTranslation()
     const [active, setActive] = useState("completed");
 
-
-    function createData( TransactionNumber,dateTime, AmountPaid, Status  ) {
-      return {TransactionNumber,dateTime, AmountPaid,Status };
-    }
-
-    const rows = [
-      createData("11", "15 أبريل 2023 : 10 ص", "40.00 جنية", "completed"),
-      createData("12", "15 أبريل 2023 : 11 ص", "55.00 جنية", "rejected"),
-      createData("13", "16 أبريل 2023 : 09 ص", "70.00 جنية", "pending"),
-      createData("14", "16 أبريل 2023 : 01 م", "30.00 جنية", "rejected"),
-      createData("15", "17 أبريل 2023 : 04 م", "90.00 جنية", "completed"),
-      createData("16", "18 أبريل 2023 : 12 م", "120.00 جنية", "rejected"),
-  
-    ];
+    // Filter transactions based on active tab
+    const filteredTransactions = WalletTransactionsData?.filter((transaction) => {
+      if (active === "completed") {
+        return transaction.status === "completed" || transaction.status === "rejected";
+      } else if (active === "review") {
+        return transaction.status === "pending";
+      }
+      return true;
+    });
 
     const StatusRender = (Status) => {
       switch (Status) {
@@ -150,12 +145,12 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
         <tbody>
           {loading?(
               <tr>
-                <td colSpan={7} className="text-center py-10">
+                <td colSpan={5} className="text-center py-10">
                   <CircularProgress size="3rem" color="warning" />
                 </td>
               </tr>
-          ):WalletTransactionsData?.length >0 ?(
-            WalletTransactionsData.map((finance) => (
+          ):filteredTransactions?.length >0 ?(
+            filteredTransactions.map((finance) => (
               <tr
                 key={finance?.id}
                 className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
@@ -173,8 +168,8 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
           ))
           ):(
             <tr>
-              <td colSpan={7} className="text-center py-10">
-                <CircularProgress size="3rem" color="warning" />
+              <td colSpan={5} className="text-center py-10 text-[#697586]">
+                {t('No transactions found for the selected status')}
               </td>
             </tr>
           )}
