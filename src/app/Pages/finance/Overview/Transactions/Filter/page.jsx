@@ -16,14 +16,14 @@ function FilterPage({open , setOpen}) {
       const [selected1, setSelected1] = useState(null);
       const [searchValue1, setSearchValue1] = useState("");
       const dropdownRef1 = useRef(null);
-      const optionPaymentStatus = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+      const optionPaymentStatus = [t('pending'),t("paid"),t("refunded")];
     
       // ===== payment method 2 =====
       const [open2, setOpen2] = useState(false);
       const [selected2, setSelected2] = useState(null);
       const [searchValue2, setSearchValue2] = useState("");
       const dropdownRef2 = useRef(null);
-      const optionPaymentMethod = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+      const optionPaymentMethod = [t("cash") , t("card")];
 
       // ===== worker 3 =====
       const [open3, setOpen3] = useState(false);
@@ -329,28 +329,7 @@ function FilterPage({open , setOpen}) {
               </div>
             </div>
             
-            {/* <div className="flex flex-col mt-6">
-              <label className="text-[#364152] text-base font-normal mb-3">
-                {t("Payment status")}
-              </label>
-              <div className="relative w-full">
-            <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-              // onClick={() => setOpen4(true)}
-            >
-              <input
-                type="text"
-                // placeholder={t("Select date range")}
-                readOnly
-                className="h-15 p-3 w-full text-[#364152] focus:outline-none cursor-pointer"
-              />
-
-              <span className="absolute left-4 pointer-events-none">
-                <img src="/images/icons/calender.svg" alt="calendar" />
-              </span>
-            </div>
-          </div>
-            </div> */}
+            
             <div className="flex flex-col mt-6">
               <label className="text-[#364152] text-base font-normal mb-3">
                 {t("Service history")}
