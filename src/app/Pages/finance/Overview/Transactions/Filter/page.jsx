@@ -2,6 +2,11 @@
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css';
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
+import { ar } from 'date-fns/locale'; // Arabic locale
 
 function FilterPage({open , setOpen}) {
     const { t } = useTranslation();
@@ -34,6 +39,18 @@ function FilterPage({open , setOpen}) {
       const dropdownRef4 = useRef(null);
       const optionService = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
 
+        /*  ========== calender ========== */
+        const [open5, setOpen5] = useState(false);
+        const dropdownRef5 = useRef(null);
+      
+        const [state, setState] = useState([
+          {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 7),
+            key: 'selection'
+          }
+        ]);
+      
 
       useEffect(() => {
         const handleClickOutside = (event) => {
@@ -41,6 +58,7 @@ function FilterPage({open , setOpen}) {
           if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
           if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
           if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
+          if (dropdownRef5.current && !dropdownRef5.current.contains(event.target)) setOpen5(false);
 
         };
         document.addEventListener("mousedown", handleClickOutside);
@@ -311,7 +329,7 @@ function FilterPage({open , setOpen}) {
               </div>
             </div>
             
-            <div className="flex flex-col mt-6">
+            {/* <div className="flex flex-col mt-6">
               <label className="text-[#364152] text-base font-normal mb-3">
                 {t("Payment status")}
               </label>
@@ -332,7 +350,104 @@ function FilterPage({open , setOpen}) {
               </span>
             </div>
           </div>
-            </div>
+            </div> */}
+            <div className="flex flex-col mt-6">
+              <label className="text-[#364152] text-base font-normal mb-3">
+                {t("Service history")}
+              </label>
+    
+              <div className="relative w-full">
+                <div
+                  className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                  onClick={() => setOpen5(true)}
+                >
+                  <input
+                    type="text"
+                    placeholder={t("Select date range")}
+                    value={
+                      state[0].startDate && state[0].endDate
+                        ? `${state[0].startDate.toLocaleDateString()} - ${state[0].endDate.toLocaleDateString()}`
+                        : ""
+                    }
+                    readOnly
+                    className="h-15 p-3 w-full text-[#364152] focus:outline-none cursor-pointer"
+                  />
+    
+                  <span className="absolute left-4 pointer-events-none">
+                    <img src="/images/icons/calender.svg" alt="calendar" />
+                  </span>
+                </div>
+              </div>
+    
+    
+              {/* Date Range Picker Modal */}
+              <Dialog
+                open={open5}
+                aria-labelledby="date-picker-dialog"
+                PaperProps={{ className: "rerquest-dialog", dir: "rtl" }}
+              >
+                {/* title of calender */}
+                <section className="flex justify-between px-6 mt-6 ">
+                  <button
+                    onClick={() => setOpen5(false)}
+                    className="border border-[#CDD5DF] w-12 h-12 cursor-pointer rounded-[100px] flex justify-center items-center"
+                  >
+                    <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
+                  </button>
+                  <div className="w-14 h-14 bg-[#EEF2F6] rounded-[100px] flex justify-center items-center">
+                    <p className="bg-[#E3E8EF] flex items-center justify-center w-10 h-10 rounded-[100px]">
+                      <img src="/images/icons/FilterGreyicon.svg" alt="" className="w-6 h-6" />
+                    </p>
+                  </div>
+                </section>
+    
+
+    
+                <span className="border-[0.5px] border-[#E3E8EF] my-2" />
+    
+                <section className="p-6 flex items-center justify-center ">
+                  <div dir="ltr" className="inline-block ">
+                    <div className="  ">
+                        <DateRangePicker
+                          onChange={item => setState([item.selection])}
+                          showSelectionPreview={true}
+                          moveRangeOnFirstSelection={false}
+                          months={2}
+                          ranges={state}
+                          direction="horizontal"
+                          preventSnapRefocus={true}
+                          calendarFocus="backwards"
+                          locale={ar}
+                          staticRanges={[]}
+                          inputRanges={[]}
+                          rangeColors={["var(--color-primary)"]}
+                          
+                        />
+                    </div>
+                  
+                  </div>
+                </section>
+    
+                {/* btns of calender */}
+                <section className="p-6 flex gap-4 ">
+                  <button 
+                  onClick={() => setOpen5(false)}
+                  className="w-23 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+                    {t('apply')}
+                  </button>
+    
+                  <button 
+                  
+                  className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+                    {t('cancel')}
+                  </button>
+                </section>
+    
+    
+    
+    
+              </Dialog>
+            </div>  
           </section>
           
           {/* btn */}
