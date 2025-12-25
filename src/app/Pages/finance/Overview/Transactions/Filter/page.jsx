@@ -437,7 +437,7 @@ function FilterPage({open , setOpen}) {
                   </button>
     
                   <button 
-                  
+                  onClick={() => setOpen5(false)}
                   className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
                     {t('cancel')}
                   </button>
