@@ -7,9 +7,14 @@ import 'react-date-range/dist/theme/default.css';
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns';
 import { ar } from 'date-fns/locale'; // Arabic locale
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllWorkersThunk } from '@/redux/slice/Workers/WorkersSlice';
 
 function FilterPage({open , setOpen}) {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const { workers, loading } = useSelector((state) => state.workers);
+
 
       // ===== Payment status 1 =====
       const [open1, setOpen1] = useState(false);
@@ -30,8 +35,17 @@ function FilterPage({open , setOpen}) {
       const [selected3, setSelected3] = useState(null);
       const [searchValue3, setSearchValue3] = useState("");
       const dropdownRef3 = useRef(null);
-      const optionWorker = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+      const optionWorker = workers;
+      const handleOpenWorkerDropdown = () => {
+        setOpen3((prev) => !prev);
 
+        dispatch(
+          getAllWorkersThunk({
+            per_page: 200,
+            designation_id: '1', 
+          })
+        );
+      };
       // ===== Service 4 =====
       const [open4, setOpen4] = useState(false);
       const [selected4, setSelected4] = useState(null);
@@ -223,12 +237,12 @@ function FilterPage({open , setOpen}) {
                 <div className="relative w-full" ref={dropdownRef3}>
                   <div
                     className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-                    onClick={() => setOpen3(!open3)}
+                    onClick={handleOpenWorkerDropdown}
                   >
                     <input
                       type="text"
                       placeholder={t("Choose a woker")}
-                      value={selected3 || searchValue3}   
+                      value={selected3?`${selected3?.firstname} ${selected3?.lastname}`: searchValue3 } 
                       onChange={(e) => {
                         setSearchValue3(e.target.value);
                         setOpen3(true);
@@ -249,12 +263,12 @@ function FilterPage({open , setOpen}) {
                   {open3 && (
                     <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionWorker
-                        .filter((opt) =>
-                          opt.toLowerCase().includes(searchValue3.toLowerCase())
+                        ?.filter((opt) =>
+                          `${opt?.firstname} ${opt?.lastname}`.toLowerCase().includes(searchValue3.toLowerCase())
                         )
                         .map((opt) => (
                           <li
-                            key={opt}
+                            key={opt.id}
                             onClick={() => {
                               setSelected3(opt);
                               setOpen3(false);
@@ -262,7 +276,7 @@ function FilterPage({open , setOpen}) {
                             }}
                             className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                           >
-                            {opt}
+                            {opt?.firstname} {opt?.lastname}
                           </li>
                         ))}
                     </ul>
