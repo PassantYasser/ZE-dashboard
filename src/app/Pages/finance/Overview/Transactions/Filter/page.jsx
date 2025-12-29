@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllWorkersThunk } from '@/redux/slice/Workers/WorkersSlice';
 import { getAllServicesThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function FilterPage({open , setOpen}) {
+function FilterPage({open , setOpen, onFilterApply}) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { workers, loading } = useSelector((state) => state.workers);
@@ -22,14 +22,16 @@ function FilterPage({open , setOpen}) {
       const [selected1, setSelected1] = useState(null);
       const [searchValue1, setSearchValue1] = useState("");
       const dropdownRef1 = useRef(null);
-      const optionPaymentStatus = [t('pending'),t("paid"),t("refunded")];
+      const paymentStatusKeys = ['pending', 'paid', 'refunded'];
+      const optionPaymentStatus = paymentStatusKeys.map(key => ({ key, label: t(key) }));
     
       // ===== payment method 2 =====
       const [open2, setOpen2] = useState(false);
       const [selected2, setSelected2] = useState(null);
       const [searchValue2, setSearchValue2] = useState("");
       const dropdownRef2 = useRef(null);
-      const optionPaymentMethod = [t("cash") , t("card")];
+      const paymentMethodKeys = ['cash', 'card'];
+      const optionPaymentMethod = paymentMethodKeys.map(key => ({ key, label: t(key) }));
 
       // ===== worker 3 =====
       const [open3, setOpen3] = useState(false);
@@ -76,8 +78,8 @@ function FilterPage({open , setOpen}) {
       
         const [state, setState] = useState([
           {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 7),
+            startDate: null,
+            endDate: null,
             key: 'selection'
           }
         ]);
@@ -95,6 +97,41 @@ function FilterPage({open , setOpen}) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
       }, []);
+
+      const formatDate = (date) => {
+        if (!date) return null;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+
+      const handleResults = () => {
+        const filters = {};
+        if (selected1) filters.payment_status = selected1.key;
+        if (selected2) filters.payment_method = selected2.key.toUpperCase(); // API example shows uppercase
+        if (selected3) filters.handyman_id = selected3.id;
+        if (selected4) filters.service_id = selected4.id;
+        if (state[0].startDate) filters.date_from = formatDate(state[0].startDate);
+        if (state[0].endDate) filters.date_to = formatDate(state[0].endDate);
+
+        onFilterApply(filters);
+        setOpen(false);
+      };
+
+      const handleReset = () => {
+        setSelected1(null);
+        setSelected2(null);
+        setSelected3(null);
+        setSelected4(null);
+        setState([{
+          startDate: null,
+          endDate: null,
+          key: 'selection'
+        }]);
+        onFilterApply({});
+        setOpen(false);
+      };
 
   return (
     <>
@@ -144,7 +181,7 @@ function FilterPage({open , setOpen}) {
                     <input
                       type="text"
                       placeholder={t("Select payment status")}
-                      value={selected1 || searchValue1}   
+                      value={selected1?.label || searchValue1}   
                       onChange={(e) => {
                         setSearchValue1(e.target.value);
                         setOpen1(true);
@@ -166,11 +203,11 @@ function FilterPage({open , setOpen}) {
                     <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionPaymentStatus
                         .filter((opt) =>
-                          opt.toLowerCase().includes(searchValue1.toLowerCase())
+                          opt.label.toLowerCase().includes(searchValue1.toLowerCase())
                         )
                         .map((opt) => (
                           <li
-                            key={opt}
+                            key={opt.key}
                             onClick={() => {
                               setSelected1(opt);
                               setOpen1(false);
@@ -178,7 +215,7 @@ function FilterPage({open , setOpen}) {
                             }}
                             className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                           >
-                            {opt}
+                            {opt.label}
                           </li>
                         ))}
                     </ul>
@@ -201,7 +238,7 @@ function FilterPage({open , setOpen}) {
                     <input
                       type="text"
                       placeholder={t("Select payment status")}
-                      value={selected2 || searchValue2}   
+                      value={selected2?.label || searchValue2}   
                       onChange={(e) => {
                         setSearchValue2(e.target.value);
                         setOpen2(true);
@@ -223,11 +260,11 @@ function FilterPage({open , setOpen}) {
                     <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionPaymentMethod
                         .filter((opt) =>
-                          opt.toLowerCase().includes(searchValue2.toLowerCase())
+                          opt.label.toLowerCase().includes(searchValue2.toLowerCase())
                         )
                         .map((opt) => (
                           <li
-                            key={opt}
+                            key={opt.key}
                             onClick={() => {
                               setSelected2(opt);
                               setOpen2(false);
@@ -235,7 +272,7 @@ function FilterPage({open , setOpen}) {
                             }}
                             className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                           >
-                            {opt}
+                            {opt.label}
                           </li>
                         ))}
                     </ul>
@@ -465,11 +502,17 @@ function FilterPage({open , setOpen}) {
           
           {/* btn */}
           <section className="p-6 flex gap-4 ">
-            <button className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+            <button 
+              onClick={handleResults}
+              className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium"
+            >
               {t('Show results')}
             </button>
 
-            <button className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+            <button 
+              onClick={handleReset}
+              className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium"
+            >
               {t('Reset')}
             </button>
           </section>

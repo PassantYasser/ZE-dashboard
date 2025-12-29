@@ -18,9 +18,9 @@ export const getPaymentsDataThunk = createAsyncThunk(
 // get payment transaction  (table for finance overview)
 export const getTransactionsOverviewThunk = createAsyncThunk(
   'finance/getTransactionsOverviewThunk' ,
-  async(page = 1 , {rejectWithValue})=>{
+  async({page = 1, filters = {}} , {rejectWithValue})=>{
     try{
-      const response = await getTransactionsOverview(page)
+      const response = await getTransactionsOverview(page, filters)
       // console.log('getTransactionsOverviewThunk' , response);
       return {
         payments: response.payments,

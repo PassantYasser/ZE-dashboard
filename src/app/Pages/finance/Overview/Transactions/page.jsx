@@ -3,13 +3,13 @@ import TitleOfTransactionsPage from './TitleOfTransactions/page'
 import TableOfTransactionsPage from './TableOfTransactions/page'
 import Pagination from './TableOfTransactions/Pagination'
 
-function TransactionsPage({TransactionsData ,loading, pagination, onPageChange}) {
+function TransactionsPage({TransactionsData ,loading, pagination, onPageChange, onFilterApply}) {
 
   return (
     <>
       <div className='border border-[#E3E8EF] py-4 px-6 rounded-[3px] mb-12'>
 
-        <TitleOfTransactionsPage/>
+        <TitleOfTransactionsPage onFilterApply={onFilterApply}/>
 
         <TableOfTransactionsPage TransactionsData={TransactionsData} loading={loading}/>
         <Pagination pagination={pagination} onPageChange={onPageChange}/>

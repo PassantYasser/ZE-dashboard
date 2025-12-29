@@ -9,26 +9,39 @@ import { getPaymentsDataThunk, getTransactionsOverviewThunk } from '@/redux/slic
 
 function OverviewPage() {
   const dispatch = useDispatch();
-const { paymentsData,TransactionsData, TransactionsPagination, loading, error } = useSelector((state)=>state.finance);
+  const { paymentsData, TransactionsData, TransactionsPagination, loading, error } = useSelector((state) => state.finance);
+  const [filters, setFilters] = React.useState({});
 
-useEffect(() => {
-  dispatch(getPaymentsDataThunk());
-  dispatch(getTransactionsOverviewThunk(1))
-}, []);
+  useEffect(() => {
+    dispatch(getPaymentsDataThunk());
+    dispatch(getTransactionsOverviewThunk({ page: 1, filters }));
+  }, []);
 
-// Handle pagination page change
-const handlePageChange = (page) => {
-  dispatch(getTransactionsOverviewThunk(page));
-};
+  // Handle pagination page change
+  const handlePageChange = (page) => {
+    dispatch(getTransactionsOverviewThunk({ page, filters }));
+  };
 
-// console.log('paymentsData' ,paymentsData);
+  // Handle filter apply
+  const handleFilterApply = (newFilters) => {
+    setFilters(newFilters);
+    dispatch(getTransactionsOverviewThunk({ page: 1, filters: newFilters }));
+  };
+
+  // console.log('paymentsData' ,paymentsData);
 
   return (
     <MainLayout>
 
-      <CardsPage paymentsData={paymentsData}/>
-      <Income_analysisPage/>
-      <TransactionsPage TransactionsData={TransactionsData} loading={loading} pagination={TransactionsPagination} onPageChange={handlePageChange}/>
+      <CardsPage paymentsData={paymentsData} />
+      <Income_analysisPage />
+      <TransactionsPage
+        TransactionsData={TransactionsData}
+        loading={loading}
+        pagination={TransactionsPagination}
+        onPageChange={handlePageChange}
+        onFilterApply={handleFilterApply}
+      />
     </MainLayout>
   )
 }
