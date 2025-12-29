@@ -62,14 +62,15 @@ function FilterPage({open , setOpen, onFilterApply}) {
         }))
       }
       const getServiceTitle = (service) => {
-        if (!service?.title) return null;
+        if (!service?.category?.title) return null;
 
-        if (typeof service.title === "string") {
-          return service.title.trim() || null;
+        if (typeof service.category.title === "string") {
+          return service.category.title.trim() || null;
         }
 
-        return service.title.en || service.title.ar || null;
+
       };
+
 
 
         /*  ========== calender ========== */
@@ -109,9 +110,12 @@ function FilterPage({open , setOpen, onFilterApply}) {
       const handleResults = () => {
         const filters = {};
         if (selected1) filters.payment_status = selected1.key;
-        if (selected2) filters.payment_method = selected2.key.toUpperCase(); // API example shows uppercase
+        if (selected2) filters.payment_method = selected2.key.toUpperCase(); 
         if (selected3) filters.handyman_id = selected3.id;
-        if (selected4) filters.service_id = selected4.id;
+        // if (selected4) filters.service_id = selected4.id;
+        if (selected4?.category?.id) {
+          filters.service_id = selected4.category.id;
+        }
         if (state[0].startDate) filters.date_from = formatDate(state[0].startDate);
         if (state[0].endDate) filters.date_to = formatDate(state[0].endDate);
 
@@ -280,7 +284,6 @@ function FilterPage({open , setOpen, onFilterApply}) {
 
                 </div>
               </div>
-
 
               {/* worker */}
               <div className="flex flex-col">
