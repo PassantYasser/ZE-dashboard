@@ -9,12 +9,13 @@ import { addDays } from 'date-fns';
 import { ar } from 'date-fns/locale'; // Arabic locale
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllWorkersThunk } from '@/redux/slice/Workers/WorkersSlice';
+import { getAllServicesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function FilterPage({open , setOpen}) {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const { workers, loading } = useSelector((state) => state.workers);
-
+    const { services } = useSelector((state) => state.services);
 
       // ===== Payment status 1 =====
       const [open1, setOpen1] = useState(false);
@@ -38,9 +39,8 @@ function FilterPage({open , setOpen}) {
       const optionWorker = workers;
       const handleOpenWorkerDropdown = () => {
         setOpen3((prev) => !prev);
-
         dispatch(
-          getAllWorkersThunk({
+          getAllWorkersThunk ({
             per_page: 200,
             designation_id: '1', 
           })
@@ -51,7 +51,24 @@ function FilterPage({open , setOpen}) {
       const [selected4, setSelected4] = useState(null);
       const [searchValue4, setSearchValue4] = useState("");
       const dropdownRef4 = useRef(null);
-      const optionService = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+      const optionService = services;
+      const handleOpenServiceDropdown = () => {
+        setOpen4((prev)=>!prev);
+        dispatch(
+          getAllServicesThunk({
+          per_page:200,
+        }))
+      }
+      const getServiceTitle = (service) => {
+        if (!service?.title) return null;
+
+        if (typeof service.title === "string") {
+          return service.title.trim() || null;
+        }
+
+        return service.title.en || service.title.ar || null;
+      };
+
 
         /*  ========== calender ========== */
         const [open5, setOpen5] = useState(false);
@@ -268,7 +285,7 @@ function FilterPage({open , setOpen}) {
                         )
                         .map((opt) => (
                           <li
-                            key={opt.id}
+                            key={opt?.id}
                             onClick={() => {
                               setSelected3(opt);
                               setOpen3(false);
@@ -294,12 +311,14 @@ function FilterPage({open , setOpen}) {
                 <div className="relative w-full" ref={dropdownRef4}>
                   <div
                     className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-                    onClick={() => setOpen4(!open4)}
+                    onClick={handleOpenServiceDropdown}
                   >
                     <input
                       type="text"
                       placeholder={t("Choose the service")}
-                      value={selected4 || searchValue4}   
+                      // value={selected4 ? selected4.title : searchValue4}
+                      value={selected4 ? getServiceTitle(selected4) : searchValue4}
+
                       onChange={(e) => {
                         setSearchValue4(e.target.value);
                         setOpen4(true);
@@ -320,12 +339,13 @@ function FilterPage({open , setOpen}) {
                   {open4 && (
                     <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionService
+                        .filter((opt) => getServiceTitle(opt))
                         .filter((opt) =>
-                          opt.toLowerCase().includes(searchValue4.toLowerCase())
+                          getServiceTitle(opt).toLowerCase().includes(searchValue4.toLowerCase())
                         )
                         .map((opt) => (
                           <li
-                            key={opt}
+                            key={opt?.id}
                             onClick={() => {
                               setSelected4(opt);
                               setOpen4(false);
@@ -333,7 +353,7 @@ function FilterPage({open , setOpen}) {
                             }}
                             className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                           >
-                            {opt}
+                            {getServiceTitle(opt)}
                           </li>
                         ))}
                     </ul>
