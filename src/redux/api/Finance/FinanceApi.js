@@ -49,3 +49,9 @@ export const getYearsDrowpdown = async()=>{
   const response = await API.get('/analytics/available-years')
   return response.data
 }
+
+//get income analysis data for chart
+export const getIncomeAnalysisData = async()=>{
+  const response = await API.get('/bookings/revenue-chart')
+  return response.data
+}

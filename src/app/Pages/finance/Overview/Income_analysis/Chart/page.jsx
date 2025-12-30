@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getYearsDrowpdownThunk } from '@/redux/slice/Finance/FinanceSlice';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-function ChartPage() {
+function ChartPage({chartData}) {
 
   const { t } = useTranslation();
   

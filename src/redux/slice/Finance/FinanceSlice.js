@@ -1,4 +1,5 @@
-import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getIncomeAnalysisData, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
+// import { create } from "@mui/material/styles/createTransitions";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -116,6 +117,20 @@ export const getYearsDrowpdownThunk = createAsyncThunk(
   }
 )
 
+//get income analysis data for chart
+export const getIncomeAnalysisDataThunk = createAsyncThunk(
+  'finance/getIncomeAnalysisDataThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getIncomeAnalysisData()
+      console.log('getIncomeAnalysisDataThunk', response);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch income analysis data");
+    }
+  }
+)
+
 
 const initialState = {
   paymentsData: null,
@@ -127,6 +142,7 @@ const initialState = {
   WalletTransactionsData:[],
   WalletPagination: null,
   yearOfChart:null,
+  chartData:null,
   loading: false,
   error: null,
 };
@@ -239,7 +255,21 @@ const FinanceSlice = createSlice({
       .addCase(getYearsDrowpdownThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+
+      //get income analysis data for chart
+      .addCase(getIncomeAnalysisDataThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getIncomeAnalysisDataThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.chartData = action.payload;
+      })
+      .addCase(getIncomeAnalysisDataThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   }
 });
 
