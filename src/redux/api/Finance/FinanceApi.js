@@ -44,14 +44,17 @@ export const deleteTransaction = async(transactionId)=>{
   return response.data
 }
 
+// Get revenue chart data
+// Get revenue chart data
+export const getRevenueChartData = async ({ year, filter }) => {
+  const response = await API.get(`/bookings/revenue-chart`, {
+    params: { year, filter }
+  });
+  return response.data;
+}
+
 //get the years of drowpdown in income analysis chart
 export const getYearsDrowpdown = async()=>{
   const response = await API.get('/analytics/available-years')
-  return response.data
-}
-
-//get income analysis data for chart
-export const getIncomeAnalysisData = async()=>{
-  const response = await API.get('/bookings/revenue-chart')
   return response.data
 }
