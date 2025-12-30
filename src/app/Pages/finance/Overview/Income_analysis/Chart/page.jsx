@@ -2,28 +2,34 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRevenueChartDataThunk, getYearsDrowpdownThunk } from '@/redux/slice/Finance/FinanceSlice';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 function ChartPage({chartData}) {
 
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   // Data is now fetched by parent component (Income_analysisPage)
   const { revenueChartData, yearOfChart } = useSelector((state) => state.finance);
   
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState("شهر"); // Default to month
-    const options = ["شهر","3 شهور", "6 شهور ", "سنوي"];
-  
+    const [selected, setSelected] = useState(new Date().getFullYear().toString()); 
+    const options = yearOfChart?.years || [];
+
+    useEffect(() => {
+      dispatch(getYearsDrowpdownThunk());
+    }, [dispatch]);
+
     const handleSelect = (option) => {
       setSelected(option);
       setOpen(false);
+      dispatch(getRevenueChartDataThunk({ year: option, filter: 'all' }));
     };
 
-    // Construct chart series and options based on API data
     const chartSeries = [{
-      name: "Income", // Changed from Profit to be more generic or use translation
+      name: "Income", 
       data: revenueChartData?.total || []
     }];
 
@@ -57,42 +63,9 @@ function ChartPage({chartData}) {
         }
     };
   
-    const getPeriodLabelAndRange = (selected) => {
-      const now = new Date();
-      let label = "";
-      let range = "";
-  
-      if (selected === "شهر") {
-        // Arabic month names
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        label = "شهر";
-        const month = months[now.getMonth()];
-        const year = now.getFullYear();
-        range = `1 ${month} - ${new Date(year, now.getMonth() + 1, 0).getDate()} ${month}`;
-      } else if (selected === "6 شهور ") {
-        label = "الستة أشهر الماضية";
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        const endMonth = months[now.getMonth()];
-        const endYear = now.getFullYear();
-        const startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-        const startMonth = months[startDate.getMonth()];
-        const startYear = startDate.getFullYear();
-        range = `1 ${startMonth} ${startYear} - ${new Date(endYear, now.getMonth() + 1, 0).getDate()} ${endMonth} ${endYear}`;
-      } else if (selected === "سنوي") {
-        label = "سنوي";
-        const year = now.getFullYear();
-        range = `1 يناير ${year} - 31 ديسمبر ${year}`;
-      } else if (selected === "3 شهور") {
-         label = "اخر 3 شهور";
-         // Logic for 3 months if needed
-         range = "3 Months Range"; 
-      }
+    const getPeriodLabelAndRange = (selectedYear) => {
+      const label = selectedYear;
+      const range = `1 يناير ${selectedYear} - 31 ديسمبر ${selectedYear}`;
   
       return { label, range };
     };
@@ -108,7 +81,7 @@ function ChartPage({chartData}) {
           {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
         
-        {yearOfChart?.years_count > 1 ? (
+      {yearOfChart?.years_count > 1 ? (
           <div className="relative">
             <button
               className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
@@ -141,8 +114,9 @@ function ChartPage({chartData}) {
               </ul>
             )}
             </div>
-        ): null}
-      
+        
+      ): null}
+        
       </section>
   
       {/* chart */} 

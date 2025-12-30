@@ -6,7 +6,6 @@ import { getRevenueChartDataThunk } from '@/redux/slice/Finance/FinanceSlice'
 
 function Income_analysisPage() {
   const dispatch = useDispatch();
-  // Fetch revenueChartData from Redux store
   const { revenueChartData } = useSelector((state) => state.finance);
   const [filter, setFilter] = useState('all');
   const currentYear = new Date().getFullYear();

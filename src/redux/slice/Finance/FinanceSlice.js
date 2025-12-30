@@ -125,7 +125,7 @@ export const getYearsDrowpdownThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getYearsDrowpdown();
-      return response;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to fetch years");
     }
