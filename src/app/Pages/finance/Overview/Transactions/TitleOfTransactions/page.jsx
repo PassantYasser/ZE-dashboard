@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FilterPage from '../Filter/page'
 
-function TitleOfTransactionsPage() {
+function TitleOfTransactionsPage({onFilterApply}) {
     const {t} = useTranslation()
 
     const [open , setOpen]=useState(false);
@@ -37,7 +37,7 @@ function TitleOfTransactionsPage() {
     </div>
   </div>
 
-  <FilterPage open={open} setOpen={setOpen}/>
+  <FilterPage open={open} setOpen={setOpen} onFilterApply={onFilterApply}/>
     </>
   )
 }

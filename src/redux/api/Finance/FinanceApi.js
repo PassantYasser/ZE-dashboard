@@ -11,11 +11,14 @@ export const getPaymentsData = async () => {
 };
 
 // get payment transaction  (table for finance overview)
-export const getTransactionsOverview = async (page = 1)=>{
-  const response = await API.get(`/provider/service-payments?page=${page}`)
-  return response.data
-
-}
+export const getTransactionsOverview = async (page = 1, filters = {}) => {
+  const queryParams = new URLSearchParams({
+    page,
+    ...filters
+  }).toString();
+  const response = await API.get(`/provider/service-payments?${queryParams}`);
+  return response.data;
+};
 
 // get taxes data (cards for finance taxes)
 export const getTaxesData = async () =>{
@@ -50,3 +53,8 @@ export const getRevenueChartData = async ({ year, filter }) => {
   return response.data;
 }
 
+//get the years of drowpdown in income analysis chart
+export const getYearsDrowpdown = async()=>{
+  const response = await API.get('/analytics/available-years')
+  return response.data
+}

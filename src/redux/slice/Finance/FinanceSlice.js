@@ -1,4 +1,5 @@
-import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getRevenueChartData } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getRevenueChartData, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
+// import { create } from "@mui/material/styles/createTransitions";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -18,9 +19,9 @@ export const getPaymentsDataThunk = createAsyncThunk(
 // get payment transaction  (table for finance overview)
 export const getTransactionsOverviewThunk = createAsyncThunk(
   'finance/getTransactionsOverviewThunk' ,
-  async(page = 1 , {rejectWithValue})=>{
+  async({page = 1, filters = {}} , {rejectWithValue})=>{
     try{
-      const response = await getTransactionsOverview(page)
+      const response = await getTransactionsOverview(page, filters)
       // console.log('getTransactionsOverviewThunk' , response);
       return {
         payments: response.payments,
@@ -127,6 +128,7 @@ const initialState = {
   TaxesPagination: null,
   WalletTransactionsData:[],
   WalletPagination: null,
+  yearOfChart:null,
   revenueChartData: null,
   loading: false,
   error: null,
@@ -228,7 +230,21 @@ const FinanceSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+      //get the years of drowpdown in income analysis chart
+      .addCase(getYearsDrowpdownThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getYearsDrowpdownThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.yearOfChart = action.payload;
+      })
+      .addCase(getYearsDrowpdownThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+
       // Get Revenue Chart Data
       .addCase(getRevenueChartDataThunk.pending, (state) => {
         state.loading = true;

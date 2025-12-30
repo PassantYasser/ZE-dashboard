@@ -18,7 +18,7 @@ function Income_analysisPage() {
     <div className='border border-[#E3E8EF] rounded-[3px] mb-12'>
       <TitleOfIncome_analysisPage selectedFilter={filter} onFilterChange={setFilter}/>
       <hr className='border border-[#E3E8EF] w-full mt-4'></hr>
-      <ChartPage/>
+      <ChartPage chartData={chartData}/>
       
     </div>
   

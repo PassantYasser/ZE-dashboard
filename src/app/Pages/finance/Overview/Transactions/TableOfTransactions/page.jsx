@@ -103,41 +103,41 @@ export default function TableOfTransactionsPage({TransactionsData ,loading}) {
 
         {/* Table Body */}
         <tbody>
-          {loading?(
+          {loading ? (
             <tr>
-              <td colSpan={7} className="text-center py-10">
+              <td colSpan={8} className="text-center py-10">
                 <CircularProgress size="3rem" color="warning" />
               </td>
             </tr>
-          ):TransactionsData?.length > 0 ? (
+          ) : TransactionsData?.length > 0 ? (
             TransactionsData.map((finance) => (
-            <tr
-              key={finance?.id}
-              className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
-            >
-            
-              <td className="p-4">{finance?.id}</td>
-              <td className="p-4">{finance?.service?.title}</td>
-              <td className="p-4">{finance?.handyman?.firstname} {finance?.handyman?.lastname}</td>
-              <td className="p-4">{finance?.user?.firstname} {finance?.user?.lastname}</td>
-              <td className="p-4">
-                {formatDateTimeByLang(finance?.created_at, i18n.language)}
-              </td>
+              <tr
+                key={finance?.id}
+                className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
+              >
 
-              <td className="p-4">{finance?.amount}{finance?.currency}</td>
-              <td className="p-4">
-                {paymentMethod(finance?.payment_method)}
-              </td>
-              <td className='p-4'>
-                {StatusRender(finance?.payment_status)}
-              </td>
-              
-            </tr>
-          ))
-          ):(
+                <td className="p-4">{finance?.id}</td>
+                <td className="p-4">{finance?.service?.title}</td>
+                <td className="p-4">{finance?.handyman?.firstname} {finance?.handyman?.lastname}</td>
+                <td className="p-4">{finance?.user?.firstname} {finance?.user?.lastname}</td>
+                <td className="p-4">
+                  {formatDateTimeByLang(finance?.created_at, i18n.language)}
+                </td>
+
+                <td className="p-4">{finance?.amount}{finance?.currency}</td>
+                <td className="p-4">
+                  {paymentMethod(finance?.payment_method)}
+                </td>
+                <td className='p-4'>
+                  {StatusRender(finance?.payment_status)}
+                </td>
+
+              </tr>
+            ))
+          ) : (
             <tr>
-              <td colSpan={7} className="text-center py-10">
-                <CircularProgress size="3rem" color="warning" />
+              <td colSpan={8} className="text-center py-10 text-lg font-medium text-[#697586]">
+                {t("No data found")}
               </td>
             </tr>
           )}

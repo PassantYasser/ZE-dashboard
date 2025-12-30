@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-function ChartPage() {
+function ChartPage({chartData}) {
 
   const { t } = useTranslation();
   // Data is now fetched by parent component (Income_analysisPage)
@@ -105,29 +105,30 @@ function ChartPage() {
       <section className="flex justify-between  relative z-10 mt-4 py-4 px-6 ">
         <div className="flex flex-col">
           <span className="text-[#364152] text-base font-medium">{label}</span>
-          <span className="text-[#697586] text-sm font-medium">{range}</span>
+          {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
-
-        <div className="relative">
-        <button
-          className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
-          onClick={() => setOpen(!open)}
-        >
-          {selected}
-          <svg
-            className={`transform transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path stroke="#C69815" strokeWidth="2" d="M6 9l6 6 6-6" />
-          </svg>
-        </button>
+        
+        {yearOfChart?.years_count > 1 ? (
+          <div className="relative">
+            <button
+              className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
+              onClick={() => setOpen(!open)}
+            >
+              {selected}
+              <svg
+                className={`transform transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path stroke="#C69815" strokeWidth="2" d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
 
             {open && (
-              <ul className="absolute right-0 mt-1 w-[95px] bg-white border border-[#E3E8EF] rounded shadow-md">
+              <ul className="absolute right-0 mt-1 w-full bg-white border border-[#E3E8EF] rounded shadow-md">
                 {options.map((option) => (
                   <li
                     key={option}
@@ -139,7 +140,9 @@ function ChartPage() {
                 ))}
               </ul>
             )}
-        </div>
+            </div>
+        ): null}
+      
       </section>
   
       {/* chart */} 
