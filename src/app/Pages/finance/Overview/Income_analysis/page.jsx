@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import TitleOfIncome_analysisPage from './TitleOfIncome_analysis/page'
 import ChartPage from './Chart/page'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getRevenueChartDataThunk } from '@/redux/slice/Finance/FinanceSlice'
 
 function Income_analysisPage() {
   const dispatch = useDispatch();
+  // Fetch revenueChartData from Redux store
+  const { revenueChartData } = useSelector((state) => state.finance);
   const [filter, setFilter] = useState('all');
   const currentYear = new Date().getFullYear();
 
@@ -18,7 +20,7 @@ function Income_analysisPage() {
     <div className='border border-[#E3E8EF] rounded-[3px] mb-12'>
       <TitleOfIncome_analysisPage selectedFilter={filter} onFilterChange={setFilter}/>
       <hr className='border border-[#E3E8EF] w-full mt-4'></hr>
-      <ChartPage chartData={chartData}/>
+      <ChartPage chartData={revenueChartData}/>
       
     </div>
   

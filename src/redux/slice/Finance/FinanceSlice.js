@@ -119,6 +119,20 @@ export const getRevenueChartDataThunk = createAsyncThunk(
   }
 );
 
+// get the years of dropdown in income analysis chart
+export const getYearsDrowpdownThunk = createAsyncThunk(
+  'finance/getYearsDrowpdown',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getYearsDrowpdown();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to fetch years");
+    }
+  }
+);
+
+
 const initialState = {
   paymentsData: null,
   TransactionsData:[],

@@ -10,7 +10,7 @@ function ChartPage({chartData}) {
 
   const { t } = useTranslation();
   // Data is now fetched by parent component (Income_analysisPage)
-  const { revenueChartData } = useSelector((state) => state.finance);
+  const { revenueChartData, yearOfChart } = useSelector((state) => state.finance);
   
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState("شهر"); // Default to month
