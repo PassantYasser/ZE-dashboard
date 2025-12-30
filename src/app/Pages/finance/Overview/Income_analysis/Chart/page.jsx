@@ -1,106 +1,94 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
+import { useDispatch, useSelector } from 'react-redux';
+import { getYearsDrowpdownThunk } from '@/redux/slice/Finance/FinanceSlice';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 function ChartPage({chartData}) {
 
   const { t } = useTranslation();
   
+  //api
+  const dispatch = useDispatch();
+  const {yearOfChart , loading , error} = useSelector((state) => state.finance);
+  useEffect(()=>{
+    dispatch(getYearsDrowpdownThunk())
+  },[dispatch])
+  // console.log('yearOfChart',yearOfChart?.years);
   
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState("شهري");
-    const options = ["شهر","3 شهور", "6 شهور ", "سنوي"];
-  
-    const handleSelect = (option) => {
-      setSelected(option);
-      setOpen(false);
-    };
-  
-    const Profit = ['0','13','10','20','22','15','25','30','40',null,null];
-    const mounths = ['يناير','','فبراير','','مارس','','ابريل','','مايو','','يونيو'];
-    const [state] = React.useState({
-              series: [{
-                name: "Profit",
-                data: Profit.reverse()
-              }],
-              options: {
-                chart: {
-                  type: 'area',
-                  height: 350,
-                  zoom: {
-                    enabled: false
-                  },
-                  toolbar: {
-                    show: false
-                  }
-                },
-                colors: ['#2E078B'],
-                fill: {
-                  type: 'solid',
-                  colors: ['#DBCEFA']
-                },
-                dataLabels: {
+  const years = yearOfChart?.years || [];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
+
+  useEffect(() => {
+    if (years.length > 0 && selected === "") {
+      setSelected(years[years.length - 1]);
+    }
+  }, [years, selected]);
+  const options = years;
+
+  const handleSelect = (option) => {
+    setSelected(option);
+    setOpen(false);
+  };
+console.log("profit", chartData?.total);
+console.log("months", chartData?.month_name);
+  const Profit = chartData?.total || [];
+  const months = chartData?.month_name || [];
+  const [state] = React.useState({
+            series: [{
+              name: "Profit",
+              data: [...Profit].reverse()
+            }],
+            options: {
+              chart: {
+                type: 'area',
+                height: 350,
+                zoom: {
                   enabled: false
                 },
-                stroke: {
-                  width: 2,
-                  curve: 'straight',
-                  colors: ['#2E078B']
-                },
-                labels: mounths.reverse(),
-                xaxis: {
-                  type: 'string',
-                },
-                yaxis: {
-                  opposite: true
-                },
-                legend: {
-                  horizontalAlign: 'right'
+                toolbar: {
+                  show: false
                 }
               },
-            
-            
-          });
-  
-    const getPeriodLabelAndRange = (selected) => {
-      const now = new Date();
-      let label = "";
-      let range = "";
-  
-      if (selected === "شهر") {
-        // Arabic month names
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        label = "شهر";
-        const month = months[now.getMonth()];
-        const year = now.getFullYear();
-        range = `1 ${month} - ${new Date(year, now.getMonth() + 1, 0).getDate()} ${month}`;
-      } else if (selected === "6 شهور ") {
-        label = "الستة أشهر الماضية";
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        const endMonth = months[now.getMonth()];
-        const endYear = now.getFullYear();
-        const startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-        const startMonth = months[startDate.getMonth()];
-        const startYear = startDate.getFullYear();
-        range = `1 ${startMonth} ${startYear} - ${new Date(endYear, now.getMonth() + 1, 0).getDate()} ${endMonth} ${endYear}`;
-      } else if (selected === "سنوي") {
-        label = "سنوي";
-        const year = now.getFullYear();
-        range = `1 يناير ${year} - 31 ديسمبر ${year}`;
-      }
-  
-      return { label, range };
-    };
-  
-    const { label, range } = getPeriodLabelAndRange(selected);
+              colors: ['#2E078B'],
+              fill: {
+                type: 'solid',
+                colors: ['#DBCEFA']
+              },
+              dataLabels: {
+                enabled: false
+              },
+              stroke: {
+                width: 2,
+                curve: 'straight',
+                colors: ['#2E078B']
+              },
+              labels: [...months].reverse(),
+              xaxis: {
+                type: 'string',
+              },
+              yaxis: {
+                opposite: true
+              },
+              legend: {
+                horizontalAlign: 'right'
+              }
+            },
+          
+          
+        });
+
+  const getPeriodLabelAndRange = (selected) => {
+    let label = `سنة ${selected}`;
+    // let range = `1 يناير ${selected} - 31 ديسمبر ${selected}`;
+
+    return { label };
+  };
+
+  const { label } = getPeriodLabelAndRange(selected);
   
   return (
     <>
@@ -110,7 +98,7 @@ function ChartPage({chartData}) {
           <span className="text-[#364152] text-base font-medium">{label}</span>
           {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
-        
+
         {yearOfChart?.years_count > 1 ? (
           <div className="relative">
             <button
