@@ -4,17 +4,14 @@ import { useTranslation } from 'react-i18next'
 
 function TitleOfIncome_analysisPage({ selectedFilter, onFilterChange }) {
   const {t} = useTranslation()
-    const [open, setOpen] = useState(false);
-    
-    const options = [
-      { id: 'all', label: t('Total') },
-      { id: 'cash', label: t('monetary') }, // Assuming 'monetary' maps to 'cash'
-      { id: 'card', label: t('credit card') },
-      { id: 'refunded', label: t('Refunded') } // You might need to add this key to translation if missing
-    ];
-
-    const currentLabel = options.find(opt => opt.id === selectedFilter)?.label || t('Total');
-
+  const [open, setOpen] = useState(false);  
+  const options = [
+    { id: 'all', label: t('Total') },
+    { id: 'cash', label: t('monetary') }, 
+    { id: 'card', label: t('credit card') },
+    { id: 'refunded', label: t('refunded') }
+  ];
+  const currentLabel = options.find(opt => opt.id === selectedFilter)?.label || t('Total');
   const handleSelect = (value) => {
     onFilterChange(value);
     setOpen(false);
@@ -31,7 +28,6 @@ function TitleOfIncome_analysisPage({ selectedFilter, onFilterChange }) {
     </div>
 
     <div className="relative inline-block text-right">
-
       <button
         onClick={() => setOpen(!open)}
         className="h-13.5 w-36 px-2 border border-[#CDD5DF] rounded-[3px]  flex justify-between items-center"

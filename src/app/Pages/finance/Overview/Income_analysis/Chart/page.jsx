@@ -7,77 +7,76 @@ import { getRevenueChartDataThunk, getYearsDrowpdownThunk } from '@/redux/slice/
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-function ChartPage({chartData}) {
+function ChartPage({dispatch , revenueChartData}) {
 
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  // Data is now fetched by parent component (Income_analysisPage)
-  const { revenueChartData, yearOfChart } = useSelector((state) => state.finance);
-  
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState(new Date().getFullYear().toString()); 
-    const options = yearOfChart?.years || [];
 
-    useEffect(() => {
-      dispatch(getYearsDrowpdownThunk());
-    }, [dispatch]);
+  const { yearOfChart } = useSelector((state) => state.finance);
+  useEffect(() => {
+    dispatch(getYearsDrowpdownThunk());
+  }, [dispatch]);
 
-    const handleSelect = (option) => {
-      setSelected(option);
-      setOpen(false);
-      dispatch(getRevenueChartDataThunk({ year: option, filter: 'all' }));
-    };
 
-    const chartSeries = [{
-      name: "Income", 
-      data: revenueChartData?.total || []
-    }];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(new Date().getFullYear().toString()); 
+  const options = yearOfChart?.years || [];
 
-    const chartOptions = {
-        chart: {
-          type: 'area',
-          height: 350,
-          zoom: { enabled: false },
-          toolbar: { show: false }
-        },
-        colors: ['#2E078B'],
-        fill: {
-          type: 'solid',
-          colors: ['#DBCEFA']
-        },
-        dataLabels: { enabled: false },
-        stroke: {
-          width: 2,
-          curve: 'straight',
-          colors: ['#2E078B']
-        },
-        labels: revenueChartData?.month_name || [],
-        xaxis: {
-          type: 'category', // Changed to category usually safer with string labels
-        },
-        yaxis: {
-          opposite: true
-        },
-        legend: {
-          horizontalAlign: 'right'
-        }
-    };
-  
-    const getPeriodLabelAndRange = (selectedYear) => {
-      const label = selectedYear;
-      const range = `1 يناير ${selectedYear} - 31 ديسمبر ${selectedYear}`;
-  
-      return { label, range };
-    };
-  
-    const { label, range } = getPeriodLabelAndRange(selected);
-  
+  const handleSelect = (option) => {
+    setSelected(option);
+    setOpen(false);
+    dispatch(getRevenueChartDataThunk({ year: option, filter: 'all' }));
+  };
+
+  const chartSeries = [{
+    name: "Income", 
+    data: revenueChartData?.total || []
+  }];
+
+  const chartOptions = {
+      chart: {
+        type: 'area',
+        height: 350,
+        zoom: { enabled: false },
+        toolbar: { show: false }
+      },
+      colors: ['#2E078B'],
+      fill: {
+        type: 'solid',
+        colors: ['#DBCEFA']
+      },
+      dataLabels: { enabled: false },
+      stroke: {
+        width: 2,
+        curve: 'straight',
+        colors: ['#2E078B']
+      },
+      labels: revenueChartData?.month_name || [],
+      xaxis: {
+        type: 'category',
+      },
+      yaxis: {
+        opposite: true
+      },
+      legend: {
+        horizontalAlign: 'right'
+      }
+  };
+
+  const getPeriodLabelAndRange = (selectedYear) => {
+    const label = selectedYear;
+    // const range = `1 يناير ${selectedYear} - 31 ديسمبر ${selectedYear}`;
+
+    return { label };
+  };
+
+  const { label } = getPeriodLabelAndRange(selected);
+
   return (
     <>
 
       <section className="flex justify-between  relative z-10 mt-4 py-4 px-6 ">
         <div className="flex flex-col">
-          <span className="text-[#364152] text-base font-medium">{label}</span>
+          {/* <span className="text-[#364152] text-base font-medium"> {label} </span> */}
           {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
         
