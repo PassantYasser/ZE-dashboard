@@ -1,9 +1,9 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getYearsDrowpdownThunk } from '@/redux/slice/Finance/FinanceSlice';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 function ChartPage({chartData}) {
@@ -12,92 +12,85 @@ function ChartPage({chartData}) {
   // Data is now fetched by parent component (Income_analysisPage)
   const { revenueChartData, yearOfChart } = useSelector((state) => state.finance);
   
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState("شهر"); // Default to month
-    const options = ["شهر","3 شهور", "6 شهور ", "سنوي"];
+  //api
+  const dispatch = useDispatch();
+  const {yearOfChart , loading , error} = useSelector((state) => state.finance);
+  useEffect(()=>{
+    dispatch(getYearsDrowpdownThunk())
+  },[dispatch])
+  // console.log('yearOfChart',yearOfChart?.years);
   
-    const handleSelect = (option) => {
-      setSelected(option);
-      setOpen(false);
-    };
+  const years = yearOfChart?.years || [];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
 
-    // Construct chart series and options based on API data
-    const chartSeries = [{
-      name: "Income", // Changed from Profit to be more generic or use translation
-      data: revenueChartData?.total || []
-    }];
+  useEffect(() => {
+    if (years.length > 0 && selected === "") {
+      setSelected(years[years.length - 1]);
+    }
+  }, [years, selected]);
+  const options = years;
 
-    const chartOptions = {
-        chart: {
-          type: 'area',
-          height: 350,
-          zoom: { enabled: false },
-          toolbar: { show: false }
-        },
-        colors: ['#2E078B'],
-        fill: {
-          type: 'solid',
-          colors: ['#DBCEFA']
-        },
-        dataLabels: { enabled: false },
-        stroke: {
-          width: 2,
-          curve: 'straight',
-          colors: ['#2E078B']
-        },
-        labels: revenueChartData?.month_name || [],
-        xaxis: {
-          type: 'category', // Changed to category usually safer with string labels
-        },
-        yaxis: {
-          opposite: true
-        },
-        legend: {
-          horizontalAlign: 'right'
-        }
-    };
-  
-    const getPeriodLabelAndRange = (selected) => {
-      const now = new Date();
-      let label = "";
-      let range = "";
-  
-      if (selected === "شهر") {
-        // Arabic month names
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        label = "شهر";
-        const month = months[now.getMonth()];
-        const year = now.getFullYear();
-        range = `1 ${month} - ${new Date(year, now.getMonth() + 1, 0).getDate()} ${month}`;
-      } else if (selected === "6 شهور ") {
-        label = "الستة أشهر الماضية";
-        const months = [
-          "يناير", "فبراير", "مارس", "ابريل", "مايو", "يونيو",
-          "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
-        ];
-        const endMonth = months[now.getMonth()];
-        const endYear = now.getFullYear();
-        const startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
-        const startMonth = months[startDate.getMonth()];
-        const startYear = startDate.getFullYear();
-        range = `1 ${startMonth} ${startYear} - ${new Date(endYear, now.getMonth() + 1, 0).getDate()} ${endMonth} ${endYear}`;
-      } else if (selected === "سنوي") {
-        label = "سنوي";
-        const year = now.getFullYear();
-        range = `1 يناير ${year} - 31 ديسمبر ${year}`;
-      } else if (selected === "3 شهور") {
-         label = "اخر 3 شهور";
-         // Logic for 3 months if needed
-         range = "3 Months Range"; 
-      }
-  
-      return { label, range };
-    };
-  
-    const { label, range } = getPeriodLabelAndRange(selected);
+  const handleSelect = (option) => {
+    setSelected(option);
+    setOpen(false);
+  };
+console.log("profit", chartData?.total);
+console.log("months", chartData?.month_name);
+  const Profit = chartData?.total || [];
+  const months = chartData?.month_name || [];
+  const [state] = React.useState({
+            series: [{
+              name: "Profit",
+              data: [...Profit].reverse()
+            }],
+            options: {
+              chart: {
+                type: 'area',
+                height: 350,
+                zoom: {
+                  enabled: false
+                },
+                toolbar: {
+                  show: false
+                }
+              },
+              colors: ['#2E078B'],
+              fill: {
+                type: 'solid',
+                colors: ['#DBCEFA']
+              },
+              dataLabels: {
+                enabled: false
+              },
+              stroke: {
+                width: 2,
+                curve: 'straight',
+                colors: ['#2E078B']
+              },
+              labels: [...months].reverse(),
+              xaxis: {
+                type: 'string',
+              },
+              yaxis: {
+                opposite: true
+              },
+              legend: {
+                horizontalAlign: 'right'
+              }
+            },
+          
+          
+        });
+
+  const getPeriodLabelAndRange = (selected) => {
+    let label = `سنة ${selected}`;
+    // let range = `1 يناير ${selected} - 31 ديسمبر ${selected}`;
+
+    return { label };
+  };
+
+  const { label } = getPeriodLabelAndRange(selected);
   
   return (
     <>
@@ -107,7 +100,7 @@ function ChartPage({chartData}) {
           <span className="text-[#364152] text-base font-medium">{label}</span>
           {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
-        
+
         {yearOfChart?.years_count > 1 ? (
           <div className="relative">
             <button
@@ -148,7 +141,7 @@ function ChartPage({chartData}) {
       {/* chart */} 
       <section>
         <div id="chart" dir="rtl">
-            <ReactApexChart options={chartOptions} series={chartSeries} type="area"  height={210} />
+            <ReactApexChart options={state.options} series={state.series} type="area"  height={210} />
         </div>
         <div id="html-dist"></div>
       </section>

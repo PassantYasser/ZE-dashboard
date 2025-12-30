@@ -1,4 +1,4 @@
-import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getRevenueChartData, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getIncomeAnalysisData, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
 // import { create } from "@mui/material/styles/createTransitions";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -103,21 +103,34 @@ export const deleteTransactionThunk = createAsyncThunk(
   }
 )
 
-
-
-// Get revenue chart data
-export const getRevenueChartDataThunk = createAsyncThunk(
-  'finance/getRevenueChartData',
-  async ({ year, filter }, { rejectWithValue }) => {
-    try {
-      const response = await getRevenueChartData({ year, filter });
-      return response;
-    } catch (error) {
-      console.log('error', error);
-      return rejectWithValue(error.response?.data || "Failed to fetch chart data");
+//get the years of drowpdown in income analysis chart
+export const getYearsDrowpdownThunk = createAsyncThunk(
+  'finance/getYearsDrowpdownThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getYearsDrowpdown()
+      console.log('getYearsDrowpdownThunk' , response.data);
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch years data");
     }
   }
-);
+)
+
+//get income analysis data for chart
+export const getIncomeAnalysisDataThunk = createAsyncThunk(
+  'finance/getIncomeAnalysisDataThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getIncomeAnalysisData()
+      console.log('getIncomeAnalysisDataThunk', response);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch income analysis data");
+    }
+  }
+)
+
 
 // get the years of dropdown in income analysis chart
 export const getYearsDrowpdownThunk = createAsyncThunk(
@@ -143,7 +156,7 @@ const initialState = {
   WalletTransactionsData:[],
   WalletPagination: null,
   yearOfChart:null,
-  revenueChartData: null,
+  chartData:null,
   loading: false,
   error: null,
 };
@@ -258,20 +271,19 @@ const FinanceSlice = createSlice({
         state.error = action.payload;
       })
 
-
-      // Get Revenue Chart Data
-      .addCase(getRevenueChartDataThunk.pending, (state) => {
+      //get income analysis data for chart
+      .addCase(getIncomeAnalysisDataThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getRevenueChartDataThunk.fulfilled, (state, action) => {
+      .addCase(getIncomeAnalysisDataThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.revenueChartData = action.payload;
+        state.chartData = action.payload;
       })
-      .addCase(getRevenueChartDataThunk.rejected, (state, action) => {
+      .addCase(getIncomeAnalysisDataThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
   }
 });
 
