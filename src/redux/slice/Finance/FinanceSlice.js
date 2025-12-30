@@ -105,20 +105,6 @@ export const deleteTransactionThunk = createAsyncThunk(
 
 
 
-// Get revenue chart data
-export const getRevenueChartDataThunk = createAsyncThunk(
-  'finance/getRevenueChartData',
-  async ({ year, filter }, { rejectWithValue }) => {
-    try {
-      const response = await getRevenueChartData({ year, filter });
-      return response;
-    } catch (error) {
-      console.log('error', error);
-      return rejectWithValue(error.response?.data || "Failed to fetch chart data");
-    }
-  }
-);
-
 const initialState = {
   paymentsData: null,
   TransactionsData:[],
