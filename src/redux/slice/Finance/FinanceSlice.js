@@ -1,4 +1,4 @@
-import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getYearsDrowpdown } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -102,6 +102,19 @@ export const deleteTransactionThunk = createAsyncThunk(
   }
 )
 
+//get the years of drowpdown in income analysis chart
+export const getYearsDrowpdownThunk = createAsyncThunk(
+  'finance/getYearsDrowpdownThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getYearsDrowpdown()
+      console.log('getYearsDrowpdownThunk' , response.data);
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch years data");
+    }
+  }
+)
 
 
 const initialState = {
@@ -113,6 +126,7 @@ const initialState = {
   TaxesPagination: null,
   WalletTransactionsData:[],
   WalletPagination: null,
+  yearOfChart:null,
   loading: false,
   error: null,
 };
@@ -213,6 +227,19 @@ const FinanceSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //get the years of drowpdown in income analysis chart
+      .addCase(getYearsDrowpdownThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getYearsDrowpdownThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.yearOfChart = action.payload;
+      })
+      .addCase(getYearsDrowpdownThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   }
 });
 

@@ -44,3 +44,8 @@ export const deleteTransaction = async(transactionId)=>{
   return response.data
 }
 
+//get the years of drowpdown in income analysis chart
+export const getYearsDrowpdown = async()=>{
+  const response = await API.get('/analytics/available-years')
+  return response.data
+}

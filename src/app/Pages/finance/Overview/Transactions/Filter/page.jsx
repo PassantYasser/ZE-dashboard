@@ -17,59 +17,60 @@ function FilterPage({open , setOpen, onFilterApply}) {
     const { workers, loading } = useSelector((state) => state.workers);
     const { services } = useSelector((state) => state.services);
 
-      // ===== Payment status 1 =====
-      const [open1, setOpen1] = useState(false);
-      const [selected1, setSelected1] = useState(null);
-      const [searchValue1, setSearchValue1] = useState("");
-      const dropdownRef1 = useRef(null);
-      const paymentStatusKeys = ['pending', 'paid', 'refunded'];
-      const optionPaymentStatus = paymentStatusKeys.map(key => ({ key, label: t(key) }));
+    // ===== Payment status 1 =====
+    const [open1, setOpen1] = useState(false);
+    const [selected1, setSelected1] = useState(null);
+    const [searchValue1, setSearchValue1] = useState("");
+    const dropdownRef1 = useRef(null);
+    const paymentStatusKeys = ['pending', 'paid', 'refunded'];
+    const optionPaymentStatus = paymentStatusKeys.map(key => ({ key, label: t(key) }));
+  
+    // ===== payment method 2 =====
+    const [open2, setOpen2] = useState(false);
+    const [selected2, setSelected2] = useState(null);
+    const [searchValue2, setSearchValue2] = useState("");
+    const dropdownRef2 = useRef(null);
+    const paymentMethodKeys = ['cash', 'card'];
+    const optionPaymentMethod = paymentMethodKeys.map(key => ({ key, label: t(key) }));
+
+    // ===== worker 3 =====
+    const [open3, setOpen3] = useState(false);
+    const [selected3, setSelected3] = useState(null);
+    const [searchValue3, setSearchValue3] = useState("");
+    const dropdownRef3 = useRef(null);
+    const optionWorker = workers;
+    const handleOpenWorkerDropdown = () => {
+      setOpen3((prev) => !prev);
+      dispatch(
+        getAllWorkersThunk ({
+          per_page: 200,
+          designation_id: '1', 
+        })
+      );
+    };
     
-      // ===== payment method 2 =====
-      const [open2, setOpen2] = useState(false);
-      const [selected2, setSelected2] = useState(null);
-      const [searchValue2, setSearchValue2] = useState("");
-      const dropdownRef2 = useRef(null);
-      const paymentMethodKeys = ['cash', 'card'];
-      const optionPaymentMethod = paymentMethodKeys.map(key => ({ key, label: t(key) }));
+    // ===== Service 4 =====
+    const [open4, setOpen4] = useState(false);
+    const [selected4, setSelected4] = useState(null);
+    const [searchValue4, setSearchValue4] = useState("");
+    const dropdownRef4 = useRef(null);
+    const optionService = services;
+    const handleOpenServiceDropdown = () => {
+      setOpen4((prev)=>!prev);
+      dispatch(
+        getAllServicesThunk({
+        per_page:200,
+      }))
+    }
+    const getServiceTitle = (service) => {
+      if (!service?.category?.title) return null;
 
-      // ===== worker 3 =====
-      const [open3, setOpen3] = useState(false);
-      const [selected3, setSelected3] = useState(null);
-      const [searchValue3, setSearchValue3] = useState("");
-      const dropdownRef3 = useRef(null);
-      const optionWorker = workers;
-      const handleOpenWorkerDropdown = () => {
-        setOpen3((prev) => !prev);
-        dispatch(
-          getAllWorkersThunk ({
-            per_page: 200,
-            designation_id: '1', 
-          })
-        );
-      };
-      // ===== Service 4 =====
-      const [open4, setOpen4] = useState(false);
-      const [selected4, setSelected4] = useState(null);
-      const [searchValue4, setSearchValue4] = useState("");
-      const dropdownRef4 = useRef(null);
-      const optionService = services;
-      const handleOpenServiceDropdown = () => {
-        setOpen4((prev)=>!prev);
-        dispatch(
-          getAllServicesThunk({
-          per_page:200,
-        }))
+      if (typeof service.category.title === "string") {
+        return service.category.title.trim() || null;
       }
-      const getServiceTitle = (service) => {
-        if (!service?.category?.title) return null;
-
-        if (typeof service.category.title === "string") {
-          return service.category.title.trim() || null;
-        }
 
 
-      };
+    };
 
 
 
