@@ -2,14 +2,22 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function TitleOfIncome_analysisPage() {
+function TitleOfIncome_analysisPage({ selectedFilter, onFilterChange }) {
   const {t} = useTranslation()
     const [open, setOpen] = useState(false);
-      const [selected, setSelected] = useState("الاجمالي"); // default text
+    
+    const options = [
+      { id: 'all', label: t('Total') },
+      { id: 'cash', label: t('monetary') }, // Assuming 'monetary' maps to 'cash'
+      { id: 'card', label: t('credit card') },
+      { id: 'refunded', label: t('Refunded') } // You might need to add this key to translation if missing
+    ];
+
+    const currentLabel = options.find(opt => opt.id === selectedFilter)?.label || t('Total');
 
   const handleSelect = (value) => {
-    setSelected(value);   // change the text
-    setOpen(false);       // close dropdown
+    onFilterChange(value);
+    setOpen(false);
   };
 
   return (
@@ -28,7 +36,7 @@ function TitleOfIncome_analysisPage() {
         onClick={() => setOpen(!open)}
         className="h-13.5 w-36 px-2 border border-[#CDD5DF] rounded-[3px]  flex justify-between items-center"
       >
-        <span className='text-[#364152] text-sm font-normal'>{selected}</span>
+        <span className='text-[#364152] text-sm font-normal'>{currentLabel}</span>
         <img
           src="/images/icons/chevron-down.svg"
           className={`transition-transform ${open ? "rotate-180" : ""}`}
