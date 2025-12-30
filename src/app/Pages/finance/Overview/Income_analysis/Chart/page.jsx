@@ -9,6 +9,8 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 function ChartPage({chartData}) {
 
   const { t } = useTranslation();
+  // Data is now fetched by parent component (Income_analysisPage)
+  const { revenueChartData, yearOfChart } = useSelector((state) => state.finance);
   
   //api
   const dispatch = useDispatch();
