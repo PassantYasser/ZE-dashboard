@@ -20,7 +20,13 @@ function ChartPage() {
   
   const years = yearOfChart?.years || [];
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(years[years.length - 1]);
+  const [selected, setSelected] = useState("");
+
+  useEffect(() => {
+    if (years.length > 0 && selected === "") {
+      setSelected(years[years.length - 1]);
+    }
+  }, [years, selected]);
   const options = years;
 
   const handleSelect = (option) => {

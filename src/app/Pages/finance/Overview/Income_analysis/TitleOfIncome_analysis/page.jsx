@@ -41,24 +41,31 @@ function TitleOfIncome_analysisPage() {
         <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg p-2 z-50">
           <ul className="flex flex-col gap-2">
             <li
-              onClick={() => handleSelect("اليوم")}
+              onClick={() => handleSelect(t('Total'))}
               className="hover:bg-gray-100 px-3 py-2 rounded cursor-pointer"
             >
               {t('Total')}
             </li>
 
             <li
-              onClick={() => handleSelect("الاسبوع")}
+              onClick={() => handleSelect(t("monetary"))}
               className="hover:bg-gray-100 px-3 py-2 rounded cursor-pointer"
             >
               {t("monetary")}
             </li>
 
             <li
-              onClick={() => handleSelect("الشهر")}
+              onClick={() => handleSelect(t('credit card'))}
               className="hover:bg-gray-100 px-3 py-2 rounded cursor-pointer"
             >
               {t('credit card')}
+            </li>
+
+            <li
+              onClick={() => handleSelect(t('refunded'))}
+              className="hover:bg-gray-100 px-3 py-2 rounded cursor-pointer"
+            >
+              {t('refunded')}
             </li>
 
             
