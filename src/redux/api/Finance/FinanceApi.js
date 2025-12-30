@@ -41,3 +41,12 @@ export const deleteTransaction = async(transactionId)=>{
   return response.data
 }
 
+// Get revenue chart data
+// Get revenue chart data
+export const getRevenueChartData = async ({ year, filter }) => {
+  const response = await API.get(`/bookings/revenue-chart`, {
+    params: { year, filter }
+  });
+  return response.data;
+}
+

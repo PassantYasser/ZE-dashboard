@@ -1,68 +1,61 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import dynamic from 'next/dynamic';
+import { useSelector } from 'react-redux';
+
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 function ChartPage() {
 
   const { t } = useTranslation();
-  
+  // Data is now fetched by parent component (Income_analysisPage)
+  const { revenueChartData } = useSelector((state) => state.finance);
   
     const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState("شهري");
+    const [selected, setSelected] = useState("شهر"); // Default to month
     const options = ["شهر","3 شهور", "6 شهور ", "سنوي"];
   
     const handleSelect = (option) => {
       setSelected(option);
       setOpen(false);
     };
-  
-    const Profit = ['0','13','10','20','22','15','25','30','40',null,null];
-    const mounths = ['يناير','','فبراير','','مارس','','ابريل','','مايو','','يونيو'];
-    const [state] = React.useState({
-              series: [{
-                name: "Profit",
-                data: Profit.reverse()
-              }],
-              options: {
-                chart: {
-                  type: 'area',
-                  height: 350,
-                  zoom: {
-                    enabled: false
-                  },
-                  toolbar: {
-                    show: false
-                  }
-                },
-                colors: ['#2E078B'],
-                fill: {
-                  type: 'solid',
-                  colors: ['#DBCEFA']
-                },
-                dataLabels: {
-                  enabled: false
-                },
-                stroke: {
-                  width: 2,
-                  curve: 'straight',
-                  colors: ['#2E078B']
-                },
-                labels: mounths.reverse(),
-                xaxis: {
-                  type: 'string',
-                },
-                yaxis: {
-                  opposite: true
-                },
-                legend: {
-                  horizontalAlign: 'right'
-                }
-              },
-            
-            
-          });
+
+    // Construct chart series and options based on API data
+    const chartSeries = [{
+      name: "Income", // Changed from Profit to be more generic or use translation
+      data: revenueChartData?.total || []
+    }];
+
+    const chartOptions = {
+        chart: {
+          type: 'area',
+          height: 350,
+          zoom: { enabled: false },
+          toolbar: { show: false }
+        },
+        colors: ['#2E078B'],
+        fill: {
+          type: 'solid',
+          colors: ['#DBCEFA']
+        },
+        dataLabels: { enabled: false },
+        stroke: {
+          width: 2,
+          curve: 'straight',
+          colors: ['#2E078B']
+        },
+        labels: revenueChartData?.month_name || [],
+        xaxis: {
+          type: 'category', // Changed to category usually safer with string labels
+        },
+        yaxis: {
+          opposite: true
+        },
+        legend: {
+          horizontalAlign: 'right'
+        }
+    };
   
     const getPeriodLabelAndRange = (selected) => {
       const now = new Date();
@@ -95,6 +88,10 @@ function ChartPage() {
         label = "سنوي";
         const year = now.getFullYear();
         range = `1 يناير ${year} - 31 ديسمبر ${year}`;
+      } else if (selected === "3 شهور") {
+         label = "اخر 3 شهور";
+         // Logic for 3 months if needed
+         range = "3 Months Range"; 
       }
   
       return { label, range };
@@ -148,7 +145,7 @@ function ChartPage() {
       {/* chart */} 
       <section>
         <div id="chart" dir="rtl">
-            <ReactApexChart options={state.options} series={state.series} type="area"  height={210} />
+            <ReactApexChart options={chartOptions} series={chartSeries} type="area"  height={210} />
         </div>
         <div id="html-dist"></div>
       </section>

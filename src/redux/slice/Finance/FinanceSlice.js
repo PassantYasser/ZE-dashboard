@@ -1,4 +1,4 @@
-import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet } from "@/redux/api/Finance/FinanceApi";
+import { deleteTransaction, getPaymentsData, getTaxesData, getTransactionsOverview, getTransactionsTaxes, getTransactionsWallet, getRevenueChartData } from "@/redux/api/Finance/FinanceApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // Get payments data (finance cards)
@@ -104,6 +104,20 @@ export const deleteTransactionThunk = createAsyncThunk(
 
 
 
+// Get revenue chart data
+export const getRevenueChartDataThunk = createAsyncThunk(
+  'finance/getRevenueChartData',
+  async ({ year, filter }, { rejectWithValue }) => {
+    try {
+      const response = await getRevenueChartData({ year, filter });
+      return response;
+    } catch (error) {
+      console.log('error', error);
+      return rejectWithValue(error.response?.data || "Failed to fetch chart data");
+    }
+  }
+);
+
 const initialState = {
   paymentsData: null,
   TransactionsData:[],
@@ -113,6 +127,7 @@ const initialState = {
   TaxesPagination: null,
   WalletTransactionsData:[],
   WalletPagination: null,
+  revenueChartData: null,
   loading: false,
   error: null,
 };
@@ -213,6 +228,20 @@ const FinanceSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      
+      // Get Revenue Chart Data
+      .addCase(getRevenueChartDataThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRevenueChartDataThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.revenueChartData = action.payload;
+      })
+      .addCase(getRevenueChartDataThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   }
 });
 
