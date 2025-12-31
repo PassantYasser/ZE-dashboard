@@ -1,18 +1,16 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { MultiSectionDigitalClock } from "@mui/x-date-pickers/MultiSectionDigitalClock";
-import dayjs from "dayjs";
-import { Dialog } from "@mui/material";
-import { MobileTimePicker } from "@mui/x-date-pickers";
-import 'dayjs/locale/ar';
+"use client"
+import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs';
 
 function SchedulePage({ handleNext, handlePrev }) {
   const { t } = useTranslation();
 
-  const days = [
+  //************* */ DAYS ************///
+  //------------------------------------
+    const days = [
     { id: 1, name: "Sunday" },
     { id: 2, name: "Monday" },
     { id: 3, name: "Tuesday" },
@@ -22,122 +20,82 @@ function SchedulePage({ handleNext, handlePrev }) {
     { id: 7, name: "Saturday" },
   ];
 
-  const [selectedDay, setSelectedDay] = useState(days[0]);
-  const [periods, setPeriods] = useState([]);
-  const [mounted, setMounted] = useState(false); // ✅ fix for SSR safety
+  const [selectedDays, setSelectedDays] = useState([days[0].id]);
+  const [allDays, setAllDays] = useState(false);
 
-  // ✅ Only run after the component mounts (client-side)
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const handleAllDaysChange = (e) => {
+    const checked = e.target.checked;
+    setAllDays(checked);
+    if (checked) {
+      setSelectedDays(days.map((d) => d.id));
+    } else {
+      setSelectedDays([]);
+    }
+  };
 
-  // ✅ Load saved periods for the selected day
-  useEffect(() => {
-    if (mounted) {
-      const savedPeriods = sessionStorage.getItem(
-        `timePeriods_${selectedDay.id}`
-      );
-      if (savedPeriods) {
-        setPeriods(JSON.parse(savedPeriods));
+  const handleDayToggle = (dayId) => {
+    setSelectedDays((prev) => {
+      const isSelected = prev.includes(dayId);
+      let updated;
+      if (isSelected) {
+        updated = prev.filter((id) => id !== dayId);
       } else {
-        setPeriods([]);
+        updated = [...prev, dayId];
       }
+      
+      // Update All Days checkbox status
+      setAllDays(updated.length === days.length);
+      return updated;
+    });
+  };
+
+  //************* */ TIME ************///
+  //------------------------------------
+  
+  const [currentPeriod, setCurrentPeriod] = useState({ from: null, to: null });
+  const [savedPeriods, setSavedPeriods] = useState({}); 
+
+  const addPeriod = () => {
+    if (!currentPeriod.from || !currentPeriod.to || selectedDays.length === 0) return;
+
+    const newSavedPeriods = { ...savedPeriods };
+    selectedDays.forEach((dayId) => {
+      if (!newSavedPeriods[dayId]) newSavedPeriods[dayId] = [];
+      
+      const isDuplicate = newSavedPeriods[dayId].some(p => 
+        p.from.isSame(currentPeriod.from, 'minute') && 
+        p.to.isSame(currentPeriod.to, 'minute')
+      );
+
+      if (!isDuplicate) {
+        newSavedPeriods[dayId].push({
+          id: Date.now() + Math.random(),
+          ...currentPeriod,
+        });
+      }
+    });
+    setSavedPeriods(newSavedPeriods);
+  };
+
+  const removeSavedPeriod = (dayId, periodId) => {
+    const updated = { ...savedPeriods };
+    updated[dayId] = updated[dayId].filter((p) => p.id !== periodId);
+    if (updated[dayId].length === 0) delete updated[dayId];
+    setSavedPeriods(updated);
+  };
+
+  const [allTime, setAllTime] = useState(false);
+  const handleAllTimeChange = (e) => {
+    const checked = e.target.checked;
+    setAllTime(checked);
+    if (checked) {
+      const startTime = dayjs().hour(0).minute(0).second(0);
+      const endTime = dayjs().hour(23).minute(59).second(0);
+      setCurrentPeriod({ from: startTime, to: endTime });
+    } else {
+      setCurrentPeriod({ from: null, to: null });
     }
-  }, [selectedDay, mounted]);
-
-  // ✅ Save whenever periods change
-  useEffect(() => {
-    sessionStorage.setItem(`timePeriods_${selectedDay.id}`, JSON.stringify(periods));
-  }, [periods, selectedDay]);
-
-  // ✅ Get border color per day
-  const getDaystyleColor = (day) => {
-    if (!mounted) return "border-[#CDD5DF]"; // default for SSR
-
-    const saved = sessionStorage.getItem(`timePeriods_${day.id}`);
-    const hasPeriods = saved && JSON.parse(saved).length > 0;
-
-    if (selectedDay.id === day.id) return "border-[var(--color-primary)]"; // selected
-    if (hasPeriods) return "border-[#CDD5DF] bg-[#EDE7FD]"; // has time
-    return "border-[#CDD5DF]"; // default
   };
-
-  // ✅ Format 24-hour time
-  const formatTime = (time) => {
-    if (!time) return "";
-    const [hours, minutes] = time.split(":");
-    return `${hours.padStart(2, "0")}:${minutes}`;
-  };
-
-  // ✅ FROM CLOCK STATES
-  const [open1, setOpen1] = useState(false);
-  const [tempTime, setTempTime] = useState(null);
-  const [confirmedTime, setConfirmedTime] = useState(null);
-  const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
-
-  const handleOkClick = () => {
-    setConfirmedTime(tempTime);
-    setOpen1(false);
-  };
-  const handleTimeChange = (newValue) => {
-    setTempTime(newValue);
-    if (newValue) {
-      // ✅ Format time as HH:mm (e.g. 14:30)
-      const timeStr = dayjs(newValue).format("HH:mm");
-      setFormattedTime(timeStr);
-      setOpen1(false); // close dialog after selecting
-    }
-  };
-
-
-  // ✅ TO CLOCK STATES
-  const [open2, setOpen2] = useState(false);
-  const [tempTime2, setTempTime2] = useState(null);
-  const [confirmedTime2, setConfirmedTime2] = useState(null);
-  const formattedTime2 = confirmedTime2 ? dayjs(confirmedTime2).format("HH:mm") : "";
-
-  const handleOkClick2 = () => {
-    setConfirmedTime2(tempTime2);
-    setOpen2(false);
-  };
-
-  // ✅ Add Period and save in session
-  // const handleAddPeriod = () => {
-  //   if (confirmedTime && confirmedTime2) {
-  //     const newPeriod = {
-  //       from: dayjs(confirmedTime).format("HH:mm"),
-  //       to: dayjs(confirmedTime2).format("HH:mm"),
-  //     };
-  //     setPeriods((prev) => [...prev, newPeriod]);
-  //     setConfirmedTime(null);
-  //     setConfirmedTime2(null);
-  //   }
-  // };
-  const handleAddPeriod = () => {
-  if (confirmedTime && confirmedTime2) {
-    const newPeriod = {
-      from: dayjs(confirmedTime).format("HH:mm"),
-      to: dayjs(confirmedTime2).format("HH:mm"),
-    };
-    setPeriods((prev) => [...prev, newPeriod]);
-
-    // ✅ Reset both pickers after saving
-    setConfirmedTime(null);
-    setTempTime(null);
-    setConfirmedTime2(null);
-    setTempTime2(null);
-  }
-};
-
-
-  const handleRemove = (index) => {
-    setPeriods((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  if (!mounted) {
-    // ✅ Prevent rendering until after mount
-    return null;
-  }
 
   return (
     <>
@@ -145,25 +103,33 @@ function SchedulePage({ handleNext, handlePrev }) {
       <section className="mb-12">
         <div className="flex justify-between mb-6">
           <p className="text-[#4B5565] text-base font-medium">{t("days")}</p>
+          <div className="flex gap-2 items-center">
+            <input 
+              type="checkbox" 
+              className="w-6 h-6 border border-[#CDD5DF]" 
+              checked={allDays}
+              onChange={handleAllDaysChange}
+            />
+            <p className="text-[#4B5565] text-base font-normal">{t("All days")}</p>
+          </div>
         </div>
 
-        <div className="flex gap-5 flex-wrap">
+        <div className="grid grid-cols-7 gap-5 w-full ">
           {days.map((day) => (
             <button
               key={day.id}
-              onClick={() => setSelectedDay(day)}
-              className={`w-[141px] h-15 flex items-center justify-center border rounded-[3px] shadow-sm transition text-base font-medium 
-              ${getDaystyleColor(day)} 
-              ${
-                selectedDay.id === day.id
-                  ? "bg-[#F9F5E8] text-[var(--color-primary)]"
-                  : "text-[#9AA4B2]"
+              onClick={() => handleDayToggle(day.id)}
+              className={`w-full h-15  border rounded-[3px] shadow-xs transition text-base font-normal ${
+                selectedDays.includes(day.id) 
+                  ? "border-[var(--color-primary)] bg-[#F9F5E8] text-[var(--color-primary)]" 
+                  : "border-[#CDD5DF] text-[#9AA4B2]"
               }`}
             >
               {t(day.name)}
             </button>
           ))}
         </div>
+        
       </section>
 
       {/* Time Section */}
@@ -171,34 +137,34 @@ function SchedulePage({ handleNext, handlePrev }) {
         <div className="flex justify-between mb-6">
           <p className="text-[#4B5565] text-base font-medium">{t("the time")}</p>
           <div className="flex gap-2 items-center">
-            <input type="checkbox" className="w-6 h-6 border border-[#CDD5DF]" />
+            <input 
+              type="checkbox" 
+              className="w-6 h-6 border border-[#CDD5DF]" 
+              checked={allTime}
+              onChange={handleAllTimeChange}
+            />
             <p className="text-[#4B5565] text-base font-normal">{t("All the time")}</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-10">
-
+        <div className="grid grid-cols-2 gap-6 mb-6">
           {/* From Time */}
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <div className="flex gap-6">
-              <label className="flex items-center text-[#4B5565] text-xl font-normal">
-                {t("From")} 
+              <label className="flex items-center text-[#4B5565] text-xl font-normal whitespace-nowrap">
+                {t("From")}
               </label>
-              <div  className="p-4 bg-white w-full">
+              <div className="p-4 w-full">
                 <LocalizationProvider
                   localeText={{
-                    timePickerToolbarTitle : t('Select Time'),
-                  }} 
-                  dateAdapter={AdapterDayjs} 
+                    timePickerToolbarTitle: t('Select Time'),
+                  }}
+                  dateAdapter={AdapterDayjs}
                   adapterLocale="ar"
-                  >
+                >
                   <MobileTimePicker
-                    value={tempTime || confirmedTime || null}
-                    onChange={(newValue) => setTempTime(newValue)}
-                    onAccept={(newValue) => {
-                      setConfirmedTime(newValue);
-                      setOpen2(false);
-                    }}
+                    value={currentPeriod.from}
+                    onChange={(newValue) => setCurrentPeriod({ ...currentPeriod, from: newValue })}
                     ampm={true}
                     views={["hours", "minutes"]}
                     closeOnSelect={true}
@@ -207,8 +173,8 @@ function SchedulePage({ handleNext, handlePrev }) {
                         fullWidth: true,
                         InputProps: {
                           sx: {
-                            direction: "rtl", 
-                            justifyContent: "space-between", 
+                            direction: "rtl",
+                            justifyContent: "space-between",
                             "& input": {
                               textAlign: "left",
                               paddingRight: "8px",
@@ -229,138 +195,126 @@ function SchedulePage({ handleNext, handlePrev }) {
                   />
                 </LocalizationProvider>
               </div>
-              
             </div>
-
-          
           </div>
 
-
-
-            {/* To Time */}
-            <div className="flex flex-col">
-              <div className="flex gap-6">
-                <label className="flex items-center text-[#4B5565] text-xl font-normal">
-                  {t("To")}
-                </label>
-                <div className="p-4 bg-white w-full">
+          {/* To Time */}
+          <div className="flex flex-col">
+            <div className="flex gap-6">
+              <label className="flex items-center text-[#4B5565] text-xl font-normal whitespace-nowrap">
+                {t("To")}
+              </label>
+              <div className="p-4 w-full">
                 <LocalizationProvider
                   localeText={{
-                    timePickerToolbarTitle : t('Select Time'),
-                  }} 
-                  dateAdapter={AdapterDayjs} 
+                    timePickerToolbarTitle: t('Select Time'),
+                  }}
+                  dateAdapter={AdapterDayjs}
                   adapterLocale="ar"
-                  >                    
+                >
                   <MobileTimePicker
-                      value={tempTime2 || confirmedTime2 || null}
-                      onChange={(newValue) => setTempTime2(newValue)}
-                      onAccept={(newValue) => {
-                        setConfirmedTime2(newValue);
-                        setOpen2(false);
-                      }}
-                      ampm={true}
-                      views={["hours", "minutes"]}
-                      closeOnSelect
-                      slotProps={{
-                        textField: {
-                          fullWidth: true,
-                          InputProps: {
-                            sx: {
-                              direction: "rtl", 
-                              justifyContent: "space-between", 
-                              "& input": {
-                                textAlign: "left",
-                                paddingRight: "8px",
-                              },
-                              "& .MuiInputAdornment-root": {
-                                order: -1,
-                                marginLeft: "12px",
-                              },
+                    value={currentPeriod.to}
+                    onChange={(newValue) => setCurrentPeriod({ ...currentPeriod, to: newValue })}
+                    ampm={true}
+                    views={["hours", "minutes"]}
+                    closeOnSelect
+                    slotProps={{
+                      textField: {
+                        fullWidth: true,
+                        InputProps: {
+                          sx: {
+                            direction: "rtl",
+                            justifyContent: "space-between",
+                            "& input": {
+                              textAlign: "left",
+                              paddingRight: "8px",
+                            },
+                            "& .MuiInputAdornment-root": {
+                              order: -1,
+                              marginLeft: "12px",
                             },
                           },
                         },
-                        mobilePaper: {
-                          sx: {
-                            direction: "ltr",
-                          },
+                      },
+                      mobilePaper: {
+                        sx: {
+                          direction: "ltr",
                         },
-                      }}
-                    />
-                  </LocalizationProvider>
-                </div>
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
               </div>
-
             </div>
-
-
-
-
           </div>
+        </div>
 
-
-
-
-
-
-
-
-          {/* Add Period Button */}
-          <div className="flex justify-end mb-8 ml-6">
-            <button
-              onClick={handleAddPeriod}
-              className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14"
-            >
-              <img src="/images/icons/AddYellowIcon.svg" alt="" className="w-6 h-6" />
-              <p className="text-[var(--color-primary)] text-base font-medium cursor-pointer">
-                {t("Add period")}
-              </p>
-            </button>
-          </div>
+      
       </section>
 
+      {/* Added Periods btn */}
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={addPeriod}
+          className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14 cursor-pointer"
+        >
+          <img src="/images/icons/AddYellowIcon.svg" alt=""  className="w-6 h-6" />
+          <p className="text-[var(--color-primary)] text-base font-medium ">
+            {t("Add period")}
+          </p>
+        </button>
+      </div>
 
-
-
-
-
-
-
-
-
-
-      {/* Added Periods section */}
-      <section className="mt-5">
-        <label className="text-[#364152] text-base font-semibold">
-          {t("Added periods")}
-        </label>
-
-        <div className="mt-6">
-          {periods.length > 0 ? (
-            <div className="grid grid-cols-3 gap-5">
-              {periods.map((period, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center border border-[#9AA4B2] rounded-[3px] p-3"
-                >
-                  <p className="text-[#4E4E4E] text-sm font-normal">
-                    <span>{formatTime(period.from)}</span> —{" "}
-                    <span>{formatTime(period.to)}</span>
-                  </p>
-                  <button onClick={() => handleRemove(index)} className="cursor-pointer">
-                    <img src="/images/icons/delete-darkRed.svg" alt="" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="border border-[#FEC84B] bg-[#FEF0C7] shadow p-3">
-              <p className="text-[#4E4E4E] text-sm font-medium">
-                {t("No period has been added yet, select the dates and then click (Add Period) to start")}
+      {/* Added Periods List */}
+      <section className="mt-12 bg-white rounded-[3px]">
+        <p className="text-[#364152] text-base font-semibold mb-6">{t("Added periods")}</p>
+        
+        <div className="flex flex-col gap-6">
+          {Object.keys(savedPeriods).length === 0 ? (
+            <div className="flex flex-col  py-3 border  border-[#FEC84B] rounded-[3px] bg-[#FEF0C7]">
+              <p className="text-[#4E4E4E] text-sm font-medium px-4">
+                {t("No period has been added yet. Click “Add period” to begin.")}
               </p>
             </div>
+          ) : (
+            days.map((day) => {
+              const dayPeriods = savedPeriods[day.id];
+              if (!dayPeriods || dayPeriods.length === 0) return null;
+
+              return (
+                <div key={day.id} className="border border-[#CDD5DF] shadow-sm rounded-[3px] p-4">
+                  <div className="flex justify-start  mb-4">
+                    <p className="text-[#4E4E4E] text-base font-medium">{t(day.name)}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 justify-start">
+                    {dayPeriods.map((p) => (
+                      <div 
+                        key={p.id} 
+                        className="flex items-center gap-3 px-3 py-2 bg-[#EEF2F6] border border-[#CDD5DF] rounded-full"
+                      >
+                        <span className="text-[#4B5565] text-sm font-normal">
+                          {p.from?.format('hh:mm A')} - {p.to?.format('hh:mm A')}
+                        </span>
+
+                        <button 
+                          onClick={() => removeSavedPeriod(day.id, p.id)}
+                          className="flex items-center justify-center p-1 cursor-pointer"
+                        >
+                          <img src="/images/icons/delete-darkRed.svg" alt="delete" className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })
           )}
         </div>
       </section>
+
+
+
+
 
       {/* Bottom Nav */}
       <div className="my-12 flex gap-3">
@@ -378,20 +332,8 @@ function SchedulePage({ handleNext, handlePrev }) {
         </button>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
     </>
-  );
+  )
 }
 
-export default SchedulePage;
+export default SchedulePage
