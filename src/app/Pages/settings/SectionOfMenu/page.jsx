@@ -24,12 +24,7 @@ function SectionOfMenuPage({ selectedMenu }) {
         return (
           <Activity_settingsPage/>
         )
-      default:
-        return (
-          <div className='p-6'>
-            <p>Please select a menu item</p>
-          </div>
-        )
+    
     }
   }
 

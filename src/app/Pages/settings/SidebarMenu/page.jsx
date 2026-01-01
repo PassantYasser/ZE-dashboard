@@ -13,9 +13,11 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
       icon:'/images/icons/Company_dataBlack.svg', 
       iconSelected:'/images/icons/Company_dataWhite.svg',
       subItems: [
-        {Label:'Company_info', name:t('Company information')},
-        {Label:'Branch_management', name:t('Branch management')},
-        {Label:'Tax_settings', name:t('Tax settings')},
+        {Label:'BasicInformation', name:t('Basic Information')},
+        {Label:'YourFiles', name:t('Your Files')},
+        {Label:'ContactInformation', name:t('Contact Information')},
+        {Label:'ChangePassword', name:t('Change Password')},
+        {Label:'CompanyAddress', name:t('Company Address')},
       ]
     },
     {Label:'Personal_data', name:t('Personal data'), icon:'/images/icons/Personal_dataBlack.svg', iconSelected:'/images/icons/Personal_dataWhite.svg'},
