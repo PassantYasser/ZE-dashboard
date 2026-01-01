@@ -9,7 +9,7 @@ function SettingsPage() {
 
   return (
     <MainLayout>
-      <div className="grid grid-cols-[3fr_7fr] gap-4">
+      <div className="grid grid-cols-[3.5fr_6.5fr] gap-4">
         <div className=''>
           <SidebarMenuPage 
             selectedMenu={selectedMenu} 

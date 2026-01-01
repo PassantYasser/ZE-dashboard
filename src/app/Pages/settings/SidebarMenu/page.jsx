@@ -38,7 +38,7 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
           return (
           <div key={item.Label}>
             <li 
-              className={`p-6 text-base font-normal cursor-pointer transition-colors flex items-center gap-3 justify-between ${
+              className={`p-3 text-base font-normal cursor-pointer transition-colors flex items-center gap-3 justify-between ${
                 isSelected 
                   ? 'bg-[var(--color-primary)] text-white' 
                   : 'hover:bg-gray-100 text-[#364152]'
