@@ -32,11 +32,14 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
   return (
     <>
       <ul className='py-6 px-4 shadow-[0_0_4px_0_rgba(0,0,0,0.25)]'>
-        {menuItems.map((item) => (
+        {menuItems.map((item) => {
+          const isSelected = selectedMenu === item.Label || item.subItems?.some(subItem => subItem.Label === selectedMenu)
+          
+          return (
           <div key={item.Label}>
             <li 
               className={`p-6 text-base font-normal cursor-pointer transition-colors flex items-center gap-3 justify-between ${
-                selectedMenu === item.Label 
+                isSelected 
                   ? 'bg-[var(--color-primary)] text-white' 
                   : 'hover:bg-gray-100 text-[#364152]'
               }`}
@@ -49,7 +52,7 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
               }}
             >
               <div className="flex items-center gap-3">
-                {selectedMenu === item.Label ?(
+                {isSelected ?(
                   <img src={item.iconSelected} alt={item.Label} className="w-5 h-5" />
                   ):(
                   <img src={item.icon} alt={item.Label} className="w-5 h-5" />
@@ -71,14 +74,14 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
             
             {/* Sub-items */}
             {item.subItems && openDropdown === item.Label && (
-              <ul className="bg-gray-50">
+              <ul className="p-3">
                 {item.subItems.map((subItem) => (
                   <li
                     key={subItem.Label}
-                    className={`py-4 px-12 text-sm cursor-pointer transition-colors ${
+                    className={`py-2 px-3  text-sm font-normal cursor-pointer transition-colors ${
                       selectedMenu === subItem.Label
-                        ? 'bg-[var(--color-primary)] text-white'
-                        : 'hover:bg-gray-200 text-[#364152]'
+                        ? 'bg-[#F9F5E8] text-[#364152]'
+                        : ' text-[#4B5565]'
                     }`}
                     onClick={(e) => {
                       e.stopPropagation()
@@ -90,8 +93,10 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
                 ))}
               </ul>
             )}
+
           </div>
-        ))}
+          )
+        })}
       </ul>
     </>
   )
