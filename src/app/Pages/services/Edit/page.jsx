@@ -46,6 +46,7 @@ function EditPageContent() {
     discount: "",
     discount_type: "",
     provider_areas_id: [],
+    days: [],
   });
 
   const handleChange = (key, value) => {
@@ -72,6 +73,7 @@ function EditPageContent() {
       pricing_type: service?.pricing_type || "",
       discount: service?.discount || "",
       discount_type: service?.discount_type || "",
+      days: service?.days || [],
       // provider_areas_id: service.areas.map(area => area.id),
     });
   }, [service]);
@@ -91,7 +93,20 @@ function EditPageContent() {
 
     Object.entries(formData).forEach(([key, value]) => {
       if (Array.isArray(value)) {
-        value.forEach((v) => submitFormData.append(`${key}[]`, v));
+        if (key === "days") {
+          // Serialize days array with nested times for backend
+          value.forEach((day, dayIndex) => {
+            submitFormData.append(`days[${dayIndex}][day]`, day.day);
+            if (day.times && Array.isArray(day.times)) {
+              day.times.forEach((time, timeIndex) => {
+                submitFormData.append(`days[${dayIndex}][times][${timeIndex}][from]`, time.from);
+                submitFormData.append(`days[${dayIndex}][times][${timeIndex}][to]`, time.to);
+              });
+            }
+          });
+        } else {
+          value.forEach((v) => submitFormData.append(`${key}[]`, v));
+        }
       } else if (typeof value === "boolean") {
         submitFormData.append(key, value ? "1" : "0");
       } else if (value !== undefined && value !== null) {

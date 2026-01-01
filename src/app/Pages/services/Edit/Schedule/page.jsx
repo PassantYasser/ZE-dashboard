@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
-function SchedulePage({ handleNext, handlePrev }) {
+function SchedulePage({ handleNext, handlePrev, formData, handleChange, service }) {
   const { t } = useTranslation();
 
   //************* */ DAYS ************///
@@ -53,7 +53,48 @@ function SchedulePage({ handleNext, handlePrev }) {
   //------------------------------------
   
   const [currentPeriod, setCurrentPeriod] = useState({ from: null, to: null });
-  const [savedPeriods, setSavedPeriods] = useState({}); 
+  const [savedPeriods, setSavedPeriods] = useState(() => {
+    // Initialize from existing service data if available
+    const initial = {};
+    if (service?.days && service.days.length > 0) {
+      service.days.forEach(dayInfo => {
+        const day = days.find(d => d.name.toLowerCase() === dayInfo.day.toLowerCase());
+        if (day && dayInfo.times) {
+          initial[day.id] = dayInfo.times.map(t => ({
+            id: Math.random(),
+            from: dayjs(t.from, 'HH:mm'),
+            to: dayjs(t.to, 'HH:mm')
+          }));
+        }
+      });
+    }
+    return initial;
+  });
+
+  // Sync savedPeriods with parent formData whenever it changes
+  React.useEffect(() => {
+    if (savedPeriods && Object.keys(savedPeriods).length > 0) {
+      const formattedDays = days
+        .map(day => {
+          const dayPeriods = savedPeriods[day.id];
+          if (!dayPeriods || dayPeriods.length === 0) return null;
+          
+          return {
+            day: day.name.toLowerCase(), // Backend expects lowercase day names
+            times: dayPeriods.map(p => ({
+              from: p.from?.format('HH:mm'), // 24-hour format
+              to: p.to?.format('HH:mm')      // 24-hour format
+            }))
+          };
+        })
+        .filter(Boolean);
+
+      handleChange('days', formattedDays);
+    } else {
+      // Clear days if no periods
+      handleChange('days', []);
+    }
+  }, [savedPeriods]);
 
   const addPeriod = () => {
     if (!currentPeriod.from || !currentPeriod.to || selectedDays.length === 0) return;
