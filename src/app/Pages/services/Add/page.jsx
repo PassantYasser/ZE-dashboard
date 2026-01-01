@@ -29,6 +29,7 @@ function AddPage() {
     pricing_type: "",
     discount: "",
     discount_type: "",
+    days: [],
   });
 
   useEffect(() => {
@@ -58,6 +59,17 @@ const handleSubmit = async () => {
 
     if (key === "provider_areas_id" && Array.isArray(value)) {
       value.forEach((item) => data.append("provider_areas_id[]", item.id));
+    } else if (key === "days" && Array.isArray(value)) {
+      // Serialize days array with nested times for backend
+      value.forEach((day, dayIndex) => {
+        data.append(`days[${dayIndex}][day]`, day.day);
+        if (day.times && Array.isArray(day.times)) {
+          day.times.forEach((time, timeIndex) => {
+            data.append(`days[${dayIndex}][times][${timeIndex}][from]`, time.from);
+            data.append(`days[${dayIndex}][times][${timeIndex}][to]`, time.to);
+          });
+        }
+      });
     } else if (Array.isArray(value)) {
       value.forEach((item) => data.append(`${key}[]`, item));
     } else {

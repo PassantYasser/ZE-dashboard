@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
-function SchedulePage({ handleNext, handlePrev }) {
+function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
   const { t } = useTranslation();
 
   //************* */ DAYS ************///
@@ -54,6 +54,31 @@ function SchedulePage({ handleNext, handlePrev }) {
   
   const [currentPeriod, setCurrentPeriod] = useState({ from: null, to: null });
   const [savedPeriods, setSavedPeriods] = useState({}); 
+
+  // Sync savedPeriods with parent formData whenever it changes
+  React.useEffect(() => {
+    if (savedPeriods && Object.keys(savedPeriods).length > 0) {
+      const formattedDays = days
+        .map(day => {
+          const dayPeriods = savedPeriods[day.id];
+          if (!dayPeriods || dayPeriods.length === 0) return null;
+          
+          return {
+            day: day.name.toLowerCase(), // Backend expects lowercase day names
+            times: dayPeriods.map(p => ({
+              from: p.from?.format('HH:mm'), // 24-hour format
+              to: p.to?.format('HH:mm')      // 24-hour format
+            }))
+          };
+        })
+        .filter(Boolean);
+
+      handleChange('days', formattedDays);
+    } else {
+      // Clear days if no periods
+      handleChange('days', []);
+    }
+  }, [savedPeriods]);
 
   const addPeriod = () => {
     if (!currentPeriod.from || !currentPeriod.to || selectedDays.length === 0) return;
