@@ -2,9 +2,26 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
+import MapDialog from "./MapDialog";
 
 function CompanyAddressPage() {
   const { t } = useTranslation();
+
+    //map
+      const [address, setAddress] = useState("");
+      const [open, setOpen] = useState(false);
+
+      const handleConfirm = (newAddress) => {
+        setAddress(newAddress);
+      };
+    
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
 
 
   return (
@@ -12,7 +29,31 @@ function CompanyAddressPage() {
       <Header />
 
       <section className="p-6">
-      
+      {/*  Location  */}
+        <div className="flex flex-col mb-4">
+          <label className="text-[#4B5565] text-base font-normal mb-1.5">
+            {t("Location")}
+          </label>
+          <div className="relative">
+            <div
+              onClick={handleClickOpen}
+              className="min-h-[3.75rem] w-full p-3 pl-10 border border-[#C8C8C8] rounded-[3px] flex items-center cursor-pointer bg-white"
+            >
+              <span
+                className={`text-sm ${
+                  address ? "text-black" : "text-[#9A9A9A]"
+                }`}
+              >
+                {address || t("Enter the address")}
+              </span>
+            </div>
+            <img
+              src="/images/icons/locationDarkBlack.svg"
+              alt="location"
+              className="absolute left-3 top-3 pointer-events-none"
+            />
+          </div>
+        </div>
 
         {/*street */}
         <div>
@@ -64,7 +105,16 @@ function CompanyAddressPage() {
       </section>
 
       
+
+
+      {/* 🗺️ Map Dialog Component */}
+            <MapDialog
+              open={open}
+              handleClose={handleClose}
+              onConfirm={handleConfirm}
+            />
     </div>
+    
   );
 }
 
