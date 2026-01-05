@@ -16,7 +16,7 @@ function SettingsPage() {
             setSelectedMenu={setSelectedMenu}
           />
         </div>
-        <div className='border'>
+        <div className=''>
           <SectionOfMenuPage selectedMenu={selectedMenu} />
         </div>
       </div>
