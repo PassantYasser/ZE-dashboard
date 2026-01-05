@@ -39,7 +39,7 @@ function ChangePasswordPage() {
     confirmPassword.length > 0 && password === confirmPassword;
 
   return (
-    <div className="border border-[#E3E8EF]">
+    <div className="border border-[#E3E8EF] mb-8">
       <Header />
 
       <section className="p-6">
