@@ -37,7 +37,7 @@ function CompanyAddressPage() {
           <div className="relative">
             <div
               onClick={handleClickOpen}
-              className="min-h-[3.75rem] w-full p-3 pl-10 border border-[#C8C8C8] rounded-[3px] flex items-center cursor-pointer bg-white"
+              className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
             >
               <span
                 className={`text-sm ${
@@ -50,7 +50,7 @@ function CompanyAddressPage() {
             <img
               src="/images/icons/locationDarkBlack.svg"
               alt="location"
-              className="absolute left-3 top-3 pointer-events-none"
+              className="absolute left-3 top-4 pointer-events-none"
             />
           </div>
         </div>
