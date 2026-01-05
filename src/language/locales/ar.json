@@ -509,9 +509,13 @@
   "famous sign":"معلم مشهور",
   "Property number":"رقم العقار",
   "Location":"الموقع",
-  
-
-
+  "Your files":"ملفاتك",
+  "This file needs to be updated before its expiry date":"يجب تحديث هذا الملف قبل تاريخ انتهاء صلاحيته",
+  "This file has not yet been reviewed.":"لم يتم مراجعة هذا الملف بعد",
+  "This file must be updated immediately to avoid account suspension.":"يجب تحديث هذا الملف بشكل فوري لتجنب ايقاف الحساب",
+  "Your business record":"سجلك التجاري",
+  "Tax Card":"البطاقة الضريبية",
+  "No file chosen":"لم يتم اختيار ملف",
 
 
 
