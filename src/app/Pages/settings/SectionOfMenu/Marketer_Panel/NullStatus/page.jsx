@@ -75,6 +75,11 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
       setSelectedImage(imageUrl);
     }
   };
+
+  const handleDeleteImage = () => {
+    setSelectedImage(null);
+  }
+
   return (
     <>
       <div className='border border-[#E3E8EF] p-6'>
@@ -102,23 +107,37 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
 
             {/* Image Upload Input */}
             <div className='mt-4'>
-              <div className={`relative w-full h-40 rounded-[3px] border border-[#CDD5DF] overflow-hidden ${!is_marketer ? 'bg-[#EEF2F6]' : 'bg-white'}`}>
+              <div className={`relative w-full rounded-[3px]  overflow-hidden border border-[#CDD5DF]`}>
                 {selectedImage ? (
-                  <img src={selectedImage} alt="Selected" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="flex items-center justify-center gap-1.5 px-3 h-full ">
-                    <span className='text-[#364152] text-sm font-normal'>{t('Upload a picture')}</span>
-                    <img src="/images/icons/camera.svg" alt="" />
+                  <div className="relative w-full h-full  "> 
+                    <img src={selectedImage} alt="Selected" className="w-full h-40 object-cover  " />
+                    <button 
+                      onClick={handleDeleteImage}
+                      className="absolute top-2 left-2 w-7 h-7 p-1.5 border border-[#F04438] bg-[#FEE4E2] rounded-[3px] flex items-center justify-center cursor-pointer "
+                    >
+                      <img src="/images/icons/delete-darkRed.svg" alt="Delete" className="w-5 h-5" />
+                    </button>
                   </div>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-center gap-1.5 px-3 h-14 pointer-events-none">
+                      <span className='text-[#364152] text-sm font-normal'>{t('Upload a picture')}</span>
+                      <img src="/images/icons/camera.svg" alt="" />
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      disabled={!is_marketer}
+                      onChange={handleImageChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                    />
+                  </>
                 )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  disabled={!is_marketer}
-                  onChange={handleImageChange}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                />
               </div>
+
+              <p className='border border-[#FEF0C7] bg-[#FFFAEB] p-2 mt-2 text-[#775B0D] text-base font-normal'>
+                {t('The image must be an official document showing the IBAN number and the marketer name.')}
+              </p>
             </div>
           </div> 
         </div>
