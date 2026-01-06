@@ -11,10 +11,10 @@ import { styled } from '@mui/material/styles'
 
 
 
-function NullStatusPage({is_marketer}) {
+function NullStatusPage({is_marketer, setIsMarketer}) {
   const {t}=useTranslation()
   
-  const [isActive, setIsActive] = useState(is_marketer || false)
+
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
@@ -61,7 +61,7 @@ function NullStatusPage({is_marketer}) {
   }));
   
   const handleToggle = (event) => {
-    setIsActive(event.target.checked)
+    setIsMarketer(event.target.checked)
   }
 
 
@@ -81,7 +81,7 @@ function NullStatusPage({is_marketer}) {
 
         <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-[3px]'>
           <p className='text-[#4B5565] text-base font-normal '>{t('Activating the marketer dashboard')}</p>
-          <GreenSwitch checked={isActive} onChange={handleToggle} />
+          <GreenSwitch checked={is_marketer} onChange={handleToggle} />
         </div>
 
         <InformationDataPage/>
@@ -94,15 +94,15 @@ function NullStatusPage({is_marketer}) {
             <input 
               type="text" 
               className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-[3px] outline-none placeholder:text-sm 
-                          ${!isActive ? 'bg-[#EEF2F6]' : 'bg-white'}
+                          ${!is_marketer ? 'bg-[#EEF2F6] placeholder:text-[#9A9A9A]' : 'bg-white placeholder:text-[#9A9A9A]'}
                         `} 
               placeholder={t('Enter your IBAN number')}
-              disabled={!isActive? true : false}
+              disabled={!is_marketer? true : false}
             />
 
             {/* Image Upload Input */}
             <div className='mt-4'>
-              <div className={`relative w-full h-14 rounded-[3px] border border-[#CDD5DF] overflow-hidden ${!isActive ? 'bg-[#EEF2F6]' : 'bg-white'}`}>
+              <div className={`relative w-full h-40 rounded-[3px] border border-[#CDD5DF] overflow-hidden ${!is_marketer ? 'bg-[#EEF2F6]' : 'bg-white'}`}>
                 {selectedImage ? (
                   <img src={selectedImage} alt="Selected" className="w-full h-full object-cover" />
                 ) : (
@@ -114,7 +114,7 @@ function NullStatusPage({is_marketer}) {
                 <input
                   type="file"
                   accept="image/*"
-                  disabled={!isActive}
+                  disabled={!is_marketer}
                   onChange={handleImageChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
                 />

@@ -43,7 +43,8 @@ function InformationDataPage() {
 
         <div>
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('Front national ID card photo')}</p>
-          <p className='border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
+          <p className='flex gap-1.5 border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
+            <img src="/images/icons/imageicon.svg" alt="" className='w-5 h-5'/>
             <span className='text-[#656565] text-sm font-normal'>البطاقة jbg.2</span>
           </p>
         </div>

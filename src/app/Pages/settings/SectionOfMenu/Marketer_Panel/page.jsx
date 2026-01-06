@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import NullStatusPage from './NullStatus/page';
 import PendingStatusPage from './PendingStatus/page';
 import RejectedStatusPage from './RejectedStatus/page';
@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 function Marketer_PanelPage() {
     const {t}=useTranslation()
   
-  const is_marketer = true ;
+  const [is_marketer, setIsMarketer] =useState(true);
   const marketer = { status: null }; //pending , active , rejected , null 
   return (
     <>
@@ -30,7 +30,7 @@ function Marketer_PanelPage() {
         {
           (()=>{
             if(marketer?.status === null){                                             //marketer?.status=== null && is_marketer===false || marketer?.status=== null && is_marketer===true
-              return <NullStatusPage is_marketer={is_marketer}/>
+              return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer}/>
             }else if(marketer?.status=== 'pending'  && is_marketer===true ){
               return <PendingStatusPage/>
             }else if(marketer?.status=== 'rejected'  && is_marketer===true ){
