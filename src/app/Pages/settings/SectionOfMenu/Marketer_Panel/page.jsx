@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 function Marketer_PanelPage() {
     const {t}=useTranslation()
   
-  const is_marketer = true;
+  const is_marketer = true ;
   const marketer = { status: null }; //pending , active , rejected , null 
   return (
     <>
