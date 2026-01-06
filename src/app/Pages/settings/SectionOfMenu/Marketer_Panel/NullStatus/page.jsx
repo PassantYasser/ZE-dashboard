@@ -17,6 +17,9 @@ function NullStatusPage({is_marketer}) {
 
         <InformationDataPage/>
         
+        <div>
+          <p>{t('Bank account details')}</p>
+        </div>
       </div>
 
       
