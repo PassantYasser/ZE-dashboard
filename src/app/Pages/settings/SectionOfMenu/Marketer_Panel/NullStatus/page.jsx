@@ -130,7 +130,7 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
 
             {/* Image Upload Input */}
             <div className='mt-4'>
-              <div className={`relative w-full rounded-[3px]  overflow-hidden border border-[#CDD5DF]`}>
+              <div className={`relative w-full rounded-[3px]  overflow-hidden `}>
                 {selectedImage ? (
                   <div className="relative w-full h-full  "> 
                     <img src={selectedImage} alt="Selected" className="w-full h-40 object-cover  " />
@@ -145,8 +145,8 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center justify-center gap-1.5 px-3 h-14 pointer-events-none">
-                      <span className='text-[#364152] text-sm font-normal'>{t('Upload a picture')}</span>
+                    <div className={`flex items-center justify-center gap-1.5 px-3 h-14 pointer-events-none border border-[#CDD5DF] text-[#364152] ${!is_marketer ? ' bg-[#E3E8EF] ' : 'bg-white'}`}>
+                      <span className='text-sm font-normal'>{t('Upload a picture')}</span>
                       <img src="/images/icons/camera.svg" alt="" />
                     </div>
                     <input
