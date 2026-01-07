@@ -10,7 +10,8 @@ import CardOfActivePage from './CardOfActive/page';
 function ActiveStatusPage({is_marketer , setIsMarketer}) {
 
   const {t} = useTranslation()
-    
+  // const has_subscription = true;
+  
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
