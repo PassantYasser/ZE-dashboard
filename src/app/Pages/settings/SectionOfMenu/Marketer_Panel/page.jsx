@@ -3,8 +3,7 @@ import React, { useState } from 'react'
 import NullStatusPage from './NullStatus/page';
 import PendingStatusPage from './PendingStatus/page';
 import RejectedStatusPage from './RejectedStatus/page';
-import ActiveTrueStatusPage from './ActiveTrueStatus/page';
-import ActiveFalseStatusPage from './ActiveFalseStatus/page';
+import ActiveStatusPage from './ActiveStatus/page';
 import { useTranslation } from 'react-i18next';
 
 function Marketer_PanelPage() {
@@ -12,7 +11,7 @@ function Marketer_PanelPage() {
   
   const [is_marketer, setIsMarketer] =useState(true);
   // const marketer = { status: null }; //pending , active , rejected , null 
-  const [marketerStatus, setMarketerStatus] = useState('rejected')
+  const [marketerStatus, setMarketerStatus] = useState('active')
   return (
     <>
     <div className='border border-[#E3E8EF]' >
@@ -32,14 +31,12 @@ function Marketer_PanelPage() {
           (()=>{
             if(marketerStatus === null){                                             //marketer?.status=== null && is_marketer===false || marketer?.status=== null && is_marketer===true
               return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer} setMarketerStatus={setMarketerStatus}/>
-            }else if(marketerStatus=== 'pending'  && is_marketer===true ){
+            }else if(marketerStatus=== 'pending'){
               return <PendingStatusPage/>
-            }else if(marketerStatus=== 'rejected'  && is_marketer===true ){
+            }else if(marketerStatus=== 'rejected'){
               return <RejectedStatusPage setMarketerStatus={setMarketerStatus}/>
-            }else if(marketerStatus=== 'active'  && is_marketer===true ){
-              return <ActiveTrueStatusPage/>
-            }else if(marketerStatus=== 'active'  && is_marketer===false ){
-              return <ActiveFalseStatusPage/>
+            }else if(marketerStatus=== 'active'){
+              return <ActiveStatusPage/>
             }
           })  ()
         }

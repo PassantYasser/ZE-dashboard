@@ -8,10 +8,6 @@ import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import DeleteDialogPage from './DeleteDialog/page'
 
-
-
-
-
 function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
   const {t}=useTranslation()
   
