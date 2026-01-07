@@ -3,7 +3,7 @@ import React from 'react'
 import InformationDataPage from './InformationData/page'
 import { useTranslation } from 'react-i18next'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 
@@ -80,6 +80,25 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
     setSelectedImage(null);
   }
 
+  // Upload file
+  const [selectedFile, setSelectedFile] = useState(null)
+  const fileInputRef = useRef(null)
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      setSelectedFile(file)
+    }
+  }
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click()
+  }
+
+  const handleDeleteFile = () => {
+    setSelectedFile(null)
+  }
+
   return (
     <>
       <div className='border border-[#E3E8EF] p-6'>
@@ -139,6 +158,64 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
                 {t('The image must be an official document showing the IBAN number and the marketer name.')}
               </p>
             </div>
+
+            {/* file upload */}
+            <div className='mt-8 '>
+              <p className='text-[#364152] text-sm font-normal mb-1.5'>{t('Upload files')}</p>
+              <div className='flex flex-col justify-center items-center border border-dashed border-[#C8C8C8]  py-4'>
+                <p className='text-[#0F022E] text-xs font-medium mb-2'>{t('Upload a file')}</p>
+                <p className='text-xs font-normal'>
+                  <span className='text-[#697586]'>{t('Supports these formats')} :</span>
+                  <span className='text-[#202939]'> AVIF, WORD, PDF </span>
+                </p>
+                <button 
+                  onClick={handleUploadClick}
+                  disabled={!is_marketer}
+                  className= {`w-62.5 h-10 mt-4 ${!is_marketer ? 'bg-[#E3E8EF] text-[#9AA4B2]' : 'bg-[var(--color-primary)] text-white '} text-base font-medium rounded-[3px] cursor-pointer`}
+                >
+                  {t('Raise')}
+                </button>
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  style={{ display: 'none' }} 
+                  onChange={handleFileChange} 
+                  accept=".avif, .doc, .docx, .pdf"
+                />
+              </div>
+
+              {selectedFile && (
+                <div className='flex justify-between items-center mt-4 p-3 border border-[#CDD5DF] rounded-[3px] bg-[#fff]'>
+                  <div className='flex items-center gap-3'>
+                  {(() => {
+                    const ext = selectedFile.name.split('.').pop().toLowerCase();
+                    const isPdf = ext === 'pdf';
+                    const isWord = ['doc', 'docx'].includes(ext);
+                    const bgColor = isPdf ? 'bg-[#F04438]' : isWord ? 'bg-[#1570EF]' : 'bg-[#E3E8EF]';
+                    const textColor = (isPdf || isWord) ? 'text-white' : 'text-[#4B5565]';
+                    
+                    return (
+                      <div className={`w-10 h-10 ${bgColor} rounded flex items-center justify-center ${textColor} text-xs font-bold uppercase`}>
+                        {ext}
+                      </div>
+                    );
+                  })()}
+                    <div>
+                      <p className='text-[#344054] text-sm font-medium '>{selectedFile.name}</p>
+                      <p className='text-[#697586] text-xs font-normal'>KB {(selectedFile.size / 1024).toFixed(2)}  تم الرفع</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={handleDeleteFile}
+                    className='text-[#F04438]  p-1.5 rounded cursor-pointer'
+                  >
+                    <img src="/images/icons/delete-darkRed.svg" alt="Delete" className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
+            </div>
+
+
           </div> 
         </div>
 

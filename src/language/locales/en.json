@@ -524,8 +524,10 @@
   "Enter your IBAN number":"Enter your IBAN number",
   "Upload a picture":"Upload a picture",
   "The image must be an official document showing the IBAN number and the marketer name.":"The image must be an official document showing the IBAN number and the marketer name.",
-  
-  
+  "Upload files":"Upload files",
+  "Upload a file":"Upload a file",
+  "Supports these formats":"Supports these formats",  
+  "Raise":"Raise",
   
   
   
