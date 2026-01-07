@@ -36,7 +36,7 @@ function Marketer_PanelPage() {
             }else if(marketerStatus=== 'rejected'){
               return <RejectedStatusPage setMarketerStatus={setMarketerStatus}/>
             }else if(marketerStatus=== 'active'){
-              return <ActiveStatusPage/>
+              return <ActiveStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer}/>
             }
           })  ()
         }
