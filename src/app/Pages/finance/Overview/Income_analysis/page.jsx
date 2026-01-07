@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useEffect } from 'react'
 import TitleOfIncome_analysisPage from './TitleOfIncome_analysis/page'
 import ChartPage from './Chart/page'
