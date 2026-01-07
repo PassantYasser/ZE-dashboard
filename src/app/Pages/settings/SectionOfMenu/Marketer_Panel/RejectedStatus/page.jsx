@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function RejectedStatusPage() {
+function RejectedStatusPage({setMarketerStatus}) {
       const {t}=useTranslation()
   
   return (
@@ -22,7 +22,10 @@ function RejectedStatusPage() {
         </div>
 
 
-        <button className={`mt-8 w-62.5 h-12 bg-[var(--color-primary)] text-white cursor-pointer text-base font-medium rounded-[3px]`}>
+        <button 
+        className={`mt-8 w-62.5 h-12 bg-[var(--color-primary)] text-white cursor-pointer text-base font-medium rounded-[3px]`}
+        onClick={() => setMarketerStatus(null)}
+        >
             {t('Data correction')}
         </button>
       </div>

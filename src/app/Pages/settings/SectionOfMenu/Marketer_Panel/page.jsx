@@ -35,7 +35,7 @@ function Marketer_PanelPage() {
             }else if(marketerStatus=== 'pending'  && is_marketer===true ){
               return <PendingStatusPage/>
             }else if(marketerStatus=== 'rejected'  && is_marketer===true ){
-              return <RejectedStatusPage/>
+              return <RejectedStatusPage setMarketerStatus={setMarketerStatus}/>
             }else if(marketerStatus=== 'active'  && is_marketer===true ){
               return <ActiveTrueStatusPage/>
             }else if(marketerStatus=== 'active'  && is_marketer===false ){
