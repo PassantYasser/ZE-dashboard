@@ -12,7 +12,7 @@ function Marketer_PanelPage() {
   
   const [is_marketer, setIsMarketer] =useState(true);
   // const marketer = { status: null }; //pending , active , rejected , null 
-  const [marketerStatus, setMarketerStatus] = useState(null)
+  const [marketerStatus, setMarketerStatus] = useState('rejected')
   return (
     <>
     <div className='border border-[#E3E8EF]' >
