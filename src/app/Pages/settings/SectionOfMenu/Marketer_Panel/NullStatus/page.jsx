@@ -6,12 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { useState, useRef } from 'react'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
+import DeleteDialogPage from './DeleteDialog/page'
 
 
 
 
 
-function NullStatusPage({is_marketer, setIsMarketer}) {
+function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
   const {t}=useTranslation()
   
 
@@ -78,7 +79,10 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
 
   const handleDeleteImage = () => {
     setSelectedImage(null);
+    setOpen(false);
   }
+
+  const [open, setOpen] = useState(false);
 
   // Upload file
   const [selectedFile, setSelectedFile] = useState(null)
@@ -130,12 +134,14 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
                 {selectedImage ? (
                   <div className="relative w-full h-full  "> 
                     <img src={selectedImage} alt="Selected" className="w-full h-40 object-cover  " />
+                    {/* delete img */}
                     <button 
-                      onClick={handleDeleteImage}
+                      onClick={() => setOpen(true)}
                       className="absolute top-2 left-2 w-7 h-7 p-1.5 border border-[#F04438] bg-[#FEE4E2] rounded-[3px] flex items-center justify-center cursor-pointer "
                     >
                       <img src="/images/icons/delete-darkRed.svg" alt="Delete" className="w-5 h-5" />
                     </button>
+
                   </div>
                 ) : (
                   <>
@@ -216,12 +222,21 @@ function NullStatusPage({is_marketer, setIsMarketer}) {
             </div>
 
 
+
+          <button 
+            disabled={!selectedImage}
+            onClick={() => setMarketerStatus('pending')}
+            className={`mt-8 w-62.5 h-12 ${!selectedImage ? 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed' : 'bg-[var(--color-primary)] text-white cursor-pointer'} text-base font-medium rounded-[3px]`}
+          >
+            {t('It was completed')}
+          </button>
+
           </div> 
         </div>
 
       </div>
 
-      
+        <DeleteDialogPage open={open} setOpen={setOpen} handleDeleteImage={handleDeleteImage}/>
 
     </>
   )

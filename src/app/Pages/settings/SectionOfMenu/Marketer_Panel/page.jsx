@@ -11,7 +11,8 @@ function Marketer_PanelPage() {
     const {t}=useTranslation()
   
   const [is_marketer, setIsMarketer] =useState(true);
-  const marketer = { status: null }; //pending , active , rejected , null 
+  // const marketer = { status: null }; //pending , active , rejected , null 
+  const [marketerStatus, setMarketerStatus] = useState(null)
   return (
     <>
     <div className='border border-[#E3E8EF]' >
@@ -29,15 +30,15 @@ function Marketer_PanelPage() {
       <div className='p-6'>
         {
           (()=>{
-            if(marketer?.status === null){                                             //marketer?.status=== null && is_marketer===false || marketer?.status=== null && is_marketer===true
-              return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer}/>
-            }else if(marketer?.status=== 'pending'  && is_marketer===true ){
+            if(marketerStatus === null){                                             //marketer?.status=== null && is_marketer===false || marketer?.status=== null && is_marketer===true
+              return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer} setMarketerStatus={setMarketerStatus}/>
+            }else if(marketerStatus=== 'pending'  && is_marketer===true ){
               return <PendingStatusPage/>
-            }else if(marketer?.status=== 'rejected'  && is_marketer===true ){
+            }else if(marketerStatus=== 'rejected'  && is_marketer===true ){
               return <RejectedStatusPage/>
-            }else if(marketer?.status=== 'active'  && is_marketer===true ){
+            }else if(marketerStatus=== 'active'  && is_marketer===true ){
               return <ActiveTrueStatusPage/>
-            }else if(marketer?.status=== 'active'  && is_marketer===false ){
+            }else if(marketerStatus=== 'active'  && is_marketer===false ){
               return <ActiveFalseStatusPage/>
             }
           })  ()
