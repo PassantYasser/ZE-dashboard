@@ -166,32 +166,7 @@ function CardOfActivePage({is_marketer}) {
             <p className='text-[#202939] text-base font-medium'>187,972</p>
           </div>
 
-          <div className='flex gap-1'>
-            <p className='text-[#697586] text-xs font-light'>{t('Last week')}</p>
-            {totalProfits >=0 ? (
-              <>
-              <p className='flex items-center text-sm text-[#17B26A]'>
-                <span className='text-xs'>{totalProfits}%</span>
-                <span>+</span>  
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/green_arrow_up.svg" alt="" />
-              </p>
-              </>
-            
-            ):(
-              <>
-              <p className='flex items-center text-sm text-[#F04438]'>
-                <span className='text-xs'>{totalProfits}%</span>
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/red_arrow_down.svg" alt="" />
-              </p>
-              </>
-            
-            )}
-            
-          </div>
+          
 
         </section>
 
@@ -212,32 +187,7 @@ function CardOfActivePage({is_marketer}) {
             <p className='text-[#202939] text-base font-medium'>187,972</p>
           </div>
 
-          <div className='flex gap-1'>
-            <p className='text-[#697586] text-xs font-light'>{t('Last week')}</p>
-            {totalProfits >=0 ? (
-              <>
-              <p className='flex items-center text-sm text-[#17B26A]'>
-                <span className='text-xs'>{totalProfits}%</span>
-                <span>+</span>  
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/green_arrow_up.svg" alt="" />
-              </p>
-              </>
-            
-            ):(
-              <>
-              <p className='flex items-center text-sm text-[#F04438]'>
-                <span className='text-xs'>{totalProfits}%</span>
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/red_arrow_down.svg" alt="" />
-              </p>
-              </>
-            
-            )}
-            
-          </div>
+        
 
         </section>
       </div>
