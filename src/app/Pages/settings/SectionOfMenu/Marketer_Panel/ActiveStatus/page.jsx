@@ -84,7 +84,7 @@ function ActiveStatusPage({is_marketer , setIsMarketer}) {
     ) : (
       <>
         {is_marketer && <TableOfActivePage />}
-        <div className='flex justify-end mt-6'>
+        <div className=' mt-6'>
           <button 
           className={`
             ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
