@@ -14,7 +14,7 @@ function CardOfActivePage({is_marketer}) {
       <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
         {/* title */}
         <div className='flex items-center gap-3 '>
-          <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+          <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#B4F0CC] ' : 'bg-[#CDD5DF]'}`}>
             {is_marketer ? 
             (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
             :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
@@ -107,7 +107,7 @@ function CardOfActivePage({is_marketer}) {
         <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#B4F0CC] ' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
@@ -153,7 +153,7 @@ function CardOfActivePage({is_marketer}) {
         <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF0C7] ' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/wallet-done.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/wallet-done_grey.svg" alt="" className='w-6 h-6' />)
@@ -174,7 +174,7 @@ function CardOfActivePage({is_marketer}) {
         <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#EDE7FD] ' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/Available_withdrawal.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/Available_withdrawal_grey.svg" alt="" className='w-6 h-6' />)
