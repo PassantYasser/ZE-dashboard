@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import HeaderOfTablePage from "./HeaderOfTable/page";
 import Pagination from "./Pagination";
+import DeleteDialogPage from "./DeleteDialog/page";
 
 function createData(orderNumber, dateTime,status) {
   return { orderNumber, dateTime,status};
@@ -29,7 +30,6 @@ export default function TableOfActivePage() {
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const StatusRender = (Status) => {
       switch (Status) {
@@ -108,6 +108,7 @@ export default function TableOfActivePage() {
 
       <Pagination/>
 
+      <DeleteDialogPage open={open} setOpen={setOpen} />
     </div>
   
 
