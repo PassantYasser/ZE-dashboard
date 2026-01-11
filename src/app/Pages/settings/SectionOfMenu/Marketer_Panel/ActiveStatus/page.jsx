@@ -8,10 +8,13 @@ import CardOfActivePage from './CardOfActive/page';
 import WithdrawDialogPage from './WithdrawDialog/page';
 
 
+import { useRouter } from 'next/navigation';
+
 function ActiveStatusPage({is_marketer , setIsMarketer}) {
 
   const {t} = useTranslation()
-  const has_subscription = false;
+  const router = useRouter(); // Initialize router
+  const has_subscription = true;
   
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -76,6 +79,7 @@ const [open , setOpen] =useState(false);
     {has_subscription ? (
       <div className='mt-6'>
         <button 
+          onClick={() => is_marketer && router.push('/Pages/finance/wallet')}
           className={`
             ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
               w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
@@ -89,7 +93,7 @@ const [open , setOpen] =useState(false);
         {is_marketer && <TableOfActivePage  />}
         <div className=' mt-6'>
           <button 
-            onClick={() => setOpen(true)}
+            onClick={() => is_marketer && setOpen(true)}
             className={`
               ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
                 w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
