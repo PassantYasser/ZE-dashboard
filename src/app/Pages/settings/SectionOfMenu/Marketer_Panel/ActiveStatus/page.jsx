@@ -1,10 +1,11 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import TableOfActivePage from './TableOfActive/page';
 import CardOfActivePage from './CardOfActive/page';
+import WithdrawDialogPage from './WithdrawDialog/page';
 
 
 function ActiveStatusPage({is_marketer , setIsMarketer}) {
@@ -60,6 +61,8 @@ function ActiveStatusPage({is_marketer , setIsMarketer}) {
   const handleToggle = (event) => {
     setIsMarketer(event.target.checked)
   }
+
+const [open , setOpen] =useState(false);   
   
   return (
     <>
@@ -83,13 +86,14 @@ function ActiveStatusPage({is_marketer , setIsMarketer}) {
       </div>
     ) : (
       <>
-        {is_marketer && <TableOfActivePage />}
+        {is_marketer && <TableOfActivePage  />}
         <div className=' mt-6'>
           <button 
-          className={`
-            ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
-              w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
-            }
+            onClick={() => setOpen(true)}
+            className={`
+              ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
+                w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
+              }
         >
           {t('withdrawal request')}
         </button>
@@ -97,6 +101,7 @@ function ActiveStatusPage({is_marketer , setIsMarketer}) {
       </>
     )}
 
+    <WithdrawDialogPage open={open} setOpen={setOpen} />
     </>
   )
 }

@@ -24,7 +24,7 @@ createData("010", "24 أبريل 2023 : 02 م", "completed"),
 ];
 
 
-export default function TableOfActivePage() {
+export default function TableOfActivePage({has_subscription , is_marketer}) {
 
   const { t } = useTranslation();
 
@@ -85,7 +85,7 @@ export default function TableOfActivePage() {
             {rows.map((row) => (
               <tr
                 key={row.orderNumber}
-                onClick={handleClickOpen}
+            
                 className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
               >
                 <td className="p-4  w-[20%]">{row.orderNumber}</td>
@@ -94,7 +94,7 @@ export default function TableOfActivePage() {
                   {StatusRender(row.status)}
                 </td>
                 <td className='py-4  w-[20%] ' >
-                  <p className="flex justify-center">
+                  <p className="flex justify-center"     onClick={handleClickOpen}>
                     <img src="/images/icons/delete-darkRed.svg" alt="" />
                   </p>
                 </td>
@@ -107,6 +107,7 @@ export default function TableOfActivePage() {
       </div>
 
       <Pagination/>
+      
 
       <DeleteDialogPage open={open} setOpen={setOpen} />
     </div>
