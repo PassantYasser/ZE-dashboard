@@ -11,11 +11,14 @@ function CardOfActivePage({is_marketer}) {
     
       
       {/* total profits */}
-      <section className='border border-[#CDD5DF] rounded-[3px] py-3 px-2'>
+      <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
         {/* title */}
         <div className='flex items-center gap-3 '>
-          <p className='w-10 h-10 bg-[#B4F0CC] flex items-center justify-center rounded-[3px]'>
-            <img src="/images/icons/earnings.svg" alt="" className='w-6 h-6'/>
+          <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+            {is_marketer ? 
+            (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
+            :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
+            }
           </p>
           <p className='text-[#4B5565] text-base font-normal'>{t('total profits')}</p>
         </div>
@@ -56,11 +59,13 @@ function CardOfActivePage({is_marketer}) {
       <div className='grid grid-cols-2 gap-3 mt-3'>
 
         {/* Total number of subscribers */}
-        <section className='border border-[#CDD5DF] rounded-[3px] py-3 px-2'>
+        <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className='w-10 h-10 bg-[#FEF3F2] flex items-center justify-center rounded-[3px]'>
-              <img src="/images/icons/user-group.svg" alt="" className='w-6 h-6' />
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+              {is_marketer ? 
+              (<img src="/images/icons/user-group.svg" alt="" className='w-6 h-6' />)
+              :( <img src="/images/icons/user-group_grey.svg" alt="" className='w-6 h-6' />)}
             </p>
             <p className='text-[#4B5565] text-base font-normal'>{t('Total number of subscribers')}</p>
           </div>
@@ -99,11 +104,14 @@ function CardOfActivePage({is_marketer}) {
         </section>
 
         {/* pending profits */}
-        <section className='border border-[#CDD5DF] rounded-[3px] py-3 px-2'>
+        <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className='w-10 h-10 bg-[#B4F0CC] flex items-center justify-center rounded-[3px]'>
-              <img src="/images/icons/earnings.svg" alt="" className='w-6 h-6'/>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+              {is_marketer ? 
+              (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
+              :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
+              }
             </p>
             <p className='text-[#4B5565] text-base font-normal'>{t('pending profits')}</p>
           </div>
@@ -142,11 +150,14 @@ function CardOfActivePage({is_marketer}) {
         </section>
 
         {/* Total balance due */}
-        <section className='border border-[#CDD5DF] rounded-[3px] py-3 px-2'>
+        <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className='w-10 h-10 bg-[#FEF0C7] flex items-center justify-center rounded-[3px]'>
-              <img src="/images/icons/wallet-done.svg" alt="" className='w-6 h-6'/>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+              {is_marketer ? 
+              (<img src="/images/icons/wallet-done.svg" alt="" className='w-6 h-6' />)
+              :( <img src="/images/icons/wallet-done_grey.svg" alt="" className='w-6 h-6' />)
+              }
             </p>
             <p className='text-[#4B5565] text-base font-normal'>{t('Total balance due')}</p>
           </div>
@@ -185,11 +196,14 @@ function CardOfActivePage({is_marketer}) {
         </section>
 
         {/* Total amount withdrawn */}
-        <section className='border border-[#CDD5DF] rounded-[3px] py-3 px-2'>
+        <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
           {/* title */}
           <div className='flex items-center gap-3 '>
-            <p className='w-10 h-10 bg-[#EDE7FD] flex items-center justify-center rounded-[3px]'>
-              <img src="/images/icons/Available_withdrawal.svg" alt="" className='w-6 h-6' />
+            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] ${is_marketer ? ' bg-[#FEF3F2] ' : 'bg-[#CDD5DF]'}`}>
+              {is_marketer ? 
+              (<img src="/images/icons/Available_withdrawal.svg" alt="" className='w-6 h-6' />)
+              :( <img src="/images/icons/Available_withdrawal_grey.svg" alt="" className='w-6 h-6' />)
+              }
             </p>
             <p className='text-[#4B5565] text-base font-normal'>{t('Total amount withdrawn')}</p>
           </div>
@@ -227,6 +241,16 @@ function CardOfActivePage({is_marketer}) {
 
         </section>
       </div>
+
+      {/* code */}
+    <section className='mt-6'>
+      <p className='text-[#364152] text-sm font-normal'>{t('code')}</p>
+      <input 
+        type="text" 
+        disabled={!is_marketer}
+        className={`w-full mt-1.5 p-3 border border-[#CDD5DF] rounded-[3px] focus:outline-none ${is_marketer ? ' bg-white ' : 'bg-[#EEF2F6]'}`}
+      />
+    </section>
 
     </>
   )
