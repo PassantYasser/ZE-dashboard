@@ -10,7 +10,7 @@ import CardOfActivePage from './CardOfActive/page';
 function ActiveStatusPage({is_marketer , setIsMarketer}) {
 
   const {t} = useTranslation()
-  // const has_subscription = true;
+  const has_subscription = false;
   
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -70,7 +70,32 @@ function ActiveStatusPage({is_marketer , setIsMarketer}) {
 
     <CardOfActivePage is_marketer={is_marketer}/>
 
-    {is_marketer && <TableOfActivePage />}
+    {has_subscription ? (
+      <div className='mt-6'>
+        <button 
+          className={`
+            ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
+              w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
+            }
+        >
+          {t('Open the wallet')}
+        </button>
+      </div>
+    ) : (
+      <>
+        {is_marketer && <TableOfActivePage />}
+        <div className='flex justify-end mt-6'>
+          <button 
+          className={`
+            ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
+              w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
+            }
+        >
+          {t('withdrawal request')}
+        </button>
+        </div>
+      </>
+    )}
 
     </>
   )
