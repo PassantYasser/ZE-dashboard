@@ -2,7 +2,7 @@
 import React from 'react'
 import TableOfTransactionsPage from './TableOfTransactions/page'
 
-function TransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange }) {
+function TransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange, activeTab, setActiveTab }) {
     return (
     <>
       <div className='border border-[#E3E8EF] p-6 rounded-[3px] my-12'>
@@ -13,6 +13,8 @@ function TransactionsPage({WalletTransactionsData ,loading ,error, currentPage, 
           currentPage={currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
       </div>
       

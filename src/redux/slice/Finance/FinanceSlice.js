@@ -69,9 +69,9 @@ export const getTransactionsTaxesThunk = createAsyncThunk(
 // get wallet transaction  (table for finance wallet)
 export const getTransactionsWalletThunk = createAsyncThunk(
   'finance/getTransactionsWalletThunk' ,
-  async(page = 1 , {rejectWithValue})=>{
+  async({ page = 1, status = '' } = {}, {rejectWithValue})=>{
     try{
-      const response = await getTransactionsWallet(page);
+      const response = await getTransactionsWallet(page, status);
       console.log('getTransactionsWalletThunk', response);
       return {
         transactions: response.data.transactions,

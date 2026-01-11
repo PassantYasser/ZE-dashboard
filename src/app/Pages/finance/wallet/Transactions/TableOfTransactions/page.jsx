@@ -7,19 +7,15 @@ import { CircularProgress } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { deleteTransactionThunk } from '@/redux/slice/Finance/FinanceSlice';
 
-function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange }) {
+function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange, activeTab, setActiveTab }) {
       const {t , i18n } = useTranslation()
-    const [active, setActive] = useState("completed");
+    
+    // Using passed activeTab state instead of local state active
+    const active = activeTab;
+    const setActive = setActiveTab;
 
-    // Filter transactions based on active tab
-    const filteredTransactions = WalletTransactionsData?.filter((transaction) => {
-      if (active === "completed") {
-        return transaction.status === "completed" || transaction.status === "rejected";
-      } else if (active === "review") {
-        return transaction.status === "pending";
-      }
-      return true;
-    });
+    // Filter transactions: Using pre-filtered data from server
+    const filteredTransactions = WalletTransactionsData;
 
     const StatusRender = (Status) => {
       switch (Status) {
