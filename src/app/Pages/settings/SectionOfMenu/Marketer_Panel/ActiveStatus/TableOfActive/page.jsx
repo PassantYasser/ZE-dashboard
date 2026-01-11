@@ -1,16 +1,3 @@
-// import React from 'react'
-
-// function TableOfActivePage() {
-//   return (
-//     <>
-
-//     </>
-//   )
-// }
-
-// export default TableOfActivePage
-
-
 "use client";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -79,7 +66,7 @@ export default function TableOfActivePage() {
   return (
     <div className=" mt-8 mb-5">
       <HeaderOfTablePage />
-      
+
       <div className=" rounded-[3px] border border-[#E3E8EF] overflow-x-auto">
         
         <table className="lg1:w-full border border-[#E3E8EF] text-sm text-right ">
