@@ -33,8 +33,13 @@ function SectionOfMenuPage({ selectedMenu }) {
         image : parsedUser?.image,
 
         company_phone:parsedUser?.company_phone,
-        wts_number: parsedUser?.wts_number
+        wts_number: parsedUser?.wts_number,
 
+        address:parsedUser?.address,
+        famous_sign:parsedUser?.famous_sign,
+        street:parsedUser?.street,
+        block_no: parsedUser?.block_no,
+        apt_no: parsedUser?.apt_no,
       });
     }
   }, []);
