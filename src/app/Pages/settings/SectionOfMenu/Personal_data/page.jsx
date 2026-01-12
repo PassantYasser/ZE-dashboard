@@ -1,12 +1,23 @@
-import React, { use } from 'react'
+import React, { use, useState } from 'react'
 import Header from './Header'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
+import EmailDialogPage from './Dialogs/EmailDialog/page';
+import PhoneDialogPage from './Dialogs/PhoneDialog/page';
+import OtpPhonePage from './Dialogs/OtpPhone/page';
+import OtpEmailPage from './Dialogs/OtpEmail/page';
 
 
 function Personal_dataPage() {
   const {t} = useTranslation()
+
+  const [openEmail , setOpenEmail] = useState(false);
+  const [openPhone , setOpenPhone] = useState(false);
+  const [openOtpPhone , setOpenOtpPhone] = useState(false);
+  const [openOtpEmail , setOpenOtpEmail] = useState(false);
+
+
   return (  
     <>
     <div className="border border-[#E3E8EF] mb-8">
@@ -52,8 +63,11 @@ function Personal_dataPage() {
             placeholder='Hosam.Alaa@gmail.com'
             className='border border-[#E3E8EF] w-[90%] h-14 outline-none shadow-sm py-2.5 px-3' 
           />
-          <div className='flex items-center'>
-            <button  className=' w-14.5 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+          <div className='flex items-center'  >
+            <button 
+              onClick={()=>setOpenEmail(true)} 
+              className=' w-14.5 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'
+            >
               <img src="/images/icons/EditYellow.svg"  alt="" />
             </button>
           </div>
@@ -75,8 +89,11 @@ function Personal_dataPage() {
             buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-r-0"
             dropdownClass="!absolute !left-0 !top-full !mt-1 !z-50  !border !border-[#E3E8EF] !rounded-md !shadow-sm"    
           />
-          <div className='flex items-center'>
-            <button  className=' w-14.5 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+          <div className='flex items-center'  >
+            <button 
+              onClick={()=>setOpenPhone(true)}
+              className=' w-14.5 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] cursor-pointer'
+            >
               <img src="/images/icons/EditYellow.svg"  alt="" />
             </button>
           </div>
@@ -92,9 +109,13 @@ function Personal_dataPage() {
         </button>
       </div>
         
-
-
       </div>
+
+    <EmailDialogPage openEmail={openEmail}  setOpenEmail={setOpenEmail} setOpenOtpEmail={setOpenOtpEmail}/>
+    <PhoneDialogPage openPhone={openPhone}  setOpenPhone={setOpenPhone} setOpenOtpPhone={setOpenOtpPhone}/>
+    <OtpPhonePage openOtpPhone={openOtpPhone} setOpenOtpPhone={setOpenOtpPhone}/>
+    <OtpEmailPage openOtpEmail={openOtpEmail} setOpenOtpEmail={setOpenOtpEmail}/>
+
 
     </>
   )

@@ -1,15 +1,22 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
-function PhoneDialogPage() {
+function PhoneDialogPage({openPhone, setOpenPhone ,setOpenOtpPhone}) {
+
+
   return (
+    <>
     <Dialog
-      open={open}
+      open={openPhone}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
     ></Dialog>
+
+
+    </>
+    
   )
 }
 

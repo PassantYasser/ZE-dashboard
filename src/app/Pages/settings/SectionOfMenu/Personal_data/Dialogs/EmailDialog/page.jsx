@@ -1,17 +1,24 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
-function EmailDialogPage() {
+function EmailDialogPage({openEmail , setOpenEmail , setOpenOtpEmail}) {
+
+  
   return (
-    <Dialog
-      open={open}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      PaperProps={{ className: "ServicePage-dialog" }}
-    >
+    <>
+      <Dialog
+        open={openEmail}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{ className: "ServicePage-dialog" }}
+      >
+        cccc
+      </Dialog>
 
-    </Dialog>
+
+    </>
+  
   )
 }
 

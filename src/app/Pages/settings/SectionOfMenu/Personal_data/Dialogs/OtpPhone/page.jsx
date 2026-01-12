@@ -2,14 +2,16 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 
-function OtpPhonePage() {
+function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
   return (
   <Dialog
-      open={open}
+      open={openOtpPhone}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
-    ></Dialog>
+    >
+
+    </Dialog>
   )
 }
 
