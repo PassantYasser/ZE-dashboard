@@ -1,8 +1,58 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
+
+  const {t} = useTranslation()
+    const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+  
+    const handleChange = (e, index) => {
+      const value = e.target.value;
+      if (/^[0-9]?$/.test(value)) {
+        const newOtp = [...otpValues];
+        newOtp[index] = value;
+        setOtpValues(newOtp);
+      }
+  
+      if (value.length === 1) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        if (nextInput) nextInput.focus();
+      }
+    };
+  
+    const handleKeyDown = (e, index) => {
+      if (e.key === "Backspace" && !e.target.value) {
+        const prevInput = document.getElementById(`otp-${index - 1}`);
+        if (prevInput) prevInput.focus();
+      }
+    };
+  
+    // timer
+    const [timeLeft, setTimeLeft] = useState(30);
+    const [canResend, setCanResend] = useState(false);
+  
+    useEffect(() => {
+      if (!canResend && timeLeft > 0) {
+        const timer = setInterval(() => {
+          setTimeLeft((prev) => prev - 1);
+        }, 1000);
+        return () => clearInterval(timer);
+      } else if (timeLeft === 0) {
+        setCanResend(true);
+      }
+    }, [timeLeft, canResend]);
+  
+    const handleResend = () => {
+      setTimeLeft(30);
+      setCanResend(false);
+    };
+  
+    const handleConfirmation = () => {
+      setOpenOtpPhone(false)
+    };
+  
   return (
   <Dialog
       open={openOtpPhone}
@@ -10,14 +60,93 @@ function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
     >
-        <div className='pt-6 px-6 '>
-          <button 
-            onClick={()=>setOpenOtpPhone(false)} 
-            className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center cursor-pointer'
-          >
-            <img src="/images/icons/xx.svg" alt="" />
-          </button>
+      <div className='pt-6 px-6 '>
+        <button 
+          onClick={()=>setOpenOtpPhone(false)} 
+          className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center cursor-pointer'
+        >
+          <img src="/images/icons/xx.svg" alt="" />
+        </button>
+      </div>
+
+
+
+      <div className="flex flex-col items-center">
+        {/* icon */}
+        <div className="mb-5 bg-[#EEF2F6] w-17.5 h-17.5 rounded-full flex items-center justify-center">
+          <div className="bg-[#CDD5DF] w-12.5 h-12.5 rounded-full flex items-center justify-center">
+            <img
+              src="/images/icons/call-received.svg"
+              className="w-7.5 h-7.5"
+              alt="phone icon"
+            />
+          </div>
         </div>
+
+        {/* title */}
+        <p className="text-[var(--color-primary)] text-xl font-bold">{t('Number verification')}</p>
+
+        <p className="text-center text-lg text-[#656565] mt-3 w-[75%]">
+          {t('Please enter the code we sent you')}
+          <span className="font-semibold text-[var(--color-primary)]"> *****0112 </span>
+          {t('To check the code')}
+        </p>
+
+      </div>
+
+      <div className="mt-10 ">
+        <p className="text-[#4D4D4D] text-base font-medium mb-3 flex justify-start px-20">
+          {t('verification code')}
+        </p>
+
+        <form
+          className="flex gap-4 justify-center"
+          dir="ltr"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          {[0, 1, 2, 3].map((i) => (
+            <input
+              key={i}
+              id={`otp-${i}`}
+              type="text"
+              maxLength="1"
+              value={otpValues[i]}
+              onChange={(e) => handleChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              className="border border-[#C7C7C7] bg-white w-25 h-20 rounded-[3px] text-center text-lg outline-none"
+            />
+          ))}
+        </form>
+
+        <div className="mt-6">
+          {!canResend ? (
+            <div className="flex justify-center items-center gap-2">
+              <span className="text-[#4D4D4D] text-base">{t('Resend after')}</span>
+              <span className="text-[var(--color-primary)] text-base font-bold">
+                00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
+              </span>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <button
+                onClick={handleResend}
+                className="text-[var(--color-primary)] text-base font-bold"
+              >
+                {t('Resend')}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="w-full p-6 ">
+        <button
+          onClick={handleConfirmation}
+          className="px-4 py-2 w-full h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+        >
+          {t('confirmation')}
+        </button>
+      </div>
 
     </Dialog>
   )

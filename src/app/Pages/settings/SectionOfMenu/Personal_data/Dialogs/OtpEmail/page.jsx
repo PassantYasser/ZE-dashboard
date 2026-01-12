@@ -69,10 +69,23 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
       </div>
 
       <div className="flex flex-col items-center">
-        <p className="text-[#C69815] text-xl font-bold">{t('Email verification')}</p>
-        <p className="text-center text-lg text-[#656565] mt-4 w-[550px]">
+        {/* icon */}
+        <div className="mb-5 bg-[#EEF2F6] w-17.5 h-17.5 rounded-full flex items-center justify-center mb-1.5">
+          <div className="bg-[#CDD5DF] w-12.5 h-12.5 rounded-full flex items-center justify-center">
+            <img
+              src="/images/icons/emailotp.svg"
+              className="w-7.5 h-7.5"
+              alt="email icon"
+            />
+          </div>
+        </div>
+
+        {/* title */}
+        <p className="text-[var(--color-primary)] text-xl font-bold">{t('Email verification')}</p>
+
+        <p className="text-center text-lg text-[#656565] mt-3 w-[75%]">
           {t('Please enter the code we sent you')}
-          <span className="font-semibold text-[#C69815]"> example@email.com </span>
+          <span className="font-semibold text-[var(--color-primary)]"> example@email.com </span>
           {t('To check the code')}
         </p>
       </div>
@@ -105,7 +118,7 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
           {!canResend ? (
             <div className="flex justify-center items-center gap-2">
               <span className="text-[#4D4D4D] text-base">{t('Resend after')}</span>
-              <span className="text-[#C69815] text-base font-bold">
+              <span className="text-[var(--color-primary)] text-base font-bold">
                 00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
               </span>
             </div>
@@ -113,7 +126,7 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
             <div className="flex justify-center">
               <button
                 onClick={handleResend}
-                className="text-[#C69815] text-base font-bold"
+                className="text-[var(--color-primary)] text-base font-bold"
               >
                 {t('Resend')}
               </button>
