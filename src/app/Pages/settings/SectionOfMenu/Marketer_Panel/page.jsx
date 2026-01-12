@@ -6,7 +6,7 @@ import RejectedStatusPage from './RejectedStatus/page';
 import ActiveStatusPage from './ActiveStatus/page';
 import { useTranslation } from 'react-i18next';
 
-function Marketer_PanelPage() {
+function Marketer_PanelPage({userData}) {
     const {t}=useTranslation()
   
   const [is_marketer, setIsMarketer] =useState(true);

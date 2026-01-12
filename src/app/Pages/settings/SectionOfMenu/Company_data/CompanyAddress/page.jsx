@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Header from "./Header";
 import MapDialog from "./MapDialog";
 
-function CompanyAddressPage() {
+function CompanyAddressPage({userData}) {
   const { t } = useTranslation();
 
     //map

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
-function ChangePasswordPage() {
+function ChangePasswordPage({userData}) {
   const { t } = useTranslation();
 
   const [showPassword, setShowPassword] = useState(false);

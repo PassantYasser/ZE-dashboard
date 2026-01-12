@@ -26,7 +26,8 @@ function SectionOfMenuPage({ selectedMenu }) {
         nationality: parsedUser?.nationality,
         email: parsedUser?.email,
         phone: parsedUser?.phone,
-        country_code: parsedUser?.country_code
+        country_code: parsedUser?.country_code,
+
       });
     }
   }, []);
@@ -39,23 +40,23 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'BasicInformation':
         return (
-          <BasicInformationPage />
+          <BasicInformationPage userData={userData}/>
         )
       case 'YourFiles':
         return (
-          <YourFilesPage />
+          <YourFilesPage userData={userData}/>
         )
       case 'ContactInformation':
         return (
-          <ContactInformationPage />
+          <ContactInformationPage userData={userData} />
         )
       case 'ChangePassword':
         return (
-          <ChangePasswordPage />
+          <ChangePasswordPage userData={userData} />
         )
       case 'CompanyAddress':
         return (
-          <CompanyAddressPage />
+          <CompanyAddressPage userData={userData}/>
         )
       case 'Personal_data':
         return (
@@ -63,11 +64,11 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'Marketer_Panel':
         return (
-          <Marketer_PanelPage/>
+          <Marketer_PanelPage userData={userData}/>
         )
       case 'Activity_settings':
         return (
-          <Activity_settingsPage/>
+          <Activity_settingsPage userData={userData}/>
         )
     
     }

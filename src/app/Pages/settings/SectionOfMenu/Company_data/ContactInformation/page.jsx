@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
-function ContactInformationPage() {
+function ContactInformationPage({userData}) {
   const { t } = useTranslation();
 
 

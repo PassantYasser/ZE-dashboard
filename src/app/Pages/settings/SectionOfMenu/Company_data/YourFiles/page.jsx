@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 import Header from "./Header";
 
-function YourFilesPage() {
+function YourFilesPage({userData}) {
   const { t } = useTranslation();
 
   const cr_end_date = "2025-05-01"; 

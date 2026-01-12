@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
-function BasicInformationPage() {
+function BasicInformationPage({userData}) {
   const { t } = useTranslation();
 
   // image preview only (no backend)

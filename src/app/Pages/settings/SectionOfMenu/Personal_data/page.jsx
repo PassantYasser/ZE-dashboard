@@ -19,7 +19,6 @@ function Personal_dataPage({ userData }) {
   
   if(!userData) return <div>Loading...</div>
 
-  console.log(userData)
 
   return (  
     <>
@@ -106,12 +105,12 @@ function Personal_dataPage({ userData }) {
         
       </div>
       
-      {/* btn */}
+      {/* btn
       <div className='px-6 mb-6'>
         <button className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px]">
           {t('Save changes')}
         </button>
-      </div>
+      </div> */}
         
       </div>
 
