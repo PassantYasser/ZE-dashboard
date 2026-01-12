@@ -43,7 +43,9 @@ function EmailDialogPage({openEmail , setOpenEmail , setOpenOtpEmail}) {
           <p className="text-[var(--color-primary)] text-xl font-bold">
             {t('Change email')}
           </p>
-          <p className='w-[60%] text-[#656565] text-lg font-normal text-center'> {t('You can change and reconfirm your email address via a one-time verification code (OTP).')}</p>
+          <p className='w-[60%] text-[#656565] text-lg font-normal text-center'> 
+            {t('You can change and reconfirm your email address via a one-time verification code (OTP).')}
+          </p>
         </div>
 
         <div className="px-6">
