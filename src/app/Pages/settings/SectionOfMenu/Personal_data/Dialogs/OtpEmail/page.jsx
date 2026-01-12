@@ -9,7 +9,16 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail }) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "ServicePage-dialog" }}
-    ></Dialog>
+    >
+        <div className='pt-6 px-6 '>
+          <button 
+            onClick={()=>setOpenOtpEmail(false)} 
+            className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center cursor-pointer'
+          >
+            <img src="/images/icons/xx.svg" alt="" />
+          </button>
+        </div>
+    </Dialog>
   )
 }
 
