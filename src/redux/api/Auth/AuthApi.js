@@ -5,6 +5,10 @@ import API from "../../../../config/api"
 // login 
 export const login = async(FormData)=>{
   const response = await API.post('/provider/login',FormData)
+  //to save data of user in local storage
+  if(response.data.provider){
+    localStorage.setItem('user', JSON.stringify(response.data.provider))
+  }
   return response.data
 }
 

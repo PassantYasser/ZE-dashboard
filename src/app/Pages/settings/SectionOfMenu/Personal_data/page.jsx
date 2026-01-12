@@ -9,14 +9,17 @@ import OtpPhonePage from './Dialogs/OtpPhone/page';
 import OtpEmailPage from './Dialogs/OtpEmail/page';
 
 
-function Personal_dataPage() {
+function Personal_dataPage({ userData }) {
   const {t} = useTranslation()
 
   const [openEmail , setOpenEmail] = useState(false);
   const [openPhone , setOpenPhone] = useState(false);
   const [openOtpPhone , setOpenOtpPhone] = useState(false);
   const [openOtpEmail , setOpenOtpEmail] = useState(false);
+  
+  if(!userData) return <div>Loading...</div>
 
+  console.log(userData)
 
   return (  
     <>
@@ -26,29 +29,29 @@ function Personal_dataPage() {
           <div className='grid grid-cols-3 gap-3 border border-[#E3E8EF] p-4'>
           <div>
             <p className='text-[#697586] text-base font-normal mb-1'>{t('First Name')}</p>
-            <p className='text-[#364152] text-sm font-normal'>حسام</p>
+            <p className='text-[#364152] text-sm font-normal'>{userData?.firstname}</p>
           </div>
 
           <div>
             <p className='text-[#697586] text-base font-normal mb-1'>{t('Last Name')}/{t('Family Name')}</p>
-            <p className='text-[#364152] text-sm font-normal'>علاء</p>
+            <p className='text-[#364152] text-sm font-normal'>{userData?.lastname}</p>
           </div>
 
           
 
           <div>
             <p className='text-[#697586] text-base font-normal mb-1'>{t('National ID number')}</p>
-            <p className='text-[#364152] text-sm font-normal'>049731371857</p>
+            <p className='text-[#364152] text-sm font-normal'>{userData?.national_id}</p>
           </div>
 
           <div>
             <p className='text-[#697586] text-base font-normal mb-1'>{t('Gender')}</p>
-            <p className='text-[#364152] text-sm font-normal'>ذكر</p>
+            <p className='text-[#364152] text-sm font-normal'>{userData?.gender}</p>
           </div>
 
           <div>
             <p className='text-[#697586] text-base font-normal mb-1'>{t('Nationality')}</p>
-            <p className='text-[#364152] text-sm font-normal'>مصري</p>
+            <p className='text-[#364152] text-sm font-normal'>{userData?.nationality}</p>
           </div>
         </div>
       </div>
@@ -60,8 +63,9 @@ function Personal_dataPage() {
         <div className='flex justify-between '>
           <input 
             type="text" 
-            placeholder='Hosam.Alaa@gmail.com'
-            className='border border-[#E3E8EF] w-[90%] h-14 outline-none shadow-sm py-2.5 px-3' 
+            value={userData?.email}
+            className='border border-[#E3E8EF] w-[90%] h-14 outline-none shadow-sm py-2.5 px-3 text-[#9A9A9A]'
+            readOnly 
           />
           <div className='flex items-center'  >
             <button 
@@ -82,7 +86,7 @@ function Personal_dataPage() {
         <p className='text-[#697586] text-base font-normal mb-1.5'>{t('phone number')}</p>
         <div className='flex justify-between '>
           <PhoneInput
-            country={"sa"}
+            value={`${userData?.country_code}${userData?.phone}`}
             placeholder="000000000"
             containerClass="!w-[90%]"
             inputClass="!w-full !h-14 !border !border-[#E3E8EF] !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"

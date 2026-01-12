@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import Company_dataPage from './Company_data/page'
 import Personal_dataPage from './Personal_data/page'
 import Marketer_PanelPage from './Marketer_Panel/page'
@@ -11,6 +11,26 @@ import ChangePasswordPage from './Company_data/ChangePassword/page'
 import CompanyAddressPage from './Company_data/CompanyAddress/page'
 
 function SectionOfMenuPage({ selectedMenu }) {
+  const [userData, setUserData] = React.useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      setUserData({
+        id: parsedUser?.id,
+        firstname: parsedUser?.firstname,
+        lastname: parsedUser?.lastname,
+        national_id: parsedUser?.national_id,
+        gender: parsedUser?.gender,
+        nationality: parsedUser?.nationality,
+        email: parsedUser?.email,
+        phone: parsedUser?.phone,
+        country_code: parsedUser?.country_code
+      });
+    }
+  }, []);
+
   const renderContent = () => {
     switch(selectedMenu) {
       case 'Company_data':
@@ -39,7 +59,7 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'Personal_data':
         return (
-        <Personal_dataPage />
+        <Personal_dataPage userData={userData} />
         )
       case 'Marketer_Panel':
         return (
