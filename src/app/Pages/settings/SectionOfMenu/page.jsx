@@ -32,6 +32,9 @@ function SectionOfMenuPage({ selectedMenu }) {
         short_bio:  parsedUser?.short_bio,
         image : parsedUser?.image,
 
+        company_phone:parsedUser?.company_phone,
+        wts_number: parsedUser?.wts_number
+
       });
     }
   }, []);

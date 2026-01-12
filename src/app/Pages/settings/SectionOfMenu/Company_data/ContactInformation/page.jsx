@@ -7,7 +7,7 @@ import Header from "./Header";
 function ContactInformationPage({userData}) {
   const { t } = useTranslation();
 
-
+  console.log(userData);
 
   return (
     <div className="border border-[#E3E8EF] mb-8">
@@ -21,6 +21,8 @@ function ContactInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('Company number')}</p>
           <input 
             type="text"
+            value={userData?.company_phone}
+            readOnly
             placeholder='0000000000000'            
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
@@ -31,6 +33,8 @@ function ContactInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('WhatsApp number')}</p>
           <input 
             type="text"
+            value={userData?.wts_number}
+            readOnly
             placeholder='0000000000000'            
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
