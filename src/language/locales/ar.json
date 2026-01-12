@@ -544,6 +544,8 @@
   "Open the wallet":"افتح المحفظة",
   "The maximum amount that can be withdrawn is":"أقصي مبلغ يمكن سحبة هو",
   "You can change and reconfirm your email address via a one-time verification code (OTP).":"يمكنك تغيير بريدك الإلكتروني وإعادة تأكيده عبر رمز التحقق (OTP)",
+  "Please enter the code we sent you":"الرجاء إدخال الرمز الذي أرسلناه إلي",
+  "To check the code":"للتحقق من الرمز",
   
 
 

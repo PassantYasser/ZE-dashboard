@@ -114,7 +114,7 @@ function Personal_dataPage() {
     <EmailDialogPage openEmail={openEmail}  setOpenEmail={setOpenEmail} setOpenOtpEmail={setOpenOtpEmail}/>
     <PhoneDialogPage openPhone={openPhone}  setOpenPhone={setOpenPhone} setOpenOtpPhone={setOpenOtpPhone}/>
     <OtpPhonePage openOtpPhone={openOtpPhone} setOpenOtpPhone={setOpenOtpPhone}/>
-    <OtpEmailPage openOtpEmail={openOtpEmail} setOpenOtpEmail={setOpenOtpEmail}/>
+    <OtpEmailPage openOtpEmail={openOtpEmail} setOpenOtpEmail={setOpenOtpEmail} setOpenEmail={setOpenEmail}/>
 
 
     </>
