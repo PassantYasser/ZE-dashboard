@@ -63,7 +63,7 @@ function Personal_dataPage({ userData }) {
           <input 
             type="text" 
             value={userData?.email}
-            className='border border-[#E3E8EF] w-[90%] h-14 outline-none shadow-sm py-2.5 px-3 text-[#9A9A9A]'
+            className='border border-[#E3E8EF] w-[90%] h-14 outline-none shadow-sm py-2.5 px-3 text-[#364152]'
             readOnly 
           />
           <div className='flex items-center'  >

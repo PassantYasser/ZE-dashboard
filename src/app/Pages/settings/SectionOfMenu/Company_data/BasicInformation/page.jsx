@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
+import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
 
 function BasicInformationPage({userData}) {
   const { t } = useTranslation();
@@ -47,6 +48,8 @@ function BasicInformationPage({userData}) {
     }
   };
 
+
+  console.log(userData);
   return (
     <div className="border border-[#E3E8EF] mb-8">
       <Header />
@@ -56,7 +59,7 @@ function BasicInformationPage({userData}) {
         <div className=" mb-4">
           <p className="text-[#4B5565] text-base font-normal">{t('Company logo')}</p>
           <div className="py-4 px-6 border border-[#EAECF0] mt-1.5">
-            {!imagePreview ? (
+            {!imagePreview && !userData?.image ? (
               <>
                 <div className="w-full flex justify-center  mb-6">
                   <div className="w-30 h-30  border border-[#CDD5DF] rounded-full flex justify-center items-center">
@@ -88,7 +91,7 @@ function BasicInformationPage({userData}) {
             ) : (
               <div className="flex flex-col items-center">
                 <img
-                  src={imagePreview}
+                  src={imagePreview || `${IMAGE_BASE_URL}/${userData?.image}`}
                   alt="Preview"
                   className="w-[112px] h-[112px] object-cover border border-[#EEF2F6] p-1 rounded-full cursor-pointer"
                 />
@@ -128,6 +131,8 @@ function BasicInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('Company Name')}</p>
           <input 
             type="text"
+            value={userData?.company_name}
+            readOnly 
             placeholder={t('Enter the company name')}             
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
@@ -138,7 +143,9 @@ function BasicInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal mb-1.5">{t('Company Description')}</p>
           <textarea 
             type="text"
-            placeholder={t('Enter the company description')}             
+            placeholder={t('Enter the company description')} 
+            value={userData?.short_bio}  
+            readOnly           
             className="h-30 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none  placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
         </div>

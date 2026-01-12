@@ -28,6 +28,10 @@ function SectionOfMenuPage({ selectedMenu }) {
         phone: parsedUser?.phone,
         country_code: parsedUser?.country_code,
 
+        company_name: parsedUser?.company_name,
+        short_bio:  parsedUser?.short_bio,
+        image : parsedUser?.image,
+
       });
     }
   }, []);
