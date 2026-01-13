@@ -1,6 +1,6 @@
 
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 
@@ -9,9 +9,9 @@ import Header from "./Header";
 function YourFilesPage({userData}) {
   const { t } = useTranslation();
 
-  const cr_end_date = "2025-05-01"; 
-  const tax_card_end_date = "2026-01-20";     
-  const id_end_date = null; 
+  const cr_end_date = userData?.cr_end_date; 
+  const tax_card_end_date = userData?.tax_card_end_date;     
+  const id_end_date = userData?.id_end_date; 
   // const idBackDate = null;                 
 
   const [files, setFiles] = useState({
@@ -40,6 +40,43 @@ function YourFilesPage({userData}) {
       endDate: id_end_date,
     },
   });
+  
+//api
+  useEffect(() => {
+    if (userData) {
+      const getFileObj = (url) => {
+        if (!url) return null;
+        const name = url.split('/').pop();
+        const type = name.split('.').pop().toUpperCase();
+        return {
+          name: name,
+          size: "Existing", 
+          type: type,
+          url: url
+        };
+      };
+
+      setFiles(prev => ({
+        ...prev,
+        commercialRecord: {
+          ...prev.commercialRecord,
+          file: getFileObj(userData.commercial_register) || prev.commercialRecord.file
+        },
+        taxCard: {
+          ...prev.taxCard,
+          file: getFileObj(userData.tax_card) || prev.taxCard.file
+        },
+        idFront: {
+          ...prev.idFront,
+          file: getFileObj(userData.id_front) || prev.idFront.file
+        },
+        idBack: {
+          ...prev.idBack,
+          file: getFileObj(userData.id_back) || prev.idBack.file
+        }
+      }));
+    }
+  }, [userData]);
 
   const checkEndDate = (date) => {
     const today = dayjs();

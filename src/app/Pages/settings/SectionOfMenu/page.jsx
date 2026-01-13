@@ -40,6 +40,14 @@ function SectionOfMenuPage({ selectedMenu }) {
         street:parsedUser?.street,
         block_no: parsedUser?.block_no,
         apt_no: parsedUser?.apt_no,
+
+        commercial_register: parsedUser?.commercial_register,
+        tax_card: parsedUser?.tax_card,
+        id_front: parsedUser?.id_front,
+        id_back: parsedUser?.id_back,
+        cr_end_date: parsedUser?.cr_end_date,
+        tax_card_end_date: parsedUser?.tax_card_end_date,
+        id_end_date: parsedUser?.id_end_date,
       });
     }
   }, []);
