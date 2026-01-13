@@ -22,8 +22,8 @@ function BasicInformationPage({userData, onUpdate}) {
   React.useEffect(() => {
     if (userData) {
       setFormData({
-        company_name: userData.company_name || "",
-        short_bio: userData.short_bio || ""
+        company_name: userData?.company_name || "",
+        short_bio: userData?.short_bio || ""
       });
       // Also update image preview if userData has a new image
       if (userData.image && !imagePreview) {
@@ -89,8 +89,8 @@ function BasicInformationPage({userData, onUpdate}) {
     }
 
     const formDataToSend = new FormData();
-    formDataToSend.append('company_name', formData.company_name);
-    formDataToSend.append('short_bio', formData.short_bio);
+    formDataToSend.append('company_name', formData?.company_name);
+    formDataToSend.append('short_bio', formData?.short_bio);
     
     if (selectedFile) {
       formDataToSend.append('image', selectedFile);
@@ -191,7 +191,7 @@ function BasicInformationPage({userData, onUpdate}) {
           <input 
             type="text"
             name="company_name"
-            value={formData.company_name}
+            value={formData?.company_name}
             onChange={handleInputChange}
             placeholder={t('Enter the company name')}             
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
@@ -205,7 +205,7 @@ function BasicInformationPage({userData, onUpdate}) {
             type="text"
             name="short_bio"
             placeholder={t('Enter the company description')} 
-            value={formData.short_bio}  
+            value={formData?.short_bio}  
             onChange={handleInputChange}           
             className="h-30 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none  placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />

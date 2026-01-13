@@ -15,8 +15,8 @@ function ContactInformationPage({userData, onUpdate}) {
   React.useEffect(() => {
     if (userData) {
       setContactData({
-        company_phone: userData.company_phone || "",
-        wts_number: userData.wts_number || ""
+        company_phone: userData?.company_phone || "",
+        wts_number: userData?.wts_number || ""
       });
     }
   }, [userData]);
@@ -30,8 +30,8 @@ function ContactInformationPage({userData, onUpdate}) {
     if (!onUpdate) return;
     
     const formData = new FormData();
-    formData.append('company_phone', contactData.company_phone);
-    formData.append('wts_number', contactData.wts_number);
+    formData.append('company_phone', contactData?.company_phone);
+    formData.append('wts_number', contactData?.wts_number);
     
     const success = await onUpdate(formData);
     if (success) {
@@ -55,7 +55,7 @@ function ContactInformationPage({userData, onUpdate}) {
           <input 
             type="text"
             name="company_phone"
-            value={contactData.company_phone}
+            value={contactData?.company_phone}
             onChange={handleChange}
             placeholder='0000000000000'            
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
@@ -68,7 +68,7 @@ function ContactInformationPage({userData, onUpdate}) {
           <input 
             type="text"
             name="wts_number"
-            value={contactData.wts_number}
+            value={contactData?.wts_number}
             onChange={handleChange}
             placeholder='0000000000000'            
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
