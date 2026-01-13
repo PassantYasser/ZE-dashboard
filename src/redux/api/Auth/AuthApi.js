@@ -7,7 +7,14 @@ export const login = async(FormData)=>{
   const response = await API.post('/provider/login',FormData)
   //to save data of user in local storage
   if(response.data.provider){
-    localStorage.setItem('user', JSON.stringify(response.data.provider))
+    // Get existing user data from localStorage
+    const existingUser = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    // Merge existing data with new login data
+    // New data from API takes priority, but we keep any extra fields from localStorage
+    const mergedUser = { ...existingUser, ...response.data.provider };
+    
+    localStorage.setItem('user', JSON.stringify(mergedUser))
   }
   return response.data
 }

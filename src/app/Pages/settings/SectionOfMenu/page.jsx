@@ -1,5 +1,7 @@
 "use client"
 import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { UpdateInSignupThunk } from '@/redux/slice/Auth/AuthSlice'
 import Company_dataPage from './Company_data/page'
 import Personal_dataPage from './Personal_data/page'
 import Marketer_PanelPage from './Marketer_Panel/page'
@@ -12,6 +14,7 @@ import CompanyAddressPage from './Company_data/CompanyAddress/page'
 
 function SectionOfMenuPage({ selectedMenu }) {
   const [userData, setUserData] = React.useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -52,6 +55,62 @@ function SectionOfMenuPage({ selectedMenu }) {
     }
   }, []);
 
+  // Handle profile update - update localStorage FIRST, then save to API
+  const handleUpdateProfile = async (formData) => {
+    try {
+      console.log('🔵 === handleUpdateProfile START ===');
+      
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      console.log('🔵 Current localStorage:', currentUser);
+      
+      const updates = {};
+      for (let [key, value] of formData.entries()) {
+        if (typeof value === 'string') {
+          updates[key] = value;
+        }
+      }
+      console.log('🔵 Updates to apply:', updates);
+      
+      // Merge and update localStorage IMMEDIATELY
+      const updatedUser = { ...currentUser, ...updates };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      console.log('✅ localStorage updated IMMEDIATELY');
+      console.log('🔵 New localStorage:', updatedUser);
+      
+      // Update component state IMMEDIATELY
+      setUserData(updatedUser);
+      console.log('✅ UI updated IMMEDIATELY');
+      
+      // Now call API in background to save to database
+      console.log('🔵 Calling API to save to database...');
+      const resultAction = await dispatch(UpdateInSignupThunk(formData));
+      console.log('🔵 API resultAction:', resultAction);
+      
+      if (UpdateInSignupThunk.fulfilled.match(resultAction)) {
+        console.log('✅ API call successful!');
+        
+        // Get updated data from API response
+        const newUserData = resultAction.payload;
+        console.log('🔵 New data from API:', newUserData);
+        
+        // Merge API response with current localStorage (in case API returns additional fields)
+        const finalUser = { ...updatedUser, ...newUserData };
+        localStorage.setItem('user', JSON.stringify(finalUser));
+        setUserData(finalUser);
+        
+        console.log('✅ === handleUpdateProfile COMPLETE ===');
+        return true;
+      } else {
+        console.error('❌ API failed:', resultAction.payload);
+        // localStorage already updated, so UI still shows changes
+        return false;
+      }
+    } catch (err) {
+      console.error('❌ Error:', err);
+      return false;
+    }
+  };
+
   const renderContent = () => {
     switch(selectedMenu) {
       case 'Company_data':
@@ -60,15 +119,15 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'BasicInformation':
         return (
-          <BasicInformationPage userData={userData}/>
+          <BasicInformationPage userData={userData} onUpdate={handleUpdateProfile}/>
         )
       case 'YourFiles':
         return (
-          <YourFilesPage userData={userData}/>
+          <YourFilesPage userData={userData} onUpdate={handleUpdateProfile}/>
         )
       case 'ContactInformation':
         return (
-          <ContactInformationPage userData={userData} />
+          <ContactInformationPage userData={userData} onUpdate={handleUpdateProfile}/>
         )
       case 'ChangePassword':
         return (
@@ -76,7 +135,7 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'CompanyAddress':
         return (
-          <CompanyAddressPage userData={userData}/>
+          <CompanyAddressPage userData={userData} onUpdate={handleUpdateProfile}/>
         )
       case 'Personal_data':
         return (

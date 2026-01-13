@@ -4,12 +4,42 @@ import { useTranslation } from "react-i18next";
 import Header from "./Header";
 import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
 
-function BasicInformationPage({userData}) {
+function BasicInformationPage({userData, onUpdate}) {
   const { t } = useTranslation();
 
   // image preview only (no backend)
   const fileInputRef = useRef(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  // Editable fields state
+  const [formData, setFormData] = useState({
+    company_name: "",
+    short_bio: ""
+  });
+
+  // Sync with userData when it changes (including after save)
+  React.useEffect(() => {
+    if (userData) {
+      setFormData({
+        company_name: userData.company_name || "",
+        short_bio: userData.short_bio || ""
+      });
+      // Also update image preview if userData has a new image
+      if (userData.image && !imagePreview) {
+        // Don't override if user is currently selecting a new image
+        setSelectedFile(null);
+      }
+    }
+  }, [userData]); // Re-run when userData changes
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const handleFileSelect = () => {
     fileInputRef.current?.click();
@@ -39,12 +69,41 @@ function BasicInformationPage({userData}) {
 
     const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
+    setSelectedFile(file);
   };
 
   const handleDeleteFile = () => {
     setImagePreview(null);
+    setSelectedFile(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSave = async () => {
+    console.log('🔵 handleSave called');
+    
+    if (!onUpdate) {
+      alert('Update function not available');
+      return;
+    }
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('company_name', formData.company_name);
+    formDataToSend.append('short_bio', formData.short_bio);
+    
+    if (selectedFile) {
+      formDataToSend.append('image', selectedFile);
+    }
+
+    console.log('🔵 Calling API...');
+    const success = await onUpdate(formDataToSend);
+    
+    if (success) {
+      alert(t('Profile updated successfully!'));
+      console.log('✅ Changes saved to database and localStorage');
+    } else {
+      alert(t('Failed to update profile'));
     }
   };
 
@@ -131,8 +190,9 @@ function BasicInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('Company Name')}</p>
           <input 
             type="text"
-            value={userData?.company_name}
-            readOnly 
+            name="company_name"
+            value={formData.company_name}
+            onChange={handleInputChange}
             placeholder={t('Enter the company name')}             
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
@@ -143,9 +203,10 @@ function BasicInformationPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal mb-1.5">{t('Company Description')}</p>
           <textarea 
             type="text"
+            name="short_bio"
             placeholder={t('Enter the company description')} 
-            value={userData?.short_bio}  
-            readOnly           
+            value={formData.short_bio}  
+            onChange={handleInputChange}           
             className="h-30 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none  placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
         </div>
@@ -154,7 +215,10 @@ function BasicInformationPage({userData}) {
 
 
         {/* btn */}
-        <button className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px]">
+        <button 
+          className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] cursor-pointer"
+          onClick={handleSave}
+        >
           {t('Save changes')}
         </button>
       </section>
