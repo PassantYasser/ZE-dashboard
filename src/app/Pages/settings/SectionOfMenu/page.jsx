@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { UpdateInSignupThunk } from '@/redux/slice/Auth/AuthSlice'
 import Company_dataPage from './Company_data/page'
