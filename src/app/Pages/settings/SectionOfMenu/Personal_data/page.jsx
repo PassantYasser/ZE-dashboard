@@ -1,4 +1,5 @@
-import React, { use, useState } from 'react'
+"use client"
+import React, {useState } from 'react'
 import Header from './Header'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from "react-phone-input-2";
