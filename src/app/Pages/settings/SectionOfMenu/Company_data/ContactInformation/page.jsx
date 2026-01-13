@@ -1,6 +1,6 @@
 
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 
@@ -12,7 +12,7 @@ function ContactInformationPage({userData, onUpdate}) {
     wts_number: userData?.wts_number || ""
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (userData) {
       setContactData({
         company_phone: userData?.company_phone || "",

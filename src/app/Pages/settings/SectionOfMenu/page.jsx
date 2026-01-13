@@ -13,7 +13,7 @@ import ChangePasswordPage from './Company_data/ChangePassword/page'
 import CompanyAddressPage from './Company_data/CompanyAddress/page'
 
 function SectionOfMenuPage({ selectedMenu }) {
-  const [userData, setUserData] = React.useState(null);
+  const [userData, setUserData] =useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {

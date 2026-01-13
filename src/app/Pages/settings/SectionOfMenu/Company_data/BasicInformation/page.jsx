@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
@@ -19,7 +19,7 @@ function BasicInformationPage({userData, onUpdate}) {
   });
 
   // Sync with userData when it changes (including after save)
-  React.useEffect(() => {
+useEffect(() => {
     if (userData) {
       setFormData({
         company_name: userData?.company_name || "",
