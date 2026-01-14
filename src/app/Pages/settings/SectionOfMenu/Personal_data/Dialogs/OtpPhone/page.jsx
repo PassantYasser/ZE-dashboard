@@ -1,13 +1,16 @@
 "use client"
+import { verifyPhoneOtpThunk, resetPhoneOtpState, getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
 import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 
-function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
+function OtpPhonePage({ openOtpPhone, setOpenOtpPhone, setOpenPhone, phone, countryCode, dispatch }) {
 
   const {t} = useTranslation()
     const [otpValues, setOtpValues] = useState(["", "", "", ""]);
-  
+    const {otpPhoneVerified, otpPhoneLoading, otpPhoneError} = useSelector((state)=>state.setting)
+
     const handleChange = (e, index) => {
       const value = e.target.value;
       if (/^[0-9]?$/.test(value)) {
@@ -50,8 +53,41 @@ function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
     };
   
     const handleConfirmation = () => {
-      setOpenOtpPhone(false)
+      const otp = otpValues.join('');
+      if (otp.length === 4) {
+        dispatch(verifyPhoneOtpThunk({otp}));
+      }
     };
+
+    // Handle successful OTP verification
+    useEffect(() => {
+      if (otpPhoneVerified) {
+        dispatch(getProfileThunk())
+          .unwrap()
+          .then((data) => {
+            const userData = data.provider || data;
+  
+            if (userData) {
+               localStorage.setItem('user', JSON.stringify(userData));
+               window.dispatchEvent(new Event("storage"));
+            }
+            
+            setOpenOtpPhone(false);
+            setOpenPhone(false);
+            setOtpValues(["", "", "", ""]);
+            dispatch(resetPhoneOtpState());
+          })
+          .catch((error) => {
+            console.error("Failed to fetch profile:", error);
+      
+            setOpenOtpPhone(false);
+            setOpenPhone(false);
+            setOtpValues(["", "", "", ""]);
+            dispatch(resetPhoneOtpState());
+          });
+      }
+    }, [otpPhoneVerified, setOpenOtpPhone, setOpenPhone, dispatch]);
+
   
   return (
   <Dialog
@@ -88,7 +124,7 @@ function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
 
         <p className="text-center text-lg text-[#656565] mt-3 w-[75%]">
           {t('Please enter the code we sent you')}
-          <span className="font-semibold text-[var(--color-primary)]"> *****0112 </span>
+          <span className="font-semibold text-[var(--color-primary)]"> {countryCode}{phone} </span>
           {t('To check the code')}
         </p>
 
@@ -139,12 +175,19 @@ function OtpPhonePage({ openOtpPhone, setOpenOtpPhone}) {
         </div>
       </div>
 
+      {otpPhoneError && (
+        <div className="px-6 mb-4">
+          <p className="text-red-500 text-sm text-center">{otpPhoneError?.message || t('Invalid OTP code. Please try again.')}</p>
+        </div>
+      )}
+
       <div className="w-full p-6 ">
         <button
           onClick={handleConfirmation}
-          className="px-4 py-2 w-full h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+          disabled={otpPhoneLoading || otpValues.join('').length !== 4}
+          className="px-4 py-2 w-full h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {t('confirmation')}
+          {otpPhoneLoading ? t('Verifying...') : t('confirmation')}
         </button>
       </div>
 

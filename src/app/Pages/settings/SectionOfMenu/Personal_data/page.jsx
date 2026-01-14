@@ -24,12 +24,14 @@ function Personal_dataPage({ userData }) {
 
   //api 
   const dispatch = useDispatch()
-  const {successEmail , loading , error}= useSelector((state)=>state.setting)
+  const {successEmail ,successPhone, loading , error}= useSelector((state)=>state.setting)
+  
   const [email , setEmail]= useState('')
+  const [phone, setPhone] = useState('');
+  const [countryCode, setCountryCode] = useState('');
 
 
 
-  console.log('successEmail' , successEmail);
   return (  
     <>
     <div className="border border-[#E3E8EF] mb-8">
@@ -125,8 +127,28 @@ function Personal_dataPage({ userData }) {
       setEmail={setEmail} 
       dispatch={dispatch} 
     />
-    <PhoneDialogPage openPhone={openPhone}  setOpenPhone={setOpenPhone} setOpenOtpPhone={setOpenOtpPhone}/>
-    <OtpPhonePage openOtpPhone={openOtpPhone} setOpenOtpPhone={setOpenOtpPhone}/>
+    <PhoneDialogPage 
+      openPhone={openPhone}  
+      setOpenPhone={setOpenPhone} 
+      setOpenOtpPhone={setOpenOtpPhone}
+      phone={phone}
+      setPhone={setPhone}
+      countryCode={countryCode}
+      setCountryCode={setCountryCode}
+      dispatch={dispatch} 
+    />
+
+    <OtpPhonePage 
+      openOtpPhone={openOtpPhone} 
+      setOpenOtpPhone={setOpenOtpPhone}
+      setOpenPhone={setOpenPhone}
+      phone={phone}
+      setPhone={setPhone}
+      countryCode={countryCode}
+      setCountryCode={setCountryCode}
+      dispatch={dispatch} 
+    />
+    
     <OtpEmailPage 
       openOtpEmail={openOtpEmail} 
       setOpenOtpEmail={setOpenOtpEmail} 

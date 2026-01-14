@@ -1,4 +1,5 @@
 "use client"
+import { changePhoneThunk } from '@/redux/slice/Setting/SettingSlice';
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
@@ -6,10 +7,11 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 
-function PhoneDialogPage({openPhone, setOpenPhone ,setOpenOtpPhone}) {
+function PhoneDialogPage({openPhone, setOpenPhone ,setOpenOtpPhone ,phone ,setPhone ,countryCode , setCountryCode ,dispatch}) {
   const {t}= useTranslation();
 
   const handleSend =()=>{
+    dispatch(changePhoneThunk({ phone, country_code: countryCode }))
     setOpenPhone(false)
     setOpenOtpPhone(true)
   }
@@ -63,6 +65,11 @@ function PhoneDialogPage({openPhone, setOpenPhone ,setOpenOtpPhone}) {
             <div className="relative">
               <PhoneInput
               country={'eg'}
+                value={`${countryCode}${phone}`}
+                onChange={(value, country) => {
+                  setCountryCode(`+${country.dialCode}`);
+                  setPhone(value.replace(country.dialCode, ''));
+                }}
                 placeholder="000000000"
                 containerClass="!w-full"
                 inputClass="!w-full !h-[60px] !border !border-[#9AA4B2] !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"

@@ -13,8 +13,19 @@ export const verifyEmailOtp = async({otp})=>{
 }
 
 
-// profile endpoint to update localstorage data of user******
+// profile endpoint to update localstorage data of user******/////
 export const getProfile = async()=>{
   const response = await API.get('/provider/me')
+  return response.data
+}
+
+export const changePhone = async({phone , country_code})=>{
+  const response = await API.post('/provider/changePhoneRequest' , {phone , country_code})
+  return response.data
+}
+
+export const verifyPhoneOtp = async({otp})=>{
+  const response = await API.post('/provider/changePhoneOtp' , {otp})
+  console.log('Verify OTP response:', response.data);
   return response.data
 }
