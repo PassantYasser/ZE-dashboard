@@ -1,12 +1,14 @@
 "use client"
+import { changeEmailThunk } from '@/redux/slice/Setting/SettingSlice';
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function EmailDialogPage({openEmail , setOpenEmail , setOpenOtpEmail}) {
+function EmailDialogPage({openEmail , setOpenEmail , setOpenOtpEmail ,email , setEmail ,dispatch  }) {
   const {t}= useTranslation();
   
   const HandleOtpEmail =()=>{
+    dispatch(changeEmailThunk({email}))
     setOpenEmail(false);
     setOpenOtpEmail(true)
   }
@@ -56,6 +58,8 @@ function EmailDialogPage({openEmail , setOpenEmail , setOpenOtpEmail}) {
             </label>
             <input
               type="text"
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
               placeholder={t('Enter your new email address')}
               className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal"
             />

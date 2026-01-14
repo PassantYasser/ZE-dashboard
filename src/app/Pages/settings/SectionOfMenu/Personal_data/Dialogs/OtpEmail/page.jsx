@@ -2,9 +2,13 @@
 import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { verifyEmailOtpThunk, resetOtpState } from '@/redux/slice/Setting/SettingSlice';
 
-function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
+function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispatch }) {
   const {t} = useTranslation()
+  const {otpVerified, otpLoading, otpError} = useSelector((state)=>state.setting)
+  
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
 
   const handleChange = (e, index) => {
@@ -49,8 +53,22 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
   };
 
   const handleConfirmation = () => {
-    setOpenOtpEmail(false)
+    const otp = otpValues.join('');
+    if (otp.length === 4) {
+      dispatch(verifyEmailOtpThunk({otp}));
+    }
   };
+
+  // Handle successful OTP verification
+  useEffect(() => {
+    if (otpVerified) {
+      setOpenOtpEmail(false);
+      setOpenEmail(false);
+      setOtpValues(["", "", "", ""]);
+      dispatch(resetOtpState());
+      // You can add a success notification here if needed
+    }
+  }, [otpVerified, setOpenOtpEmail, setOpenEmail, dispatch]);
 
   return (
     <Dialog
@@ -70,7 +88,7 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
 
       <div className="flex flex-col items-center">
         {/* icon */}
-        <div className="mb-5 bg-[#EEF2F6] w-17.5 h-17.5 rounded-full flex items-center justify-center mb-1.5">
+        <div className=" bg-[#EEF2F6] w-17.5 h-17.5 rounded-full flex items-center justify-center mb-1.5">
           <div className="bg-[#CDD5DF] w-12.5 h-12.5 rounded-full flex items-center justify-center">
             <img
               src="/images/icons/emailotp.svg"
@@ -85,7 +103,7 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
 
         <p className="text-center text-lg text-[#656565] mt-3 w-[75%]">
           {t('Please enter the code we sent you')}
-          <span className="font-semibold text-[var(--color-primary)]"> example@email.com </span>
+          <span className="font-semibold text-[var(--color-primary)]"> {email || 'example@email.com'} </span>
           {t('To check the code')}
         </p>
       </div>
@@ -135,12 +153,19 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail }) {
         </div>
       </div>
 
+      {otpError && (
+        <div className="px-6 mb-4">
+          <p className="text-red-500 text-sm text-center">{otpError?.message || t('Invalid OTP code. Please try again.')}</p>
+        </div>
+      )}
+
       <div className="w-full p-6 ">
         <button
           onClick={handleConfirmation}
-          className="px-4 py-2 w-full h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+          disabled={otpLoading || otpValues.join('').length !== 4}
+          className="px-4 py-2 w-full h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {t('confirmation')}
+          {otpLoading ? t('Verifying...') : t('confirmation')}
         </button>
       </div>
 

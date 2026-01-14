@@ -8,6 +8,8 @@ import EmailDialogPage from './Dialogs/EmailDialog/page';
 import PhoneDialogPage from './Dialogs/PhoneDialog/page';
 import OtpPhonePage from './Dialogs/OtpPhone/page';
 import OtpEmailPage from './Dialogs/OtpEmail/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeEmailThunk } from '@/redux/slice/Setting/SettingSlice';
 
 
 function Personal_dataPage({ userData }) {
@@ -20,7 +22,14 @@ function Personal_dataPage({ userData }) {
   
   if(!userData) return <div>Loading...</div>
 
+  //api 
+  const dispatch = useDispatch()
+  const {successEmail , loading , error}= useSelector((state)=>state.setting)
+  const [email , setEmail]= useState('')
 
+
+
+  console.log('successEmail' , successEmail);
   return (  
     <>
     <div className="border border-[#E3E8EF] mb-8">
@@ -105,20 +114,26 @@ function Personal_dataPage({ userData }) {
         </div>
         
       </div>
-      
-      {/* btn
-      <div className='px-6 mb-6'>
-        <button className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px]">
-          {t('Save changes')}
-        </button>
-      </div> */}
         
       </div>
 
-    <EmailDialogPage openEmail={openEmail}  setOpenEmail={setOpenEmail} setOpenOtpEmail={setOpenOtpEmail}/>
+    <EmailDialogPage 
+      openEmail={openEmail}  
+      setOpenEmail={setOpenEmail}  
+      setOpenOtpEmail={setOpenOtpEmail}  
+      email={email} 
+      setEmail={setEmail} 
+      dispatch={dispatch} 
+    />
     <PhoneDialogPage openPhone={openPhone}  setOpenPhone={setOpenPhone} setOpenOtpPhone={setOpenOtpPhone}/>
     <OtpPhonePage openOtpPhone={openOtpPhone} setOpenOtpPhone={setOpenOtpPhone}/>
-    <OtpEmailPage openOtpEmail={openOtpEmail} setOpenOtpEmail={setOpenOtpEmail} setOpenEmail={setOpenEmail}/>
+    <OtpEmailPage 
+      openOtpEmail={openOtpEmail} 
+      setOpenOtpEmail={setOpenOtpEmail} 
+      setOpenEmail={setOpenEmail}
+      email={email}
+      dispatch={dispatch}
+    />
 
 
     </>
