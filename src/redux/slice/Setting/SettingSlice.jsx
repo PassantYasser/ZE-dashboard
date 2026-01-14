@@ -85,17 +85,10 @@ const settingSlice = createSlice({
       state.otpLoading = false;
       state.otpError = null;
     },
-    resetOtpState: (state) => {
-      state.otpVerified = false;
-      state.otpLoading = false;
-      state.otpError = null;
-    },
     resetPhoneState: (state) => {
       state.successPhone = false;
       state.loading = false;
       state.error = null;
-    },
-    resetPhoneOtpState: (state) => {
       state.otpPhoneVerified = false;
       state.otpPhoneLoading = false;
       state.otpPhoneError = null;
@@ -174,5 +167,5 @@ const settingSlice = createSlice({
 
 })
 
-export const { resetEmailState, resetOtpState ,resetPhoneState ,resetPhoneOtpState } = settingSlice.actions;
+export const { resetEmailState ,resetPhoneState } = settingSlice.actions;
 export default settingSlice.reducer;
