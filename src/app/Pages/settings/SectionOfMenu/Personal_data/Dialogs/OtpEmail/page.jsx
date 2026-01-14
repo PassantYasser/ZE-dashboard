@@ -3,11 +3,11 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyEmailOtpThunk, resetOtpState } from '@/redux/slice/Setting/SettingSlice';
+import { verifyEmailOtpThunk, resetOtpState, getProfileThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispatch }) {
   const {t} = useTranslation()
-  const {otpVerified, otpLoading, otpError} = useSelector((state)=>state.setting)
+  const {otpVerified, otpLoading, otpError ,profileData} = useSelector((state)=>state.setting)
   
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
 
@@ -24,7 +24,7 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispa
       if (nextInput) nextInput.focus();
     }
   };
-
+  
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !e.target.value) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
@@ -62,11 +62,29 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispa
   // Handle successful OTP verification
   useEffect(() => {
     if (otpVerified) {
-      setOpenOtpEmail(false);
-      setOpenEmail(false);
-      setOtpValues(["", "", "", ""]);
-      dispatch(resetOtpState());
-      // You can add a success notification here if needed
+      dispatch(getProfileThunk())
+        .unwrap()
+        .then((data) => {
+          const userData = data.provider || data;
+
+          if (userData) {
+             localStorage.setItem('user', JSON.stringify(userData));
+             window.dispatchEvent(new Event("storage"));
+          }
+          
+          setOpenOtpEmail(false);
+          setOpenEmail(false);
+          setOtpValues(["", "", "", ""]);
+          dispatch(resetOtpState());
+        })
+        .catch((error) => {
+          console.error("Failed to fetch profile:", error);
+    
+          setOpenOtpEmail(false);
+          setOpenEmail(false);
+          setOtpValues(["", "", "", ""]);
+          dispatch(resetOtpState());
+        });
     }
   }, [otpVerified, setOpenOtpEmail, setOpenEmail, dispatch]);
 

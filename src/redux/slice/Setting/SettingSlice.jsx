@@ -1,4 +1,4 @@
-import { changeEmail, verifyEmailOtp } from "@/redux/api/Setting/SettingApi";
+import { changeEmail, getProfile, verifyEmailOtp } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -25,6 +25,18 @@ export const verifyEmailOtpThunk = createAsyncThunk('setting/verifyEmailOtp' ,
   }
 )
 
+export const getProfileThunk = createAsyncThunk('setting/getProfileThunk' , 
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getProfile()
+      console.log('getProfileThunk' , response);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get profile ");
+    }
+  }
+)
+
 const initialState ={
   successEmail:false,
   loading: false,
@@ -32,6 +44,7 @@ const initialState ={
   otpVerified: false,
   otpLoading: false,
   otpError: null,
+  profileData:null,
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -54,6 +67,7 @@ const settingSlice = createSlice({
 
   extraReducers:(builder)=>{
     builder
+    //
     .addCase(changeEmailThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -66,6 +80,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //
       .addCase(verifyEmailOtpThunk.pending, (state) => {
         state.otpLoading = true;
         state.otpError = null;
@@ -77,7 +92,21 @@ const settingSlice = createSlice({
       .addCase(verifyEmailOtpThunk.rejected, (state, action) => {
         state.otpLoading = false;
         state.otpError = action.payload;
-      });
+      })
+      //
+      .addCase(getProfileThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getProfileThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.profileData = action.payload;
+      })
+      .addCase(getProfileThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+
   }
 
 })

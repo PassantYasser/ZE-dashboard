@@ -11,3 +11,10 @@ export const verifyEmailOtp = async({otp})=>{
   console.log('Verify OTP response:', response.data);
   return response.data
 }
+
+
+// profile endpoint to update localstorage data of user******
+export const getProfile = async()=>{
+  const response = await API.get('/provider/me')
+  return response.data
+}
