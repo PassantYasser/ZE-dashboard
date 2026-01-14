@@ -8,7 +8,7 @@ import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import DeleteDialogPage from './DeleteDialog/page'
 
-function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
+function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData}) {
   const {t}=useTranslation()
   
 
@@ -108,7 +108,7 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus}) {
           <GreenSwitch checked={is_marketer} onChange={handleToggle} />
         </div>
 
-        <InformationDataPage/>
+        <InformationDataPage userData={userData}/>
         
         <div>
           <p className='text-[#364152] text-lg font-normal'>{t('Bank account details')}</p>

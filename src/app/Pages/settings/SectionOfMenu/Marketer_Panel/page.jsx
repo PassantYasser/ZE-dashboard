@@ -30,7 +30,7 @@ function Marketer_PanelPage({userData}) {
         {
           (()=>{
             if(marketerStatus === null){                                             //marketer?.status=== null && is_marketer===false || marketer?.status=== null && is_marketer===true
-              return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer} setMarketerStatus={setMarketerStatus}/>
+              return <NullStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer} setMarketerStatus={setMarketerStatus} userData={userData}/>
             }else if(marketerStatus=== 'pending'){
               return <PendingStatusPage/>
             }else if(marketerStatus=== 'rejected'){

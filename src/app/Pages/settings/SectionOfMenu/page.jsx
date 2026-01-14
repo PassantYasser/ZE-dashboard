@@ -51,6 +51,8 @@ function SectionOfMenuPage({ selectedMenu }) {
         cr_end_date: parsedUser?.cr_end_date,
         tax_card_end_date: parsedUser?.tax_card_end_date,
         id_end_date: parsedUser?.id_end_date,
+
+        middlename: parsedUser?.middlename,
       });
     }
   }, []);

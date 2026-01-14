@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function InformationDataPage() {
+function InformationDataPage({userData}) {
   const {t} = useTranslation();
   return (
     <div className='mb-8'>
@@ -12,21 +12,21 @@ function InformationDataPage() {
         <div>
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('First Name')}</p>
           <p className='border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
-            <span className='text-[#656565] text-sm font-normal'>فارس</span>
+            <span className='text-[#656565] text-sm font-normal'>{userData?.firstname}</span>
           </p>
         </div>
 
         <div>
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('Second name')}</p>
           <p className='border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
-            <span className='text-[#656565] text-sm font-normal'>احمد</span>
+            <span className='text-[#656565] text-sm font-normal'>{userData?.middlename}</span>
           </p>
         </div>
 
         <div>
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('Last Name')}</p>
           <p className='border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
-            <span className='text-[#656565] text-sm font-normal'>سامر</span>
+            <span className='text-[#656565] text-sm font-normal'>{userData?.lastname}</span>
           </p>
         </div>
       </div>
@@ -35,7 +35,7 @@ function InformationDataPage() {
       <div className='mb-4'>
         <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('National ID number')}</p>
         <p className='border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
-          <span className='text-[#656565] text-sm font-normal'>011478855555</span>
+          <span className='text-[#656565] text-sm font-normal'>{userData?.national_id}</span>
         </p>
       </div>
 
@@ -45,7 +45,7 @@ function InformationDataPage() {
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('Front national ID card photo')}</p>
           <p className='flex gap-1.5 border border-[#C8C8C8] bg-[#EEF2F6] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] p-3'>
             <img src="/images/icons/imageicon.svg" alt="" className='w-5 h-5'/>
-            <span className='text-[#656565] text-sm font-normal'>البطاقة jbg.2</span>
+            <span className='text-[#656565] text-sm font-normal'>البطاقة jbg.1</span>
           </p>
         </div>
 
