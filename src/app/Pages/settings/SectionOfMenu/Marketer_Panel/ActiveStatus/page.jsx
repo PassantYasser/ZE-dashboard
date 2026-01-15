@@ -15,7 +15,7 @@ function ActiveStatusPage({is_marketer , setIsMarketer , cardData}) {
   const {t} = useTranslation()
   const router = useRouter(); 
 
-  const has_subscription = true;
+  const has_subscription = false;
   
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />

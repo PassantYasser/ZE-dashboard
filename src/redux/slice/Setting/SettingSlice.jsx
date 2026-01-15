@@ -1,4 +1,4 @@
-import { CardMarketer, changeEmail, changePhone, getProfile, verifyEmailOtp, verifyPhoneOtp } from "@/redux/api/Setting/SettingApi";
+import { CardMarketer, changeEmail, changePhone, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -73,6 +73,19 @@ export const CardMarketerThunk = createAsyncThunk('setting/CardMarketerThunk' ,
   }
 )
 
+export const withdrawsMarketerThunk = createAsyncThunk('setting/withdrawsMarketerThunk' ,
+  async(params , {rejectWithValue})=>{
+    try{
+      const response = await withdrawsMarketer(params)
+      console.log('withdrawsMarketerThunk' ,response );
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of withdraws");
+    }
+    
+  }
+)
+
 const initialState ={
   successEmail:false,
   loading: false,
@@ -87,6 +100,8 @@ const initialState ={
   otpPhoneError: null,
 
   cardData:[],
+  withdrawsData:[],
+  
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -187,6 +202,19 @@ const settingSlice = createSlice({
         state.cardData = action.payload;
       })
       .addCase(CardMarketerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //
+      .addCase(withdrawsMarketerThunk.pending , (state)=>{
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(withdrawsMarketerThunk.fulfilled,(state , action)=>{
+        state.loading = false;
+        state.withdrawsData = action.payload;
+      })
+      .addCase(withdrawsMarketerThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

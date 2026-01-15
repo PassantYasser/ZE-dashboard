@@ -35,3 +35,7 @@ export const CardMarketer = async()=>{
   return response.data
 }
 
+export const withdrawsMarketer = async (params) => {
+  const response = await API.get("/marketer/withdraws", { params });
+  return response.data;
+};

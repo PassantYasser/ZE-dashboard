@@ -2,9 +2,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function HeaderOfTablePage() {
+function HeaderOfTablePage({ activeTab, setActiveTab }) {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState('complete');
 
   return (
     <>
@@ -29,7 +28,7 @@ function HeaderOfTablePage() {
     </div>
   </div>
 
-  {/* filter buttons (static) */}
+  {/* filter buttons (controlled) */}
   <div className="flex bg-[#EEF2F6] rounded-[3px] p-1.5 w-[299px] h-14">
     <button
       onClick={() => setActiveTab('complete')}

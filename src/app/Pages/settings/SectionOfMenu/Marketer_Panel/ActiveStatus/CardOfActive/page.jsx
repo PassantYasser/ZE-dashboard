@@ -5,13 +5,10 @@ import { useTranslation } from 'react-i18next';
 function CardOfActivePage({is_marketer , cardData}) {
     const {t} = useTranslation()
 
-    const totalProfits = 4;
-
     const profit_change_percentage = cardData?.profit_change_percentage;
     const subscribers_change_percentage = cardData?.subscribers_change_percentage;
     const pending_profit_change_percentage = cardData?.pending_profit_change_percentage
 
-      console.log(cardData);
 
   return (
     <>

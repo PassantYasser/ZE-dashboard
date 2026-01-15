@@ -1,28 +1,44 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import HeaderOfTablePage from "./HeaderOfTable/page";
 import Pagination from "./Pagination";
 import DeleteDialogPage from "./DeleteDialog/page";
+import { withdrawsMarketerThunk } from "@/redux/slice/Setting/SettingSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function createData(orderNumber, dateTime,status) {
-  return { orderNumber, dateTime,status};
+
+
+
+function formatArabicDate(dateString) {
+  const date = new Date(dateString);
+
+  const time = date.toLocaleTimeString("ar-EG", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
+  const arabicDate = date.toLocaleDateString("ar-EG", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  const amPm = date.toLocaleTimeString("ar-EG", {
+    hour: "numeric",
+    hour12: true,
+  }).includes("ص")
+    ? "ص"
+    : "م";
+
+  const hour12 = date.toLocaleTimeString("ar-EG", {
+    hour: "numeric",
+    hour12: true,
+  }).replace(/[^0-9]/g, "");
+
+  return `${arabicDate} : ${time}${hour12}${amPm} `;
 }
-
-const rows = [
-  createData("001", "15 أبريل 2023 : 10 ص" ,"completed" ),
-  createData("002", "16 أبريل 2023 : 12 م", "pending"),
-createData("003", "17 أبريل 2023 : 03 م", "rejected"),
-createData("004", "18 أبريل 2023 : 09 ص", "completed"),
-createData("005", "19 أبريل 2023 : 01 م", "pending"),
-createData("006", "20 أبريل 2023 : 05 م", "completed"),
-createData("007", "21 أبريل 2023 : 11 ص", "rejected"),
-createData("008", "22 أبريل 2023 : 04 م", "completed"),
-createData("009", "23 أبريل 2023 : 08 ص", "pending"),
-createData("010", "24 أبريل 2023 : 02 م", "completed"),
-
-];
-
 
 export default function TableOfActivePage({has_subscription , is_marketer}) {
 
@@ -33,7 +49,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
 
   const StatusRender = (Status) => {
       switch (Status) {
-        case "completed": // مقبولة 
+        case "approved": // مقبولة 
           return (
             <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex items-center  gap-1'>
@@ -42,7 +58,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
             </div>
           </div>
           );
-        case "pending":// قيد المراجعة
+        case "pending": // قيد المراجعة
           return (
             <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex items-center gap-1'>
@@ -60,12 +76,34 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
               </div>
             </div>
           );
+        case "cancelled": // مرفوضة
+          return (
+            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
+              <div className='py-1.5 px-3 flex items-center gap-1'>
+                <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
+                <span className=''>{t('cancelled')}</span>
+              </div>
+            </div>
+          );
       }
     };
 
+  //api
+  const dispatch = useDispatch();
+  const {withdrawsData,  loading , error}= useSelector((state)=>state.setting)
+
+  const [activeTab, setActiveTab] = useState('complete');
+
+  useEffect(()=>{
+    const status = activeTab === "complete" ? "approved,rejected,cancelled" : "pending";
+    dispatch(withdrawsMarketerThunk({ status }));
+  },[dispatch, activeTab])
+
+
+
   return (
     <div className=" mt-8 mb-5">
-      <HeaderOfTablePage />
+      <HeaderOfTablePage activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className=" rounded-[3px] border border-[#E3E8EF] overflow-x-auto">
         
@@ -82,14 +120,21 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
 
           {/* Table Body */}
           <tbody>
-            {rows.map((row) => (
+            {withdrawsData
+              .filter((row) => {
+                if (activeTab === "complete") {
+                  return row.status !== "pending";
+                }
+                return row.status === "pending";
+              })
+              .map((row) => (
               <tr
-                key={row.orderNumber}
+                key={row.id}
             
                 className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
               >
-                <td className="p-4  w-[20%]">{row.orderNumber}</td>
-                <td className="p-4  w-[30%]" >{row.dateTime}</td>
+                <td className="p-4  w-[20%]">{row.id}</td>
+                <td className="p-4  w-[30%]" >{formatArabicDate(row.created_at)}</td>
                 <td className='py-4  w-[30%]'>
                   {StatusRender(row.status)}
                 </td>
