@@ -1,11 +1,11 @@
-import { changeEmail, changePhone, getProfile, verifyEmailOtp, verifyPhoneOtp } from "@/redux/api/Setting/SettingApi";
+import { CardMarketer, changeEmail, changePhone, getProfile, verifyEmailOtp, verifyPhoneOtp } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
   async(email , {rejectWithValue})=>{
     try{
       const response = await changeEmail(email)
-      console.log('changeEmailThunk' ,response );
+      // console.log('changeEmailThunk' ,response );
       return response 
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to change email");
@@ -17,7 +17,7 @@ export const verifyEmailOtpThunk = createAsyncThunk('setting/verifyEmailOtp' ,
   async(otp , {rejectWithValue})=>{
     try{
       const response = await verifyEmailOtp(otp)
-      console.log('verifyEmailOtpThunk' ,response );
+      // console.log('verifyEmailOtpThunk' ,response );
       return response 
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to verify OTP");
@@ -29,7 +29,7 @@ export const getProfileThunk = createAsyncThunk('setting/getProfileThunk' ,
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getProfile()
-      console.log('getProfileThunk' , response);
+      // console.log('getProfileThunk' , response);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to get profile ");
@@ -52,11 +52,24 @@ export const verifyPhoneOtpThunk = createAsyncThunk('setting/verifyPhoneOtp' ,
   async(otp , {rejectWithValue})=>{
     try{
       const response = await verifyPhoneOtp(otp)
-      console.log('verifyPhoneOtpThunk' ,response );
+      // console.log('verifyPhoneOtpThunk' ,response );
       return response 
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to verify OTP");
     }
+  }
+)
+
+export const CardMarketerThunk = createAsyncThunk('setting/CardMarketerThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await CardMarketer()
+      console.log('CardMarketerThunk' ,response );
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of card");
+    }
+    
   }
 )
 
@@ -72,6 +85,8 @@ const initialState ={
   otpPhoneVerified: false,
   otpPhoneLoading: false,
   otpPhoneError: null,
+
+  cardData:[],
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -162,9 +177,20 @@ const settingSlice = createSlice({
         state.otpPhoneLoading = false;
         state.otpPhoneError = action.payload;
       })
-
-  }
-
+      //
+      .addCase(CardMarketerThunk.pending , (state)=>{
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CardMarketerThunk.fulfilled,(state , action)=>{
+        state.loading = false;
+        state.cardData = action.payload;
+      })
+      .addCase(CardMarketerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+}
 })
 
 export const { resetEmailState ,resetPhoneState } = settingSlice.actions;

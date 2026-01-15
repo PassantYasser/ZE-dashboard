@@ -2,10 +2,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function CardOfActivePage({is_marketer}) {
+function CardOfActivePage({is_marketer , cardData}) {
     const {t} = useTranslation()
 
     const totalProfits = 4;
+
+    const profit_change_percentage = cardData?.profit_change_percentage;
+    const subscribers_change_percentage = cardData?.subscribers_change_percentage;
+    const pending_profit_change_percentage = cardData?.pending_profit_change_percentage
+
+      console.log(cardData);
+
   return (
     <>
     
@@ -24,15 +31,15 @@ function CardOfActivePage({is_marketer}) {
         </div>
 
         <div className='py-2.5'>
-          <p className='text-[#202939] text-base font-medium'>187,972</p>
+          <p className='text-[#202939] text-base font-medium'>{cardData?.total_profit}</p>
         </div>
 
         <div className='flex gap-1'>
           <p className='text-[#697586] text-xs font-light'>{t('Last week')}</p>
-          {totalProfits >=0 ? (
+          {profit_change_percentage >=0 ? (
             <>
             <p className='flex items-center text-sm text-[#17B26A]'>
-              <span className='text-xs'>{totalProfits}%</span>
+              <span className='text-xs'>{profit_change_percentage}%</span>
               <span>+</span>  
             </p>
             <p className='flex items-center'>
@@ -43,7 +50,7 @@ function CardOfActivePage({is_marketer}) {
           ):(
             <>
             <p className='flex items-center text-sm text-[#F04438]'>
-              <span className='text-xs'>{totalProfits}%</span>
+              <span className='text-xs'>{profit_change_percentage}%</span>
             </p>
             <p className='flex items-center'>
               <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -71,15 +78,15 @@ function CardOfActivePage({is_marketer}) {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-base font-medium'>187,972</p>
+            <p className='text-[#202939] text-base font-medium'>{cardData?.total_subscribers}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-xs font-light'>{t('Last week')}</p>
-            {totalProfits >=0 ? (
+            {subscribers_change_percentage >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span className='text-xs'>{totalProfits}%</span>
+                <span className='text-xs'>{subscribers_change_percentage}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -90,7 +97,7 @@ function CardOfActivePage({is_marketer}) {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span className='text-xs'>{totalProfits}%</span>
+                <span className='text-xs'>{subscribers_change_percentage}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -101,7 +108,7 @@ function CardOfActivePage({is_marketer}) {
             
           </div>
 
-        </section>
+        </section> 
 
         {/* pending profits */}
         <section className={`border  border-[#CDD5DF] rounded-[3px] py-3 px-2 ${is_marketer ? ' ' : 'bg-[#EEF2F6]'}`}>
@@ -117,15 +124,15 @@ function CardOfActivePage({is_marketer}) {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-base font-medium'>187,972</p>
+            <p className='text-[#202939] text-base font-medium'>{cardData?.pending_profit}</p>
           </div>
 
           <div className='flex gap-1'>
             <p className='text-[#697586] text-xs font-light'>{t('Last week')}</p>
-            {totalProfits >=0 ? (
+            {pending_profit_change_percentage >=0 ? (
               <>
               <p className='flex items-center text-sm text-[#17B26A]'>
-                <span className='text-xs'>{totalProfits}%</span>
+                <span className='text-xs'>{pending_profit_change_percentage}%</span>
                 <span>+</span>  
               </p>
               <p className='flex items-center'>
@@ -136,7 +143,7 @@ function CardOfActivePage({is_marketer}) {
             ):(
               <>
               <p className='flex items-center text-sm text-[#F04438]'>
-                <span className='text-xs'>{totalProfits}%</span>
+                <span className='text-xs'>{pending_profit_change_percentage}%</span>
               </p>
               <p className='flex items-center'>
                 <img src="/images/icons/red_arrow_down.svg" alt="" />
@@ -163,7 +170,7 @@ function CardOfActivePage({is_marketer}) {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-base font-medium'>187,972</p>
+            <p className='text-[#202939] text-base font-medium'>{cardData?.available_profit}</p>
           </div>
 
           
@@ -184,7 +191,7 @@ function CardOfActivePage({is_marketer}) {
           </div>
 
           <div className='py-2.5'>
-            <p className='text-[#202939] text-base font-medium'>187,972</p>
+            <p className='text-[#202939] text-base font-medium'>{cardData?.total_withdrawed}</p>
           </div>
 
         
@@ -197,7 +204,9 @@ function CardOfActivePage({is_marketer}) {
       <p className='text-[#364152] text-sm font-normal'>{t('code')}</p>
       <input 
         type="text" 
-        disabled={!is_marketer}
+        value={cardData?.marketer_code ?? ""}
+        // disabled={!is_marketer}
+        readOnly
         className={`w-full mt-1.5 p-3 border border-[#CDD5DF] rounded-[3px] focus:outline-none ${is_marketer ? ' bg-white ' : 'bg-[#EEF2F6]'}`}
       />
     </section>

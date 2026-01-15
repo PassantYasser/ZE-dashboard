@@ -1,17 +1,27 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NullStatusPage from './NullStatus/page';
 import PendingStatusPage from './PendingStatus/page';
 import RejectedStatusPage from './RejectedStatus/page';
 import ActiveStatusPage from './ActiveStatus/page';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { CardMarketerThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function Marketer_PanelPage({userData}) {
-    const {t}=useTranslation()
+  const {t}=useTranslation()
+  //api
+  const dispatch = useDispatch()
+  const {cardData , loading , error}= useSelector((state)=>state.setting)
   
+  useEffect(()=>{
+    dispatch(CardMarketerThunk())
+  },[dispatch])
+
+
+
   const [is_marketer, setIsMarketer] =useState(true);
-  // const marketer = { status: null }; //pending , active , rejected , null 
-  const [marketerStatus, setMarketerStatus] = useState(null)
+  const [marketerStatus, setMarketerStatus] = useState('active')//pending , active , rejected , null 
   return (
     <>
     <div className='border border-[#E3E8EF]' >
@@ -36,7 +46,7 @@ function Marketer_PanelPage({userData}) {
             }else if(marketerStatus=== 'rejected'){
               return <RejectedStatusPage setMarketerStatus={setMarketerStatus}/>
             }else if(marketerStatus=== 'active'){
-              return <ActiveStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer}/>
+              return <ActiveStatusPage is_marketer={is_marketer} setIsMarketer={setIsMarketer} cardData={cardData}/>
             }
           })  ()
         }

@@ -10,10 +10,11 @@ import WithdrawDialogPage from './WithdrawDialog/page';
 
 import { useRouter } from 'next/navigation';
 
-function ActiveStatusPage({is_marketer , setIsMarketer}) {
+function ActiveStatusPage({is_marketer , setIsMarketer , cardData}) {
 
   const {t} = useTranslation()
-  const router = useRouter(); // Initialize router
+  const router = useRouter(); 
+
   const has_subscription = true;
   
   const GreenSwitch = styled((props) => (
@@ -74,7 +75,7 @@ const [open , setOpen] =useState(false);
       <GreenSwitch checked={is_marketer} onChange={handleToggle} />
     </div>
 
-    <CardOfActivePage is_marketer={is_marketer}/>
+    <CardOfActivePage is_marketer={is_marketer} cardData={cardData} />
 
     {has_subscription ? (
       <div className='mt-6'>
