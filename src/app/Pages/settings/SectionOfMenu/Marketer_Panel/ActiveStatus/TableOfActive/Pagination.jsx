@@ -3,42 +3,36 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const Pagination = ({ totalPages = 10, onPageChange }) => {
+
+
+const Pagination = ({ totalPages = 1, currentPage = 1, onPageChange }) => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    if (page < 1 || page > totalPages || page === "...") return;
     if (onPageChange) onPageChange(page);
   };
 
-  // ✅ function to generate moving pages
   const generatePages = () => {
     const pages = [];
-
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
       if (currentPage <= 3) {
         pages.push(1, 2, 3, 4, "...", totalPages);
-      } 
-      else if (currentPage >= totalPages - 2) {
+      } else if (currentPage >= totalPages - 2) {
         pages.push(1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
-      } 
-      else {
+      } else {
         pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
       }
     }
-
     return pages;
   };
 
   const pages = generatePages();
-
-  // Prev & Next logic
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHoveredPrev, setIsHoveredPrev] = useState(false);
   const [isHoveredNext, setIsHoveredNext] = useState(false);
+
   const isDisabledPrev = currentPage === 1;
   const isDisabledNext = currentPage === totalPages;
 
@@ -48,8 +42,8 @@ const Pagination = ({ totalPages = 10, onPageChange }) => {
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={isDisabledPrev}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={() => setIsHoveredPrev(true)}
+        onMouseLeave={() => setIsHoveredPrev(false)}
         className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
           isDisabledPrev
             ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent"
@@ -57,13 +51,7 @@ const Pagination = ({ totalPages = 10, onPageChange }) => {
         }`}
       >
         <img
-          src={
-            isDisabledPrev
-              ? "/images/icons/arrow-right.svg"
-              : isHovered
-              ? "/images/icons/arrow-right.svg"
-              : "/images/icons/arrow-right-white.svg"
-          }
+          src={isDisabledPrev || isHoveredPrev ? "/images/icons/arrow-right.svg" : "/images/icons/arrow-right-white.svg"}
           alt="arrow"
         />
         <span>{t("the previous")}</span>
@@ -74,14 +62,14 @@ const Pagination = ({ totalPages = 10, onPageChange }) => {
         {pages.map((page, index) => (
           <button
             key={index}
-            onClick={() => typeof page === "number" && handlePageChange(page)}
+            onClick={() => handlePageChange(page)}
             disabled={page === "..."}
             className={`px-3 py-1 text-sm font-medium rounded-md w-10 h-10 transition ${
               page === currentPage
-                ? "text-white bg-[var(--color-primary)]"
+                ? "text-white bg-[var(--color-primary)] shadow"
                 : page === "..."
                 ? "text-gray-500 cursor-default"
-                : "border border-[#CDD5DF] text-[#697586] hover:bg-gray-100"
+                : "border border-[#CDD5DF] text-[#697586] hover:bg-gray-100 cursor-pointer"
             }`}
           >
             {page}
@@ -103,13 +91,7 @@ const Pagination = ({ totalPages = 10, onPageChange }) => {
       >
         <span>{t("the next")}</span>
         <img
-          src={
-            isDisabledNext
-              ? "/images/icons/arrow-left.svg"
-              : isHoveredNext
-              ? "/images/icons/arrow-left.svg"
-              : "/images/icons/arrow-left-white.svg"
-          }
+          src={isDisabledNext || isHoveredNext ? "/images/icons/arrow-left.svg" : "/images/icons/arrow-left-white.svg"}
           alt="arrow"
         />
       </button>

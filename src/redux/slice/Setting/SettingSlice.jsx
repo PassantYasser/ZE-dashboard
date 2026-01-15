@@ -78,7 +78,7 @@ export const withdrawsMarketerThunk = createAsyncThunk('setting/withdrawsMarkete
     try{
       const response = await withdrawsMarketer(params)
       console.log('withdrawsMarketerThunk' ,response );
-      return response.data
+      return response
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to get data of withdraws");
     }
@@ -101,6 +101,7 @@ const initialState ={
 
   cardData:[],
   withdrawsData:[],
+  last_page: 1,
   
 }
 const settingSlice = createSlice({
@@ -212,7 +213,8 @@ const settingSlice = createSlice({
       })
       .addCase(withdrawsMarketerThunk.fulfilled,(state , action)=>{
         state.loading = false;
-        state.withdrawsData = action.payload;
+        state.withdrawsData = action.payload.data;
+        state.last_page = action.payload.pagination?.last_page || 1;
       })
       .addCase(withdrawsMarketerThunk.rejected, (state, action) => {
         state.loading = false;

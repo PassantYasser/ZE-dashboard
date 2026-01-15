@@ -90,14 +90,20 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
 
   //api
   const dispatch = useDispatch();
-  const {withdrawsData,  loading , error}= useSelector((state)=>state.setting)
+  const {withdrawsData, last_page, loading , error}= useSelector((state)=>state.setting)
 
   const [activeTab, setActiveTab] = useState('complete');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(()=>{
     const status = activeTab === "complete" ? "approved,rejected,cancelled" : "pending";
-    dispatch(withdrawsMarketerThunk({ status }));
-  },[dispatch, activeTab])
+    dispatch(withdrawsMarketerThunk({ status, page: currentPage }));
+  },[dispatch, activeTab, currentPage])
+
+  // Reset page when tab changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab]);
 
 
 
@@ -151,7 +157,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
 
       </div>
 
-      <Pagination/>
+      <Pagination totalPages={last_page} currentPage={currentPage} onPageChange={(page) => setCurrentPage(page)} />
       
 
       <DeleteDialogPage open={open} setOpen={setOpen} />
