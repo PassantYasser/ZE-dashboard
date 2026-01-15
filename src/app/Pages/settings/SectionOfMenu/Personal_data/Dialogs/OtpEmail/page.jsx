@@ -3,7 +3,7 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyEmailOtpThunk, resetOtpState, getProfileThunk } from '@/redux/slice/Setting/SettingSlice';
+import { verifyEmailOtpThunk, getProfileThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispatch }) {
   const {t} = useTranslation()

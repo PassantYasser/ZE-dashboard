@@ -1,5 +1,5 @@
 "use client"
-import { verifyPhoneOtpThunk, resetPhoneOtpState, getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
+import { verifyPhoneOtpThunk, getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
 import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
