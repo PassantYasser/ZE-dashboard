@@ -39,3 +39,9 @@ export const withdrawsMarketer = async (params) => {
   const response = await API.get("/marketer/withdraws", { params });
   return response.data;
 };
+
+
+export const deleteWithdrawsMarketer = async(marketerId)=>{
+  const response = await API.post('/marketer/cancel/Withdraw' , {id:marketerId})
+  return response.data
+}

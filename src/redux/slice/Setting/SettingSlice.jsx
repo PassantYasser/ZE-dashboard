@@ -1,4 +1,4 @@
-import { CardMarketer, changeEmail, changePhone, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -73,6 +73,7 @@ export const CardMarketerThunk = createAsyncThunk('setting/CardMarketerThunk' ,
   }
 )
 
+
 export const withdrawsMarketerThunk = createAsyncThunk('setting/withdrawsMarketerThunk' ,
   async(params , {rejectWithValue})=>{
     try{
@@ -83,6 +84,17 @@ export const withdrawsMarketerThunk = createAsyncThunk('setting/withdrawsMarkete
       return rejectWithValue(error.response?.data || "Failed to get data of withdraws");
     }
     
+  }
+)
+
+export const deleteWithdrawsMarketerThunk = createAsyncThunk('setting/deleteWithdrawsMarketerThunk',
+  async(marketerId , {rejectWithValue})=>{
+    try{
+      await deleteWithdrawsMarketer(marketerId)
+      return marketerId
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to delete withdraws marketer");
+    }
   }
 )
 
@@ -217,6 +229,21 @@ const settingSlice = createSlice({
         state.last_page = action.payload.pagination?.last_page || 1;
       })
       .addCase(withdrawsMarketerThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //
+      .addCase(deleteWithdrawsMarketerThunk.pending , (state)=>{
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteWithdrawsMarketerThunk.fulfilled , (state,action)=>{
+        state.loading = false;
+        state.withdrawsData = state.withdrawsData.filter(
+          (item) => item.id !== action.payload
+        );
+      })
+      .addCase(deleteWithdrawsMarketerThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })

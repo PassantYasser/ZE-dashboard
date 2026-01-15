@@ -1,12 +1,21 @@
 
 "use client";
+import { deleteWithdrawsMarketerThunk } from "@/redux/slice/Setting/SettingSlice";
 import { Dialog } from "@mui/material";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
-function DeleteDialogPage({ open, setOpen }) {
+function DeleteDialogPage({ open, setOpen, id }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
+  const handleDelete = () => {
+    if (id) {
+      dispatch(deleteWithdrawsMarketerThunk(id));
+      setOpen(false);
+    }
+  };
   return (
     <Dialog
       open={open}
@@ -47,7 +56,7 @@ function DeleteDialogPage({ open, setOpen }) {
       {/* Actions */}
       <div className="flex gap-3 my-4 px-6 font-medium text-base">
         <button
-          onClick={() => setOpen(false)}
+          onClick={handleDelete}
           className="bg-[#D92D20] text-white w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer"
         >
           {t("delete")}

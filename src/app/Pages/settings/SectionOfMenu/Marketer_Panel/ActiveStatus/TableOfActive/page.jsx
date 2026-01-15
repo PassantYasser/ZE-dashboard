@@ -45,7 +45,12 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => setOpen(true);
+  const [selectedId, setSelectedId] = useState(null);
+  
+  const handleClickOpen = (id) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
 
   const StatusRender = (Status) => {
       switch (Status) {
@@ -145,7 +150,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
                   {StatusRender(row.status)}
                 </td>
                 <td className='py-4  w-[20%] ' >
-                  <p className="flex justify-center"     onClick={handleClickOpen}>
+                  <p className="flex justify-center"     onClick={() => handleClickOpen(row.id)}>
                     <img src="/images/icons/delete-darkRed.svg" alt="" />
                   </p>
                 </td>
@@ -160,7 +165,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
       <Pagination totalPages={last_page} currentPage={currentPage} onPageChange={(page) => setCurrentPage(page)} />
       
 
-      <DeleteDialogPage open={open} setOpen={setOpen} />
+      <DeleteDialogPage open={open} setOpen={setOpen} id={selectedId} />
     </div>
   
 
