@@ -76,11 +76,11 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
               </div>
             </div>
           );
-        case "cancelled": // مرفوضة
+        case "cancelled": // ملغيه
           return (
-            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
+            <div className=' bg-[#F2F4F7] border border-[#454647] text-[#475467] w-fit h-9.5 rounded-3xl'>
               <div className='py-1.5 px-3 flex items-center gap-1'>
-                <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
+                <img src="/images/icons/cancelled Status.svg" alt="" className=' mt-1'/>
                 <span className=''>{t('cancelled')}</span>
               </div>
             </div>
