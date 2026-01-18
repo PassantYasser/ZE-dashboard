@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function CardOfActivePage({is_marketer , cardData}) {
@@ -9,6 +9,8 @@ function CardOfActivePage({is_marketer , cardData}) {
     const subscribers_change_percentage = cardData?.subscribers_change_percentage;
     const pending_profit_change_percentage = cardData?.pending_profit_change_percentage
 
+    const [copied, setCopied] = useState(false);
+    const [showSnackbar, setShowSnackbar] = useState(false);
 
   return (
     <>
@@ -199,13 +201,57 @@ function CardOfActivePage({is_marketer , cardData}) {
       {/* code */}
     <section className='mt-6'>
       <p className='text-[#364152] text-sm font-normal'>{t('code')}</p>
-      <input 
-        type="text" 
-        value={cardData?.marketer_code ?? ""}
-        // disabled={!is_marketer}
-        readOnly
-        className={`w-full mt-1.5 p-3 border border-[#CDD5DF] rounded-[3px] focus:outline-none ${is_marketer ? ' bg-white ' : 'bg-[#EEF2F6]'}`}
-      />
+      <div className="relative mt-1.5 ">
+        <input 
+          type="text" 
+          value={cardData?.marketer_code ?? ""}
+          readOnly
+          className={`w-full p-3 border border-[#CDD5DF] rounded-[3px] focus:outline-none ${is_marketer ? ' bg-white ' : 'bg-[#EEF2F6]'}`}
+        />
+        <button
+          onClick={() => {
+            if (cardData?.marketer_code) {
+              navigator.clipboard.writeText(cardData.marketer_code);
+              setShowSnackbar(true);
+
+              setTimeout(() => {
+                setShowSnackbar(false);
+              }, 300);
+            }
+          }}
+          className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer hover:opacity-70 transition-opacity"
+          title={t("Copy code")}
+        >
+          <img src="/images/icons/copy.svg" alt="" />
+        </button>
+        
+      </div>
+
+      {showSnackbar && (
+        <div className='flex justify-end'>
+          <div className="w-fit mt-1">
+            <div className="bg-[#16A34A] text-white px-6 py-3 rounded-md shadow-lg flex items-center gap-2 animate-slide-up">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span className="text-sm font-medium">
+                {t("Copied successfully")}
+              </span>
+            </div>
+          </div>
+        </div>
+
+      )}
+
     </section>
 
     </>
