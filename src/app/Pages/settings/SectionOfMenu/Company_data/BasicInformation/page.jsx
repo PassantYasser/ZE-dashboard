@@ -80,8 +80,8 @@ function BasicInformationPage({userData}) {
   const handleSaveChanges = async () => {
     try {
       const dataToSubmit = new FormData();
-      dataToSubmit.append("company_name", formData.company_name);
-      dataToSubmit.append("short_bio", formData.short_bio);
+      dataToSubmit.append("company_name", formData?.company_name);
+      dataToSubmit.append("short_bio", formData?.short_bio);
 
       if (selectedFile) {
         dataToSubmit.append("image", selectedFile);
