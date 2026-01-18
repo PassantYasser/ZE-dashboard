@@ -2,9 +2,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
+import { useDispatch, useSelector } from "react-redux";
+import { resetChangePasswordState, setNewPasswordThunk } from "@/redux/slice/Setting/SettingSlice";
 
 function ChangePasswordPage({userData}) {
   const { t } = useTranslation();
+  //api
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.setting);
+
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -35,8 +41,43 @@ function ChangePasswordPage({userData}) {
   const handleConfirmPasswordChange = (e) => {
     setConfirmPassword(e.target.value);
   };
-  const passwordsMatch =
-    confirmPassword.length > 0 && password === confirmPassword;
+  const passwordsMatch =  confirmPassword.length > 0 && password === confirmPassword;
+
+  const handleSaveChanges = () => {
+    if (!currentPassword || !password) {
+      alert(t("Please fill in all required fields"));
+      return;
+    }
+    if (!passwordsMatch) {
+      alert(t("Passwords do not match"));
+      return;
+    }
+    if (!Object.values(rules).every(Boolean)) {
+      alert(t("Password does not meet all requirements"));
+      return;
+    }
+
+    dispatch(
+      setNewPasswordThunk({
+        current_password: currentPassword,
+        new_password: password,
+        new_password_confirmation: confirmPassword,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        alert(t("Password changed successfully"));
+        setCurrentPassword("");
+        setPassword("");
+        setConfirmPassword("");
+        dispatch(resetChangePasswordState());
+      })
+      .catch((err) => {
+        console.error(err);
+        alert(err || t("Something went wrong"));
+      });
+  };
+
 
   return (
     <div className="border border-[#E3E8EF] mb-8">
@@ -187,8 +228,10 @@ function ChangePasswordPage({userData}) {
         </div>
 
         {/* btn */}
-        <button className="bg-[var(--color-primary)] h-15 w-62.5 text-white rounded-[3px] mt-6">
-          {t("Save changes")}
+        <button 
+          onClick={handleSaveChanges}
+          className="bg-[var(--color-primary)] h-15 w-62.5 text-white rounded-[3px] mt-6">
+              {loading ? t("Saving...") : t("Save changes")}
         </button>
 
       </section>

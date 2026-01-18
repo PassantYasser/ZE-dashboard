@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, setNewPassword, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -110,7 +110,20 @@ export const AddIpnThunk = createAsyncThunk('setting/AddIpnThunk',
   }
 )
 
+export const setNewPasswordThunk = createAsyncThunk('setting/setNewPasswordThunk' ,
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await setNewPassword(formData)
+      // console.log('setNewPasswordThunk', response.data);
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to post new password");
+    }
+  }
+)
+
 const initialState ={
+  success:false,
   loading: false,
   error: null,
 
@@ -152,6 +165,11 @@ const settingSlice = createSlice({
       state.otpPhoneVerified = false;
       state.otpPhoneLoading = false;
       state.otpPhoneError = null;
+    },
+    resetChangePasswordState: (state) => {
+      state.loading = false;
+      state.success = false;
+      state.error = null;
     },
   },
 
@@ -276,9 +294,25 @@ const settingSlice = createSlice({
       .addCase(AddIpnThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      //setNewPasswordThunk
+      .addCase(setNewPasswordThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(setNewPasswordThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = false;
+      })
+      .addCase(setNewPasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
+
+      })
 }
 })
 
-export const { resetEmailState ,resetPhoneState } = settingSlice.actions;
+export const { resetEmailState ,resetPhoneState , resetChangePasswordState} = settingSlice.actions;
 export default settingSlice.reducer;

@@ -53,3 +53,11 @@ export const AddIpn = async(formData)=>{
     }})
     return response
 }
+
+export const setNewPassword = async(formData)=>{
+  const response = await API.post('/provider/change-password',{ ...formData}, {
+    headers: {
+      'Content-Type': 'application/json',
+    }})
+  return response 
+}
