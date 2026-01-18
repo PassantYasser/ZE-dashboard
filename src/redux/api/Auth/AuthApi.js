@@ -105,10 +105,13 @@ export const VerifyEmailOtp = async(payload)=>{
 };
 
 // //update in signup data or complete signup
-export const UpdateInSignup = async(FormData)=>{
-  const response = await API.post('/provider/update-profile',FormData)
-  return response.data
-}
+export const UpdateInSignup = async (FormData) => {
+  const isFormData = FormData instanceof global.FormData;
+  const response = await API.post("/provider/update-profile", FormData, {
+    headers: isFormData ? { "Content-Type": "multipart/form-data" } : {},
+  });
+  return response.data;
+};
 
 
 

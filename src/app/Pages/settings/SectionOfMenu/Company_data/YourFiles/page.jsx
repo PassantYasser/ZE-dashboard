@@ -3,11 +3,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
+import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
+import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
 
 import Header from "./Header";
 
 function YourFilesPage({userData}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const cr_end_date = userData?.cr_end_date; 
   const tax_card_end_date = userData?.tax_card_end_date;     
@@ -143,8 +147,53 @@ function YourFilesPage({userData}) {
             type: extension,
             url: URL.createObjectURL(file),
           },
+          rawFile: file, // Store the raw file object for upload
         },
       }));
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const formData = new FormData();
+      let hasChanges = false;
+
+      Object.values(files).forEach((item) => {
+        if (item.rawFile) {
+          hasChanges = true;
+          // Map internal keys to backend field names
+          const fieldMap = {
+            commercialRecord: "commercial_register",
+            taxCard: "tax_card",
+            idFront: "id_front",
+            idBack: "id_back",
+          };
+          formData.append(fieldMap[item.key], item.rawFile);
+        }
+      });
+
+      if (!hasChanges) {
+        alert("No changes to save");
+        return;
+      }
+
+      // 1️⃣ Update backend
+      await dispatch(UpdateInSignupThunk(formData)).unwrap();
+
+      // 2️⃣ Fetch updated profile
+      const data = await dispatch(getProfileThunk()).unwrap();
+      const updatedUserData = data.provider || data;
+
+      if (updatedUserData) {
+        // 3️⃣ Sync localStorage
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      alert("Changes saved successfully!");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to save changes");
     }
   };
 
@@ -223,7 +272,9 @@ function YourFilesPage({userData}) {
         })}
 
         {/* btn */}
-        <button className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] mt-6">
+        <button 
+          onClick={handleSaveChanges}
+          className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] mt-6">
           {t('Save changes')}
         </button>
       </section>
