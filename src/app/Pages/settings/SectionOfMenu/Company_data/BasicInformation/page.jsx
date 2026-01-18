@@ -161,7 +161,7 @@ function BasicInformationPage({userData}) {
                   className="w-[112px] h-[112px] object-cover border border-[#EEF2F6] p-1 rounded-full cursor-pointer"
                 />
 
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 ">
                   <button
                     type="button"
                     className="w-[150px] h-10  bg-[var(--color-primary)] text-[#fff] rounded-[3px] cursor-pointer"
@@ -170,13 +170,7 @@ function BasicInformationPage({userData}) {
                     {t("replace")}
                   </button>
 
-                  <button
-                    type="button"
-                    className="w-[150px] h-10 border border-[#F04438] text-[#F04438] rounded-[3px] cursor-pointer"
-                    onClick={handleDeleteFile}
-                  >
-                    {t("delete")}
-                  </button>
+                
                 </div>
               </div>
             )}
