@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, setNewPassword, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -118,6 +118,17 @@ export const setNewPasswordThunk = createAsyncThunk('setting/setNewPasswordThunk
       return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to post new password");
+    }
+  }
+)
+
+export const updateProfileImageThunk = createAsyncThunk('setting/updateProfileImageThunk' ,
+  async(formData ,{rejectWithValue})=>{
+    try{
+      const response = await updateProfileImage(formData)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to post profile image");
     }
   }
 )
@@ -309,7 +320,21 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.success = false;
-
+      })
+      //updateProfileImageThunk
+      .addCase(updateProfileImageThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(updateProfileImageThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = false;
+      })
+      .addCase(updateProfileImageThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.success = false;
       })
 }
 })

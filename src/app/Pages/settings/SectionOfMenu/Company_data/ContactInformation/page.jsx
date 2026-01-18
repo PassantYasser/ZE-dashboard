@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
 import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
 
-function ContactInformationPage({userData, onUpdate}) {
+function ContactInformationPage({userData}) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 

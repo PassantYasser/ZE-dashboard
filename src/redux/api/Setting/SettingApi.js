@@ -61,3 +61,12 @@ export const setNewPassword = async(formData)=>{
     }})
   return response 
 }
+
+export const updateProfileImage = async (formData) => {
+  const response = await API.post("/provider/update-image", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response;
+};

@@ -5,7 +5,7 @@ import Header from "./Header";
 import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
 import { useDispatch } from "react-redux";
 import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
-import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
+import { getProfileThunk, updateProfileImageThunk } from "@/redux/slice/Setting/SettingSlice";
 
 function BasicInformationPage({userData}) {
   const { t } = useTranslation();
@@ -79,23 +79,27 @@ function BasicInformationPage({userData}) {
 
   const handleSaveChanges = async () => {
     try {
-      const dataToSubmit = new FormData();
-      dataToSubmit.append("company_name", formData?.company_name);
-      dataToSubmit.append("short_bio", formData?.short_bio);
+      // 1️⃣ Update Basic Info (Name, Bio)
+      const signupData = {
+        company_name: formData?.company_name,
+        short_bio: formData?.short_bio,
+      };
 
+      await dispatch(UpdateInSignupThunk(signupData)).unwrap();
+
+      // 2️⃣ Update Profile Image (if changed)
       if (selectedFile) {
-        dataToSubmit.append("image", selectedFile);
+        const imageData = new FormData();
+        imageData.append("profile_image", selectedFile);
+        await dispatch(updateProfileImageThunk(imageData)).unwrap();
       }
 
-      // 1️⃣ Update backend
-      await dispatch(UpdateInSignupThunk(dataToSubmit)).unwrap();
-
-      // 2️⃣ Fetch updated profile
+      // 3️⃣ Fetch updated profile
       const data = await dispatch(getProfileThunk()).unwrap();
       const updatedUserData = data.provider || data;
 
       if (updatedUserData) {
-        // 3️⃣ Sync localStorage
+        // 4️⃣ Sync localStorage
         localStorage.setItem("user", JSON.stringify(updatedUserData));
         window.dispatchEvent(new Event("storage"));
       }
