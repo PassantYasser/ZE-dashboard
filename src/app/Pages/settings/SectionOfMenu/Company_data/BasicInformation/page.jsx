@@ -3,35 +3,32 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
+import { useDispatch } from "react-redux";
+import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
+import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
 
-function BasicInformationPage({userData, onUpdate}) {
+function BasicInformationPage({userData}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   // image preview only (no backend)
   const fileInputRef = useRef(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
-
-  // Editable fields state
   const [formData, setFormData] = useState({
-    company_name: "",
-    short_bio: ""
+    company_name: userData?.company_name || "",
+    short_bio: userData?.short_bio || "",
   });
 
-  // Sync with userData when it changes (including after save)
-useEffect(() => {
+  useEffect(() => {
     if (userData) {
       setFormData({
-        company_name: userData?.company_name || "",
-        short_bio: userData?.short_bio || ""
+        company_name: userData.company_name || "",
+        short_bio: userData.short_bio || "",
       });
-      // Also update image preview if userData has a new image
-      if (userData.image && !imagePreview) {
-        // Don't override if user is currently selecting a new image
-        setSelectedFile(null);
-      }
     }
-  }, [userData]); // Re-run when userData changes
+  }, [userData]);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,32 +77,37 @@ useEffect(() => {
     }
   };
 
-  const handleSave = async () => {
-    console.log('🔵 handleSave called');
-    
-    if (!onUpdate) {
-      alert('Update function not available');
-      return;
-    }
+  const handleSaveChanges = async () => {
+    try {
+      const dataToSubmit = new FormData();
+      dataToSubmit.append("company_name", formData.company_name);
+      dataToSubmit.append("short_bio", formData.short_bio);
 
-    const formDataToSend = new FormData();
-    formDataToSend.append('company_name', formData?.company_name);
-    formDataToSend.append('short_bio', formData?.short_bio);
-    
-    if (selectedFile) {
-      formDataToSend.append('image', selectedFile);
-    }
+      if (selectedFile) {
+        dataToSubmit.append("image", selectedFile);
+      }
 
-    console.log('🔵 Calling API...');
-    const success = await onUpdate(formDataToSend);
-    
-    if (success) {
-      alert(t('Profile updated successfully!'));
-      console.log('✅ Changes saved to database and localStorage');
-    } else {
-      alert(t('Failed to update profile'));
+      // 1️⃣ Update backend
+      await dispatch(UpdateInSignupThunk(dataToSubmit)).unwrap();
+
+      // 2️⃣ Fetch updated profile
+      const data = await dispatch(getProfileThunk()).unwrap();
+      const updatedUserData = data.provider || data;
+
+      if (updatedUserData) {
+        // 3️⃣ Sync localStorage
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      alert("Changes saved successfully!");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to save changes");
     }
   };
+
+
 
 
   console.log(userData);
@@ -191,7 +193,7 @@ useEffect(() => {
           <input 
             type="text"
             name="company_name"
-            value={formData?.company_name}
+            value={formData.company_name}
             onChange={handleInputChange}
             placeholder={t('Enter the company name')}             
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
@@ -205,7 +207,7 @@ useEffect(() => {
             type="text"
             name="short_bio"
             placeholder={t('Enter the company description')} 
-            value={formData?.short_bio}  
+            value={formData.short_bio}  
             onChange={handleInputChange}           
             className="h-30 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none  placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
@@ -216,8 +218,8 @@ useEffect(() => {
 
         {/* btn */}
         <button 
+          onClick={handleSaveChanges}
           className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] cursor-pointer"
-          onClick={handleSave}
         >
           {t('Save changes')}
         </button>

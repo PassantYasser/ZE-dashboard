@@ -58,60 +58,60 @@ function SectionOfMenuPage({ selectedMenu }) {
   }, []);
 
   // Handle profile update - update localStorage FIRST, then save to API
-  const handleUpdateProfile = async (formData) => {
-    try {
-      console.log('🔵 === handleUpdateProfile START ===');
+  // const handleUpdateProfile = async (formData) => {
+  //   try {
+  //     console.log('🔵 === handleUpdateProfile START ===');
       
-      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-      console.log('🔵 Current localStorage:', currentUser);
+  //     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+  //     console.log('🔵 Current localStorage:', currentUser);
       
-      const updates = {};
-      for (let [key, value] of formData.entries()) {
-        if (typeof value === 'string') {
-          updates[key] = value;
-        }
-      }
-      console.log('🔵 Updates to apply:', updates);
+  //     const updates = {};
+  //     for (let [key, value] of formData.entries()) {
+  //       if (typeof value === 'string') {
+  //         updates[key] = value;
+  //       }
+  //     }
+  //     console.log('🔵 Updates to apply:', updates);
       
-      // Merge and update localStorage IMMEDIATELY
-      const updatedUser = { ...currentUser, ...updates };
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      console.log('✅ localStorage updated IMMEDIATELY');
-      console.log('🔵 New localStorage:', updatedUser);
+  //     // Merge and update localStorage IMMEDIATELY
+  //     const updatedUser = { ...currentUser, ...updates };
+  //     localStorage.setItem('user', JSON.stringify(updatedUser));
+  //     console.log('✅ localStorage updated IMMEDIATELY');
+  //     console.log('🔵 New localStorage:', updatedUser);
       
-      // Update component state IMMEDIATELY
-      setUserData(updatedUser);
-      console.log('✅ UI updated IMMEDIATELY');
+  //     // Update component state IMMEDIATELY
+  //     setUserData(updatedUser);
+  //     console.log('✅ UI updated IMMEDIATELY');
       
-      // Now call API in background to save to database
-      console.log('🔵 Calling API to save to database...');
-      const resultAction = await dispatch(UpdateInSignupThunk(formData));
-      console.log('🔵 API resultAction:', resultAction);
+  //     // Now call API in background to save to database
+  //     console.log('🔵 Calling API to save to database...');
+  //     const resultAction = await dispatch(UpdateInSignupThunk(formData));
+  //     console.log('🔵 API resultAction:', resultAction);
       
-      if (UpdateInSignupThunk.fulfilled.match(resultAction)) {
-        console.log('✅ API call successful!');
+  //     if (UpdateInSignupThunk.fulfilled.match(resultAction)) {
+  //       console.log('✅ API call successful!');
         
-        // Get updated data from API response
-        const newUserData = resultAction.payload;
-        console.log('🔵 New data from API:', newUserData);
+  //       // Get updated data from API response
+  //       const newUserData = resultAction.payload;
+  //       console.log('🔵 New data from API:', newUserData);
         
-        // Merge API response with current localStorage (in case API returns additional fields)
-        const finalUser = { ...updatedUser, ...newUserData };
-        localStorage.setItem('user', JSON.stringify(finalUser));
-        setUserData(finalUser);
+  //       // Merge API response with current localStorage (in case API returns additional fields)
+  //       const finalUser = { ...updatedUser, ...newUserData };
+  //       localStorage.setItem('user', JSON.stringify(finalUser));
+  //       setUserData(finalUser);
         
-        console.log('✅ === handleUpdateProfile COMPLETE ===');
-        return true;
-      } else {
-        console.error('❌ API failed:', resultAction.payload);
-        // localStorage already updated, so UI still shows changes
-        return false;
-      }
-    } catch (err) {
-      console.error('❌ Error:', err);
-      return false;
-    }
-  };
+  //       console.log('✅ === handleUpdateProfile COMPLETE ===');
+  //       return true;
+  //     } else {
+  //       console.error('❌ API failed:', resultAction.payload);
+  //       // localStorage already updated, so UI still shows changes
+  //       return false;
+  //     }
+  //   } catch (err) {
+  //     console.error('❌ Error:', err);
+  //     return false;
+  //   }
+  // };
 
   const renderContent = () => {
     switch(selectedMenu) {
@@ -121,15 +121,15 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'BasicInformation':
         return (
-          <BasicInformationPage userData={userData} onUpdate={handleUpdateProfile}/>
+          <BasicInformationPage userData={userData} />
         )
       case 'YourFiles':
         return (
-          <YourFilesPage userData={userData} onUpdate={handleUpdateProfile}/>
+          <YourFilesPage userData={userData} />
         )
       case 'ContactInformation':
         return (
-          <ContactInformationPage userData={userData} onUpdate={handleUpdateProfile}/>
+          <ContactInformationPage userData={userData} />
         )
       case 'ChangePassword':
         return (
