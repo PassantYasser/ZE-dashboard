@@ -7,10 +7,32 @@ import { useState, useRef } from 'react'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import DeleteDialogPage from './DeleteDialog/page'
+import { useDispatch } from 'react-redux'
+import { AddIpnThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData}) {
   const {t}=useTranslation()
   
+  //api
+  const dispatch = useDispatch();
+
+
+const handleSubmitIpn = () => {
+  const formData = new FormData();
+  formData.append('ipn_num', iban);
+  formData.append('ipn_image', imageFile);
+
+  if (selectedFile) {
+    formData.append('file', selectedFile);
+  }
+
+  // for (let pair of formData.entries()) {
+  //   console.log(pair[0], pair[1]);
+  // }
+
+  dispatch(AddIpnThunk(formData));
+};
+
 
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -61,22 +83,28 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
     setIsMarketer(event.target.checked)
   }
 
+const [iban, setIban] = useState('');
 
   //upload image
   const [selectedImage, setSelectedImage] = useState(null)
+  const [imageFile, setImageFile] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImageFile(file);
       const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      setSelectedImage(imageUrl); 
     }
   };
 
+
   const handleDeleteImage = () => {
     setSelectedImage(null);
+    setImageFile(null);
     setOpen(false);
-  }
+  };
+
 
   const [open, setOpen] = useState(false);
 
@@ -87,6 +115,7 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
   const handleFileChange = (event) => {
     const file = event.target.files[0]
     if (file) {
+      console.log('File selected:', file.name, file.size, file.type);
       setSelectedFile(file)
     }
   }
@@ -117,6 +146,8 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
             <p className=' text-[#364152] text-sm font-normal mb-1.5'>{t('IBAN number')}</p>
             <input 
               type="text" 
+              value={iban}
+              onChange={(e) => setIban(e.target.value)}
               className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-[3px] outline-none placeholder:text-sm 
                           ${!is_marketer ? 'bg-[#EEF2F6] placeholder:text-[#9A9A9A]' : 'bg-white placeholder:text-[#9A9A9A]'}
                         `} 
@@ -171,6 +202,7 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
                   <span className='text-[#202939]'> AVIF, WORD, PDF </span>
                 </p>
                 <button 
+                  type="button"
                   onClick={handleUploadClick}
                   disabled={!is_marketer}
                   className= {`w-62.5 h-10 mt-4 ${!is_marketer ? 'bg-[#E3E8EF] text-[#9AA4B2]' : 'bg-[var(--color-primary)] text-white '} text-base font-medium rounded-[3px] cursor-pointer`}
@@ -188,6 +220,7 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
 
               {selectedFile && (
                 <div className='flex justify-between items-center mt-4 p-3 border border-[#CDD5DF] rounded-[3px] bg-[#fff]'>
+                  {/* {console.log('Rendering selectedFile block:', selectedFile.name)} */}
                   <div className='flex items-center gap-3'>
                   {(() => {
                     const ext = selectedFile.name.split('.').pop().toLowerCase();
@@ -221,7 +254,8 @@ function NullStatusPage({is_marketer, setIsMarketer, setMarketerStatus ,userData
 
           <button 
             disabled={!selectedImage}
-            onClick={() => setMarketerStatus('pending')}
+            onClick={handleSubmitIpn}
+            // onClick={() => setMarketerStatus('pending')}
             className={`mt-8 w-62.5 h-12 ${!selectedImage ? 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed' : 'bg-[var(--color-primary)] text-white cursor-pointer'} text-base font-medium rounded-[3px]`}
           >
             {t('It was completed')}

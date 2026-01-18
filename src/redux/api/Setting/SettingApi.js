@@ -45,3 +45,11 @@ export const deleteWithdrawsMarketer = async(marketerId)=>{
   const response = await API.post('/marketer/cancel/Withdraw' , {id:marketerId})
   return response.data
 }
+
+export const AddIpn = async(formData)=>{
+  const response = await API.post('/marketer/add-ipn' , formData , {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }})
+    return response
+}

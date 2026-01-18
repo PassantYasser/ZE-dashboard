@@ -21,7 +21,7 @@ function Marketer_PanelPage({userData}) {
 
 
   const [is_marketer, setIsMarketer] =useState(true);
-  const [marketerStatus, setMarketerStatus] = useState('active')//pending , active , rejected , null 
+  const [marketerStatus, setMarketerStatus] = useState(null) // [pending , active , rejected , null ]
   return (
     <>
     <div className='border border-[#E3E8EF]' >

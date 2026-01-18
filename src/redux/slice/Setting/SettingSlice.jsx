@@ -1,4 +1,4 @@
-import { CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getProfile, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -98,14 +98,29 @@ export const deleteWithdrawsMarketerThunk = createAsyncThunk('setting/deleteWith
   }
 )
 
+export const AddIpnThunk = createAsyncThunk('setting/AddIpnThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await AddIpn(formData)
+      // console.log('AddIpnThunk' , response);
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to post data of IPN");
+    }
+  }
+)
+
 const initialState ={
-  successEmail:false,
   loading: false,
   error: null,
+
+  successEmail:false,
   otpVerified: false,
   otpLoading: false,
   otpError: null,
+
   profileData:null,
+
   successPhone:false,
   otpPhoneVerified: false,
   otpPhoneLoading: false,
@@ -114,6 +129,8 @@ const initialState ={
   cardData:[],
   withdrawsData:[],
   last_page: 1,
+
+  ipnData: null,
   
 }
 const settingSlice = createSlice({
@@ -140,8 +157,8 @@ const settingSlice = createSlice({
 
   extraReducers:(builder)=>{
     builder
-    //
-    .addCase(changeEmailThunk.pending, (state) => {
+      //changeEmail
+      .addCase(changeEmailThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -153,7 +170,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      //
+      //verifyEmailOtp
       .addCase(verifyEmailOtpThunk.pending, (state) => {
         state.otpLoading = true;
         state.otpError = null;
@@ -166,7 +183,7 @@ const settingSlice = createSlice({
         state.otpLoading = false;
         state.otpError = action.payload;
       })
-      //
+      //getProfile
       .addCase(getProfileThunk.pending , (state)=>{
         state.loading = true ;
         state.error = null;
@@ -179,7 +196,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      //
+      //changePhone
       .addCase(changePhoneThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -192,7 +209,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      //
+      //verifyPhoneOtp
       .addCase(verifyPhoneOtpThunk.pending, (state) => {
         state.otpPhoneLoading = true;
         state.otpPhoneError = null;
@@ -205,7 +222,7 @@ const settingSlice = createSlice({
         state.otpPhoneLoading = false;
         state.otpPhoneError = action.payload;
       })
-      //
+      //CardMarketer
       .addCase(CardMarketerThunk.pending , (state)=>{
         state.loading = true;
         state.error = null;
@@ -218,7 +235,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      //
+      //withdrawsMarketer
       .addCase(withdrawsMarketerThunk.pending , (state)=>{
         state.loading = true;
         state.error = null;
@@ -232,7 +249,7 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      //
+      //deleteWithdraws
       .addCase(deleteWithdrawsMarketerThunk.pending , (state)=>{
         state.loading = true;
         state.error = null;
@@ -247,6 +264,19 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //AddIpn
+      .addCase(AddIpnThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AddIpnThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.ipnData = action.payload;
+      })
+      .addCase(AddIpnThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
 }
 })
 
