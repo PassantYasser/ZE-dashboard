@@ -18,10 +18,16 @@ function Marketer_PanelPage({userData}) {
     dispatch(CardMarketerThunk())
   },[dispatch])
 
+  useEffect(() => {
+    if (cardData) {
+      setIsMarketer(cardData.is_markter);
+      setMarketerStatus(cardData.markter_status);
+    }
+  }, [cardData]);
 
+  const [is_marketer, setIsMarketer] =useState(cardData?.is_markter);
+  const [marketerStatus, setMarketerStatus] = useState(cardData?.markter_status) // [pending , active , rejected , null ]
 
-  const [is_marketer, setIsMarketer] =useState(true);
-  const [marketerStatus, setMarketerStatus] = useState(null) // [pending , active , rejected , null ]
   return (
     <>
     <div className='border border-[#E3E8EF]' >
