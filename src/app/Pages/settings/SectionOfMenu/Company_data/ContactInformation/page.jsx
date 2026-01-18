@@ -3,9 +3,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
+import { useDispatch } from "react-redux";
+import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
+import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
 
 function ContactInformationPage({userData, onUpdate}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const [contactData, setContactData] = useState({
     company_phone: userData?.company_phone || "",
@@ -26,21 +30,34 @@ function ContactInformationPage({userData, onUpdate}) {
     setContactData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async () => {
-    if (!onUpdate) return;
-    
-    const formData = new FormData();
-    formData.append('company_phone', contactData?.company_phone);
-    formData.append('wts_number', contactData?.wts_number);
-    
-    const success = await onUpdate(formData);
-    if (success) {
-      alert(t('Profile updated successfully!'));
-      console.log('✅ Saved to database and localStorage');
-    } else {
-      alert(t('Failed to update profile'));
+  const handleSaveChanges = async () => {
+    try {
+      const formData = {
+        company_phone: contactData.company_phone,
+        wts_number: contactData.wts_number,
+      };
+
+      // 1️⃣ Update backend
+      await dispatch(UpdateInSignupThunk(formData)).unwrap();
+
+      // 2️⃣ Fetch updated profile
+      const data = await dispatch(getProfileThunk()).unwrap();
+      const updatedUserData = data.provider || data;
+
+      if (updatedUserData) {
+        // 3️⃣ Sync localStorage
+        localStorage.setItem("user", JSON.stringify(updatedUserData));
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      alert("Changes saved successfully!");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to save changes");
     }
   };
+
+
 
   return (
     <div className="border border-[#E3E8EF] mb-8">
@@ -82,8 +99,8 @@ function ContactInformationPage({userData, onUpdate}) {
 
         {/* btn */}
         <button 
+          onClick={handleSaveChanges}
           className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] mt-6 cursor-pointer"
-          onClick={handleSave}
         >
           {t('Save changes')}
         </button>

@@ -193,7 +193,7 @@ function BasicInformationPage({userData}) {
           <input 
             type="text"
             name="company_name"
-            value={formData.company_name}
+            value={formData?.company_name}
             onChange={handleInputChange}
             placeholder={t('Enter the company name')}             
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
@@ -207,7 +207,7 @@ function BasicInformationPage({userData}) {
             type="text"
             name="short_bio"
             placeholder={t('Enter the company description')} 
-            value={formData.short_bio}  
+            value={formData?.short_bio}  
             onChange={handleInputChange}           
             className="h-30 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none  placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
