@@ -5,7 +5,7 @@ import Header from "./Header";
 import { useDispatch, useSelector } from "react-redux";
 import { resetChangePasswordState, setNewPasswordThunk } from "@/redux/slice/Setting/SettingSlice";
 
-function ChangePasswordPage({userData}) {
+function ChangePasswordPage() {
   const { t } = useTranslation();
   //api
   const dispatch = useDispatch();

@@ -3,28 +3,71 @@ import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Header from "./Header";
 import MapDialog from "./MapDialog";
+import { useDispatch } from "react-redux";
+import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
+import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
 
-function CompanyAddressPage({userData}) {
+function CompanyAddressPage({userData }) {
   const { t } = useTranslation();
 
-  console.log(userData);
-    //map
-      const [address, setAddress] = useState(userData?.address);
-      const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  //map
+  const [address, setAddress] = useState(userData?.address);
+  const [street, setStreet] = useState(userData?.street || "");
+  const [famousSign, setFamousSign] = useState(userData?.famous_sign || "");
+  const [blockNo, setBlockNo] = useState(userData?.block_no || "");
+  const [aptNo, setAptNo] = useState(userData?.apt_no || "");
+  const [open, setOpen] = useState(false);
 
-      const handleConfirm = (newAddress) => {
-        setAddress(newAddress);
-      };
-    
-      const handleClickOpen = () => {
-        setOpen(true);
-      };
-    
-      const handleClose = () => {
-        setOpen(false);
+  const handleConfirm = (newAddress) => {
+    setAddress(newAddress);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      const formData = {
+        address,
+        street,
+        famous_sign: famousSign,
+        block_no: blockNo,
+        apt_no: aptNo,
       };
 
+      // 1️⃣
+      await dispatch(UpdateInSignupThunk(formData)).unwrap();
 
+      // 2️⃣
+      const data = await dispatch(getProfileThunk()).unwrap();
+      const userData = data.provider || data;
+
+      if (userData) {
+        // 3️⃣
+        localStorage.setItem("user", JSON.stringify(userData));
+        window.dispatchEvent(new Event("storage"));
+      }
+
+      setAddress(userData?.address || "");
+      setStreet(userData?.street || "");
+      setFamousSign(userData?.famous_sign || "");
+      setBlockNo(userData?.block_no || "");
+      setAptNo(userData?.apt_no || "");
+
+      alert("Changes saved successfully!");
+    } catch (err) {
+      console.error("Update failed:", err);
+      alert("Failed to save changes");
+    }
+  };
+
+  
   return (
     <div className="border border-[#E3E8EF] mb-8">
       <Header />
@@ -61,8 +104,8 @@ function CompanyAddressPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('street')}</p>
           <input 
             type="text"
-            value={userData?.street}
-            readOnly
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
         </div>
@@ -72,8 +115,8 @@ function CompanyAddressPage({userData}) {
           <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('famous sign')}</p>
           <input 
             type="text"
-            value={userData?.famous_sign}
-            readOnly
+            value={famousSign}
+            onChange={(e) => setFamousSign(e.target.value)}
             className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
           />
         </div>
@@ -84,8 +127,8 @@ function CompanyAddressPage({userData}) {
             <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('Property number')}</p>
             <input 
               type="text"
-              value={userData?.block_no}
-              readOnly
+              value={blockNo}
+              onChange={(e) => setBlockNo(e.target.value)}
               className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
             />
           </div>
@@ -95,8 +138,8 @@ function CompanyAddressPage({userData}) {
             <p className="text-[#4B5565] text-base font-normal  mb-1.5">{t('Apartment number')}</p>
             <input 
               type="text"
-              value={userData?.apt_no}
-              readOnly
+              value={aptNo}
+              onChange={(e) => setAptNo(e.target.value)}
               className="h-14 p-3 w-full rounded-[3px] border border-[#E3E8EF] shadow-xm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" 
             />
           </div>
@@ -104,7 +147,9 @@ function CompanyAddressPage({userData}) {
 
 
         {/* btn */}
-        <button className="bg-[var(--color-primary)] h-15 w-62.5 mt-6 text-[#fff] text-base font-medium rounded-[3px]">
+        <button 
+          onClick={handleSaveChanges}
+          className="bg-[var(--color-primary)] h-15 w-62.5 mt-6 text-[#fff] text-base font-medium rounded-[3px]">
           {t('Save changes')}
         </button>
       </section>

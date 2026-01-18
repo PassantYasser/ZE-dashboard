@@ -133,11 +133,11 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'ChangePassword':
         return (
-          <ChangePasswordPage userData={userData} />
+          <ChangePasswordPage  />
         )
       case 'CompanyAddress':
         return (
-          <CompanyAddressPage userData={userData} onUpdate={handleUpdateProfile}/>
+          <CompanyAddressPage userData={userData}/>
         )
       case 'Personal_data':
         return (
@@ -149,7 +149,7 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'Activity_settings':
         return (
-          <Activity_settingsPage userData={userData}/>
+          <Activity_settingsPage />
         )
     
     }

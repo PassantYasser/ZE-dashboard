@@ -68,8 +68,8 @@ function OtpEmailPage({openOtpEmail ,setOpenOtpEmail ,setOpenEmail, email ,dispa
           const userData = data.provider || data;
 
           if (userData) {
-             localStorage.setItem('user', JSON.stringify(userData));
-             window.dispatchEvent(new Event("storage"));
+            localStorage.setItem('user', JSON.stringify(userData));
+            window.dispatchEvent(new Event("storage"));
           }
           
           setOpenOtpEmail(false);
