@@ -8,8 +8,7 @@ import EmailDialogPage from './Dialogs/EmailDialog/page';
 import PhoneDialogPage from './Dialogs/PhoneDialog/page';
 import OtpPhonePage from './Dialogs/OtpPhone/page';
 import OtpEmailPage from './Dialogs/OtpEmail/page';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeEmailThunk } from '@/redux/slice/Setting/SettingSlice';
+import { useDispatch} from 'react-redux';
 
 
 function Personal_dataPage({ userData }) {
