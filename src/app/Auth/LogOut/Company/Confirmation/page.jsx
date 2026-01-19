@@ -20,7 +20,7 @@ function ConfirmationPage() {
           <div className=''>
             <Link href='/Auth/Login' className='w-full flex justify-center'>
               <button  
-                className='w-[30%] h-15 bg-[#DDA918] text-white text-base font-medium rounded-[3px] '>
+                className='w-[30%] h-15 bg-[var(--color-primary)] text-white text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('Log in')}
               </button>
             </Link>

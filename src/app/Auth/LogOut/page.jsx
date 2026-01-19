@@ -36,7 +36,7 @@ function LogOutPage() {
             </Link>
 
             <Link 
-              href='/Auth/LogOut/Freelance' 
+              href='/Auth/LogOut/Company' 
               onClick={()=>handleRole('freelance')}
               className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
               <span className='flex justify-center mb-5'>
