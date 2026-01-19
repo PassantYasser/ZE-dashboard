@@ -39,7 +39,7 @@ function InformationDataPage({userData}) {
         </p>
       </div>
 
-        <div className='grid grid-cols-2 gap-3 mb-4'>
+        <div className='grid grid-cols-1 lg1:grid-cols-2 gap-3 mb-4'>
 
         <div>
           <p className='mb-1.5 text-[#364152] text-sm font-normal'>{t('Front national ID card photo')}</p>

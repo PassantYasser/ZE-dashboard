@@ -111,6 +111,7 @@ const [iban, setIban] = useState('');
   // Upload file
   const [selectedFile, setSelectedFile] = useState(null)
   const fileInputRef = useRef(null)
+  const mobileImageInputRef = useRef(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0]
@@ -144,16 +145,24 @@ const [iban, setIban] = useState('');
 
           <div className='mt-4'>
             <p className=' text-[#364152] text-sm font-normal mb-1.5'>{t('IBAN number')}</p>
-            <input 
-              type="text" 
-              value={iban}
-              onChange={(e) => setIban(e.target.value)}
-              className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-[3px] outline-none placeholder:text-sm 
-                          ${!is_marketer ? 'bg-[#EEF2F6] placeholder:text-[#9A9A9A]' : 'bg-white placeholder:text-[#9A9A9A]'}
-                        `} 
-              placeholder={t('Enter your IBAN number')}
-              disabled={!is_marketer? true : false}
-            />
+            <div className="relative">
+              <input 
+                type="text" 
+                value={iban}
+                onChange={(e) => setIban(e.target.value)}
+                className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-[3px] outline-none placeholder:text-sm 
+                            ${!is_marketer ? 'bg-[#EEF2F6] placeholder:text-[#9A9A9A]' : 'bg-white placeholder:text-[#9A9A9A]'}
+                          `} 
+                placeholder={t('Enter your IBAN number')}
+                disabled={!is_marketer? true : false}
+              />
+              <button 
+                className="absolute left-3 top-1/2 -translate-y-1/2 lg1:hidden cursor-pointer"
+                onClick={() => mobileImageInputRef.current?.click()}
+              >
+                <img src="/images/icons/scan.svg" alt="Scan" className="w-6 h-6" />
+              </button>
+            </div>
 
             {/* Image Upload Input */}
             <div className='mt-4'>
@@ -173,15 +182,28 @@ const [iban, setIban] = useState('');
                 ) : (
                   <>
                     <div className={`flex items-center justify-center gap-1.5 px-3 h-14 pointer-events-none border border-[#CDD5DF] text-[#364152] ${!is_marketer ? ' bg-[#E3E8EF] ' : 'bg-white'}`}>
-                      <span className='text-sm font-normal'>{t('Upload a picture')}</span>
+                      {/* Show "Take a photo" on mobile/tablet, "Upload a picture" on desktop */}
+                      <span className='text-sm font-normal block lg1:hidden'>{t('Take a photo')}</span>
+                      <span className='text-sm font-normal hidden lg1:block'>{t('Upload a picture')}</span>
                       <img src="/images/icons/camera.svg" alt="" />
                     </div>
+                    {/* Input for Mobile/Tablet - Opens Camera */}
+                    <input
+                      type="file"
+                      ref={mobileImageInputRef}
+                      accept="image/*"
+                      capture="environment"
+                      disabled={!is_marketer}
+                      onChange={handleImageChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed lg1:hidden"
+                    />
+                    {/* Input for Desktop - Opens Gallery/Files */}
                     <input
                       type="file"
                       accept="image/*"
                       disabled={!is_marketer}
                       onChange={handleImageChange}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed hidden lg1:block"
                     />
                   </>
                 )}
