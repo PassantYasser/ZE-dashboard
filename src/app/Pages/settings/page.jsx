@@ -9,14 +9,14 @@ function SettingsPage() {
 
   return (
     <MainLayout>
-      <div className="grid grid-cols-[3fr_7fr] gap-4 ">
-        <div className=''>
+      <div className="flex gap-4 ">
+        <div className='w-[40%]'>
           <SidebarMenuPage 
             selectedMenu={selectedMenu} 
             setSelectedMenu={setSelectedMenu}
           />
         </div>
-        <div className=''>
+        <div className='w-[65%]'>
           <SectionOfMenuPage selectedMenu={selectedMenu} />
         </div>
       </div>

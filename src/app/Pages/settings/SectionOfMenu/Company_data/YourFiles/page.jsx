@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -197,7 +196,6 @@ function YourFilesPage({userData}) {
     }
   };
 
-  // Refs for file inputs
   const inputRefs = {
     commercialRecord: useRef(null),
     taxCard: useRef(null),
@@ -209,7 +207,7 @@ function YourFilesPage({userData}) {
     <div className="border border-[#E3E8EF] mb-8">
       <Header />
 
-      <section className="p-6 space-y-6">
+      <section className="lg1:p-6  pt-4 px-4 space-y-6">
         {Object.values(files).map((item) => {
           const { status, message, color, icon, date } = checkEndDate(
             item.endDate
@@ -221,8 +219,8 @@ function YourFilesPage({userData}) {
                 {t(item.label)}
               </label>
 
-              <div className="flex items-center p-4 border border-[#CDD5DF] rounded-[3px] gap-4 bg-white shadow-sm">
-                <div className="relative w-12 h-12 flex items-center justify-center">
+              <div className="flex items-center p-4 border border-[#CDD5DF] rounded-[3px] lg1:gap-4 gap-2  shadow-sm">
+                <div className="relative w-10 lg1:w-12  lg1:h-12 flex items-center justify-center">
                   <img
                     src="/images/filephoto.svg"
                     className="w-12 h-12"
@@ -239,9 +237,9 @@ function YourFilesPage({userData}) {
                   )}
                 </div>
 
-                <div className="flex-1">
-                  <p className="text-[#344054] font-medium text-sm">
-                    {item.file ? item.file.name : t("No file chosen")}
+                <div className="w-full">
+                  <p className="text-[#344054] font-medium text-sm truncate" title={item.file ? t(item.label) : t("No file chosen")}>
+                    {item.file ? t(item.label) : t("No file chosen")}
                   </p>
                   {item.file && (
                     <p className="text-[#697586] font-medium text-xs">{item.file.size}</p>
