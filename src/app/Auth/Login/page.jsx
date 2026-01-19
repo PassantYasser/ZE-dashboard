@@ -142,7 +142,7 @@ function LoginPage() {
               <span className="text-[#697586] text-lg font-normal">
                 {t("Dont have an account?")}
               </span>
-              <Link href='/Auth/Signup' className="text-[#9E7A11] text-lg font-medium">
+              <Link href='/Auth/LogOut' className="text-[#9E7A11] text-lg font-medium">
                 {t("Create an account")}
               </Link>
             </p>
