@@ -80,7 +80,7 @@ export const checkEnterPhone = async({phone})=>{
   return response.data;
 };
 
-//❌Verify phone otp
+//✔️Verify phone otp
 export const VerifyPhoneOtp = async(payload)=>{
   const response = await API.post('/provider/forgot-password/verify-otp',payload);
   return response.data;

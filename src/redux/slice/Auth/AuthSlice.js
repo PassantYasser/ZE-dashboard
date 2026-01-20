@@ -170,7 +170,7 @@ export const checkEnterPhoneThunk= createAsyncThunk('auth/checkPassEnterPhoneThu
   }
 )
 
-//❌verify phone otp
+//✔️verify phone otp
 export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
   async(payload , thunkAPI)=>{
     try{

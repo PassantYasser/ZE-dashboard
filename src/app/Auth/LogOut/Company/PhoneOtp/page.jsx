@@ -5,10 +5,16 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { VerifyPhoneOtpThunk } from '@/redux/slice/Auth/AuthSlice'
+import { useRegistration } from '../../RegistrationContext'
 
 function PhoneOtpPage() {
       const {t}=useTranslation()
       const router = useRouter();
+      const dispatch = useDispatch();
+      const { registrationData } = useRegistration();
+      const { loading, error } = useSelector((state) => state.auth);
       
       const [otpValues, setOtpValues] = useState(["", "", "", ""]);
       const [showError, setShowError] = useState(false);
@@ -50,11 +56,20 @@ function PhoneOtpPage() {
         }
       }, [timeLeft, canResend]);
 
-      const handleResend = () => {
-        console.log("📩 Resend OTP (frontend only)");
-        setTimeLeft(30);
-        setCanResend(false);
-        setOtpValues(["", "", "", ""]);
+      const handleResend = async () => {
+        try {
+          await dispatch(checkEnterPhoneThunk({ 
+            phone: `${registrationData.country_code}${registrationData.phone}` 
+          })).unwrap();
+          
+          console.log("📩 OTP Resent successfully");
+          setTimeLeft(30);
+          setCanResend(false);
+          setOtpValues(["", "", "", ""]);
+          setShowError(false);
+        } catch (error) {
+          console.error("Failed to resend OTP:", error);
+        }
       };
   
   return (
@@ -75,8 +90,10 @@ function PhoneOtpPage() {
             </p>
             <p className="text-center text-lg text-[#656565] mt-4 w-[400px]">
                 {t('Please enter the code we sent you')}
-                <span className="font-semibold text-[var(--color-primary)]">1408985*** </span>
-                {t('To check the code')}
+                <span className="font-semibold text-[var(--color-primary)]">
+                  {registrationData?.country_code}{registrationData?.phone || '***'}
+                </span>
+                {' '}{t('To check the code')}
             </p>
           </div>
 
@@ -103,6 +120,12 @@ function PhoneOtpPage() {
                 />
               ))}
             </form>
+
+            {(showError || error) && (
+              <p className="text-red-500 mt-3 text-sm text-center">
+                {error || t("Invalid OTP code. Please try again.")}
+              </p>
+            )}
           </div>
 
           <div className="mt-6">
@@ -137,10 +160,31 @@ function PhoneOtpPage() {
             </Link>
 
             <button
-              onClick={()=>router.push('/Auth/LogOut/Company/SetPassword')}
-              className="px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded cursor-pointer"
+              onClick={async () => {
+                const otpCode = otpValues.join('');
+                
+                if (otpCode.length !== 4) {
+                  setShowError(true);
+                  return;
+                }
+
+                try {
+                  await dispatch(VerifyPhoneOtpThunk({ 
+                    phone: `${registrationData.country_code}${registrationData.phone}`,
+                    otp: otpCode 
+                  })).unwrap();
+                  
+                  // If verification successful, navigate to SetPassword
+                  router.push('/Auth/LogOut/Company/SetPassword');
+                } catch (error) {
+                  console.error("OTP verification failed:", error);
+                  setShowError(true);
+                }
+              }}
+              disabled={loading}
+              className={`px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded ${loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
             >
-              {t("the next")}
+              {loading ? t("Loading...") : t("the next")}
             </button>
           </div>
         

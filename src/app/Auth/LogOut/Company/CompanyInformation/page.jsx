@@ -7,6 +7,7 @@ import 'react-phone-input-2/lib/style.css'
 import { useRouter } from "next/navigation";
 import { useRegistration } from '../../RegistrationContext'
 import { useDispatch, useSelector } from 'react-redux'
+import { checkEnterPhoneThunk } from '@/redux/slice/Auth/AuthSlice'
 
 
 function CompanyInformationPage() {
@@ -53,9 +54,23 @@ function CompanyInformationPage() {
 
 
 
-    const handleNext = () => {
+    const dispatch = useDispatch();
+
+    const handleNext = async () => {
       updateRegistrationData(formData);
-      router.push("/Auth/LogOut/Company/PhoneOtp");
+      
+      // Send OTP to the phone number
+      try {
+        const result = await dispatch(checkEnterPhoneThunk({ 
+          phone: `${formData.country_code}${formData.phone}` 
+        })).unwrap();
+        
+        // If OTP sent successfully, navigate to OTP page
+        router.push("/Auth/LogOut/Company/PhoneOtp");
+      } catch (error) {
+        console.error("Failed to send OTP:", error);
+        // Error will be displayed from Redux state
+      }
     };
 
   return (
