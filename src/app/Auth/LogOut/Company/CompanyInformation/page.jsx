@@ -19,6 +19,7 @@ function CompanyInformationPage() {
       firstname: registrationData?.firstname || '',
       lastname: registrationData?.lastname || '',
       phone: registrationData?.phone || '',
+      country_code: registrationData?.country_code || '',
     });
 
     const handleChange = (e) => {
@@ -28,15 +29,28 @@ function CompanyInformationPage() {
       updateRegistrationData(updated);
     };
 
-    const handlePhoneChange = (value) => {
-      const updated = { 
-        ...formData, 
-        phone: value, 
-      };
-      setFormData(updated);
-      updateRegistrationData(updated);
+    // const handlePhoneChange = (value) => {
+    //   const updated = { 
+    //     ...formData, 
+    //     phone: value, 
+    //   };
+    //   setFormData(updated);
+    //   updateRegistrationData(updated);
+    // };
+  const handlePhoneChange = (value, country) => {
+    const dialCode = `+${country.dialCode}`;
+    const phoneNumber = value.replace(country.dialCode, '');
+
+    const updated = {
+      ...formData,
+      country_code: dialCode,
+      phone: phoneNumber,
     };
-  
+
+    setFormData(updated);
+    updateRegistrationData(updated);
+  };
+
 
 
     const handleNext = () => {
@@ -98,7 +112,7 @@ function CompanyInformationPage() {
               <div className='mt-3'>
                 <PhoneInput
                   country={'sa'}
-                  value={formData?.phone}
+                  value={`${formData.country_code}${formData.phone}`}
                   onChange={handlePhoneChange}
                   placeholder="000000000"
                   containerClass="!w-full"

@@ -74,7 +74,7 @@ export const checkEmail = async(email)=>{
   return response.data
 }
 
-//❌Enter phone to send otp type: new
+//✔️Enter phone to send otp type: new
 export const checkEnterPhone = async({phone})=>{
   const response = await API.post('/provider/forgot-password/send-otp',{phone,'type':'new'});
   return response.data;

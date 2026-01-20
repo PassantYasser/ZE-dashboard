@@ -156,7 +156,7 @@ export const checkEmailThunk = createAsyncThunk('auth/checkEmailThunk',
   }
 )
 
-//❌enter phone to send otp for new phone number
+//✔️enter phone to send otp for new phone number
 export const checkEnterPhoneThunk= createAsyncThunk('auth/checkPassEnterPhoneThunk',
   async({phone} , thunkAPI)=>{
     try{
