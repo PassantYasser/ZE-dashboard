@@ -1,23 +1,12 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
 
-// // // login form (email and password)
-// export const loginThunk = createAsyncThunk('auth/loginThunk',
-//   async(loginData , thunkAPI)=>{
-//     try{
-//       const data = await login(loginData)
-//       localStorage.setItem('token', data.access_token)
-//       localStorage.setItem('provider_id', data.provider.id);
-//       return data
-//     }catch(error){
-//       return thunkAPI.rejectWithValue(
-//         error.response.data.message || 'Login failed'
-//       )
-//     }
-//   }
-// );
+
+/* ========== AUTH Slice ========== */
+
+// login form (email and password)
 export const loginThunk = createAsyncThunk(
   "auth/loginThunk",
   async (loginData, thunkAPI) => {
@@ -45,7 +34,6 @@ export const loginThunk = createAsyncThunk(
   }
 );
 
-
 // get current login user in navbar
 export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk',
   async(_,thunkAPI)=>{
@@ -62,6 +50,9 @@ export const getCurrentLoginThunk = createAsyncThunk('auth/getCurrentLoginThunk'
   }
 )
 
+
+/* ========== FORGET PASSWORD Slice ========== */
+
 // forget password - enter email to send otp 
 export const forgetPassEnterEmailThunk= createAsyncThunk('auth/forgetPassEnterEmailThunk',
   async({email} , thunkAPI)=>{
@@ -75,7 +66,6 @@ export const forgetPassEnterEmailThunk= createAsyncThunk('auth/forgetPassEnterEm
     }
   }
 )
-
 
 // forget password - enter phone to send otp
 export const forgetPassEnterPhoneThunk= createAsyncThunk('auth/forgetPassEnterPhoneThunk',
@@ -91,7 +81,6 @@ export const forgetPassEnterPhoneThunk= createAsyncThunk('auth/forgetPassEnterPh
   }
 )
 
-
 // forget password - verify email otp
 export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVerifyEmailOtpThunk',
   async(payload , thunkAPI)=>{
@@ -106,7 +95,7 @@ export const forgetPassVerifyEmailOtpThunk= createAsyncThunk('auth/forgetPassVer
     }}
   )
 
-// // forget password - verify phone otp
+// forget password - verify phone otp
 export const forgetPassVerifyPhoneOtpThunk= createAsyncThunk('auth/forgetPassVerifyPhoneOtpThunk',
   async(payload , thunkAPI)=>{
     try{
@@ -132,8 +121,10 @@ export const resetPasswordThunk = createAsyncThunk(
   }
 );
 
-// ---------------------------------------------------------------------------------------------------
-// signup form
+
+/* ========== old SIGNUP Slice ========== */
+
+//❌signup form
 export const signupThunk = createAsyncThunk(
   "auth/signupThunk",
   async (formData, { rejectWithValue }) => {
@@ -151,7 +142,7 @@ export const signupThunk = createAsyncThunk(
   }
 );
 
-// check email if exists
+//❌check email if exists
 export const checkEmailThunk = createAsyncThunk('auth/checkEmailThunk',
   async(email , thunkAPI)=>{
     try{
@@ -165,7 +156,7 @@ export const checkEmailThunk = createAsyncThunk('auth/checkEmailThunk',
   }
 )
 
-// enter phone to send otp for new phone number
+//❌enter phone to send otp for new phone number
 export const checkEnterPhoneThunk= createAsyncThunk('auth/checkPassEnterPhoneThunk',
   async({phone} , thunkAPI)=>{
     try{
@@ -179,7 +170,7 @@ export const checkEnterPhoneThunk= createAsyncThunk('auth/checkPassEnterPhoneThu
   }
 )
 
-//  verify phone otp
+//❌verify phone otp
 export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
   async(payload , thunkAPI)=>{
     try{
@@ -192,7 +183,7 @@ export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
     }
   })
 
-  // send email to send otp for new email
+//❌ send email to send otp for new email
 export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
   async({email} , thunkAPI)=>{
     try{
@@ -206,7 +197,7 @@ export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
   }
 )
 
-// forget password - verify email otp
+//❌forget password - verify email otp
 export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
   async(payload , thunkAPI)=>{
     try{
@@ -220,6 +211,25 @@ export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
     }}
   )
 
+/* ==========  ✔️NEW SIGNUP Slice ========== */
+export const FirstRegistrationThunk = createAsyncThunk('auth/FirstRegistrationThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await FirstRegistration(formData)
+      console.log('FirstRegistrationThunk' ,response.data );
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data?.message || "Failed to sign up data");
+    }
+  }
+)
+
+
+
+
+
+
+/**update-profile (very important) */
 export const UpdateInSignupThunk = createAsyncThunk('auth/UpdateInSignupThunk',
     async(formData,{rejectWithValue})=>{
       try{
@@ -252,6 +262,8 @@ const initialState = {
 
   //signup
   emailExists: null,
+  registerationData:null,
+  role: "", // Add role here
 
 };
 
@@ -268,12 +280,18 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
+      state.role = "";
+    },
+    setRole: (state, action) => {
+      state.role = action.payload;
     },
   },
 
   
   extraReducers:(builder)=>{
     builder
+
+/* ========== Login ========== */
     // loginThunk
       .addCase(loginThunk.pending, (state) => {
         state.loading = true;
@@ -308,6 +326,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
 
+/* ========== FORGET PASSWORD APIs ========== */
     // forgetPassEnterEmailThunk
       .addCase(forgetPassEnterEmailThunk.pending, (state) => {
         state.loading = true;
@@ -380,7 +399,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+/* ==========  ❌old SIGNUP APIs ========== */
       // signupThunk
       .addCase(signupThunk.pending, (state) => {
           state.loading = true;
@@ -468,6 +487,31 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })  
+/* ==========  ✔️NEW SIGNUP APIs ========== */
+      .addCase(FirstRegistrationThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(FirstRegistrationThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.registerationData = action.payload;
+      })
+      .addCase(FirstRegistrationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+
+
+
+
+
+
+
+
+
+
+
 
         // UpdateInSignupThunk
       .addCase(UpdateInSignupThunk.pending, (state) => {
@@ -493,6 +537,6 @@ const authSlice = createSlice({
   }
 })
 
-export const {logout } = authSlice.actions;
+export const {logout, setRole } = authSlice.actions;
 
 export default authSlice.reducer;

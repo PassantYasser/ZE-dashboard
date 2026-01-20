@@ -7,13 +7,8 @@ export const login = async(FormData)=>{
   const response = await API.post('/provider/login',FormData)
   //to save data of user in local storage
   if(response.data.provider){
-    // Get existing user data from localStorage
     const existingUser = JSON.parse(localStorage.getItem('user') || '{}');
-    
-    // Merge existing data with new login data
-    // New data from API takes priority, but we keep any extra fields from localStorage
-    const mergedUser = { ...existingUser, ...response.data.provider };
-    
+    const mergedUser = { ...existingUser, ...response.data.provider };  
     localStorage.setItem('user', JSON.stringify(mergedUser))
   }
   return response.data
@@ -64,9 +59,8 @@ export const resetPassword = async(payload)=>{
 
 // ----------------------------------------------------------------------------------------------------
 
-/* ========== SIGNUP APIs ========== */
-// signup
-
+/* ==========  old SIGNUP APIs ========== */
+//❌ signup
 export const signup = async (formData) => {
   const response = await API.post("/provider/register", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -74,37 +68,54 @@ export const signup = async (formData) => {
   return response.data;
 };
 
-// check email if exists
+//❌ check email if exists
 export const checkEmail = async(email)=>{
   const response = await  API.post('/provider/check-email',{email})
   return response.data
 }
 
-//Enter phone to send otp type: new
+//❌Enter phone to send otp type: new
 export const checkEnterPhone = async({phone})=>{
   const response = await API.post('/provider/forgot-password/send-otp',{phone,'type':'new'});
   return response.data;
 };
 
-//Verify phone otp
+//❌Verify phone otp
 export const VerifyPhoneOtp = async(payload)=>{
   const response = await API.post('/provider/forgot-password/verify-otp',payload);
   return response.data;
 }
 
-//Enter email to send otp type: forgot
+//❌Enter email to send otp type: forgot
 export const sendEmail = async({email})=>{
   const response = await API.post('/provider/send-email-otp',{email,'type':'new'});
   return response.data;
 };
 
-//Verify email otp
+//❌Verify email otp
 export const VerifyEmailOtp = async(payload)=>{
   const response = await API.post('/provider/verify-email-otp',payload);
   return response.data;
 };
 
-// //update in signup data or complete signup
+/* ==========  NEW SIGNUP APIs ========== */
+
+export const FirstRegistration = async(formData)=>{
+  const response = await API.post('/register/basic', formData , {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  console.log('FirstRegistration',response);
+  return response
+}
+
+
+
+
+
+
+// update in [signup & setting] data or complete signup
 export const UpdateInSignup = async (FormData) => {
   const isFormData = FormData instanceof global.FormData;
   const response = await API.post("/provider/update-profile", FormData, {

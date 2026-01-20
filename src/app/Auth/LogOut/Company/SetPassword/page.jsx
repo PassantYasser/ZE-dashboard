@@ -5,13 +5,19 @@ import SecondSection from '@/app/Components/login/SecondSection'
 import Have_an_account from '@/app/Components/login/Have_an_account'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { FirstRegistrationThunk } from '@/redux/slice/Auth/AuthSlice'
+import { useRegistration } from '../../RegistrationContext'
 
 function SetPasswordPage() {
   const {t}=useTranslation()
   const router = useRouter();
+  const dispatch = useDispatch();
+  const { registrationData, updateRegistrationData } = useRegistration();
+  const { loading, error: apiError } = useSelector((state) => state.auth);
 
-  const [password , setPassword] = useState('');
-  const [password_confirmation , setPassword_confirmation] = useState('');
+  const [password , setPassword] = useState(registrationData.password || '');
+  const [password_confirmation , setPassword_confirmation] = useState(registrationData.password_confirmation || '');
 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -24,8 +30,10 @@ function SetPasswordPage() {
 
     if (name === "password") {
       setPassword(value);
+      updateRegistrationData({ password: value });
     } else if (name === "password_confirmation") {
       setPassword_confirmation(value);
+      updateRegistrationData({ password_confirmation: value });
     }
   };
 
@@ -50,6 +58,23 @@ function SetPasswordPage() {
     }
   }, [password, password_confirmation, t]);
 
+  const handleConfirm = () => {
+    if (error || !rules.length || !rules.uppercase || !rules.number || !rules.symbol) {
+      return;
+    }
+
+    const fullData = {
+      ...registrationData,
+      password,
+      password_confirmation
+    };
+
+    dispatch(FirstRegistrationThunk(fullData)).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        router.push('/Auth/LogOut/Company/Confirmation');
+      }
+    });
+  }
 
 
       
@@ -159,6 +184,12 @@ function SetPasswordPage() {
             
           </form>
 
+          {apiError && (
+            <p className="text-red-500 mt-4 text-sm">
+              {typeof apiError === 'string' ? apiError : (apiError.message || t("An error occurred"))}
+            </p>
+          )}
+
           <div className='flex gap-6 justify-center mb-12 mt-10'>
             <Link 
               href='/Auth/LogOut/Company'
@@ -167,10 +198,11 @@ function SetPasswordPage() {
               {t('the previous')}
             </Link>
             <button
-              onClick={()=>router.push('Confirmation')}
-              className="px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              onClick={handleConfirm}
+              disabled={loading || error}
+              className={`px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {t('confirmation')}
+              {loading ? t('Loading...') : t('confirmation')}
             </button>
           </div>
           

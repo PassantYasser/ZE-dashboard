@@ -1,15 +1,45 @@
 "use client"
 import Have_an_account from '@/app/Components/login/Have_an_account'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { useRouter } from "next/navigation";
+import { useRegistration } from '../../RegistrationContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { FirstRegistrationThunk } from '@/redux/slice/Auth/AuthSlice'
 
 
 function CompanyInformationPage() {
     const {t}=useTranslation()
-  const router = useRouter();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { registrationData, updateRegistrationData } = useRegistration();
+    const { loading, error } = useSelector((state) => state.auth);
+
+    const [formData, setFormData] = useState({
+      firstname: registrationData.firstname || '',
+      lastname: registrationData.lastname || '',
+      phone: registrationData.phone || '',
+    });
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      const updated = { ...formData, [name]: value };
+      setFormData(updated);
+      updateRegistrationData(updated);
+    };
+
+    const handlePhoneChange = (value) => {
+      const updated = { ...formData, phone: value };
+      setFormData(updated);
+      updateRegistrationData(updated);
+    };
+
+    const handleNext = () => {
+      updateRegistrationData(formData);
+      router.push("/Auth/LogOut/Company/PhoneOtp");
+    };
 
   return (
     <>
@@ -39,6 +69,8 @@ function CompanyInformationPage() {
               <input
                 type="text"
                 name="firstname"
+                value={formData.firstname}
+                onChange={handleChange}
                 className=" h-15 p-3 w-full border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none"
                 placeholder={t("Enter first name")}
               />
@@ -50,6 +82,8 @@ function CompanyInformationPage() {
               <input
                 type="text"
                 name="lastname"
+                value={formData.lastname}
+                onChange={handleChange}
                 className=" h-15 p-3 w-full border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none"
                 placeholder={t("Enter last name/family name")}
               />
@@ -61,6 +95,8 @@ function CompanyInformationPage() {
               <div className='mt-3'>
                 <PhoneInput
                   country={"sa"}
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
                   placeholder="000000000"
                   containerClass="!w-full"
                   inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
@@ -72,13 +108,19 @@ function CompanyInformationPage() {
             
             </div>
 
+            {error && (
+              <p className="text-red-500 mt-2 text-sm">
+                {typeof error === 'string' ? error : (error.message || t("An error occurred"))}
+              </p>
+            )}
 
             {/* btn */}
             <button
-              onClick={() => router.push("Company/PhoneOtp")}
-              className="px-4 py-2.5 cursor-pointer bg-[#C69815] text-white text-base font-medium  w-full mt-8 mb-10 h-15 rounded-[3px]"
+              onClick={handleNext}
+              disabled={loading}
+              className={`px-4 py-2.5 cursor-pointer bg-[#C69815] text-white text-base font-medium  w-full mt-8 mb-10 h-15 rounded-[3px] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {t('the next')}
+              {loading ? t('Loading...') : t('the next')}
             </button>
         
             <Have_an_account/>

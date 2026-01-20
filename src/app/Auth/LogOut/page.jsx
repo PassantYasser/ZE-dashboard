@@ -4,8 +4,15 @@ import Link from 'next/link'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useRegistration } from './RegistrationContext'
+
 function LogOutPage() {
     const {t}= useTranslation()
+    const { updateRegistrationData } = useRegistration();
+
+    const handleRole = (role) => {
+      updateRegistrationData({ role });
+    }
   
   return (
     <>

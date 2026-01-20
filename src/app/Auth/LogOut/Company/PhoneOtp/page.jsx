@@ -137,8 +137,8 @@ function PhoneOtpPage() {
             </Link>
 
             <button
-              onClick={()=>router.push('SetPassword')}
-              className="px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded"
+              onClick={()=>router.push('/Auth/LogOut/Company/SetPassword')}
+              className="px-4 py-2 w-64 h-15 bg-[var(--color-primary)] text-white rounded cursor-pointer"
             >
               {t("the next")}
             </button>
