@@ -106,8 +106,8 @@ export const FirstRegistration = async(formData)=>{
       'Content-Type': 'application/json',
     }
   })
-  console.log('FirstRegistration',response);
-  return response
+  console.log('FirstRegistration',response.data);
+  return response.data
 }
 
 

@@ -216,7 +216,7 @@ export const FirstRegistrationThunk = createAsyncThunk('auth/FirstRegistrationTh
   async(formData , {rejectWithValue})=>{
     try{
       const response = await FirstRegistration(formData)
-      console.log('FirstRegistrationThunk' ,response.data );
+      console.log('FirstRegistrationThunk' ,response );
       return response
     }catch(error){
       return rejectWithValue(error.response?.data?.message || "Failed to sign up data");

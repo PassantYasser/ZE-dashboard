@@ -7,20 +7,18 @@ import 'react-phone-input-2/lib/style.css'
 import { useRouter } from "next/navigation";
 import { useRegistration } from '../../RegistrationContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { FirstRegistrationThunk } from '@/redux/slice/Auth/AuthSlice'
 
 
 function CompanyInformationPage() {
     const {t}=useTranslation()
     const router = useRouter();
-    const dispatch = useDispatch();
     const { registrationData, updateRegistrationData } = useRegistration();
     const { loading, error } = useSelector((state) => state.auth);
 
     const [formData, setFormData] = useState({
-      firstname: registrationData.firstname || '',
-      lastname: registrationData.lastname || '',
-      phone: registrationData.phone || '',
+      firstname: registrationData?.firstname || '',
+      lastname: registrationData?.lastname || '',
+      phone: registrationData?.phone || '',
     });
 
     const handleChange = (e) => {
@@ -31,10 +29,15 @@ function CompanyInformationPage() {
     };
 
     const handlePhoneChange = (value) => {
-      const updated = { ...formData, phone: value };
+      const updated = { 
+        ...formData, 
+        phone: value, 
+      };
       setFormData(updated);
       updateRegistrationData(updated);
     };
+  
+
 
     const handleNext = () => {
       updateRegistrationData(formData);
@@ -69,7 +72,7 @@ function CompanyInformationPage() {
               <input
                 type="text"
                 name="firstname"
-                value={formData.firstname}
+                value={formData?.firstname}
                 onChange={handleChange}
                 className=" h-15 p-3 w-full border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none"
                 placeholder={t("Enter first name")}
@@ -82,7 +85,7 @@ function CompanyInformationPage() {
               <input
                 type="text"
                 name="lastname"
-                value={formData.lastname}
+                value={formData?.lastname}
                 onChange={handleChange}
                 className=" h-15 p-3 w-full border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none"
                 placeholder={t("Enter last name/family name")}
@@ -94,8 +97,8 @@ function CompanyInformationPage() {
               <label className="text-[#364152] text-base font-normal">{t("Mobile number")}</label>
               <div className='mt-3'>
                 <PhoneInput
-                  country={"sa"}
-                  value={formData.phone}
+                  country={'sa'}
+                  value={formData?.phone}
                   onChange={handlePhoneChange}
                   placeholder="000000000"
                   containerClass="!w-full"
