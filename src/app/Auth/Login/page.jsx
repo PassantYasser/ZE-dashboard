@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import i18n from "../../../language/i18n";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunk } from "@/redux/slice/Auth/AuthSlice";
 import { useRouter } from "next/navigation";
 import SecondSection from "@/app/Components/login/SecondSection";
+import No_account from "@/app/Components/login/No_account";
 
 
 
@@ -16,7 +16,7 @@ function LoginPage() {
 
   //link api 
   const dispatch = useDispatch();
-  const {user, isAuthenticated} = useSelector((state)=>state.auth)
+  const {isAuthenticated , loading} = useSelector((state)=>state.auth)
   const router = useRouter();
 
   const [formData , setFormData] = useState({
@@ -78,7 +78,7 @@ function LoginPage() {
               {t("phone number")}/{t("Email")}
               </label>
               <input
-                className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm"
+                className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none"
                 type="text"
                 name="login"
                 id="email"
@@ -99,7 +99,7 @@ function LoginPage() {
 
               <div className="relative">
                 <input
-                  className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm"
+                  className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm  outline-none"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
@@ -133,20 +133,23 @@ function LoginPage() {
 
             </div>
 
-            <button type="submit" className="w-full h-14 bg-[#DDA918] text-white text-base font-medium rounded-[3px] mt-4 mb-12 cursor-pointer">
-              {t("Log in")}
+            <button  
+              type="submit"
+              disabled={loading}
+              className={`
+                w-full h-14
+                bg-[var(--color-primary)]
+                text-white text-base font-medium
+                rounded-[3px] mt-4 mb-8
+                ${loading ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}
+              `}
+            >
+              {loading ? t("Loading...") : t("Log in")}
             </button>
+
             
             {/*btn to open signup */}
-            <p className="flex justify-center gap-1.5">
-              <span className="text-[#697586] text-lg font-normal">
-                {t("Dont have an account?")}
-              </span>
-              <Link href='/Auth/LogOut' className="text-[#9E7A11] text-lg font-medium">
-                {t("Create an account")}
-              </Link>
-            </p>
-
+              <No_account/>
           </form>
           
         </section>
