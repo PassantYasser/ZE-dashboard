@@ -30,6 +30,8 @@ function LoginPage() {
       [e.target.name]:e.target.value
     }))
   }
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginThunk(formData));
@@ -38,7 +40,23 @@ function LoginPage() {
   // after login 
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/Pages/dashboard"); 
+      // Get user data from localStorage
+      const userData = localStorage.getItem('user');
+      
+      if (userData) {
+        const user = JSON.parse(userData);
+        const { current_module_key, has_subscription } = user;
+        
+        // Check conditions and route accordingly
+        if ( has_subscription === false && current_module_key === null || has_subscription === false ) {
+          router.push("/Pages/dashboard/Main");
+        } else {
+          router.push("/Pages/dashboard");
+        }
+      } else {
+        <p>fddddddddddd</p>
+        // router.push("/Pages/dashboard");
+      }
     }
   }, [isAuthenticated, router]);
 
