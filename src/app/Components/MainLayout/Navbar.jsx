@@ -4,6 +4,7 @@ import i18n from "../../../language/i18n";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentLoginThunk } from "@/redux/slice/Auth/AuthSlice";
+import ServiceToggle from "../DaialogsOfNavbar/ServiceToggle";
 
 function Navbar({ onMenuClick }) {
   const [open, setOpen] = useState(false);
@@ -38,6 +39,8 @@ function Navbar({ onMenuClick }) {
   }, [dispatch]);
 
   // console.log(user?.firstname);
+
+  const [openServiceToggle , setOpenServiceToggle] = useState(false)
   return (
     <>
       <header className="h-20 bg-[#fff] border-b border-[#E3E8EF] flex items-center justify-between px-6 py-4">
@@ -59,6 +62,13 @@ function Navbar({ onMenuClick }) {
         <div>
           <div className="flex gap-4">
             <div className="flex items-center gap-4">
+
+              <div 
+                onClick={()=>setOpenServiceToggle(true)}
+                className="p-1 w-10.5 h-10  border border-[#CDD5DF] flex justify-center items-center rounded-[3px] cursor-pointer">
+                <img src="/images/icons/toggle.svg" alt="" />
+              </div>
+
               {/* Language Dropdown */}
               <div ref={dropdownRef} className="relative">
                 <span
@@ -114,6 +124,8 @@ function Navbar({ onMenuClick }) {
           </div>
         </div>
       </header>
+
+      <ServiceToggle openServiceToggle={openServiceToggle} setOpenServiceToggle={setOpenServiceToggle}/>
     </>
   );
 }
