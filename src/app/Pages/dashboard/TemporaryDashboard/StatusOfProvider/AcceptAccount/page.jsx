@@ -1,4 +1,5 @@
 "use client"
+import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import Link from 'next/link';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +9,8 @@ function AcceptAccountPage() {
 
   return (
     <>
-      <div>
+    AcceptAccountPage
+      <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
             <div className=' flex items-center'>
@@ -38,7 +40,7 @@ function AcceptAccountPage() {
             <span className='text-[#fff] text-base font-medium'>{t('Subscribe now')}</span>
           </Link>
         </section>
-      </div>
+      </MainLayout>
 
 
     </>

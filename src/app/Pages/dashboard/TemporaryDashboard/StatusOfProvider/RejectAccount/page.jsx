@@ -1,4 +1,5 @@
 "use client"
+import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +11,8 @@ function RejectAccountPage() {
 
   return (
     <>
-        <div>
+    RejectAccountPage
+        <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
             <div className=' flex items-center'>
@@ -51,7 +53,7 @@ function RejectAccountPage() {
         </button>
       </section>
 
-      </div>
+      </MainLayout>
     </>
   )
 }

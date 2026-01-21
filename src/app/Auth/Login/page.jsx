@@ -37,6 +37,9 @@ function LoginPage() {
     dispatch(loginThunk(formData));
   };
 
+
+  const module_key = 'home_services';
+  
   // after login 
   useEffect(() => {
     if (isAuthenticated) {
@@ -45,13 +48,47 @@ function LoginPage() {
       
       if (userData) {
         const user = JSON.parse(userData);
-        const { current_module_key, has_subscription } = user;
+        const { current_module_key, has_subscription, national_id, status } = user;
         
         // Check conditions and route accordingly
         if ( has_subscription === false && current_module_key === null || has_subscription === false ) {
           router.push("/Pages/dashboard/Main");
         } else {
-          router.push("/Pages/dashboard");
+          if (national_id === null) {
+            router.push('/Pages/dashboard/TemporaryDashboard/CompleteSignupData');
+          } else if (status === 'pending') {
+            router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/waitingApproval')
+          } else if (status === 'rejected') {
+            router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
+          } else if (status === 'active') {
+            if (has_subscription === true) {
+              switch (current_module_key) {
+                case 'home_services':
+                  router.push('/Pages/Home/Home_services');
+                  break;
+                case 'delivery':
+                  router.push('/Pages/Home/Delivery_services');
+                  break;
+                case 'property_rental':
+                  router.push('/Pages/Home/Renting_houses');
+                  break;
+                case 'queue':
+                  router.push('/Pages/Home/Restaurant_reservations');
+                  break;
+                case 'street_assistant':
+                  router.push('/Pages/Home/Road_assistant');
+                  break;
+                case 'car_services':
+                  router.push('/Pages/Home/Car_services');
+                  break;
+                default:
+                  router.push('/Pages/dashboard/Main');
+                  break;
+              }
+            } else {
+              router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
+            }
+          }
         }
       } else {
         <p>fddddddddddd</p>

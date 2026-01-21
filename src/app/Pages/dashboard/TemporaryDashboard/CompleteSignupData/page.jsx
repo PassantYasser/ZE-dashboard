@@ -1,4 +1,5 @@
 "use client"
+import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -7,7 +8,8 @@ function CompleteSignupDataPage() {
 
   return (
     <>
-      <div>
+    CompleteSignupDataPage
+      <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <button className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
             <div className=' flex items-center'>
@@ -33,7 +35,7 @@ function CompleteSignupDataPage() {
           <p className='text-[#575757] text-2xl font-semibold '>{t('Your account is not activated yet!')}</p>
           <p className='text-[#656565] text-xl font-normal'>{t('Please complete your profile and wait for notification of account activation.')}</p>
         </section>
-      </div>
+      </MainLayout>
 
     </>
   )

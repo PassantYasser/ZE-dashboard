@@ -1,9 +1,11 @@
 "use client"
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/navigation'
 
 function Module_key() {
     const {t} = useTranslation()
+    const router = useRouter()
     const [selectedService, setSelectedService] = useState(null)
   
     const services = [
@@ -17,7 +19,32 @@ function Module_key() {
   
     const handleServiceClick = (serviceId) => {
       setSelectedService(serviceId)
+      
+      // Get user data from localStorage
+      const userData = localStorage.getItem('user')
+      
+      if (userData) {
+        const user = JSON.parse(userData)
+        const { national_id, status, has_subscription } = user
+        
+        // Check conditions and route accordingly
+        if (national_id === null) {
+          router.push('/Pages/dashboard/TemporaryDashboard/CompleteSignupData')
+        } else if (status === 'pending') {
+          router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/waitingApproval')
+        } else if (status === 'rejected') {
+          router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
+        } else if (status === 'active') {
+          if (has_subscription === true) {
+            console.log('home') // Print "home" for now
+            // router.push('/Pages/home')
+          } else {
+            router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
+          }
+        }
+      }
     }
+    
   return (
     <>
     
