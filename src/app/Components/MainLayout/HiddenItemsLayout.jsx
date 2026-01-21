@@ -1,16 +1,15 @@
-
 "use client";
 import React, { useState } from 'react'
-import Sidebar from './Sidebar'
 import Navbar from './Navbar'
+import DisabledSidebar from './DisabledSidebar';
 
-function MainLayout({ children }) {
+function HiddenItemsLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <Sidebar
+      <DisabledSidebar
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
@@ -26,4 +25,4 @@ function MainLayout({ children }) {
   );
 }
 
-export default MainLayout;
+export default HiddenItemsLayout;

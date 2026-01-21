@@ -1,5 +1,5 @@
 "use client"
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -21,7 +21,7 @@ function MainPage() {
   }
 
   return (
-    <MainLayout>
+    <HiddenItemsLayout>
       <div className='border border-[#E7E7E7] p-10 '>
         <div className='flex flex-col items-center mb-12'>
           <p className='text-[#232323] text-2xl font-medium mb-4'>{t('Service selection')}</p>
@@ -50,7 +50,7 @@ function MainPage() {
 
       </div>
       
-    </MainLayout>
+    </HiddenItemsLayout>
   )
 }
 
