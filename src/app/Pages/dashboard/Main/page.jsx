@@ -1,10 +1,24 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function MainPage() {
   const {t} = useTranslation()
+  const [selectedService, setSelectedService] = useState(null)
+
+  const services = [
+    { id: 'road', icon: '/images/Road services.svg', label: 'Road services' },
+    { id: 'delivery', icon: '/images/Delivery services.svg', label: 'Delivery services' },
+    { id: 'home', icon: '/images/Home services.svg', label: 'Home services' },
+    { id: 'car', icon: '/images/Car services.svg', label: 'Car services' },
+    { id: 'restaurant', icon: '/images/Restaurant reservations.svg', label: 'Restaurant reservations' },
+    { id: 'renting', icon: '/images/Renting houses.svg', label: 'Renting houses' },
+  ]
+
+  const handleServiceClick = (serviceId) => {
+    setSelectedService(serviceId)
+  }
 
   return (
     <MainLayout>
@@ -15,36 +29,23 @@ function MainPage() {
         </div>
 
         <div className='grid grid-cols-2 gap-6'>
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Road services.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Road services')}</p>
-          </button>
-
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Delivery services.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Delivery services')}</p>
-          </button>
-
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Home services.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Home services')}</p>
-          </button>
-
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Car services.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Car services')}</p>
-          </button>
-
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Restaurant reservations.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Restaurant reservations')}</p>
-          </button>
-
-          <button className='border border-[#E3E8EF] py-6 px-4 flex flex-col items-center'>
-            <img src="/images/Renting houses.svg" alt="" />
-            <p className='text-[#364152] text-base mt-4'>{t('Renting houses')}</p>
-          </button>
-
+          {services.map((service) => (
+            <button
+              key={service.id}
+              onClick={() => handleServiceClick(service.id)}
+              className={`
+                py-6 px-4 flex flex-col items-center transition-all duration-200 cursor-pointer
+                border-1
+                ${selectedService === service.id 
+                  ? 'border-[var(--color-primary)]' 
+                  : 'border-[#E3E8EF] '
+                }
+              `}
+            >
+              <img src={service.icon} alt={service.label} />
+              <p className='text-[#364152] text-base mt-4'>{t(service.label)}</p>
+            </button>
+          ))}
         </div>
 
       </div>
