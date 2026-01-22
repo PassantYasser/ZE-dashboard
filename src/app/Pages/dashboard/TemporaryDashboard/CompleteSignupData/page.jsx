@@ -8,7 +8,6 @@ function CompleteSignupDataPage() {
 
   return (
     <>
-    CompleteSignupDataPage
       <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <button className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>

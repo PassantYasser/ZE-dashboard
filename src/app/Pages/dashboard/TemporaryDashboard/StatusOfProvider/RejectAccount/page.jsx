@@ -1,17 +1,31 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function RejectAccountPage() {
       const {t} = useTranslation();
-      const items = ["لم يتم إرفاق المستندات المطلوبة بشكل صحيح.", 
-                    " البيانات الشخصية غير مطابقة للوثائق الرسمية."];
+      const [items, setItems] = useState([]);
+
+      useEffect(() => {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+          try {
+            const user = JSON.parse(userStr);
+            if (user?.rejection_reason) {
+              setItems([user?.rejection_reason]);
+            } else {
+               setItems(["لا يوجد سبب"]); 
+            }
+          } catch (e) {
+            console.error("Error parsing user data", e);
+          }
+        }
+      }, []);
 
 
   return (
     <>
-    RejectAccountPage
         <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>

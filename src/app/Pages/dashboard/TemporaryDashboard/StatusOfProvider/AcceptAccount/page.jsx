@@ -9,7 +9,6 @@ function AcceptAccountPage() {
 
   return (
     <>
-    AcceptAccountPage
       <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
           <div className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>

@@ -38,7 +38,7 @@ function LoginPage() {
   };
 
 
-  const module_key = 'home_services';
+  // const module_key = 'home_services';
   
   // after login 
   useEffect(() => {
