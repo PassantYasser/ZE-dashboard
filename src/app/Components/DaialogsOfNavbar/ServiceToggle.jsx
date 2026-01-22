@@ -23,7 +23,7 @@ function ServiceToggle({openServiceToggle ,setOpenServiceToggle}) {
       <div className='p-6'>
       
         <div >
-          <Module_key/>
+          <Module_key />
         </div>
       </div>
     </Dialog>

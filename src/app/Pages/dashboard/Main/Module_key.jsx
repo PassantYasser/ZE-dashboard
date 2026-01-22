@@ -4,47 +4,73 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getmodulesThunk } from '@/redux/slice/Services/ServicesSlice'
+import { setModuleIdThunk } from '@/redux/slice/Home/HomeSlice'
+import { getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
 import { IMAGE_BASE_URL } from '../../../../../config/imageUrl'
 
-function Module_key() {
+function Module_key({}) {
     const {t} = useTranslation()
     //api
       const dispatch= useDispatch()
       const {getmodules , loadingDetails,errorDetails}=useSelector((state)=>state.services)
       useEffect(()=>{
         dispatch(getmodulesThunk())
-      },[dispatch])
 
-      console.log('getmodules' , getmodules);
+        // Sync user data on mount
+        const fetchProfile = async () => {
+            try {
+                const profileData = await dispatch(getProfileThunk()).unwrap()
+                const updatedUser = profileData?.provider
+                if (updatedUser) {
+                    localStorage.removeItem('user')
+                    localStorage.setItem('user', JSON.stringify(updatedUser))
+                }
+            } catch (error) {
+                console.error("Failed to sync profile on mount", error)
+            }
+        }
+        fetchProfile()
+      },[dispatch])
 
     const router = useRouter()
     const [selectedService, setSelectedService] = useState(null)
   
-    const handleServiceClick = (serviceId) => {
+    const handleServiceClick = async (serviceId) => {
       setSelectedService(serviceId)
       
-      // Get user data from localStorage
-      const userData = localStorage.getItem('user')
-      
-      if (userData) {
-        const user = JSON.parse(userData)
-        const { national_id, status, has_subscription } = user
+      try {
+        // 1. Set the module ID on the server
+        await dispatch(setModuleIdThunk(serviceId)).unwrap()
+
+        // 2. Fetch the latest profile data
+        const profileData = await dispatch(getProfileThunk()).unwrap()
+        const updatedUser = profileData?.provider
+
+        // 3. Update localStorage with the new data
+        if (updatedUser) {
+           localStorage.removeItem('user')
+           localStorage.setItem('user', JSON.stringify(updatedUser))
+
+           const { national_id, status, has_subscription } = updatedUser
         
-        // Check conditions and route accordingly
-        if (national_id === null) {
-          router.push('/Pages/dashboard/TemporaryDashboard/CompleteSignupData')
-        } else if (status === 'pending') {
-          router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/waitingApproval')
-        } else if (status === 'rejected') {
-          router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
-        } else if (status === 'active') {
-          if (has_subscription === true) {
-            console.log('home') // Print "home" for now
-            // router.push('/Pages/home')
-          } else {
-            router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
-          }
+           // Check conditions and route accordingly
+           if (national_id === null) {
+             router.push('/Pages/dashboard/TemporaryDashboard/CompleteSignupData')
+           } else if (status === 'pending') {
+             router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/waitingApproval')
+           } else if (status === 'rejected') {
+             router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
+           } else if (status === 'active') {
+             if (has_subscription === true) {
+               console.log('home') // Print "home" for now
+               router.push('/Pages/home')
+             } else {
+               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
+             }
+           }
         }
+      } catch (error) {
+        console.error("Error updating module or fetching profile:", error)
       }
     }
     
