@@ -127,7 +127,7 @@ const initialState = {
     pagination: null,
     service: null,
     serviceAnalysis: null,
-    getmodules: null,
+    getmodules: [],
     getCategories: null,
     getAreas : null,
     addService:null,

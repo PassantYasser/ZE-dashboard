@@ -1,21 +1,24 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getmodulesThunk } from '@/redux/slice/Services/ServicesSlice'
+import { IMAGE_BASE_URL } from '../../../../../config/imageUrl'
 
 function Module_key() {
     const {t} = useTranslation()
+    //api
+      const dispatch= useDispatch()
+      const {getmodules , loadingDetails,errorDetails}=useSelector((state)=>state.services)
+      useEffect(()=>{
+        dispatch(getmodulesThunk())
+      },[dispatch])
+
+      console.log('getmodules' , getmodules);
+
     const router = useRouter()
     const [selectedService, setSelectedService] = useState(null)
-  
-    const services = [
-      { id: 'road', icon: '/images/Road services.svg', label: 'Road services' },
-      { id: 'delivery', icon: '/images/Delivery services.svg', label: 'Delivery services' },
-      { id: 'home', icon: '/images/Home services.svg', label: 'Home services' },
-      { id: 'car', icon: '/images/Car services.svg', label: 'Car services' },
-      { id: 'restaurant', icon: '/images/Restaurant reservations.svg', label: 'Restaurant reservations' },
-      { id: 'renting', icon: '/images/Renting houses.svg', label: 'Renting houses' },
-    ]
   
     const handleServiceClick = (serviceId) => {
       setSelectedService(serviceId)
@@ -54,7 +57,7 @@ function Module_key() {
         </div>
 
         <div className='grid grid-cols-2 gap-4'>
-          {services.map((service) => (
+          {getmodules.map((service) => (
             <button
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
@@ -67,8 +70,8 @@ function Module_key() {
                 }
               `}
             >
-              <img src={service.icon} alt={service.label} />
-              <p className='text-[#364152] text-base mt-4'>{t(service.label)}</p>
+              <img src={`${IMAGE_BASE_URL}${service?.image}`} className='w-17.5 h-16' />
+              <p className='text-[#364152] text-base mt-4'>{service?.name}</p>
             </button>
           ))}
         </div>
