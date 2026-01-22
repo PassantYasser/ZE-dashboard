@@ -83,7 +83,7 @@ function LoginPage() {
                   break;
                 default:
                   router.push('/Pages/dashboard/Main');
-                  break;
+                            break;
               }
             } else {
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')

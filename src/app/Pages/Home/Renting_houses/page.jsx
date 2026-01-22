@@ -1,8 +1,9 @@
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 
 function Renting_housesPage() {
   return (
-    <div>Renting_housesPage</div>
+    <MainLayout>Renting_housesPage</MainLayout>
   )
 }
 

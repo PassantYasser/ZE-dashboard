@@ -30,7 +30,50 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
 const [openFinance, setOpenFinance] = useState(false);
 
-  return (
+{/* Logic for dashboard redirection */}
+      const handleDashboardClick = (e) => {
+          e.preventDefault();
+          setIsSidebarOpen(false);
+
+          const userData = localStorage.getItem('user');
+          let targetPath = '/Pages/dashboard/Main'; 
+
+          if (userData) {
+            try {
+              const user = JSON.parse(userData);
+              const { current_module_key } = user;
+
+              switch (current_module_key) {
+                case 'home_services':
+                  targetPath = '/Pages/Home/Home_services';
+                  break;
+                case 'delivery':
+                  targetPath = '/Pages/Home/Delivery_services';
+                  break;
+                case 'property_rental':
+                  targetPath = '/Pages/Home/Renting_houses';
+                  break;
+                case 'queue':
+                  targetPath = '/Pages/Home/Restaurant_reservations';
+                  break;
+                case 'street_assistant':
+                  targetPath = '/Pages/Home/Road_assistant';
+                  break;
+                case 'car_services':
+                  targetPath = '/Pages/Home/Car_services';
+                  break;
+                default:
+                  targetPath = '/Pages/dashboard/Main';
+                  break;
+              }
+            } catch (error) {
+              console.error("Error parsing user data:", error);
+            }
+          }
+          router.push(targetPath);
+      };
+
+      return (
     
     // 1440px and above
     <aside
@@ -71,17 +114,17 @@ const [openFinance, setOpenFinance] = useState(false);
       <nav className="flex-1">
         <ul className='flex flex-col h-full'>
 
-          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/dashboard") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/dashboard"  onClick={() => setIsSidebarOpen(false)} >
+          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/Pages/dashboard"  onClick={handleDashboardClick} >
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-4 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/dashboard") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "invert" : ""}/>
+                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard")? "invert" : ""}/>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home")? "invert" : ""}/>
                   </div>
                 )}
             </Link>

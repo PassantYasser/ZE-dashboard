@@ -1,8 +1,9 @@
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 
 function Road_servicesPage() {
   return (
-    <div>Road_servicesPage</div>
+    <MainLayout>Road_servicesPage</MainLayout>
   )
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Restaurant_reservationsPage() {
   return (
-    <div>Restaurant_reservationsPage</div>
+    <MainLayout>Restaurant_reservationsPage</MainLayout>
   )
 }
 

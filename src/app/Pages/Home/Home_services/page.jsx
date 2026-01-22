@@ -1,8 +1,9 @@
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 
 function Home_servicesPage() {
   return (
-    <div>Home_servicesPage</div>
+    <MainLayout>Home_servicesPage</MainLayout>
   )
 }
 
