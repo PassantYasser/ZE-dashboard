@@ -62,8 +62,29 @@ function Module_key({}) {
             router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
           } else if (status === 'active') {
             if (has_subscription === true) {
-              console.log('home') 
-              router.push('/Pages/home')
+              switch (current_module_key) {
+                case 'home_services':
+                  router.push('/Pages/Home/Home_services');
+                  break;
+                case 'delivery':
+                  router.push('/Pages/Home/Delivery_services');
+                  break;
+                case 'property_rental':
+                  router.push('/Pages/Home/Renting_houses');
+                  break;
+                case 'queue':
+                  router.push('/Pages/Home/Restaurant_reservations');
+                  break;
+                case 'street_assistant':
+                  router.push('/Pages/Home/Road_assistant');
+                  break;
+                case 'car_services':
+                  router.push('/Pages/Home/Car_services');
+                  break;
+                default:
+                  router.push('/Pages/dashboard/Main');
+                  break;
+              }
             } else {
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
             }
