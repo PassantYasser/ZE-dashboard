@@ -1,10 +1,12 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 
-function Car_servicesPage() {
+function ServicesPage() {
   return (
-    <MainLayout>Car_servicesPage</MainLayout>
+    <MainLayout>
+      
+    </MainLayout>
   )
 }
 
-export default Car_servicesPage
+export default ServicesPage

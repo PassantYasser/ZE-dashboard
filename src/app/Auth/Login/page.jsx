@@ -7,6 +7,7 @@ import { loginThunk } from "@/redux/slice/Auth/AuthSlice";
 import { useRouter } from "next/navigation";
 import SecondSection from "@/app/Components/login/SecondSection";
 import No_account from "@/app/Components/login/No_account";
+import ServicesPage from "@/app/Pages/Home/Services/page";
 
 
 
@@ -62,29 +63,30 @@ function LoginPage() {
             router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
           } else if (status === 'active') {
             if (has_subscription === true) {
-              switch (current_module_key) {
-                case 'home_services':
-                  router.push('/Pages/Home/Home_services');
-                  break;
-                case 'delivery':
-                  router.push('/Pages/Home/Delivery_services');
-                  break;
-                case 'property_rental':
-                  router.push('/Pages/Home/Renting_houses');
-                  break;
-                case 'queue':
-                  router.push('/Pages/Home/Restaurant_reservations');
-                  break;
-                case 'street_assistant':
-                  router.push('/Pages/Home/Road_assistant');
-                  break;
-                case 'car_services':
-                  router.push('/Pages/Home/Car_services');
-                  break;
-                default:
-                  router.push('/Pages/dashboard/Main');
-                            break;
-              }
+              // switch (current_module_key) {
+              //   case 'home_services':
+              //     router.push('/Pages/Home/Home_services');
+              //     break;
+              //   case 'delivery':
+              //     router.push('/Pages/Home/Delivery_services');
+              //     break;
+              //   case 'property_rental':
+              //     router.push('/Pages/Home/Renting_houses');
+              //     break;
+              //   case 'queue':
+              //     router.push('/Pages/Home/Restaurant_reservations');
+              //     break;
+              //   case 'street_assistant':
+              //     router.push('/Pages/Home/Road_assistant');
+              //     break;
+              //   case 'car_services':
+              //     router.push('/Pages/Home/Car_services');
+              //     break;
+              //   default:
+              //     router.push('/Pages/dashboard/Main');
+              //               break;
+              // }
+            router.push('/Pages/Home/Services')
             } else {
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
             }
