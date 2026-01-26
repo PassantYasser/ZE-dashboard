@@ -8,12 +8,12 @@ import AbbreviationsPage from './Abbreviations/page'
 import TileOfSevicesPage from './TileOfSevices/page'
 
 function ServicesPage() {
-  const current_module_key = 'الخدمات المنزلية'
+  const current_module_key = 'خدمات السيارات'
    
   return (
     <MainLayout>
       <TileOfSevicesPage current_module_key={current_module_key}/>
-      <BoxPage/>
+      <BoxPage current_module_key={current_module_key}/>
       <CardsPages/>
       <RatePage/>
       <AbbreviationsPage/>
