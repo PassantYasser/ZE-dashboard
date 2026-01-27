@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 function NewOrdersPage() {
   const {t} = useTranslation();
 
+  
+
   return (
     <>
       <div className='border border-[#CDD5DF] rounded-[3px] p-6'>
