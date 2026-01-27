@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-function CurrentOrdersPage() {
-    const {t} = useTranslation();
+function CurrentOrdersPage({ orders = [], layout = "list" }) {
+  const { t } = useTranslation();
 
-    const StatusRender = (status) => {
+      const StatusRender = (status) => {
     switch (status) {
       case "accepted": //تم القبول
         return (
@@ -62,57 +62,52 @@ function CurrentOrdersPage() {
         );
     }
   };
-  return (
-    <>
-      <div className='border border-[#CDD5DF] rounded-[3px] p-6'>
-        <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
 
-        <div className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4  mb-4'>
-          
-          <div className='flex justify-between w-full '>
-            <div className='flex gap-2  w-full'>
-              <img src="/images/icons/renewable-energy.svg" alt="" className='w-6 h-6 mt-1'/>
-              <p className='text-[#364152] text-lg font-medium '>شحن فريون </p>
+  return (
+    <div className='border border-[#CDD5DF] rounded-[3px] p-6'>
+      <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
+
+      <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : ""}>
+      {orders.map((order) => (
+        <div key={order.id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
+          <div className='flex justify-between w-full'>
+            <div className='flex gap-2 w-full'>
+              <img src='/images/icons/renewable-energy.svg' alt='' className='w-6 h-6 mt-1' />
+              <p className='text-[#364152] text-lg font-medium'>{order.service}</p>
             </div>
-            <div className='w-full flex justify-end'>
-              {StatusRender("in_progress")}
-            </div>
-            
+            <div className='w-full flex justify-end'>{StatusRender(order.status)}</div>
           </div>
 
-          <hr className='border-[#E3E8EF] border my-4'></hr>
+          <hr className='border-[#E3E8EF] border my-4' />
 
           <div className='flex justify-between w-full'>
-
             <div className='flex gap-2 w-full'>
-              <img src="/images/icons/Customer.svg" alt="" />
+              <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
               <p className='text-base font-normal'>
-                <span className='text-[#808080] '>{t('Customer')} </span> 
-                <span className='text-[#0B2C3E]'>هاني سعيد</span>
+                <span className='text-[#808080]'>{t('Customer')} </span>
+                <span className='text-[#0B2C3E]'>{order.customer}</span>
               </p>
             </div>
 
             <div className='w-full flex justify-end gap-4'>
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
-                <img src="/images/icons/chat.svg" alt="" />
+                <img src='/images/icons/chat.svg' alt='' />
               </p>
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
-                <img src="/images/icons/calll.svg" alt="" />
+                <img src='/images/icons/calll.svg' alt='' />
               </p>
             </div>
-
-        
           </div>
-            {/* btn */}
-            <button className='flex gap-2 items-center justify-center  bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
-              <img src="/images/icons/maps-location.svg" alt="" className='w-6 h-6' />
-              <span>{t('Open the map')}</span>
-            </button>
 
+          <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+            <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
+            <span>{t('Open the map')}</span>
+          </button>
         </div>
+      ))}
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
-export default CurrentOrdersPage
+export default CurrentOrdersPage;
