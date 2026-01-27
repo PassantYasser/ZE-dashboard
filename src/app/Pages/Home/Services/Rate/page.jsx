@@ -71,16 +71,16 @@ const expanded = expandedIndexes[index];
               </div>
 
             <p className="mb-4 text-[#4B5565] text-sm font-normal">
-  {expanded || !isLong ? text : shortText + "... "}
-  {isLong && (
-    <span
-      onClick={() => toggleExpanded(index)}
-      className="text-[#4D0CE7] text-sm font-normal cursor-pointer"
-    >
-      {expanded ? t("Show less") : t("Read more")}
-    </span>
-  )}
-</p>
+              {expanded || !isLong ? text : shortText + "... "}
+              {isLong && (
+                <span
+                  onClick={() => toggleExpanded(index)}
+                  className="text-[#4D0CE7] text-sm font-normal cursor-pointer"
+                >
+                  {expanded ? t("Show less") : t("Read more")}
+                </span>
+              )}
+            </p>
 
             </div>
       </div>
