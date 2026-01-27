@@ -1,0 +1,113 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+function CurrentOrdersPage({ orders = [], layout = "list" }) {
+  const { t } = useTranslation();
+
+  const StatusRender = (status) => {
+    switch (status) {
+      case "accepted": //تم القبول
+        return (
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+            <span className=''>{t('accepted')}</span>
+          </div>
+        </div>
+        );
+      case "completed"://مكتملة
+        return (
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+            <span className=''>{t('Complete')}</span>
+          </div>
+        </div>
+        );
+      case "pending_approval": //في انتظار الموافقة
+        return (
+          <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
+              <span className=''>{t('pending')}</span>
+            </div>
+          </div>
+        );
+      case "in_progress": //قيد التنفيذ
+      return (
+        <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
+        <div className='py-1.5 px-3 flex gap-1'>
+          <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
+          <span className=''>{t('in_progress')}</span>
+        </div>
+      </div>
+      );
+      case "on_going": //العامل في الطريق
+        return (
+          <div className=' bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/on_going Status.svg" alt="" className=' mt-1' />
+              <span className=''>{t('The worker on the road')}</span>
+            </div>
+          </div>
+        );
+      case "rejected": // مرفوضة
+        return (
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
+              <span className=''>{t('rejected')}</span>
+            </div>
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className='border border-[#CDD5DF] rounded-[3px] p-6'>
+      <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
+
+      <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : ""}>
+      {orders.map((order) => (
+        <div key={order.id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
+          <div className='flex justify-between w-full'>
+            <div className='flex gap-2 w-full'>
+              <img src='/images/icons/renewable-energy.svg' alt='' className='w-6 h-6 mt-1' />
+              <p className='text-[#364152] text-lg font-medium'>{order.service}</p>
+            </div>
+            <div className='w-full flex justify-end'>{StatusRender(order.status)}</div>
+          </div>
+
+          <hr className='border-[#E3E8EF] border my-4' />
+
+          <div className='flex justify-between w-full'>
+            <div className='flex gap-2 w-full'>
+              <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
+              <p className='text-base font-normal'>
+                <span className='text-[#808080]'>{t('Customer')} </span>
+                <span className='text-[#0B2C3E]'>{order.customer}</span>
+              </p>
+            </div>
+
+            <div className='w-full flex justify-end gap-4'>
+              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                <img src='/images/icons/chat.svg' alt='' />
+              </p>
+              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                <img src='/images/icons/calll.svg' alt='' />
+              </p>
+            </div>
+          </div>
+
+          <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+            <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
+            <span>{t('Open the map')}</span>
+          </button>
+        </div>
+      ))}
+      </div>
+    </div>
+  );
+}
+
+export default CurrentOrdersPage;

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 function CurrentOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
 
-      const StatusRender = (status) => {
+  const StatusRender = (status) => {
     switch (status) {
       case "accepted": //تم القبول
         return (

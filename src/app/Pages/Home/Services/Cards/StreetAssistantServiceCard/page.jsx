@@ -2,11 +2,11 @@ import React from 'react'
 import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
 
-function CardsPages() {
+function StreetAssistantServiceCardPage() {
   const newOrders = [
     {
       id: 1,
-      service: "شحن فريون",
+      service: "تشغيل بطارية",
       customer: "هاني سعيد",
       price: "40.00",
       distance: "32 كم",
@@ -14,7 +14,7 @@ function CardsPages() {
     },
     {
       id: 2,
-      service: "صيانة تكييف",
+      service: "تشغيل بطارية",
       customer: "محمد علي",
       price: "60.00",
       distance: "15 كم",
@@ -25,19 +25,19 @@ function CardsPages() {
   const currentOrders = [
     {
       id: 1,
-      service: 'شحن فريون',
+      service: "تشغيل بطارية",
       status: 'in_progress',
       customer: 'هاني سعيد',
     },
     {
       id: 2,
-      service: 'تصليح مكيف',
+      service: "فتح باب",
       status: 'accepted',
       customer: 'أحمد علي',
     },
     {
       id: 3,
-      service: 'تنظيف سخان',
+      service: "تغير زيت",
       status: 'pending_approval',
       customer: 'محمود حسني',
     },
@@ -64,4 +64,4 @@ function CardsPages() {
   )
 }
 
-export default CardsPages
+export default StreetAssistantServiceCardPage
