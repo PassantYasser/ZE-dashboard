@@ -89,30 +89,35 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
         
 
           <hr className="border-[#E3E8EF] my-4" />
+          <div className="flex justify-between items-center w-full">
+            {/* Buttons */}
+            <button
+              disabled={loadingOrders.has(order.id)}
+              className={`
+                text-white text-sm font-semibold w-[50%] h-14 rounded-[3px]
+                flex items-center justify-center gap-2
+                overflow-hidden relative cursor-pointer
+                ${loadingOrders.has(order.id)
+                  ? " bg-[#079455]"
+                  : "bg-[#079455] "}
+              `}
+            >
+              {loadingOrders.has(order.id) && (
+                <span
+                  className="absolute top-0 right-0 h-full bg-gradient-to-r from-[#17B26A] via-[#17B26A] to-[#17B26A] animate-progress"
+                  style={{ width: "0%" }}
+                ></span>
+                )}
+                <span className="relative z-10">
+                {t("acceptance")}
+                </span>
+            </button>
 
-          {/* Buttons */}
-          <button
-            disabled={loadingOrders.has(order.id)}
-            className={`
-              text-white text-sm font-semibold w-[40%] h-14 rounded-[3px]
-              flex items-center justify-center gap-2
-              overflow-hidden relative cursor-pointer
-              ${loadingOrders.has(order.id)
-                ? " bg-[#079455]"
-                : "bg-[#079455] "}
-            `}
-          >
-            {loadingOrders.has(order.id) && (
-              <span
-                className="absolute top-0 right-0 h-full bg-gradient-to-r from-[#17B26A] via-[#17B26A] to-[#17B26A] animate-progress"
-                style={{ width: "0%" }}
-              ></span>
-              )}
-              <span className="relative z-10">
-              {t("acceptance")}
-              </span>
-          </button>
-
+            <p className="text-[var(--color-primary)] text-xl font-semibold">
+              40.00 جنية
+            </p>
+            
+          </div>
         </div>
       ))}
       </div>
