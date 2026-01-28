@@ -56,7 +56,7 @@ function HomeAndCarServiceCardPages() {
 
   return (
     <>
-      <div className={`grid grid-cols-2 gap-6`}>
+      <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
         <NewOrdersPage orders={newOrders} />
         <CurrentOrdersPage orders={currentOrders} />
       </div>
