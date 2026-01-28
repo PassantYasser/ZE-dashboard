@@ -10,7 +10,7 @@ function BoxPage({current_module_key}) {
   return (
     <>
 
-    <section className='mb-10 grid grid-cols-4 gap-4 '>
+    <section className='mb-10 grid grid-cols-2 lg1:grid-cols-4 gap-4 '>
 
       {/* New orders */}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
@@ -134,8 +134,6 @@ function BoxPage({current_module_key}) {
 
 
       {/* Evaluation */}
-      
-
       {/* Conditional Display based on current_module_key and role */}
       {(() => {
         if (current_module_key === 'خدمات الطريق') {
