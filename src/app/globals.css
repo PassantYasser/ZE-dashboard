@@ -181,3 +181,16 @@ font-size: 50px;
     padding-left: 30px;
     padding-right: 30px;
   }
+
+
+
+
+/*street assistant NewOrdersPage*/
+  @keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+  .animate-progress {
+    animation: progress 60s linear forwards; /* 60 ثانية = دقيقة */
+  }
+/***/

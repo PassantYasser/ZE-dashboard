@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 function NewOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
+
+  const [hiddenOrders, setHiddenOrders] = useState(new Set());
+  const [loadingOrders, setLoadingOrders] = useState(new Set());
+  useEffect(() => {
+    // Auto-accept all orders when component mounts or orders change
+    orders.forEach((order) => {
+      if (!hiddenOrders.has(order.id) && !loadingOrders.has(order.id)) {
+        // Set loading state immediately
+        setLoadingOrders((prev) => new Set([...prev, order.id]));
+
+        setTimeout(() => {
+          setHiddenOrders((prev) => new Set([...prev, order.id]));
+          setLoadingOrders((prev) => {
+            const newSet = new Set(prev);
+            newSet.delete(order.id);
+            return newSet;
+          });
+        }, 60000);
+      }
+    });
+  }, [orders]);
+  // Filter out hidden orders
+  const visibleOrders = orders.filter((order) => !hiddenOrders.has(order.id));
+
 
   return (
     <div className="border border-[#CDD5DF] rounded-[3px] p-6">
@@ -11,7 +35,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
       </p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : ""}>
-      {orders.map((order) => (
+      {visibleOrders.map((order) => (
         <div
           key={order.id}
           className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
@@ -67,15 +91,28 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
           <hr className="border-[#E3E8EF] my-4" />
 
           {/* Buttons */}
-          <div className="flex justify-between gap-4">
-            <button className="bg-[#079455] text-white text-sm font-semibold w-[40%] h-14 rounded-[3px] cursor-pointer">
+          <button
+            disabled={loadingOrders.has(order.id)}
+            className={`
+              text-white text-sm font-semibold w-[40%] h-14 rounded-[3px]
+              flex items-center justify-center gap-2
+              overflow-hidden relative cursor-pointer
+              ${loadingOrders.has(order.id)
+                ? " bg-[#079455]"
+                : "bg-[#079455] "}
+            `}
+          >
+            {loadingOrders.has(order.id) && (
+              <span
+                className="absolute top-0 right-0 h-full bg-gradient-to-r from-[#17B26A] via-[#17B26A] to-[#17B26A] animate-progress"
+                style={{ width: "0%" }}
+              ></span>
+              )}
+              <span className="relative z-10">
               {t("acceptance")}
-            </button>
+              </span>
+          </button>
 
-            <p className="text-[var(--color-primary)] text-xl font-semibold flex items-center">
-              {order.price} جنية
-            </p>
-          </div>
         </div>
       ))}
       </div>
