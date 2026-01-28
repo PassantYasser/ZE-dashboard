@@ -98,11 +98,32 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
               </p>
             </div>
           </div>
+          <div className='flex justify-between w-full my-4'>
+            <div className='flex gap-2 w-full'>
+              <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
+              <p className='text-base font-normal'>
+                <span className='text-[#808080]'>{t('The artist')} </span>
+                <span className='text-[#0B2C3E]'>{order.customer}</span>
+              </p>
+            </div>
 
-          <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
-            <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
-            <span>{t('Open the map')}</span>
-          </button>
+            <div className='w-full flex justify-end gap-4'>
+              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                <img src='/images/icons/calll.svg' alt='' />
+              </p>
+            </div>
+          </div>
+
+          <div className='flex gap-4'>
+            <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-[#fff] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              <span>{t('Start Service')}</span>
+              <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
+            </button>
+            <button className='flex gap-2 items-center justify-center border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              <img src='/images/icons/maps-location-yellow.svg' alt='' className='w-6 h-6' />
+              <span>{t('Open the map')}</span>
+            </button>
+          </div>
         </div>
       ))}
       </div>
