@@ -34,7 +34,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
         {t("New orders")}
       </p>
 
-      <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : ""}>
+      <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
       {visibleOrders.map((order) => (
         <div
           key={order.id}

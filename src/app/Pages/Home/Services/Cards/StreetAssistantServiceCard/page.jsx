@@ -12,14 +12,14 @@ function StreetAssistantServiceCardPage() {
       distance: "32 كم",
       location: "شارع رئيسي 123 مدينة نصر",
     },
-    {
-      id: 2,
-      service: "تشغيل بطارية",
-      customer: "محمد علي",
-      price: "60.00",
-      distance: "15 كم",
-      location: "شارع عباس العقاد",
-    },
+    // {
+    //   id: 2,
+    //   service: "تشغيل بطارية",
+    //   customer: "محمد علي",
+    //   price: "60.00",
+    //   distance: "15 كم",
+    //   location: "شارع عباس العقاد",
+    // },
   ];
 
   const currentOrders = [
@@ -56,7 +56,7 @@ function StreetAssistantServiceCardPage() {
 
   return (
     <>
-      <div className={`grid grid-cols-2 gap-6`}>
+      <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
         <NewOrdersPage orders={newOrders} />
         <CurrentOrdersPage orders={currentOrders} />
       </div>
