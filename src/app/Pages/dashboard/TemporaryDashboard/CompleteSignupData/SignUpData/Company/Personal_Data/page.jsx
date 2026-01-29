@@ -120,7 +120,11 @@ function Personal_DataPage({ open, setOpen }) {
 
     <MapDialog open={openMap} handleClose={() => setOpenMap(false)} onConfirm={handleLocationConfirm} />
     
-    <OtpEmailPage open={openOtpEmail} setOpen={setOpenOtpEmail} />
+    <OtpEmailPage
+      setOpenPrevious={setOpen}
+      open={openOtpEmail} 
+      setOpen={setOpenOtpEmail} 
+    />
   </>
   )
 }
