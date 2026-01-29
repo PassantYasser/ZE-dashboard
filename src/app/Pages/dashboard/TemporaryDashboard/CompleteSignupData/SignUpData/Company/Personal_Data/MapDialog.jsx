@@ -100,13 +100,13 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
         <div className="flex justify-end mt-4 gap-2">
           <button
             onClick={handleClose}
-            className="px-4 py-2 bg-gray-300 rounded"
+            className="px-4 py-2 bg-gray-300 rounded cursor-pointer"
           >
             إلغاء
           </button>
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 bg-blue-600 text-white rounded"
+            className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer"
           >
             تأكيد الموقع
           </button>

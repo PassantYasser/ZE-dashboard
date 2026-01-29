@@ -3,16 +3,22 @@ import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
+import OtpEmailPage from '../OtpEmail/page';
 
 function Personal_DataPage({ open, setOpen }) {
   const {t} = useTranslation();
 
   const [openMap, setOpenMap] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
-
   const handleLocationConfirm = (location) => {
     setSelectedLocation(location);
   };
+
+  const [openOtpEmail, setOpenOtpEmail] = useState(false);
+  const handleNext = () => {
+    setOpen(false);
+    setOpenOtpEmail(true);
+  }
   return (
   <>
     <Dialog
@@ -36,8 +42,8 @@ function Personal_DataPage({ open, setOpen }) {
       </section>
       <section className="py-11 px-12.5">
         <div className=' border border-[#CDD5DF] p-10'>
-          {/* Form */}
-        {/* Company Name */}
+        {/* Form */}
+          {/* Company Name */}
           <div className='flex flex-col gap-3'>
             <p className='text-[#364152] text-base font-normal'>{t('Company Name')}</p>
             <input 
@@ -67,6 +73,7 @@ function Personal_DataPage({ open, setOpen }) {
             />
           </div>
 
+          {/* Years of experience */}
           <div className='flex flex-col gap-3 mt-6'>
             <p className='text-[#364152] text-base font-normal'>{t('Years of experience')}</p>
             <input 
@@ -75,7 +82,6 @@ function Personal_DataPage({ open, setOpen }) {
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
           </div>
-
 
           {/* Company address */}
           <div className="flex flex-col gap-3 mt-6" onClick={() => setOpenMap(true)}>
@@ -92,32 +98,29 @@ function Personal_DataPage({ open, setOpen }) {
               <textarea
                 readOnly
                 value={selectedLocation?.address || ''}
-                placeholder={t("Click to select location on map")}
-                className="border border-[#C8C8C8] min-h-13 rounded-[3px] outline-none w-full pr-12 p-3 text-right resize-none"
+                // placeholder={t("Click to select location on map")}
+                className="border border-[#C8C8C8] min-h-14  rounded-[3px] outline-none w-full px-3 py-1 "
               />
             </div>
           </div>
 
-
-
+          {/* btn */}
           <div className=' mt-10'>
             <button 
+              onClick={handleNext}
               className='bg-[var(--color-primary)] text-white w-full h-14 cursor-pointer rounded-[3px] '
             >
               {t('the next')}
             </button>
           </div>
 
-
-
-
-
         </div>
       </section>
     </Dialog>
 
     <MapDialog open={openMap} handleClose={() => setOpenMap(false)} onConfirm={handleLocationConfirm} />
-  
+    
+    <OtpEmailPage open={openOtpEmail} setOpen={setOpenOtpEmail} />
   </>
   )
 }
