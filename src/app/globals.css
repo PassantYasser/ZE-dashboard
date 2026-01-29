@@ -183,6 +183,11 @@ font-size: 50px;
   }
 
 
+  .COMPANY-dialog{
+    max-width: unset !important;
+    width: 50rem;
+  }
+
 
 
 /*street assistant NewOrdersPage*/
