@@ -2,11 +2,12 @@
 import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import FilesPage from '../Files/page';
 
 function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
   const {t} = useTranslation();
 
-    const [otpValues, setOtpValues] = useState(["", "", "", ""]);
+  const [otpValues, setOtpValues] = useState(["", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(30);
   const [canResend, setCanResend] = useState(false);
 
@@ -63,9 +64,16 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
   };
 
 
+  const [openFile , setOpenFile] = useState(false);
+
   const handlePrevious = () => {
     setOpen(false);
     setOpenPrevious(true);
+  }
+
+  const handleNext = () => {
+    setOpen(false);
+    setOpenFile(true);
   }
 
   return (
@@ -163,6 +171,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
             </button>
 
             <button
+              onClick={handleNext}
               className="px-4 py-2 w-64 h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('the next')}
@@ -172,6 +181,11 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
         </div>
       </section>
     </Dialog>
+
+    <FilesPage 
+      setOpenPrevious={setOpenPrevious}
+      open={openFile} 
+      setOpen={setOpenFile} />
     </>
   )
 }
