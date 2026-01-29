@@ -1,16 +1,32 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import CompanyPage from './SignUpData/Company/page';
+import FreelancePage from './SignUpData/Freelance/page';
 
 function CompleteSignupDataPage() {
   const {t} = useTranslation();
+  const role = 'company' // 'company'  'freelance'
+  const [openCompany , setOpenCompany] = useState(false);
+  const [openFreelance , setOpenFreelance] = useState(false);
 
+  const handleOpenSignupData = () => {
+    if(role === 'company'){
+      setOpenCompany(true);
+    } else if(role === 'freelance'){
+      setOpenFreelance(true);
+    }
+  }
   return (
     <>
       <MainLayout>
         <section className='flex justify-center mb-[11.11vh]'>
-          <button className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6'>
+          {/* // */}
+          <button 
+            onClick={handleOpenSignupData}
+            className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6 cursor-pointer'
+          >
             <div className=' flex items-center'>
               <img src="/images/stars.svg" alt="" className='w-12 h-12 ' />
             </div>
@@ -24,6 +40,7 @@ function CompleteSignupDataPage() {
             </div>
           
           </button>
+
         </section>
 
 
@@ -36,8 +53,11 @@ function CompleteSignupDataPage() {
         </section>
       </MainLayout>
 
+
+    <CompanyPage open={openCompany} setOpen={setOpenCompany} />
+    <FreelancePage open={openFreelance} setOpen={setOpenFreelance} />
     </>
   )
-}
+} 
 
 export default CompleteSignupDataPage
