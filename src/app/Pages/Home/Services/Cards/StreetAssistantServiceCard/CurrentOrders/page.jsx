@@ -83,13 +83,13 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
           <div className='flex justify-between w-full'>
             <div className='flex gap-2 w-full'>
               <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
-              <p className='text-base font-normal'>
+              <p className='text-base font-normal lg1:w-full w-[70%] '>
                 <span className='text-[#808080]'>{t('Customer')} </span>
                 <span className='text-[#0B2C3E]'>{order.customer}</span>
               </p>
             </div>
 
-            <div className='w-full flex justify-end gap-4'>
+            <div className='lg1:w-full w-[30%] flex justify-end gap-4'>
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/chat.svg' alt='' />
               </p>
@@ -101,13 +101,13 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
           <div className='flex justify-between w-full my-4'>
             <div className='flex gap-2 w-full'>
               <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
-              <p className='text-base font-normal'>
+              <p className='text-base font-normal lg1:w-full w-[70%]'>
                 <span className='text-[#808080]'>{t('The artist')} </span>
                 <span className='text-[#0B2C3E]'>{order.customer}</span>
               </p>
             </div>
 
-            <div className='w-full flex justify-end gap-4'>
+            <div className='lg1:w-full w-[30%] flex justify-end gap-4'>
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/calll.svg' alt='' />
               </p>
