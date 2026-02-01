@@ -3,6 +3,7 @@ import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
+import OtpEmailPage from '../OtpEmail/page';
 
 function Personal_DataPage({ open, setOpen }) {
   const {t} = useTranslation();
@@ -13,9 +14,10 @@ function Personal_DataPage({ open, setOpen }) {
     setSelectedLocation(location);
   };
 
+  const [openOtpEmail, setOpenOtpEmail] = useState(false);
   const handleNext = () => {
     setOpen(false);
-    // setOpenOtpEmail(true);
+    setOpenOtpEmail(true);
   }
   return (
     <>
@@ -41,6 +43,7 @@ function Personal_DataPage({ open, setOpen }) {
       <section className="py-11 px-12.5">
         <div className=' border border-[#CDD5DF] p-10'>
           {/* Form */}
+
           {/* Email */}
           <div className='flex flex-col gap-3'>
             <p className='text-[#364152] text-base font-normal'>{t('Email')}</p>
@@ -101,7 +104,11 @@ function Personal_DataPage({ open, setOpen }) {
 
 
     <MapDialog open={openMap} handleClose={() => setOpenMap(false)} onConfirm={handleLocationConfirm} />
-    
+    <OtpEmailPage
+      setOpenPrevious={setOpen}
+      open={openOtpEmail} 
+      setOpen={setOpenOtpEmail} 
+    />
     </>
   )
 }
