@@ -153,7 +153,7 @@ function PhoneOtpPage() {
           {/* btn */}
           <div className="flex gap-6 justify-center mb-12 mt-4">
             <Link
-              href='/Auth/LogOut/Company'
+              href='/Auth/Sign_in/Company'
               className="px-4 py-2 w-64 flex justify-center items-center border border-[var(--color-primary)] text-[var(--color-primary)] rounded"
             >
               {t("the previous")}
@@ -175,7 +175,7 @@ function PhoneOtpPage() {
                   })).unwrap();
                   
                   // If verification successful, navigate to SetPassword
-                  router.push('/Auth/LogOut/Company/SetPassword');
+                  router.push('/Auth/Sign_in/Company/SetPassword');
                 } catch (error) {
                   console.error("OTP verification failed:", error);
                   setShowError(true);

@@ -71,7 +71,7 @@ function SetPasswordPage() {
 
     dispatch(FirstRegistrationThunk(fullData)).then((result) => {
       if (result.meta.requestStatus === 'fulfilled') {
-        router.push('/Auth/LogOut/Company/Confirmation');
+        router.push('/Auth/Sign_in/Company/Confirmation');
       }
     });
   }
@@ -192,7 +192,7 @@ function SetPasswordPage() {
 
           <div className='flex gap-6 justify-center mb-12 mt-10'>
             <Link 
-              href='/Auth/LogOut/Company'
+              href='/Auth/Sign_in/Company'
               className="px-4 py-2 w-64 flex justify-center items-center border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px]"
             >
               {t('the previous')}

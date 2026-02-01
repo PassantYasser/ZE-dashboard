@@ -66,7 +66,7 @@ function CompanyInformationPage() {
         })).unwrap();
         
         // If OTP sent successfully, navigate to OTP page
-        router.push("/Auth/LogOut/Company/PhoneOtp");
+        router.push("/Auth/Sign_in/Company/PhoneOtp");
       } catch (error) {
         console.error("Failed to send OTP:", error);
         // Error will be displayed from Redux state

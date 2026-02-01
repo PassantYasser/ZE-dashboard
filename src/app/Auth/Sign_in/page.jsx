@@ -1,15 +1,22 @@
-"use client";
-import SecondSection from '@/app/Components/login/SecondSection';
-import Link from 'next/link';
+"use client"
+import SecondSection from '@/app/Components/login/SecondSection'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SignuPage() {
-  const {t}= useTranslation()
+import { useRegistration } from './RegistrationContext'
 
-  const handleRole =(role)=>{
-    localStorage.setItem('role', role)
+function Sign_inPage() {
+    const {t}= useTranslation()
+    const router = useRouter();
+    const { updateRegistrationData } = useRegistration();
+
+  const handleRole = (role) => {
+    console.log("Selecting role:", role);
+    updateRegistrationData({ role });
+    router.push('/Auth/Sign_in/Company');
   }
+
   return (
     <>
       <div className="p-8 lg1:flex justify-between gap-8 ">
@@ -28,35 +35,32 @@ function SignuPage() {
           </div>
 
           <div className='flex justify-center gap-12'>
-            <Link 
-              href='/Auth/Signup/Company' 
+            <div 
               onClick={()=>handleRole('company')}
-              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
+              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px] cursor-pointer'>
               <span className='flex justify-center mb-5'>
                 <img src="/images/Company.svg" alt="" />
               </span>
               <p className='flex justify-center text-[#000] text-2xl font-medium'>{t('Company')} </p>
-            </Link>
+            </div>
 
-            <Link 
-              href='/Auth/Signup/Freelance' 
+            <div 
               onClick={()=>handleRole('freelance')}
-              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px]'>
+              className='flex flex-col justify-center w-62.5 h-62.5 border border-[#C69815] bg-[#F9F5E8] rounded-[3px] cursor-pointer'>
               <span className='flex justify-center mb-5'>
                 <img src="/images/Freelance.svg" alt="" />
               </span>
               <span className='flex justify-center text-[#000] text-2xl font-medium'>{t('Freelance')} </span>
-            </Link>
+            </div>
           
           </div>
         </section>
 
-          {/* second section */}
-      <SecondSection />
+        {/* second section */}
+        <SecondSection />
       </div>
-
     </>
   )
 }
 
-export default SignuPage
+export default Sign_inPage
