@@ -7,7 +7,7 @@ import FreelancePage from './SignUpData/Freelance/page';
 
 function CompleteSignupDataPage() {
   const {t} = useTranslation();
-  const role = 'company' // 'company'  'freelance'
+  const role = 'freelance' // 'company'  'freelance'
   const [openCompany , setOpenCompany] = useState(false);
   const [openFreelance , setOpenFreelance] = useState(false);
 
