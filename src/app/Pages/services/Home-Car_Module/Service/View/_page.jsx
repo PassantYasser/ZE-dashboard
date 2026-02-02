@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import { getServiceAnalysisByIdThunk, getServiceByIdThunk } from "@/redux/slice/Services/ServicesSlice";
-import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
+import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
+// import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
 const DetailsPage = dynamic(
   () => import("./Details/page"),

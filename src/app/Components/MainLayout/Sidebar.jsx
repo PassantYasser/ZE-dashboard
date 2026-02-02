@@ -162,17 +162,17 @@ const [openFinance, setOpenFinance] = useState(false);
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/services") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/services" onClick={() => setIsSidebarOpen(false)}>
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Services") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Services" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-4 px-2'>
-                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/services") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/Services") ? "invert" : ""}/>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/services") ? "invert" : ""}/>
+                  <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/Services") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
