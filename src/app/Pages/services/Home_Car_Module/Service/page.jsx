@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllServicesThunk } from "@/redux/slice/Services/ServicesSlice";
 import Pagination from "./Pagination";
 import { CircularProgress } from "@mui/material";
+import No_services_Add from "./No_services_Add";
 
 
 const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
@@ -29,11 +30,11 @@ function ServicePage() {
       const newParams = { ...prev };
       // Handle Status: If present in filters, update it. If empty array, remove it.
       if (filters.hasOwnProperty('status')) {
-         if (Array.isArray(filters.status) && filters.status.length === 0) {
-           delete newParams.status;
-         } else {
-           newParams.status = filters.status;
-         }
+        if (Array.isArray(filters.status) && filters.status.length === 0) {
+          delete newParams.status;
+        } else {
+          newParams.status = filters.status;
+        }
       }
       return newParams;
     });
@@ -100,28 +101,35 @@ function ServicePage() {
         </div>
       </section>
 
-      <section className="mt-10 w-full mb-8 grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
+      <section className="mt-10 w-full mb-8">
         {/* <ServiceCard /> */}
         {loading ? (
-           <div className="flex justify-center items-center h-60 w-full col-span-full">
-              <CircularProgress color="warning" size={60}  />
-           </div>
+          <section className=" grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
+            <div className="flex justify-center items-center h-60 w-full col-span-full">
+                <CircularProgress color="warning" size={60}  />
+            </div>
+          </section>
         ) : !error && services?.length > 0 ? (
           services.map((service) => (
+            <>
             <ServiceCard key={service.id} service={service} />
+            </>
+            
           ))
         ) : (
-          <div className="flex justify-center items-center h-60 w-full col-span-full">
-             <p className="text-gray-500 text-xl">{t("No services found")}</p>
-          </div>
+          <>
+            <No_services_Add/>
+          </>
         )}
       </section>
       
-      <Pagination
-        totalPages={pagination?.last_page || 1}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
+      {services?.length > 0 && (
+        <Pagination
+          totalPages={pagination?.last_page || 1}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
 
       <FiltersPage 
         open={open} 
