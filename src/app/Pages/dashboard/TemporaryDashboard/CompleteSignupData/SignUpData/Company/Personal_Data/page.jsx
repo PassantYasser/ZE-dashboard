@@ -4,14 +4,23 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 import OtpEmailPage from '../OtpEmail/page';
+import { useSignupData } from '../../../SignupDataContext';
 
 function Personal_DataPage({ open, setOpen }) {
   const {t} = useTranslation();
+  const { signupData, updateSignupData } = useSignupData();
 
   const [openMap, setOpenMap] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  
   const handleLocationConfirm = (location) => {
-    setSelectedLocation(location);
+    updateSignupData({
+        address: location.address,
+        latitude: location.lat,
+        longitude: location.lng,
+        country: location.country,
+        state: location.state,
+        city: location.city
+    });
   };
 
   const [openOtpEmail, setOpenOtpEmail] = useState(false);
@@ -19,6 +28,12 @@ function Personal_DataPage({ open, setOpen }) {
     setOpen(false);
     setOpenOtpEmail(true);
   }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateSignupData({ [name]: value });
+  };
+
   return (
   <>
     <Dialog
@@ -48,6 +63,9 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Company Name')}</p>
             <input 
               type="text"
+              name="companyName"
+              value={signupData.companyName}
+              onChange={handleChange}
               placeholder={t('Enter company name')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
@@ -58,6 +76,9 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Email')}</p>
             <input 
               type="text"
+              name="email"
+              value={signupData.email}
+              onChange={handleChange}
               placeholder={t('Enter your email address')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
@@ -68,6 +89,9 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Number of employees')}</p>
             <input 
               type="text"
+              name="workers_count"
+              value={signupData.workers_count}
+              onChange={handleChange}
               placeholder={t('Enter the number of employees')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
@@ -78,6 +102,9 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Years of experience')}</p>
             <input 
               type="text"
+              name="yearsofexperience"
+              value={signupData.yearsofexperience}
+              onChange={handleChange}
               placeholder={t('Enter the number of years of experience')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
@@ -97,7 +124,7 @@ function Personal_DataPage({ open, setOpen }) {
               
               <textarea
                 readOnly
-                value={selectedLocation?.address || ''}
+                value={signupData.address || ''}
                 // placeholder={t("Click to select location on map")}
                 className="border border-[#C8C8C8] min-h-14  rounded-[3px] outline-none w-full px-3 py-1 "
               />

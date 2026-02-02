@@ -3,17 +3,22 @@ import React, { useState } from 'react'
 import ConfirmationDonePage from '../../ConfirmationDone/page'
 import { Dialog } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { useSignupData } from '../../../../SignupDataContext';
+import { SecondRegistrationThunk } from '@/redux/slice/Auth/AuthSlice';
 
 function SecondFilePage({open , setOpen ,setOpenPrevious}) {
   const {t}= useTranslation();
+  const { signupData, updateSignupData } = useSignupData();
+  const dispatch = useDispatch();
     // Front national ID card photo 
-    const [file, setFile] = useState(null);
+    const file = signupData.id_front;
     const [progress, setProgress] = useState(0);
   
     const handleFileChange = (e) => {
       const selectedFile = e.target.files[0];
       if (selectedFile && selectedFile.type === "application/pdf") {
-        setFile(selectedFile);
+        updateSignupData({ id_front: selectedFile });
   
         let uploaded = 0;
         const interval = setInterval(() => {
@@ -28,18 +33,18 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
     };
   
     const handleRemove = () => {
-      setFile(null);
+      updateSignupData({ id_front: null });
       setProgress(0);
     };
 
     //Back national ID card photo
-    const [BackFile , setBackFile]= useState(null);
+    const BackFile = signupData.id_back;
     const[BackProgress , setBackProgress]= useState(0);
     
     const handleBackFileChange = (e)=>{
       const selectBackFile = e.target.files[0];
       if(selectBackFile && selectBackFile.type === "application/pdf" ){
-        setBackFile(selectBackFile);
+        updateSignupData({ id_back: selectBackFile });
         let uploaded=0;
         const interval = setInterval(() => {
           uploaded += 20;
@@ -52,7 +57,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
       }
     }
     const handleBackRemove = () => {
-      setBackFile(null);
+      updateSignupData({ id_back: null });
       setBackProgress(0);
     };
   
@@ -63,9 +68,30 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
       setOpenPrevious(true);
     }
   
-    const handleNext = () => {
-      setOpen(false);
-      setOpenConfirmation(true);
+    const handleNext = async () => {
+      const formData = new FormData();
+      // Append text data
+      Object.keys(signupData).forEach(key => {
+          if (signupData[key] && key !== 'commercial_register' && key !== 'tax_card' && key !== 'id_front' && key !== 'id_back') {
+              formData.append(key, signupData[key]);
+          }
+      });
+  
+      // Append files
+      if (signupData.commercial_register instanceof File) formData.append('commercial', signupData.commercial_register);
+      if (signupData.tax_card instanceof File) formData.append('tax_card', signupData.tax_card);
+      if (signupData.id_front instanceof File) formData.append('id_front', signupData.id_front);
+      if (signupData.id_back instanceof File) formData.append('id_back', signupData.id_back);
+  
+      const token = localStorage.getItem('token'); 
+  
+      try {
+          await dispatch(SecondRegistrationThunk({ formData, token })).unwrap();
+          setOpen(false);
+          setOpenConfirmation(true);
+      } catch (error) {
+          console.error("Registration failed:", error);
+      }
     }
   return (
     <>
@@ -257,6 +283,8 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
             <div className='flex flex-col gap-3 my-6'>
               <label>{t('National ID number')} </label>
               <input type="text" className='h-15 p-3 border border-[#C8C8C8] rounded-[3px] outline-none'
+                value={signupData.national_id}
+                onChange={(e) => updateSignupData({ national_id: e.target.value })}
                 placeholder={t('Enter your national ID number')}/>
             </div>
 
