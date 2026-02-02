@@ -183,7 +183,7 @@ export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
     }
   })
 
-//❌ send email to send otp for new email
+//✔️ send email to send otp for new email
 export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
   async({email} , thunkAPI)=>{
     try{
@@ -197,7 +197,7 @@ export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
   }
 )
 
-//❌forget password - verify email otp
+//✔️forget password - verify email otp
 export const VerifyEmailOtpThunk= createAsyncThunk('auth/VerifyEmailOtpThunk',
   async(payload , thunkAPI)=>{
     try{

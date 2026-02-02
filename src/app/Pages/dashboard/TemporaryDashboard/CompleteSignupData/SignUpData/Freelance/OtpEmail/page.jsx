@@ -3,15 +3,20 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import FilesPage from '../Files/page';
+import { useDispatch } from 'react-redux';
+import { sendEmailThunk, VerifyEmailOtpThunk } from '@/redux/slice/Auth/AuthSlice';
+import { useSignupData } from '../../../SignupDataContext';
 
 function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
   const {t} = useTranslation();
+  const { signupData } = useSignupData();
+  const dispatch = useDispatch();
 
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
   const [timeLeft, setTimeLeft] = useState(30);
   const [canResend, setCanResend] = useState(false);
 
-  const email = "example@email.com";
+  const email = signupData.email;
 
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -49,7 +54,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
   const handleResend = () => {
     setTimeLeft(30);
     setCanResend(false);
-    console.log("Resend OTP");
+    dispatch(sendEmailThunk({email}));
   };
 
 
@@ -60,9 +65,17 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
     setOpenPrevious(true);
   }
 
-  const handleNext = () => {
-    setOpen(false);
-    setOpenFile(true);
+  const handleNext = async () => {
+    const otp = otpValues.join("");
+    if (otp.length === 4) {
+        try {
+            await dispatch(VerifyEmailOtpThunk({ email, otp })).unwrap();
+            setOpen(false);
+            setOpenFile(true);
+        } catch (error) {
+            console.error("OTP Verification failed", error);
+        }
+    }
   }
 
   return (
