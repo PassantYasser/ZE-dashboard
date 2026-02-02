@@ -110,7 +110,16 @@ export const FirstRegistration = async(formData)=>{
   return response.data
 }
 
-
+export const SecondRegistration = async(formData,token)=>{
+  const response = await API.post('/provider/complete-profile', formData , {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  console.log('SecondRegistration',response.data);
+  return response.data
+}
 
 
 
