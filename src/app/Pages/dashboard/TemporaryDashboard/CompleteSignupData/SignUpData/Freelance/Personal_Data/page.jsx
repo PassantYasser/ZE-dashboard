@@ -4,14 +4,22 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 import OtpEmailPage from '../OtpEmail/page';
+import { useSignupData } from '../../../SignupDataContext';
 
 function Personal_DataPage({ open, setOpen }) {
   const {t} = useTranslation();
+  const { signupData, updateSignupData } = useSignupData();
 
   const [openMap, setOpenMap] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState(null);
   const handleLocationConfirm = (location) => {
-    setSelectedLocation(location);
+    updateSignupData({
+      address: location.address,
+      latitude: location.latitude,
+      longitude: location.longitude,
+      country: location.country,
+      state: location.state,
+      city: location.city
+    });
   };
 
   const [openOtpEmail, setOpenOtpEmail] = useState(false);
@@ -49,6 +57,9 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Email')}</p>
             <input 
               type="text"
+              name="email"
+              value={signupData.email}
+              onChange={(e) => updateSignupData({ email: e.target.value })}
               placeholder={t('Enter your email address')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
@@ -59,13 +70,16 @@ function Personal_DataPage({ open, setOpen }) {
             <p className='text-[#364152] text-base font-normal'>{t('Years of experience')}</p>
             <input 
               type="text"
+              name="yearsofexperience"
+              value={signupData.yearsofexperience}
+              onChange={(e) => updateSignupData({ yearsofexperience: e.target.value })}
               placeholder={t('Enter the number of years of experience')}
               className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
             />
           </div>
 
           
-          {/* Company address */}
+            {/* Company address */}
           <div className="flex flex-col gap-3 mt-6" onClick={() => setOpenMap(true)}>
             <p className="text-[#364152] text-base font-normal">
               {t("Company address")}
@@ -79,11 +93,13 @@ function Personal_DataPage({ open, setOpen }) {
               
               <textarea
                 readOnly
-                value={selectedLocation?.address || ''}
+                value={signupData.address || ''}
+                // placeholder={t("Click to select location on map")}
                 className="border border-[#C8C8C8] min-h-14  rounded-[3px] outline-none w-full px-3 py-1 "
               />
             </div>
           </div>
+
 
 
           {/* btn */}
