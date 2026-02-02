@@ -3,6 +3,7 @@ import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import ConfirmationDonePage from '../ConfirmationDone/page';
+import SecondFilePage from './SecondFile/page';
 
 function FilesPage({open , setOpen ,setOpenPrevious}) {
   const {t}= useTranslation();
@@ -57,7 +58,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
       setTaxProgress(0);
     };
   
-  const [openConfirmation, setOpenConfirmation]= useState(false);
+    const [openSecondFile , setOpenSecondFile]= useState(false);
   const handlePrevious = () => {
     setOpen(false);
     setOpenPrevious(true);
@@ -65,7 +66,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
   const handleNext = () => {
     setOpen(false);
-    setOpenConfirmation(true);
+    setOpenSecondFile(true);
   }
   return (
     <>
@@ -267,7 +268,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                 onClick={handleNext}
                 className="px-4 py-2 w-full h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
               >
-                {t('confirmation')}
+                {t('the next')}
               </button>
             </div>
 
@@ -275,8 +276,8 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
           </div>
         </section>
       </Dialog>
-      <ConfirmationDonePage open={openConfirmation} setOpen={setOpenConfirmation} />
 
+      <SecondFilePage open={openSecondFile} setOpen={setOpenSecondFile} setOpenPrevious={setOpen} />
     </>
   )
 }

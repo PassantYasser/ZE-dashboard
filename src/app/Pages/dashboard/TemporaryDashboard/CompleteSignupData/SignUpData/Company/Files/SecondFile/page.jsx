@@ -1,12 +1,11 @@
-"use client";
-import { Dialog } from '@mui/material'
+'use client';
 import React, { useState } from 'react'
+import ConfirmationDonePage from '../../ConfirmationDone/page'
+import { Dialog } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import ConfirmationDonePage from '../ConfirmationDone/page';
 
-function FilesPage({open , setOpen ,setOpenPrevious}) {
+function SecondFilePage({open , setOpen ,setOpenPrevious}) {
   const {t}= useTranslation();
-
     // Front national ID card photo 
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -57,17 +56,17 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
       setBackProgress(0);
     };
   
-  
-  const [openConfirmation, setOpenConfirmation]= useState(false);
-  const handlePrevious = () => {
-    setOpen(false);
-    setOpenPrevious(true);
-  }
 
-  const handleNext = () => {
-    setOpen(false);
-    setOpenConfirmation(true);
-  }
+  const [openConfirmation, setOpenConfirmation]= useState(false);
+    const handlePrevious = () => {
+      setOpen(false);
+      setOpenPrevious(true);
+    }
+  
+    const handleNext = () => {
+      setOpen(false);
+      setOpenConfirmation(true);
+    }
   return (
     <>
       <Dialog
@@ -91,7 +90,9 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
           <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Upload legal documents')}</p>
         </section>
 
-        <section className="py-11 px-12.5">
+
+
+      <section className="py-11 px-12.5">
           <div className=' border border-[#CDD5DF] p-10'>
             {/* note */}
             <ul className=" bg-[#EEF2F6] text-[#775B0D] text-base font-normal py-3 px-4 rounded-[3px] list-disc list-inside">
@@ -104,7 +105,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
             </ul>
             
             
-              {/* Front national ID card photo */}
+            {/* Front national ID card photo */}
             <div className="flex flex-col gap-3 mt-8">
               <label className="text-[#364152]">{t("Front national ID card photo")}</label>
 
@@ -259,30 +260,33 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                 placeholder={t('Enter your national ID number')}/>
             </div>
 
-            <div className='flex gap-6 justify-between w-full'>
-              <button 
-                onClick={handlePrevious}
-                className="px-4 py-2 w-full h-13.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
-              >
-                {t('the previous')}
-              </button>
+          <div className='flex gap-6 justify-between w-full'>
+            <button 
+              onClick={handlePrevious}
+              className="px-4 py-2 w-full h-13.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+            >
+              {t('the previous')}
+            </button>
 
-              <button
-                onClick={handleNext}
-                className="px-4 py-2 w-full h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
-              >
-                {t('confirmation')}
-              </button>
-            </div>
+            <button
+              onClick={handleNext}
+              className="px-4 py-2 w-full h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            >
+              {t('confirmation')}
+            </button>
+          </div>
 
 
           </div>
         </section>
+      
+
       </Dialog>
+
       <ConfirmationDonePage open={openConfirmation} setOpen={setOpenConfirmation} />
 
     </>
   )
 }
 
-export default FilesPage
+export default SecondFilePage
