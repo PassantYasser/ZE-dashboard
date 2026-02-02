@@ -5,10 +5,13 @@ import { useTranslation } from 'react-i18next';
 import MapDialog from './MapDialog';
 import OtpEmailPage from '../OtpEmail/page';
 import { useSignupData } from '../../../SignupDataContext';
+import { sendEmailThunk } from '@/redux/slice/Auth/AuthSlice';
+import { useDispatch } from 'react-redux';
 
 function Personal_DataPage({ open, setOpen }) {
   const {t} = useTranslation();
   const { signupData, updateSignupData } = useSignupData();
+  const dispatch = useDispatch();
 
   const [openMap, setOpenMap] = useState(false);
   
@@ -24,9 +27,15 @@ function Personal_DataPage({ open, setOpen }) {
   };
 
   const [openOtpEmail, setOpenOtpEmail] = useState(false);
-  const handleNext = () => {
-    setOpen(false);
-    setOpenOtpEmail(true);
+const handleNext = async () => {
+    if (!signupData.email) return; // Add validation toast here if needed
+    try {
+        await dispatch(sendEmailThunk({ email: signupData.email })).unwrap();
+        setOpen(false);
+        setOpenOtpEmail(true);
+    } catch(error) {
+        console.error("Failed to send OTP:", error);
+    }
   }
 
   const handleChange = (e) => {
