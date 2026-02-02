@@ -52,16 +52,24 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
     try {
       // استخدام Reverse Geocoding للحصول على العنوان الفعلي
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${mapPosition[0]}&lon=${mapPosition[1]}&accept-language=ar`
+        `/api/geocode?lat=${mapPosition[0]}&lon=${mapPosition[1]}`
       );
       const data = await response.json();
       
       const address = data.display_name || `${mapPosition[0]}, ${mapPosition[1]}`;
-      
+      const addressDetails = data.address || {};
+
+      const city = addressDetails.city || addressDetails.town || addressDetails.village || addressDetails.county || addressDetails.municipality || "";
+      const state = addressDetails.state || addressDetails.region || addressDetails.state_district || "";
+      const country = addressDetails.country || "";
+
       onConfirm({
         latitude: mapPosition[0],
         longitude: mapPosition[1],
         address: address,
+        city: city,
+        state: state,
+        country: country
       });
     } catch (error) {
       onConfirm({

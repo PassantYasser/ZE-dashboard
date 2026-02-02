@@ -15,8 +15,8 @@ function Personal_DataPage({ open, setOpen }) {
   const handleLocationConfirm = (location) => {
     updateSignupData({
         address: location.address,
-        latitude: location.lat,
-        longitude: location.lng,
+        latitude: location.latitude,
+        longitude: location.longitude,
         country: location.country,
         state: location.state,
         city: location.city
