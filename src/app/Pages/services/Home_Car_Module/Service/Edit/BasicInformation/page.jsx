@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { Dialog } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAreasThunk, getCategoriesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
-import { IMAGE_BASE_URL } from "../../../../../../config/imageUrl";
+import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
 
 
 function BasicInformationPage({ handleGoBack, handleNext, service, formData, handleChange }) {

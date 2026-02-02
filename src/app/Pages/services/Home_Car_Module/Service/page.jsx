@@ -77,7 +77,9 @@ function ServicePage() {
           <p className="text-[#000] text-2xl font-medium flex items-center">
             {t("Services")}
           </p>
-          <AddBtn href="/Pages/services/Add" label="Add a sub-service" />
+          <AddBtn               
+            href="/Pages/Services/Home_Car_Module/Service/Add"
+            label="Add a sub-service" />
         </div>
 
         
@@ -90,7 +92,7 @@ function ServicePage() {
           <div className="lg1:flex lg1:gap-4 gap-6">
             <FilterBtn onClick={handleClickOpen} />
             <AddBtn
-              href="/Pages/services/Add"
+            href="/Pages/Services/Home_Car_Module/Service/Add"
               label="Add a sub-service"
               className="hidden lg1:flex"
             />

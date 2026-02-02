@@ -27,7 +27,7 @@ function DetailsPage({handleClose ,status ,service}) {
 
   const handleEditClick = () => {
     handleClose();
-    router.push(`/Pages/services/Edit?id=${service?.id}`);
+    router.push(`/Pages/Services/Home_Car_Module/Service/Edit?id=${service?.id}`);
   };
 
   const handleDelete = async () => {
