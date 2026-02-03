@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import No_subscription from '../../../../Components/No_subscription/No_subscription';
+import Complete_Data from '@/app/Components/Complete_Data/Complete_Data';
 
 function No_services_Add() {
   const { t } = useTranslation();
   const [hasSubscription, setHasSubscription] = useState(true);
+  const [nationalId, setNationalId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,7 +17,14 @@ function No_services_Add() {
       setHasSubscription(false);
     } else {
       setHasSubscription(true);
+    };
+    if (!user?.national_id) {
+      setNationalId(false);
+    } else {
+      setNationalId(true);
     }
+
+
     setLoading(false);
   }, []);
 
@@ -35,7 +44,7 @@ function No_services_Add() {
       </button>
     </div>
     {!hasSubscription && <No_subscription setHasSubscription={setHasSubscription} />}
-
+    {!nationalId &&<Complete_Data setNationalId={setNationalId}/>}
     </>
   )
 }
