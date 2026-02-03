@@ -72,64 +72,68 @@ function ServicePage() {
 
   return (
     <MainLayout>
-      <section>
-        {/* 📱 Mobile / Tablet Header */}
-        <div className="lg1:hidden flex justify-between mb-8">
-          <p className="text-[#000] text-2xl font-medium flex items-center">
-            {t("Services")}
-          </p>
-          <AddBtn               
-            href="/Pages/Services/Home_Car_Module/Service/Add"
-            label="Add a sub-service" />
-        </div>
-
-        
-
-        <div className="flex justify-between">
-          <SearchForm 
-            placeholderKey="Search by worker name, job title, or phone number" 
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-          <div className="lg1:flex lg1:gap-4 gap-6">
-            <FilterBtn onClick={handleClickOpen} />
-            <AddBtn
-            href="/Pages/Services/Home_Car_Module/Service/Add"
-              label="Add a sub-service"
-              className="hidden lg1:flex"
-            />
+    {loading || services?.length > 0 ? (
+      <>
+        <section>
+          {/* 📱 Mobile / Tablet Header */}
+          <div className="lg1:hidden flex justify-between mb-8">
+            <p className="text-[#000] text-2xl font-medium flex items-center">
+              {t("Services")}
+            </p>
+            <AddBtn               
+              href="/Pages/Services/Home_Car_Module/Service/Add"
+              label="Add a sub-service" />
           </div>
-        </div>
-      </section>
 
-      <section className="mt-10 w-full mb-8">
-        {/* <ServiceCard /> */}
-        {loading ? (
-          <section className=" grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
-            <div className="flex justify-center items-center h-60 w-full col-span-full">
-                <CircularProgress color="warning" size={60}  />
+          
+
+          <div className="flex justify-between">
+            <SearchForm 
+              placeholderKey="Search by worker name, job title, or phone number" 
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+            <div className="lg1:flex lg1:gap-4 gap-6">
+              <FilterBtn onClick={handleClickOpen} />
+              <AddBtn
+              href="/Pages/Services/Home_Car_Module/Service/Add"
+                label="Add a sub-service"
+                className="hidden lg1:flex"
+              />
             </div>
-          </section>
-        ) : !error && services?.length > 0 ? (
-          services.map((service) => (
-            <>
-            <ServiceCard key={service.id} service={service} />
-            </>
-            
-          ))
-        ) : (
-          <>
-            <No_services_Add/>
-          </>
-        )}
-      </section>
-      
-      {services?.length > 0 && (
-        <Pagination
-          totalPages={pagination?.last_page || 1}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
-      )}
+          </div>
+        </section>
+
+        <section className="mt-10 w-full mb-8">
+          {/* <ServiceCard /> */}
+          {loading ? (
+            <section className=" grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
+              <div className="flex justify-center items-center h-60 w-full col-span-full">
+                  <CircularProgress color="warning" size={60}  />
+              </div>
+            </section>
+          ) : !error && services?.length > 0 ? (
+            <section className=" grid  gap-4 lg1:grid-cols-3 lg1:gap-6">
+              {services.map((service) => (
+                <ServiceCard key={service.id} service={service} />
+              ))}
+            </section>
+          ) : (
+          null
+          )}
+        </section>
+        
+    
+          <Pagination
+            totalPages={pagination?.last_page || 1}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+      </>
+    ):(
+      <No_services_Add/>
+    )
+  }
+
 
       <FiltersPage 
         open={open} 
