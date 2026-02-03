@@ -1,9 +1,27 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import No_subscription from '../../../../Components/No_subscription/No_subscription';
 
 function No_services_Add() {
   const { t } = useTranslation();
+  const [hasSubscription, setHasSubscription] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    // Check if has_subscription is false or missing
+    if (!user?.has_subscription) {
+      setHasSubscription(false);
+    } else {
+      setHasSubscription(true);
+    }
+    setLoading(false);
+  }, []);
+
+  if (loading) return null;
+
+
   return (
     <>
     <div className='flex flex-col items-center justify-center  mt-30'>
@@ -16,6 +34,7 @@ function No_services_Add() {
         
       </button>
     </div>
+    {!hasSubscription && <No_subscription setHasSubscription={setHasSubscription} />}
 
     </>
   )
