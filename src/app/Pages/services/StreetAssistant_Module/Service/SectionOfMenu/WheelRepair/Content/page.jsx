@@ -52,7 +52,7 @@ function ContentPage() {
       },
   }));
   
-  
+
 
   return (
     <>
@@ -111,7 +111,7 @@ function ContentPage() {
             </div>
             
             <div className='flex flex-col gap-1.5 mb-4'>
-              <label className="text-[#364152] text-sm font-normal">{t('Battery operating cost')}</label>
+              <label className="text-[#364152] text-sm font-normal">{t('Price of inspection')}</label>
               <input 
                 type="text"
                 placeholder={t('Enter the price')}
