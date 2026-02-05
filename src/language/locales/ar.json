@@ -601,6 +601,13 @@
   "Car unlock":"فتح سيارة",
   "Fuel delivery":"توصيل الوقود",
   "General maintenance":"صيانة عامة",
+
+  "Activation of all services":"تفعيل لكل الخدمات",
+  "Number of requests":"عدد الطلبات",
+  "Activate the service":"تفعيل الخدمة",
+  "Battery operating cost":"سعر تشغيل البطارية",
+  "Enter the price":"ادخل السعر",
+  "Is the service available only during daytime hours?":"هل تتوفر الخدمة خلال ساعات النهار فقط؟",
   
 
 

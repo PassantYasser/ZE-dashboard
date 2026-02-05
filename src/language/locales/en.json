@@ -601,6 +601,14 @@
   "Car unlock":"Car unlock",
   "Fuel delivery":"Fuel delivery",
   "General maintenance":"General maintenance",
+
+  "Activation of all services":"Activation of all services",
+  "Number of requests":"Number of requests",
+  "Activate the service":"Activate the service",
+  "Battery operating cost":"Battery operating cost",
+  "Enter the price":"Enter the price",
+  "Is the service available only during daytime hours?":"Is the service available only during daytime hours?",
+  
   
   
 
