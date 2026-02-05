@@ -343,16 +343,16 @@ const [openFinance, setOpenFinance] = useState(false);
           </Link>
           </li>
           
-          <li  className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-          <button  onClick={handleLogout}>
+          <li  onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <button >
               {open?(
               //open 
-                <div className='flex gap-4 items-center'>
+                <div className='flex gap-4 items-center cursor-pointer'>
                   <img src="/images/icons/signout.svg" alt="" />
                   <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
                 </div>
               ):(
-                <div className='flex justify-center items-center'>
+                <div className='flex justify-center items-center cursor-pointer'>
                   <img src="/images/icons/signout.svg" alt="" />
                 </div>
             )}
