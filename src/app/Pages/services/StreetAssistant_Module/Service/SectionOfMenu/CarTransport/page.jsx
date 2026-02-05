@@ -1,8 +1,16 @@
 import React from 'react'
+import Header from './Header'
+import ContentPage from './Content/page'
 
 function CarTransportPage() {
   return (
-    <div>CarTransportPage</div>
+    <>
+      <div className="border border-[#E3E8EF] mb-8">
+        <Header/>
+        <ContentPage/>
+      </div>
+
+    </>
   )
 }
 
