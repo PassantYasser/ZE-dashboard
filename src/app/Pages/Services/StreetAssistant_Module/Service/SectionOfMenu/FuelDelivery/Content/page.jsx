@@ -1,8 +1,10 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
+import AddFuel from './Dialogs/AddFuel'
+import UpdateFuel from './Dialogs/UpdateFuel'
 
 function ContentPage() {
   const {t} = useTranslation()
@@ -51,19 +53,27 @@ function ContentPage() {
         }),
       },
   }));
-  
 
+    const [isActive , setIsActive] = useState(true)
+
+    const [openContent, setOpenContent] = useState(false);
+    const [openAddFuel , setOpenAddFuel] = useState(false)
+    const [openUpdateFuel , setOpenUpdateFuel] = useState(false)
+
+  
 
   return (
     <>
       <div className=' p-6'>
         <div className='border border-[#CDD5DF] p-6'>
 
+          {/*  */}
           <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-[3px]'>
             <p className='text-[#4B5565] text-base font-normal '>{t('Activation of all services')}</p>
             <GreenSwitch   />
           </div>
 
+          {/*  */}
           <div className='flex gap-3 w-full mb-6'>
             {/* Total profits */}
             <section className='border border-[#CDD5DF] rounded-[3px] p-4 w-full'>
@@ -104,32 +114,70 @@ function ContentPage() {
           </div>
 
           <div className='border border-[#CDD5DF] p-6'>
-
+            {/*  */}
             <div className='flex gap-4 mb-6'>
               <p className='text-[#4B5565] text-base font-normal '>{t('Activate the service')}</p>
               <GreenSwitch   />
             </div>
-            
-            <div className='flex flex-col gap-1.5 mb-4'>
-              <label className="text-[#364152] text-sm font-normal">{t('Price per kilometer')}</label>
-              <input 
-                type="text"
-                placeholder={t('Enter the price')}
-                className='border border-[#C8C8C8] w-full h-14 px-3 outline-none'
-                />
-            </div>
 
-            <div className='flex flex-col gap-1.5 mb-4'>
-              <label className="text-[#364152] text-sm font-normal">{t('Towing cost is low')}</label>
-              <input 
-                type="text"
-                placeholder={t('Enter the price')}
-                className='border border-[#C8C8C8] w-full h-14 px-3 outline-none'
-                />
-            </div>
+            {/*  */}
+            <div className='border border-[#CDD5DF] p-3 mb-4'>
+              <div className='flex justify-between'>
+                <p className='flex gap-2 w-full'>
+                  <img src="/images/icons/fuel_Yellow.svg" alt="" />
+                  <span className='text-[#0F022E] text-base font-normal'>{t('Types of fuel')}</span>
+                </p>
 
+                {openContent ?(
+                  <button className='flex items-center cursor-pointer' onClick={()=>setOpenContent(!openContent)}>
+                    <img src="/images/icons/ArrowUp.svg" alt=""  />
+                  </button>
+                ):(
+                  <button className='flex items-center cursor-pointer' onClick={()=>setOpenContent(!openContent)}>
+                    <img src="/images/icons/ArrowDown.svg" alt=""  />
+                  </button>
+                )}
+                
+              </div>
+
+              {openContent && (
+                <div className="py-4 ">
+
+                  <div className='flex justify-between py-3 px-2 mb-3 border border-[#CDD5DF]  '>
+                    <div className='flex gap-9'>
+                      <div className='flex gap-2'>
+                        {isActive ? (
+                          <img src="/images/icons/True_RounedCheck.svg" alt="" className='w-4.5 h-4.5' />
+                        ):(
+                          <img src="/images/icons/cancel-circle-red.svg" alt="" className='w-4.5 h-4.5'/>
+                        )}
+                        <p className='text-[#4B5565] text-sm font-normal'>بنزين 92</p>
+                      </div>
+                      <p className='text-[#4B5565] text-sm font-normal'>17,25 جنية</p>
+                    </div>
+
+                    <button 
+                      onClick={()=>setOpenUpdateFuel(true)}
+                      className='cursor-pointer'>
+                      <img src="/images/icons/EditGray.svg" alt="" />
+                    </button>
+                  </div>
+
+                  
+
+                  {/* btn */}
+                  <button
+                    onClick={()=>setOpenAddFuel(true)}
+                    className='flex gap-2 justify-center items-center  w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer'>
+                    <img src="/images/icons/AddYellowIcon.svg" alt="" className='w-6 h-6'/>
+                    <p className='text-base font-medium' >{t('Add type')}</p>
+                  </button>
+
+                </div>
+              )}
+            </div>
           
-
+            {/* // */}
             <div>
               <p className='text-[#4B5565] text-sm font-normal mb-3'>{t('Is the service available only during daytime hours?')}</p>
               {[t('yes'), t('no')].map((item, index) => (
@@ -161,6 +209,10 @@ function ContentPage() {
         </div>
       </div>
     
+
+
+    <AddFuel open={openAddFuel} setOpen={setOpenAddFuel} />
+    <UpdateFuel open={openUpdateFuel} setOpen={setOpenUpdateFuel}/>
     </>
   )
 }

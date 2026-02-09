@@ -126,7 +126,7 @@ function ContentPage() {
 
             <div>
               <p className='text-[#4B5565] text-sm font-normal mb-3'>{t('Is the service available only during daytime hours?')}</p>
-              {["نعم", "لا"].map((item, index) => (
+              {[t('yes'), t('no')].map((item, index) => (
                 <label key={index} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
