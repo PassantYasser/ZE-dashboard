@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
+import DeleteDialog from './DeleteDialog'
 
 
 function UpdateFuel({open , setOpen}) {
@@ -68,6 +69,13 @@ function UpdateFuel({open , setOpen}) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const [openDelete , setOpenDelete] = useState(false)
+
+  const handleOpenDelete = ()=>{
+    setOpen(false)
+    setOpenDelete(true)
+  }
   return (
     <>
     <Dialog
@@ -89,6 +97,7 @@ function UpdateFuel({open , setOpen}) {
       <p className='flex justify-center text-[#0F022E] text-2xl font-medium mb-6'>{t('Fuel type modification')}</p>
 
       <section className='p-6'>
+        {/*  */}
         <div className='flex justify-between items-center px-4 py-3 mb-3 border border-[#CDD5DF] rounded-[3px]'>
           <p className='text-[#4B5565] text-base font-normal '>{t('Fuel activation')}</p>
           <GreenSwitch   />
@@ -171,7 +180,7 @@ function UpdateFuel({open , setOpen}) {
             <button className='w-full h-14 bg-[var(--color-primary)] text-white cursor-pointer  '>
               {t('Save changes')}
             </button>
-            <button className='w-full h-14 border border-[#D92D20] text-[#D92D20] cursor-pointer  '>
+            <button onClick={handleOpenDelete} className='w-full h-14 border border-[#D92D20] text-[#D92D20] cursor-pointer  '>
               {t('delete')}
             </button>
           </div>
@@ -179,6 +188,8 @@ function UpdateFuel({open , setOpen}) {
 
       </section>
     </Dialog>
+
+    <DeleteDialog open={openDelete} setOpen={setOpenDelete} />
     </>
   )
 }
