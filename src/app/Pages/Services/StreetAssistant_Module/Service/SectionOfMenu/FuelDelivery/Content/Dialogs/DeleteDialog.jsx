@@ -34,7 +34,7 @@ function DeleteDialog({open,setOpen }) {
         <p className='text-[#0F022E] text-xl font-semibold mb-4'>
           {t('Are you sure you want to delete this policy?')}
         </p>
-        <p className='text-[#697586] text-base font-normal w-97 text-center '>
+        <p className='text-[#697586] text-base font-normal  text-center '>
           { t('This policy will be removed from your list and will no longer be available.')}
         </p>
       </div>
