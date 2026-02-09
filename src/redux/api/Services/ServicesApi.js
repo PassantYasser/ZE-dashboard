@@ -62,3 +62,14 @@ export const deleteService = async (service_id) => {
   const response = await API.delete(`/provider/services/${service_id}`);
   return response.data;
 };
+
+
+
+
+//street assistant
+/* ************************** */
+
+export const getStreetServiceById =async()=>{
+  const response = await API.get('/street_assistant/services')
+  return response.data
+}

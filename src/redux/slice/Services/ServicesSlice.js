@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -122,6 +122,23 @@ export const deleteServiceThunk = createAsyncThunk(
   }
 );
 
+
+//street assistant
+/* ************************** */
+
+export const getStreetServiceByIdThunk = createAsyncThunk(
+  'sevices/getStreetServiceByIdThunk', 
+    async(_,{rejectWithValue })=>{
+      try{
+        const response = await getStreetServiceById()
+        return response
+      }catch(error){
+        return rejectWithValue(error.response?.data || error.message);
+      }
+  }
+)
+
+
 const initialState = {
     services: [],
     pagination: null,
@@ -136,6 +153,10 @@ const initialState = {
     loadingDetails: false,  
     errorList: null,
     errorDetails: null,
+
+    /** */
+    streetServices:[],
+    selectedService:null
   };
 
 const servicesSlice = createSlice({
@@ -144,6 +165,10 @@ const servicesSlice = createSlice({
   reducers: {
     clearService: (state) => {
       state.service = null; // optional clear on dialog close
+    },
+    selectServiceById: (state, action) => {
+      state.selectedService =
+        state.streetServices.find(s => s.id === action.payload) || null
     },
   },
   extraReducers: (builder) => {
@@ -271,12 +296,28 @@ const servicesSlice = createSlice({
         state.loadingDetails = false;
         // Optimization: remove from list immediately
         if (state.services) {
-           state.services = state.services.filter(s => s.id !== action.meta.arg);
+          state.services = state.services.filter(s => s.id !== action.meta.arg);
         }
       })
       .addCase(deleteServiceThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
+      })
+
+//street assistant
+/* ************************** */
+      //getStreetServiceByIdThunk
+      .addCase(getStreetServiceByIdThunk.pending, (state) => {
+        state.loadingList = true
+      })
+      .addCase(getStreetServiceByIdThunk.fulfilled, (state, action) => {
+        state.loadingList = false
+        state.streetServices = action.payload.services
+        state.selectedService = action.payload.services[0] || null
+      })
+      .addCase(getStreetServiceByIdThunk.rejected, (state, action) => {
+        state.loadingList = false
+        state.errorList = action.payload
       })
 
 
