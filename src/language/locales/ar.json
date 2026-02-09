@@ -618,8 +618,11 @@
   "no":"لا",
   "Types of fuel":"أنواع الوقود",
   "Add type":"إضافة نوع",
+  "Add fuel type":"أضافة نوع وقود",
+  "Choose fuel type":"اختار نوع الوقود",
+  "pound":"جنية",
+  "The price must match the official prices to avoid account suspension.":"يجب ان يكون السعر مطابق للاسعار الرسمية لتجنب إيقاف الحساب",
   
-
 
   
   "":"" 
