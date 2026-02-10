@@ -77,7 +77,13 @@ function ContentPage() {
       },
   }));
   
-
+if (loadingList) {
+    return (
+      <div className='p-6 flex items-center justify-center'>
+        <p className='text-[#4B5565]'>{t('Loading...')}</p>
+      </div>
+    )
+  }
 
   return (
     <>

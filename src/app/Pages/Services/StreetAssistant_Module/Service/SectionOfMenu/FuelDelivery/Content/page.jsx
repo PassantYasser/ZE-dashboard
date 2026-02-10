@@ -1,13 +1,38 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import AddFuel from './Dialogs/AddFuel'
 import UpdateFuel from './Dialogs/UpdateFuel'
+import { useDispatch, useSelector } from 'react-redux'
+import { getStreetServiceByIdThunk } from '@/redux/slice/Services/ServicesSlice'
 
 function ContentPage() {
   const {t} = useTranslation()
+
+    /**api */
+    const dispatch = useDispatch()
+    const { streetServices, loadingList } = useSelector((state) => state.services)
+    const batteryReviveService = streetServices?.find(service => service.id === 39)
+    
+    const [mainStatus, setMainStatus] = useState(true)
+    const [serviceStatus, setServiceStatus] = useState(false)
+    const [price, setPrice] = useState('')
+    const [isDayOnly, setIsDayOnly] = useState(0)
+  
+    useEffect(() => {
+      dispatch(getStreetServiceByIdThunk())
+    }, [dispatch])
+  
+    useEffect(() => {
+      if (batteryReviveService?.settings) {
+        setServiceStatus(batteryReviveService.settings.status === 1)
+        setPrice(batteryReviveService.settings.price || '')
+        setIsDayOnly(batteryReviveService.settings.is_day_only)
+      }
+    }, [batteryReviveService])
+
 
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -54,6 +79,7 @@ function ContentPage() {
       },
   }));
 
+
     const [isActive , setIsActive] = useState(true)
 
     const [openContent, setOpenContent] = useState(false);
@@ -61,6 +87,13 @@ function ContentPage() {
     const [openUpdateFuel , setOpenUpdateFuel] = useState(false)
 
   
+  if (loadingList) {
+    return (
+      <div className='p-6 flex items-center justify-center'>
+        <p className='text-[#4B5565]'>{t('Loading...')}</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -70,7 +103,9 @@ function ContentPage() {
           {/*  */}
           <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-[3px]'>
             <p className='text-[#4B5565] text-base font-normal '>{t('Activation of all services')}</p>
-            <GreenSwitch   />
+            <GreenSwitch 
+              checked={mainStatus}
+              onChange={(e) => setMainStatus(e.target.checked)}  />
           </div>
 
           {/*  */}
@@ -86,7 +121,7 @@ function ContentPage() {
               </div>
 
               <div className='py-2.5'>
-                <p className='text-[#202939] text-lg font-medium'>22</p>
+                <p className='text-[#202939] text-lg font-medium'>{batteryReviveService?.bookings_sum || 0}</p>
               </div>
 
             </section>
@@ -103,7 +138,7 @@ function ContentPage() {
 
               <div className='py-2.5'>
                 <p className='text-[#202939] text-lg font-medium'>
-                  <span>11</span>
+                  <span>{batteryReviveService?.bookings_count || 0}</span>
                   <span>{t('Requests')}</span>
                 
                 </p>
@@ -117,7 +152,22 @@ function ContentPage() {
             {/*  */}
             <div className='flex gap-4 mb-6'>
               <p className='text-[#4B5565] text-base font-normal '>{t('Activate the service')}</p>
-              <GreenSwitch   />
+              <GreenSwitch 
+              checked={serviceStatus}
+                onChange={(e) => setServiceStatus(e.target.checked)}
+              />
+            </div>
+
+            {/*  */}
+            <div className='flex flex-col gap-1.5 mb-4'>
+              <label className="text-[#364152] text-sm font-normal">{t('Price per kilometer')}</label>
+              <input 
+                type="text"
+                placeholder={t('Enter the price')}
+                value={price}
+                onChange={(e)=>setPrice(e.target.value)}
+                className='border border-[#C8C8C8] w-full h-14 px-3 outline-none'
+                />
             </div>
 
             {/*  */}
@@ -180,20 +230,24 @@ function ContentPage() {
             {/* // */}
             <div>
               <p className='text-[#4B5565] text-sm font-normal mb-3'>{t('Is the service available only during daytime hours?')}</p>
-              {[t('yes'), t('no')].map((item, index) => (
+                {[
+                  { label: t('yes'), value: 1 },
+                  { label: t('no'), value: 0 }
+                ].map((item, index) => (
                 <label key={index} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="radio"
                     name="day_service"
                     className="peer hidden"
-                    defaultChecked={item === "نعم"}
+                    checked={isDayOnly === item.value}
+                    onChange={() => setIsDayOnly(item.value)}
                   />
 
                   <span className="w-5 h-5 mb-2 rounded-full border border-gray-400 flex items-center justify-center peer-checked:bg-[var(--color-primary)] peer-checked:border-0">
                     <img src="/images/icons/checkWhite.svg" alt="" />
                   </span>
 
-                  <span className='mb-2 text-[#697586] text-sm font-normal'>{item}</span>
+                  <span className='mb-2 text-[#697586] text-sm font-normal'>{item.label}</span>
                 </label>
               ))}
 
