@@ -6,14 +6,16 @@ import { styled } from '@mui/material/styles'
 import AddFuel from './Dialogs/AddFuel'
 import UpdateFuel from './Dialogs/UpdateFuel'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStreetServiceByIdThunk } from '@/redux/slice/Services/ServicesSlice'
+import { getFuelPricesThunk, getStreetServiceByIdThunk } from '@/redux/slice/Services/ServicesSlice'
 
 function ContentPage() {
   const {t} = useTranslation()
 
     /**api */
     const dispatch = useDispatch()
-    const { streetServices, loadingList } = useSelector((state) => state.services)
+    const { streetServices,fuelPrice, loadingList } = useSelector((state) => state.services)
+    const fuel = fuelPrice?.data
+
     const batteryReviveService = streetServices?.find(service => service.id === 39)
     
     const [mainStatus, setMainStatus] = useState(true)
@@ -23,6 +25,7 @@ function ContentPage() {
   
     useEffect(() => {
       dispatch(getStreetServiceByIdThunk())
+      dispatch(getFuelPricesThunk())
     }, [dispatch])
   
     useEffect(() => {
@@ -80,7 +83,7 @@ function ContentPage() {
   }));
 
 
-    const [isActive , setIsActive] = useState(true)
+    // const [isActive , setIsActive] = useState(fuel?.is_active)
 
     const [openContent, setOpenContent] = useState(false);
     const [openAddFuel , setOpenAddFuel] = useState(false)
@@ -192,36 +195,43 @@ function ContentPage() {
 
               {openContent && (
                 <div className="py-4 ">
-
-                  <div className='flex justify-between py-3 px-2 mb-3 border border-[#CDD5DF]  '>
-                    <div className='flex gap-9'>
-                      <div className='flex gap-2'>
-                        {isActive ? (
-                          <img src="/images/icons/True_RounedCheck.svg" alt="" className='w-4.5 h-4.5' />
-                        ):(
-                          <img src="/images/icons/cancel-circle-red.svg" alt="" className='w-4.5 h-4.5'/>
-                        )}
-                        <p className='text-[#4B5565] text-sm font-normal'>بنزين 92</p>
+                  {fuel?.map((fuel) => (
+                    <div 
+                      key={fuel?.id} 
+                      className='flex justify-between py-3 px-2 mb-3 border border-[#CDD5DF]  ' 
+                    
+                    >
+                      <div className='flex gap-9'>
+                        <div className='flex gap-2'>
+                          {fuel?.is_active ? (
+                            <img src="/images/icons/True_RounedCheck.svg" alt="" className='w-4.5 h-4.5' />
+                          ):(
+                            <img src="/images/icons/cancel-circle-red.svg" alt="" className='w-4.5 h-4.5'/>
+                          )}
+                          <p className='text-[#4B5565] text-sm font-normal'>{fuel?.type_name} </p>
+                        </div>
+                        <p className='text-[#4B5565] text-sm font-normal'>{fuel?.price} جنية</p>
                       </div>
-                      <p className='text-[#4B5565] text-sm font-normal'>17,25 جنية</p>
+
+                      <button 
+                        onClick={()=>setOpenUpdateFuel(true)}
+                        className='cursor-pointer'>
+                        <img src="/images/icons/EditGray.svg" alt="" />
+                      </button>
                     </div>
-
-                    <button 
-                      onClick={()=>setOpenUpdateFuel(true)}
-                      className='cursor-pointer'>
-                      <img src="/images/icons/EditGray.svg" alt="" />
-                    </button>
-                  </div>
-
+                  ))}
                   
 
                   {/* btn */}
+                  {!fuelPrice?.all_created ?(
                   <button
                     onClick={()=>setOpenAddFuel(true)}
                     className='flex gap-2 justify-center items-center  w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer'>
                     <img src="/images/icons/AddYellowIcon.svg" alt="" className='w-6 h-6'/>
                     <p className='text-base font-medium' >{t('Add type')}</p>
                   </button>
+                  ):null}
+                  
 
                 </div>
               )}

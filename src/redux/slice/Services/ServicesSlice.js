@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -138,6 +138,18 @@ export const getStreetServiceByIdThunk = createAsyncThunk(
   }
 )
 
+export const getFuelPricesThunk = createAsyncThunk(
+  'service/getFuelPricesThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getFuelPrices()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState = {
     services: [],
@@ -156,7 +168,8 @@ const initialState = {
 
     /** */
     streetServices:[],
-    selectedService:null
+    selectedService:null,
+    fuelPrice:[]
   };
 
 const servicesSlice = createSlice({
@@ -318,6 +331,20 @@ const servicesSlice = createSlice({
       .addCase(getStreetServiceByIdThunk.rejected, (state, action) => {
         state.loadingList = false
         state.errorList = action.payload
+      })
+      
+      // getFuelPricesThunk
+      .addCase(getFuelPricesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getFuelPricesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.fuelPrice = action.payload;
+      })
+      .addCase(getFuelPricesThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
       })
 
 
