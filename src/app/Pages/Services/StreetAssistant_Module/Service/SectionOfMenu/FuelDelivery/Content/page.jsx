@@ -88,6 +88,7 @@ function ContentPage() {
     const [openContent, setOpenContent] = useState(false);
     const [openAddFuel , setOpenAddFuel] = useState(false)
     const [openUpdateFuel , setOpenUpdateFuel] = useState(false)
+    const [selectedFuel, setSelectedFuel] = useState(null)
 
   
   if (loadingList) {
@@ -214,7 +215,10 @@ function ContentPage() {
                       </div>
 
                       <button 
-                        onClick={()=>setOpenUpdateFuel(true)}
+                        onClick={() => {
+                          setSelectedFuel(fuel)
+                          setOpenUpdateFuel(true)
+                        }}
                         className='cursor-pointer'>
                         <img src="/images/icons/EditGray.svg" alt="" />
                       </button>
@@ -276,7 +280,7 @@ function ContentPage() {
 
 
     <AddFuel open={openAddFuel} setOpen={setOpenAddFuel} />
-    <UpdateFuel open={openUpdateFuel} setOpen={setOpenUpdateFuel}/>
+    <UpdateFuel open={openUpdateFuel} setOpen={setOpenUpdateFuel} fuelData={selectedFuel} />
     </>
   )
 }

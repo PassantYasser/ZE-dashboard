@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles'
 import DeleteDialog from './DeleteDialog'
 
 
-function UpdateFuel({open , setOpen}) {
+function UpdateFuel({open , setOpen, fuelData}) {
   
   const {t}= useTranslation();
   const GreenSwitch = styled((props) => (
@@ -55,6 +55,10 @@ function UpdateFuel({open , setOpen}) {
       },
   }));
 
+  // Form state
+  const [isActive, setIsActive] = useState(false)
+  const [fuelPrice, setFuelPrice] = useState('')
+
   // type of fuel (1)
   // =========================
   const [open1, setOpen1] = useState(false);
@@ -69,6 +73,15 @@ function UpdateFuel({open , setOpen}) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Populate form when fuelData changes
+  useEffect(() => {
+    if (fuelData) {
+      setIsActive(fuelData?.is_active || false)
+      setSelected1(fuelData?.type_name || null)
+      setFuelPrice(fuelData?.price || '')
+    }
+  }, [fuelData])
 
   const [openDelete , setOpenDelete] = useState(false)
 
@@ -100,7 +113,10 @@ function UpdateFuel({open , setOpen}) {
         {/*  */}
         <div className='flex justify-between items-center px-4 py-3 mb-3 border border-[#CDD5DF] rounded-[3px]'>
           <p className='text-[#4B5565] text-base font-normal '>{t('Fuel activation')}</p>
-          <GreenSwitch   />
+          <GreenSwitch 
+            checked={isActive}
+            onChange={(e) => setIsActive(e.target.checked)}
+          />
         </div>
 
           {/* ==========type of fuel  ========== */}
@@ -166,6 +182,8 @@ function UpdateFuel({open , setOpen}) {
             <input 
               type="text"
               placeholder={t('Enter the price')}
+              value={fuelPrice}
+              onChange={(e) => setFuelPrice(e.target.value)}
               className='border border-[#C8C8C8] text-[#364152] w-full h-14 px-3 outline-none'
               />
           </div>
