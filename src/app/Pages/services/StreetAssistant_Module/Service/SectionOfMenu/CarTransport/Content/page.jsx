@@ -91,6 +91,7 @@ function ContentPage() {
   return (
     <>
       <div className=' p-6'>
+        <p className='hidden'>{batteryReviveService?.settings?.id}</p>
         <div className='border border-[#CDD5DF] p-6'>
         
           {/*  */}

@@ -97,6 +97,7 @@ function ContentPage() {
   return (
     <>
       <div className=' p-6'>
+        <p className='hidden'>{batteryReviveService?.settings?.id}</p>
         <div className='border border-[#CDD5DF] p-6'>
 
           <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-[3px]'>
