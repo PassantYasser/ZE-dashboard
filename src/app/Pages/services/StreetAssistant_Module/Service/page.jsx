@@ -18,8 +18,8 @@ function ServicePage() {
           </div>
 
           <div className='w-[70%]'>
-          <SectionOfMenuPage selectedMenu={selectedMenu}/>
-        </div>
+            <SectionOfMenuPage selectedMenu={selectedMenu}/>
+          </div>
         </div>
       </>
     </MainLayout>
