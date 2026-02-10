@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -151,6 +151,18 @@ export const getFuelPricesThunk = createAsyncThunk(
 )
 
 
+export const getActiveFuelTypesThunk = createAsyncThunk(
+  'service/getActiveFuelTypesThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getActiveFuelTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState = {
     services: [],
     pagination: null,
@@ -169,7 +181,8 @@ const initialState = {
     /** */
     streetServices:[],
     selectedService:null,
-    fuelPrice:[]
+    fuelPrice:[],
+    ActiveFuel:[]
   };
 
 const servicesSlice = createSlice({
@@ -332,7 +345,7 @@ const servicesSlice = createSlice({
         state.loadingList = false
         state.errorList = action.payload
       })
-      
+
       // getFuelPricesThunk
       .addCase(getFuelPricesThunk.pending, (state) => {
         state.loadingList = true;
@@ -343,6 +356,20 @@ const servicesSlice = createSlice({
         state.fuelPrice = action.payload;
       })
       .addCase(getFuelPricesThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
+      //getActiveFuelTypesThunk
+      .addCase(getActiveFuelTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getActiveFuelTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.ActiveFuel = action.payload;
+      })
+      .addCase(getActiveFuelTypesThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })

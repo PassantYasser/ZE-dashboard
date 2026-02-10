@@ -78,3 +78,8 @@ export const getFuelPrices = async()=>{
   const response = await API.get('/street_assistant/getFuelPrices')
   return response.data
 }
+
+export const getActiveFuelTypes = async()=>{
+  const response = await API.get('/street_assistant/getActiveFuelTypes')
+  return response.data
+}

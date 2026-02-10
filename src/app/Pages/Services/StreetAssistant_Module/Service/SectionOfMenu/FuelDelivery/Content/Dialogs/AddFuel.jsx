@@ -1,10 +1,23 @@
 'use client'
+import { getActiveFuelTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux';
 
 function AddFuel({open , setOpen}) {
   const {t}= useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const {ActiveFuel} = useSelector((state) => state.services)
+
+  useEffect(() => {
+    if (!ActiveFuel || ActiveFuel.length === 0) {
+      dispatch(getActiveFuelTypesThunk());
+    }
+  }, [dispatch, ActiveFuel]);
+
 
   // type of fuel (1)
   // =========================
@@ -12,7 +25,7 @@ function AddFuel({open , setOpen}) {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionFuel = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+  const optionFuel = Array.isArray(ActiveFuel?.data) ? ActiveFuel.data  : [];
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -77,19 +90,19 @@ function AddFuel({open , setOpen}) {
                 <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionFuel
                     .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue1.toLowerCase())
+                      opt.name.toLowerCase().includes(searchValue1.toLowerCase())
                     )
                     .map((opt) => (
                       <li
-                        key={opt}
+                        key={opt.id}
                         onClick={() => {
-                          setSelected1(opt);
+                          setSelected1(opt.name);
                           setOpen1(false);
                           setSearchValue1("");
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {opt}
+                        {opt.name}
                       </li>
                     ))}
                 </ul>

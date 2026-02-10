@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'
 import DeleteDialog from './DeleteDialog'
 
 
+
 function UpdateFuel({open , setOpen, fuelData}) {
   
   const {t}= useTranslation();
@@ -59,6 +60,8 @@ function UpdateFuel({open , setOpen, fuelData}) {
   const [isActive, setIsActive] = useState(false)
   const [fuelPrice, setFuelPrice] = useState('')
 
+  
+  
   // type of fuel (1)
   // =========================
   const [open1, setOpen1] = useState(false);
@@ -125,54 +128,14 @@ function UpdateFuel({open , setOpen, fuelData}) {
               {t("Fuel type")}
             </label>
 
-            <div className="relative w-full" ref={dropdownRef1}>
-              <div
-                className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
-                onClick={() => setOpen1(!open1)}
-              >
-                <input
-                  type="text"
-                  placeholder={t("Choose fuel type")}
-                  value={selected1 || searchValue1}   
-                  onChange={(e) => {
-                    setSearchValue1(e.target.value);
-                    setOpen1(true);
-                    setSelected1(null);
-                  }}
-                  className="h-14 p-3 w-full text-[#364152] focus:outline-none"
-                />
-
-                <span className="absolute left-3 pointer-events-none">
-                  {open1 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="up" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="down" />
-                  )}
-                </span>
-              </div>
-
-              {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                  {optionFuel
-                    .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue1.toLowerCase())
-                    )
-                    .map((opt) => (
-                      <li
-                        key={opt}
-                        onClick={() => {
-                          setSelected1(opt);
-                          setOpen1(false);
-                          setSearchValue1("");
-                        }}
-                        className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                      >
-                        {opt}
-                      </li>
-                    ))}
-                </ul>
-              )}
-
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder={t("Choose fuel type")}
+                value={selected1 || ''}
+                disabled
+                className="h-14 p-3 w-full text-[#364152] bg-gray-100 border border-[#C8C8C8] rounded-[3px] cursor-not-allowed opacity-75"
+              />
             </div>
           </div>
 
