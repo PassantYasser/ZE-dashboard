@@ -66,18 +66,7 @@ function UpdateFuel({open , setOpen, fuelData}) {
   // =========================
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState(null);
-  const [searchValue1, setSearchValue1] = useState("");
-  const dropdownRef1 = useRef(null);
-  const optionFuel = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);        };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // Populate form when fuelData changes
   useEffect(() => {
     if (fuelData) {
       setIsActive(fuelData?.is_active || false)
