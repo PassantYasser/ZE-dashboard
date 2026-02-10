@@ -3,7 +3,7 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function DeleteDialog({open,setOpen }) {
+function DeleteDialog({open,setOpen, onConfirm }) {
     const {t} = useTranslation();
   
   return (
@@ -43,6 +43,7 @@ function DeleteDialog({open,setOpen }) {
 
       <section className='w-full flex p-6 gap-3'>
         <button 
+          onClick={onConfirm}
           className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] cursor-pointer '
         >
           <span className='text-base font-medium'>{t('delete')}</span>

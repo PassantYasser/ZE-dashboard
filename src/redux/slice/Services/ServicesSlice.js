@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -156,6 +156,18 @@ export const getActiveFuelTypesThunk = createAsyncThunk(
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getActiveFuelTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const deleteFuelPriceThunk = createAsyncThunk(
+  'services/deleteFuelPriceThunk' , 
+  async(id, {rejectWithValue})=>{
+    try{
+      const response = await deleteFuelPrice(id)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -370,6 +382,25 @@ const servicesSlice = createSlice({
         state.ActiveFuel = action.payload;
       })
       .addCase(getActiveFuelTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
+      // deleteFuelPriceThunk
+      .addCase(deleteFuelPriceThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(deleteFuelPriceThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        // Assuming action.meta.arg is the id passed to the thunk
+        if (Array.isArray(state.fuelPrice)) {
+          state.fuelPrice = state.fuelPrice.filter(item => item.id !== action.meta.arg);
+        } else {
+          state.fuelPrice = []; // fallback
+        }
+      })
+      .addCase(deleteFuelPriceThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })

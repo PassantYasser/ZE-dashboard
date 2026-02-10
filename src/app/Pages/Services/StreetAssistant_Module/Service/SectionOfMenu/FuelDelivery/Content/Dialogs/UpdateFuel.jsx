@@ -5,12 +5,15 @@ import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import DeleteDialog from './DeleteDialog'
+import { useDispatch } from 'react-redux'
+import { deleteFuelPriceThunk } from '@/redux/slice/Services/ServicesSlice'
 
 
 
 function UpdateFuel({open , setOpen, fuelData}) {
   
   const {t}= useTranslation();
+  const dispatch = useDispatch();
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
@@ -81,6 +84,16 @@ function UpdateFuel({open , setOpen, fuelData}) {
     setOpen(false)
     setOpenDelete(true)
   }
+
+  const handleDelete = () => {
+    if (fuelData?.id) {
+      dispatch(deleteFuelPriceThunk(fuelData.id)).unwrap().then(() => {
+        setOpenDelete(false)
+        setOpen(false)
+      })
+    }
+  }
+
   return (
     <>
     <Dialog
@@ -159,7 +172,7 @@ function UpdateFuel({open , setOpen, fuelData}) {
       </section>
     </Dialog>
 
-    <DeleteDialog open={openDelete} setOpen={setOpenDelete} />
+    <DeleteDialog open={openDelete} setOpen={setOpenDelete} onConfirm={handleDelete} />
     </>
   )
 }
