@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -188,6 +188,19 @@ export const updateServiceSettingThunk = createAsyncThunk(
   }
 )
 
+export const updateServiceSettingStatusThunk = createAsyncThunk(
+  'services/updateServiceSettingStatusThunk',
+  async(formData, {rejectWithValue})=>{
+    try{
+      const response = await updateServiceSettingStatus(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 const initialState = {
     services: [],
     pagination: null,
@@ -209,7 +222,8 @@ const initialState = {
     fuelPrice:[],
     ActiveFuel:[],
 
-    serviceData:[]
+    serviceData:[],
+    statusData:[],
   };
 
 const servicesSlice = createSlice({
@@ -431,6 +445,21 @@ const servicesSlice = createSlice({
 
       })
       .addCase(updateServiceSettingThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
+      //updateServiceSettingStatusThunk
+      .addCase(updateServiceSettingStatusThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(updateServiceSettingStatusThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.statusData = action.payload;
+
+      })
+      .addCase(updateServiceSettingStatusThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })

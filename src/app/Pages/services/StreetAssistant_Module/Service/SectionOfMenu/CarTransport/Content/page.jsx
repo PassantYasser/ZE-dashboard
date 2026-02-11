@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStreetServiceByIdThunk, updateServiceSettingThunk } from '@/redux/slice/Services/ServicesSlice'
+import { getStreetServiceByIdThunk, updateServiceSettingStatusThunk, updateServiceSettingThunk } from '@/redux/slice/Services/ServicesSlice'
 
 function ContentPage() {
   const {t} = useTranslation()
@@ -52,6 +52,28 @@ function ContentPage() {
           console.error("Failed to update settings:", error)
         })
     }
+
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.checked;
+    setServiceStatus(newStatus); // Update UI immediately
+
+    if (!batteryReviveService?.settings?.id) return;
+
+    const data = {
+      service_setting_id: batteryReviveService.settings.id,
+      status: newStatus ? 1 : 0
+    }
+
+    dispatch(updateServiceSettingStatusThunk(data))
+      .unwrap()
+      .then(() => {
+        dispatch(getStreetServiceByIdThunk()) // Refresh data to stay in sync
+      })
+      .catch((error) => {
+        console.error("Failed to update status:", error)
+        setServiceStatus(!newStatus); // Revert UI on failure
+      })
+  }
 
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -168,7 +190,7 @@ function ContentPage() {
               <p className='text-[#4B5565] text-base font-normal '>{t('Activate the service')}</p>
               <GreenSwitch  
                 checked={serviceStatus}
-                onChange={(e) => setServiceStatus(e.target.checked)} 
+                onChange={handleStatusChange} 
               />
             </div>
 
