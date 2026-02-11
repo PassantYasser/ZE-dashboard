@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -199,6 +199,17 @@ export const updateServiceSettingStatusThunk = createAsyncThunk(
     }
   }
 )
+export const streetAssistantStatusThunk = createAsyncThunk(
+  'services/streetAssistantStatusThunk',
+  async(formData, {rejectWithValue})=>{
+    try{
+      const response = await streetAssistantStatus(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 const initialState = {
@@ -224,6 +235,7 @@ const initialState = {
 
     serviceData:[],
     statusData:[],
+    mainStatus:null
   };
 
 const servicesSlice = createSlice({
@@ -460,6 +472,21 @@ const servicesSlice = createSlice({
 
       })
       .addCase(updateServiceSettingStatusThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+      //streetAssistantStatusThunk
+      .addCase(streetAssistantStatusThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(streetAssistantStatusThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        if (action.payload.status !== undefined) {
+        state.mainStatus = action.payload.status;
+        }
+      })
+      .addCase(streetAssistantStatusThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })
