@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -225,6 +225,18 @@ export const createFuelPriceThunk = createAsyncThunk(
   }
 )
 
+export const updateFuelPriceThunk = createAsyncThunk(
+  'services/updateFuelPriceThunk',
+  async(formData, {rejectWithValue})=>{
+    try{
+      const response = await updateFuelPrice(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState = {
     services: [],
     pagination: null,
@@ -250,6 +262,7 @@ const initialState = {
     statusData:[],
     mainStatus:false,
     FuelPriceData:[],
+    updateFuel:[]
   };
 
 const servicesSlice = createSlice({
@@ -519,6 +532,22 @@ const servicesSlice = createSlice({
         state.loadingList = false;
         state.errorList = action.payload;
       })
+
+      //updateFuelPriceThunk
+      .addCase(updateFuelPriceThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(updateFuelPriceThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.updateFuel = action.payload;
+
+      })
+      .addCase(updateFuelPriceThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
 
 
 

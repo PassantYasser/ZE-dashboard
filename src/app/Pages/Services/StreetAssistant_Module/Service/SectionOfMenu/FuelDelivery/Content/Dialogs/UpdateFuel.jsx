@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import DeleteDialog from './DeleteDialog'
-import { useDispatch } from 'react-redux'
-import { deleteFuelPriceThunk } from '@/redux/slice/Services/ServicesSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteFuelPriceThunk, updateFuelPriceThunk, getFuelPricesThunk } from '@/redux/slice/Services/ServicesSlice'
 
 
 
@@ -14,6 +14,7 @@ function UpdateFuel({open , setOpen, fuelData}) {
   
   const {t}= useTranslation();
   const dispatch = useDispatch();
+  const { loadingList } = useSelector((state) => state.services);
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
@@ -94,6 +95,32 @@ function UpdateFuel({open , setOpen, fuelData}) {
     }
   }
 
+  const handleUpdate = () => {
+    if (!fuelData?.id || !fuelPrice) {
+      alert(t('Please fill all fields'));
+      return;
+    }
+
+    const formData = {
+      id: fuelData.id,
+      price: fuelPrice,
+      is_active: isActive ? 1 : 0
+    };
+
+    dispatch(updateFuelPriceThunk(formData))
+      .unwrap()
+      .then(() => {
+        // Refresh fuel prices list
+        dispatch(getFuelPricesThunk());
+        // Close dialog
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.error('Failed to update fuel price:', error);
+        alert(t('Failed to update fuel price'));
+      });
+  }
+
   return (
     <>
     <Dialog
@@ -160,8 +187,12 @@ function UpdateFuel({open , setOpen, fuelData}) {
 
           {/* btn */}
           <div className='flex gap-3 w-full'>
-            <button className='w-full h-14 bg-[var(--color-primary)] text-white cursor-pointer  '>
-              {t('Save changes')}
+            <button 
+              onClick={handleUpdate}
+              disabled={loadingList}
+              className='w-full h-14 bg-[var(--color-primary)] text-white cursor-pointer disabled:opacity-50'
+            >
+              {loadingList ? t('Loading...') : t('Save changes')}
             </button>
             <button onClick={handleOpenDelete} className='w-full h-14 border border-[#D92D20] text-[#D92D20] cursor-pointer  '>
               {t('delete')}

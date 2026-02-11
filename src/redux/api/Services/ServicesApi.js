@@ -110,3 +110,8 @@ export const createFuelPrice = async(formData)=>{
   const response = await API.post('/street_assistant/createFuelPrice',formData)
   return response.data
 }
+
+export const updateFuelPrice = async(formData)=>{
+  const response = await API.post('/street_assistant/updateFuelPrice',formData)
+  return response.data  
+}
