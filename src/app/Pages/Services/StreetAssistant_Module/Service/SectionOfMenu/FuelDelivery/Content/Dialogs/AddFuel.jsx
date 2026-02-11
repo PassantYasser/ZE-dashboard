@@ -1,5 +1,5 @@
 'use client'
-import { getActiveFuelTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { getActiveFuelTypesThunk, createFuelPriceThunk, getFuelPricesThunk } from '@/redux/slice/Services/ServicesSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,37 @@ function AddFuel({open , setOpen}) {
 
   //api
   const dispatch = useDispatch()
-  const {ActiveFuel} = useSelector((state) => state.services)
+  const {ActiveFuel, loadingList } = useSelector((state) => state.services)
+
+  const[formData , setFormData]=useState({
+    price:'',
+    type_id:'',
+    is_active:1
+  })
+
+  const handleSubmit = () => {
+    if (!formData.type_id || !formData.price) {
+      alert(t('Please fill all fields'));
+      return;
+    }
+
+    dispatch(createFuelPriceThunk(formData))
+      .unwrap()
+      .then(() => {
+        // Reset form
+        setFormData({ price: '', type_id: '', is_active: 1 });
+        setSelected1(null);
+        setSearchValue1('');
+        // Refresh fuel prices list
+        dispatch(getFuelPricesThunk());
+        // Close dialog
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.error('Failed to create fuel price:', error);
+        alert(t('Failed to add fuel price'));
+      });
+  }
 
   useEffect(() => {
     if (!ActiveFuel || ActiveFuel.length === 0) {
@@ -97,6 +127,7 @@ function AddFuel({open , setOpen}) {
                         key={opt.id}
                         onClick={() => {
                           setSelected1(opt.name);
+                          setFormData({ ...formData, type_id: opt.id });
                           setOpen1(false);
                           setSearchValue1("");
                         }}
@@ -117,6 +148,8 @@ function AddFuel({open , setOpen}) {
             <input 
               type="text"
               placeholder={t('Enter the price')}
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               className='border border-[#C8C8C8] text-[#364152] w-full h-14 px-3 outline-none'
               />
           </div>
@@ -127,8 +160,12 @@ function AddFuel({open , setOpen}) {
           </ul>
 
           {/* btn */}
-          <button className='w-full h-14 bg-[var(--color-primary)] text-white cursor-pointer  '>
-            {t('addition')}
+          <button 
+            onClick={handleSubmit}
+            disabled={loadingList}
+            className='w-full h-14 bg-[var(--color-primary)] text-white cursor-pointer disabled:opacity-50'
+          >
+            {loadingList ? t('Loading...') : t('addition')}
           </button>
 
       </section>

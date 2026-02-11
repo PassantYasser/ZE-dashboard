@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -213,6 +213,17 @@ export const streetAssistantStatusThunk = createAsyncThunk(
   }
 )
 
+export const createFuelPriceThunk = createAsyncThunk(
+  'services/createFuelPriceThunk',
+  async(formData, {rejectWithValue})=>{
+    try{
+      const response = await createFuelPrice(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initialState = {
     services: [],
@@ -237,7 +248,8 @@ const initialState = {
 
     serviceData:[],
     statusData:[],
-    mainStatus:false
+    mainStatus:false,
+    FuelPriceData:[],
   };
 
 const servicesSlice = createSlice({
@@ -490,6 +502,20 @@ const servicesSlice = createSlice({
         }
       })
       .addCase(streetAssistantStatusThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+      //createFuelPriceThunk
+      .addCase(createFuelPriceThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(createFuelPriceThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.FuelPriceData = action.payload;
+
+      })
+      .addCase(createFuelPriceThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })
