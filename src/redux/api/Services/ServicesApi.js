@@ -100,6 +100,8 @@ export const updateServiceSettingStatus = async(formData)=>{
 }
 
 export const streetAssistantStatus = async(formData)=>{
-  const response = await API.post('/provider/street-assistant-status',formData)
+  const response = await API.post('/provider/street-assistant-status', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
   return response.data
 }

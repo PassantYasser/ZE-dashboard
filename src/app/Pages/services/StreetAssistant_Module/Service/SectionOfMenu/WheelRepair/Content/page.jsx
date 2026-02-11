@@ -4,17 +4,17 @@ import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStreetServiceByIdThunk, updateServiceSettingStatusThunk, updateServiceSettingThunk } from '@/redux/slice/Services/ServicesSlice'
+import { getStreetServiceByIdThunk, streetAssistantStatusThunk, updateServiceSettingStatusThunk, updateServiceSettingThunk } from '@/redux/slice/Services/ServicesSlice'
 
 function ContentPage() {
   const {t} = useTranslation()
 
   /**api */
   const dispatch = useDispatch()
-  const { streetServices, loadingList } = useSelector((state) => state.services)
+  const { streetServices, loadingList, mainStatus: reduxMainStatus  } = useSelector((state) => state.services)
   const batteryReviveService = streetServices?.find(service => service.id === 36)
   
-  const [mainStatus, setMainStatus] = useState(true)
+  const [mainStatus, setMainStatus] = useState(false)
   const [serviceStatus, setServiceStatus] = useState(false)
   const [price, setPrice] = useState('')
   const [isDayOnly, setIsDayOnly] = useState(0)
@@ -30,6 +30,12 @@ function ContentPage() {
       setIsDayOnly(batteryReviveService.settings.is_day_only)
     }
   }, [batteryReviveService])
+
+  useEffect(() => {
+    if (reduxMainStatus !== null && reduxMainStatus !== undefined) {
+      setMainStatus(reduxMainStatus === 1)
+    }
+  }, [reduxMainStatus])
 
     const handleSave = () => {
       if (!batteryReviveService?.settings?.id) return;
@@ -71,6 +77,24 @@ function ContentPage() {
             setServiceStatus(!newStatus); // Revert UI on failure
           })
       }
+      
+    const handleMainStatusChange = (e) => {
+      const newStatus = e.target.checked;
+      setMainStatus(newStatus); // Update UI immediately
+
+      const formData = new FormData();
+      formData.append('street_assistant_status', newStatus ? 1 : 0);
+
+      dispatch(streetAssistantStatusThunk(formData))
+        .unwrap()
+        .then(() => {
+          console.log("Street assistant status updated successfully")
+        })
+        .catch((error) => {
+          console.error("Failed to update main status:", error)
+          setMainStatus(!newStatus); // Revert UI on failure
+        })
+    }
 
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -136,7 +160,7 @@ function ContentPage() {
             <p className='text-[#4B5565] text-base font-normal '>{t('Activation of all services')}</p>
             <GreenSwitch 
               checked={mainStatus}
-              onChange={(e) => setMainStatus(e.target.checked)}  
+              onChange={handleMainStatusChange}  
             />
           </div>
 

@@ -131,6 +131,7 @@ export const getStreetServiceByIdThunk = createAsyncThunk(
     async(_,{rejectWithValue })=>{
       try{
         const response = await getStreetServiceById()
+        console.log('getStreetServiceByIdThunk' , response);
         return response
       }catch(error){
         return rejectWithValue(error.response?.data || error.message);
@@ -199,6 +200,7 @@ export const updateServiceSettingStatusThunk = createAsyncThunk(
     }
   }
 )
+
 export const streetAssistantStatusThunk = createAsyncThunk(
   'services/streetAssistantStatusThunk',
   async(formData, {rejectWithValue})=>{
@@ -235,7 +237,7 @@ const initialState = {
 
     serviceData:[],
     statusData:[],
-    mainStatus:null
+    mainStatus:false
   };
 
 const servicesSlice = createSlice({
@@ -392,6 +394,7 @@ const servicesSlice = createSlice({
       .addCase(getStreetServiceByIdThunk.fulfilled, (state, action) => {
         state.loadingList = false
         state.streetServices = action.payload.services
+        state.mainStatus = action.payload.street_status
         state.selectedService = action.payload.services[0] || null
       })
       .addCase(getStreetServiceByIdThunk.rejected, (state, action) => {
