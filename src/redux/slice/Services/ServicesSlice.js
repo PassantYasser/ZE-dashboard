@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // get all services
@@ -171,6 +171,19 @@ export const deleteFuelPriceThunk = createAsyncThunk(
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const updateServiceSettingThunk = createAsyncThunk(
+  'services/updateServiceSettingThunk',
+  async(formData, {rejectWithValue})=>{
+    try{
+      const response = await updateServiceSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
     }
   }
 )
@@ -194,7 +207,9 @@ const initialState = {
     streetServices:[],
     selectedService:null,
     fuelPrice:[],
-    ActiveFuel:[]
+    ActiveFuel:[],
+
+    serviceData:[]
   };
 
 const servicesSlice = createSlice({
@@ -401,6 +416,21 @@ const servicesSlice = createSlice({
         }
       })
       .addCase(deleteFuelPriceThunk.rejected, (state, action) => {
+        state.loadingList = false;
+        state.errorList = action.payload;
+      })
+
+      // updateServiceSettingThunk
+      .addCase(updateServiceSettingThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(updateServiceSettingThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.serviceData = action.payload;
+
+      })
+      .addCase(updateServiceSettingThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
       })

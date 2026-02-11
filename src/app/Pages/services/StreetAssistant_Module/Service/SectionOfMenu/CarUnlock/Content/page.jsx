@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Switch from '@mui/material/Switch'
 import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStreetServiceByIdThunk } from '@/redux/slice/Services/ServicesSlice'
+import { getStreetServiceByIdThunk, updateServiceSettingThunk } from '@/redux/slice/Services/ServicesSlice'
 
 function ContentPage() {
   const {t} = useTranslation()
@@ -31,6 +31,24 @@ function ContentPage() {
     }
   }, [batteryReviveService])
 
+    const handleSave = () => {
+      if (!batteryReviveService?.settings?.id) return;
+
+      const data = {
+        service_setting_id: batteryReviveService.settings.id,
+        price: price,
+        is_day_only: isDayOnly,
+      }
+
+      dispatch(updateServiceSettingThunk(data))
+        .unwrap()
+        .then(() => {
+          dispatch(getStreetServiceByIdThunk()) // Refresh data after update
+        })
+        .catch((error) => {
+          console.error("Failed to update settings:", error)
+        })
+    }
 
   const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -197,7 +215,9 @@ if (loadingList) {
           </div>
 
           {/* btn */}
-          <button className='bg-[var(--color-primary)] text-white text-base font-medium h-15 w-[50%] rounded-[3px] my-6 cursor-pointer'>
+          <button 
+            onClick={handleSave}
+            className='bg-[var(--color-primary)] text-white text-base font-medium h-15 w-[50%] rounded-[3px] my-6 cursor-pointer'>
             {t('It was completed')}
           </button>
 

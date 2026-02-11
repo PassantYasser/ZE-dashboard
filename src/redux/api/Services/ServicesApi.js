@@ -88,3 +88,8 @@ export const deleteFuelPrice = async(id)=>{
   const response = await API.post('/street_assistant/deleteFuelPrice',{id})
   return response.data;
 }
+
+export const updateServiceSetting = async(formData)=>{
+  const response = await API.post('/street-assistant/update-service-setting', formData)
+  return response.data
+}
