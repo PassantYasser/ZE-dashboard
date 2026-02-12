@@ -1,40 +1,43 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DeleteDialog from './DeleteDialog';
 
 function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
   const {t} = useTranslation()
-      const StatusRender = (Status) => {
-      switch (Status) {
-        case "approved": // مقبولة 
-          return (
-            <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
-            <div className='py-1.5 px-3 flex items-center  gap-1'>
-              <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-              <span className=''>{t('Acceptable')}</span>
-            </div>
+  const StatusRender = (Status) => {
+    switch (Status) {
+      case "approved": // مقبولة 
+        return (
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex items-center  gap-1'>
+            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+            <span className=''>{t('Acceptable')}</span>
           </div>
-          );
-        case "pending":// قيد المراجعة
-          return (
-            <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
+        </div>
+        );
+      case "pending":// قيد المراجعة
+        return (
+          <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
+          <div className='py-1.5 px-3 flex items-center gap-1'>
+            <img src="/images/icons/Under review.svg" alt="" className=' mt-1' />
+            <span className=''>{t('Under review')}</span>
+          </div>
+        </div>
+        );
+      case "rejected": // مرفوضة
+        return (
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex items-center gap-1'>
-              <img src="/images/icons/Under review.svg" alt="" className=' mt-1' />
-              <span className=''>{t('Under review')}</span>
+              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
+              <span className=''>{t('rejected')}</span>
             </div>
           </div>
-          );
-        case "rejected": // مرفوضة
-          return (
-            <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
-              <div className='py-1.5 px-3 flex items-center gap-1'>
-                <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-                <span className=''>{t('rejected')}</span>
-              </div>
-            </div>
-          );
-      }
-    };
+        );
+    }
+  };
+
+  const [openDelete , setOpenDelete] = useState(false)
   return (
     <>
     <div className='p-6'>
@@ -52,10 +55,14 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
             <p className='text-[#697586] text-sm font-normal my-4 '>يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص</p>
 
             <div className=' text-base font-normal w-full flex gap-4'>
-              <button onClick={onEditClick} className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
+              <button 
+                onClick={onEditClick} 
+                className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('modification')}
               </button>
-              <button className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-[3px] cursor-pointer'>
+              <button
+                onClick={()=>setOpenDelete(true)}
+                className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('delete')}
               </button>
             </div>
@@ -74,7 +81,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
         </button>
     </div>
 
-
+  <DeleteDialog open={openDelete} setOpen={setOpenDelete}/>
     </>
   )
 }
