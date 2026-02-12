@@ -19,7 +19,7 @@ function Activity_SettingsPage() {
   //   content = <div>المكون غير متاح</div>;
   // }
 
-      const [selectedMenu, setSelectedMenu] = useState(40)
+      const [selectedMenu, setSelectedMenu] = useState(1)
   
   return (
     <>
