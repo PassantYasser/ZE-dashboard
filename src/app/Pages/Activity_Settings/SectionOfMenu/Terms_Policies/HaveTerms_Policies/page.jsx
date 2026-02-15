@@ -9,28 +9,28 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
     switch (Status) {
       case "approved": // مقبولة 
         return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex items-center  gap-1'>
-            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-            <span className=''>{t('Acceptable')}</span>
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-8 rounded-3xl'>
+          <div className='p-1.5 flex items-center  gap-1'>
+            <img src="/images/icons/Active Status.svg" alt="" className='w-4 h-4 ' />
+            <span className='text-xs'>{t('Acceptable')}</span>
           </div>
         </div>
         );
       case "pending":// قيد المراجعة
         return (
-          <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex items-center gap-1'>
-            <img src="/images/icons/Under review.svg" alt="" className=' mt-1' />
-            <span className=''>{t('Under review')}</span>
+          <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit  h-8 rounded-3xl'>
+          <div className='p-1.5 flex items-center gap-1'>
+            <img src="/images/icons/Under review.svg" alt="" className='w-4 h-4 ' />
+              <span className='text-xs'>{t('Under review')}</span>
           </div>
         </div>
         );
       case "rejected": // مرفوضة
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-9.5 rounded-3xl'>
-            <div className='py-1.5 px-3 flex items-center gap-1'>
-              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1'/>
-              <span className=''>{t('rejected')}</span>
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-8 rounded-3xl'>
+            <div className='p-1.5 flex items-center gap-1'>
+              <img src="/images/icons/refused Status.svg" alt="" className=' w-4 h-4'/>
+              <span className='text-xs'>{t('rejected')}</span>
             </div>
           </div>
         );
@@ -55,7 +55,10 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
               <p className='text-[#121926] text-base font-medium'>{policy?.policy_name}</p>
               <div>{StatusRender(policy?.status)}</div>
             </div>
-            <p className='text-[#697586] text-sm font-normal my-4 '>يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص</p>
+            <div 
+              className='text-[#697586] text-sm font-normal my-4'
+              dangerouslySetInnerHTML={{ __html: policy?.policy_content }}
+            />
 
             <div className=' text-base font-normal w-full flex gap-4'>
               <button 
