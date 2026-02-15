@@ -63,7 +63,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
 
             <div className=' text-base font-normal w-full flex gap-4'>
               <button 
-                onClick={onEditClick} 
+                onClick={() => onEditClick(policy)} 
                 className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('modification')}
               </button>

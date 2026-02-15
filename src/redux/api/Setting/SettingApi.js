@@ -87,3 +87,8 @@ export const createPolicies = async(formData)=>{
   const response = await API.post ('/provider/policies' , formData)
   return response.data
 }
+
+export const editPolicies = async(formData)=>{
+  const response = await API.post('/provider/policies/edit' ,formData )
+  return response.data
+}
