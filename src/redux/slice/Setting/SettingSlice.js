@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -142,6 +142,17 @@ export const getPoliciesThunk = createAsyncThunk('setting/getPoliciesThunk' ,
       return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to get policies  image");
+    }
+  }
+)
+
+export const deletePolicyThunk = createAsyncThunk('setting/deletePolicyThunk',
+  async(policyId , {rejectWithValue})=>{
+    try{
+      await deletePolicy(policyId)
+      return policyId
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to delete policy");
     }
   }
 )
@@ -361,6 +372,21 @@ const settingSlice = createSlice({
         state.policies = action.payload;
       })
       .addCase(getPoliciesThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //deletePolicyThunk
+      .addCase(deletePolicyThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(deletePolicyThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.policies = state.policies.filter(
+          (policy) => policy.id !== action.payload
+        );
+      })
+      .addCase(deletePolicyThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })

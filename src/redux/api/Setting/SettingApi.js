@@ -77,3 +77,8 @@ export const getPolicies = async()=>{
   const response = await API.get('/provider/policies')
   return response.data
 }
+
+export const deletePolicy = async(policyId)=>{
+  const response = await API.delete(`/provider/policies/${policyId}`)
+  return response.data
+}

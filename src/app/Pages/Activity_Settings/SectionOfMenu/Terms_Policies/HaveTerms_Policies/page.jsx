@@ -38,6 +38,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
   };
 
   const [openDelete , setOpenDelete] = useState(false)
+  const [selectedPolicyId, setSelectedPolicyId] = useState(null)
 
   //
     console.log(policies);
@@ -67,7 +68,10 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
                 {t('modification')}
               </button>
               <button
-                onClick={()=>setOpenDelete(true)}
+                onClick={()=>{
+                  setSelectedPolicyId(policy?.id)
+                  setOpenDelete(true)
+                }}
                 className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('delete')}
               </button>
@@ -89,7 +93,11 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
         </button>
     </div>
 
-  <DeleteDialog open={openDelete} setOpen={setOpenDelete}/>
+  <DeleteDialog 
+    open={openDelete} 
+    setOpen={setOpenDelete}
+    policyId={selectedPolicyId}
+  />
     </>
   )
 }
