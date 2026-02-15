@@ -26,7 +26,7 @@ function Terms_PoliciesPage() {
       {showEditForm ? (
         <EditPage />
       ) : showAddForm ? (
-        <Addpage />
+        <Addpage onSuccess={() => setShowAddForm(false)} />
       ) : policies && policies.length > 0 ? (
         <HaveTerms_PoliciesPage  
           onAddClick={() => setShowAddForm(true)} 

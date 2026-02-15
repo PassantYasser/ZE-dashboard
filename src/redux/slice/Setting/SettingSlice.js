@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -157,6 +157,17 @@ export const deletePolicyThunk = createAsyncThunk('setting/deletePolicyThunk',
   }
 )
 
+export const createPoliciesThunk = createAsyncThunk('setting/createPoliciesThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await createPolicies(formData)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to create policy");
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -180,7 +191,8 @@ const initialState ={
 
   ipnData: null,
   
-  policies:[]
+  policies:[],
+  addpolicies:null
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -387,6 +399,19 @@ const settingSlice = createSlice({
         );
       })
       .addCase(deletePolicyThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //createPoliciesThunk
+      .addCase(createPoliciesThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createPoliciesThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.addpolicies = action.payload;
+      })
+      .addCase(createPoliciesThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -8,7 +8,7 @@ const ReactQuill = dynamic(
   { ssr: false }
 );
 
-export default function TextEditor() {
+const TextEditor = forwardRef((props, ref) => {
   const [value, setValue] = useState('');
 
   const modules = {
@@ -52,6 +52,7 @@ export default function TextEditor() {
         }
       `}</style>
       <ReactQuill 
+        ref={ref}
         theme="snow"
         value={value}
         onChange={setValue}
@@ -61,4 +62,8 @@ export default function TextEditor() {
       />
     </div>
   );
-}
+});
+
+TextEditor.displayName = 'TextEditor';
+
+export default TextEditor;

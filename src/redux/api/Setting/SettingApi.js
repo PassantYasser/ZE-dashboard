@@ -82,3 +82,8 @@ export const deletePolicy = async(policyId)=>{
   const response = await API.delete(`/provider/policies/${policyId}`)
   return response.data
 }
+
+export const createPolicies = async(formData)=>{
+  const response = await API.post ('/provider/policies' , formData)
+  return response.data
+}
