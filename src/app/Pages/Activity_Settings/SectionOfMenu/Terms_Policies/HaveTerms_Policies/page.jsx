@@ -52,9 +52,9 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
         {policies.map((policy, index)=>(
           <div key={policy?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] ' >
           <div className='p-4'>
-            <div className='flex justify-between'>
-              <p className='text-[#121926] text-base font-medium'>{policy?.policy_name}</p>
-              <div>{StatusRender(policy?.status)}</div>
+            <div className='flex justify-between gap-2 w-full'>
+              <p className='text-[#121926] text-base font-medium w-[65%]'>{policy?.policy_name}</p>
+              <div className='w-[35%]'>{StatusRender(policy?.status)}</div>
             </div>
             <div 
               className='text-[#697586] text-sm font-normal my-4'
