@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import DeleteDialog from './DeleteDialog';
 
-function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
+function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
   const {t} = useTranslation()
   const StatusRender = (Status) => {
     switch (Status) {
@@ -38,19 +38,22 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
   };
 
   const [openDelete , setOpenDelete] = useState(false)
+
+  //
+    console.log(policies);
+
   return (
     <>
     <div className='p-6'>
 
   
       <div className=' grid grid-cols-2 gap-6'>
-
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] '>
+        {policies.map((policy, index)=>(
+          <div key={policy?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] ' >
           <div className='p-4'>
-
             <div className='flex justify-between'>
-              <p className='text-[#121926] text-base font-medium'>{t('address')}</p>
-              <div>{StatusRender('approved')}</div>
+              <p className='text-[#121926] text-base font-medium'>{policy?.policy_name}</p>
+              <div>{StatusRender(policy?.status)}</div>
             </div>
             <p className='text-[#697586] text-sm font-normal my-4 '>يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص, يمكنك استبدال هذا النص</p>
 
@@ -67,7 +70,9 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick}) {
               </button>
             </div>
           </div>
-        </div>
+          </div>
+        ))}
+        
 
         
 

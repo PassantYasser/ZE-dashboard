@@ -8,7 +8,7 @@ import Header from './Header';
 
 
 function Activity_SettingsPage() {
-  // const current_module_key ='خدمات السيارات'
+  const current_module_key ='خدمات المنازل'
   // let content;
 
   // if (current_module_key === 'خدمات السيارات' || current_module_key === 'خدمات المنازل' ) {
@@ -25,7 +25,7 @@ function Activity_SettingsPage() {
     <>
       {/* {content} */}
       <MainLayout>
-              <Header/>
+              <Header current_module_key={current_module_key}/>
 
           <div className="flex gap-4 mt-14">
           <div className='w-[30%]' >

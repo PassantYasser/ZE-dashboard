@@ -70,3 +70,10 @@ export const updateProfileImage = async (formData) => {
   });
   return response;
 };
+
+/***************************************************** */
+//******Activity_Settings
+export const getPolicies = async()=>{
+  const response = await API.get('/provider/policies')
+  return response.data
+}
