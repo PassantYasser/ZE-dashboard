@@ -16,7 +16,7 @@ function Addpage() {
         {/*  */}
         <div className='mt-4'>
           <p className='text-[#4B5565] text-sm font-normal'>{t('Proposed text')}</p>
-          <TextEditor  disabled/>
+          <TextEditor  />
         </div>
 
       </div>
