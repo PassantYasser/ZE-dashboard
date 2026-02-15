@@ -10,14 +10,9 @@ const Editor = dynamic(
 export default function TextEditor() {
   const editorRef = useRef(null)
 
-  const handleSave = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent())
-    }
-  }
 
   return (
-    <div className="p-4">
+    <div className="mt-1.5">
       <Editor
         apiKey="4bmv1698mblg6jukeqw8uwcyrqq0kll92bfg6fzkae89pd4e"
         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -36,12 +31,6 @@ export default function TextEditor() {
         }}
       />
 
-      {/* <button
-        onClick={handleSave}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-      >
-        Save Content
-      </button> */}
     </div>
   )
 }
