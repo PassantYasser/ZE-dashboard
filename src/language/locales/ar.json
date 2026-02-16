@@ -640,6 +640,12 @@
   "Please fill out these forms":"يرجي مليء هذه الملفات",
   "All required documents have been successfully uploaded and are currently being reviewed.":"تم رفع جميع المستندات المطلوبة بنجاح، وجارٍ مراجعتها.",
   "Please update the expired files with a newer version.":"يرجى تحديث الملفات منتهية الصلاحية بنسخه احدث.",
+  "Add the file and expiry date":"قم بإضافة الملف وتاريخ الانتهاء",
+  "Add a new document":"إضافة مستند جديد",
+  "Please upload the required document and specify its expiry date.":"يرجى رفع المستند المطلوب وتحديد تاريخ صلاحيته",
+  "Click to upload the file":"أضغط لرفع الملف",
+  "Upload file":"ارفع ملف",
+  "Specify the expiry date":"حدد تاريخ الصلاحية",
   
 
 

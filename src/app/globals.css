@@ -204,3 +204,7 @@ font-size: 50px;
     animation: progress 60s linear forwards; /* 60 ثانية = دقيقة */
   }
 /***/
+
+.MuiPickersInputBase-sectionsContainer {
+  direction: rtl !important;
+}
