@@ -45,6 +45,23 @@ function HaveReviewsPage({ handleClose }) {
     },
   ];
 
+
+/** for random colors */
+  const avatarColors = [
+  "bg-red-400",
+  "bg-blue-400",
+  "bg-green-400",
+  "bg-purple-400",
+  "bg-pink-400",
+  "bg-yellow-400",
+  "bg-indigo-400",
+];
+const getAvatarColor = (name) => {
+  if (!name) return "bg-gray-400";
+  const charCode = name.charCodeAt(0);
+  return avatarColors[charCode % avatarColors.length];
+};
+
   return (
     <>
         {ratings.map((rating, index) => {
@@ -58,7 +75,10 @@ function HaveReviewsPage({ handleClose }) {
               <div className="border-b border-[#CDD5DF]">
                 <div className="flex justify-between">
                   <div className="flex mb-4 gap-3">
-                    <p className="bg-amber-400 w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2">
+                    <p
+                      className={`${getAvatarColor(rating?.user?.name)} 
+                      w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2 text-white`}
+                    >
                       {rating?.user?.name?.charAt(0)}
                     </p>
                     <div className="flex flex-col gap-1">
