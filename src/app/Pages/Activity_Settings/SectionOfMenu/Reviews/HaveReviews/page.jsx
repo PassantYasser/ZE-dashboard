@@ -46,21 +46,21 @@ function HaveReviewsPage({ handleClose }) {
   ];
 
 
-/** for random colors */
+  /** for random colors */
   const avatarColors = [
-  "bg-red-400",
-  "bg-blue-400",
-  "bg-green-400",
-  "bg-purple-400",
-  "bg-pink-400",
-  "bg-yellow-400",
-  "bg-indigo-400",
-];
-const getAvatarColor = (name) => {
-  if (!name) return "bg-gray-400";
-  const charCode = name.charCodeAt(0);
-  return avatarColors[charCode % avatarColors.length];
-};
+    "bg-red-400",
+    "bg-blue-400",
+    "bg-green-400",
+    "bg-purple-400",
+    "bg-pink-400",
+    "bg-yellow-400",
+    "bg-indigo-400",
+  ];
+  const getAvatarColor = (name) => {
+    if (!name) return "bg-gray-400";
+    const charCode = name.charCodeAt(0);
+    return avatarColors[charCode % avatarColors.length];
+  };
 
   return (
     <>
