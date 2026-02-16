@@ -54,7 +54,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
           <div className='p-4'>
             <div className='flex justify-between gap-2 w-full'>
               <p className='text-[#121926] text-base font-medium w-[65%]'>{policy?.policy_name}</p>
-              <div className='w-[35%]'>{StatusRender(policy?.status)}</div>
+              <div className='w-[35%] flex justify-end'>{StatusRender(policy?.status)}</div>
             </div>
             <div 
               className='text-[#697586] text-sm font-normal my-4'

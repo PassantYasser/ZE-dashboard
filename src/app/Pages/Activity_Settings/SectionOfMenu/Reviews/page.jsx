@@ -1,8 +1,18 @@
 import React from 'react'
+import Header from './Header'
+import NoReviewsPage from './NoReviews/page'
+import HaveReviewsPage from './HaveReviews/page'
 
 function ReviewsPage() {
   return (
-    <div>ReviewsPage</div>
+    <>
+    <div className="border border-[#E3E8EF] mb-8">
+      <Header/>
+      {/* <NoReviewsPage/> */}
+      <HaveReviewsPage/>
+    </div>
+
+    </>
   )
 }
 
