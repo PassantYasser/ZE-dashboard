@@ -1,6 +1,6 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,14 +9,30 @@ import dayjs from 'dayjs';
 
 function AddFile({open , setOpen}) {
   const {t} = useTranslation()
-  const [expiryDate, setExpiryDate] = React.useState(null);
+  const [expiryDate, setExpiryDate] = useState(null);
+
+  //////
+  const fileInputRef = useRef(null)
+  const [selectedFile, setSelectedFile] = useState(null)
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click()
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setSelectedFile(file)
+    }
+  }
+
   return (
-  <Dialog
-    open={open}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-    PaperProps={{ className: "AddFuel-dialog" }}
-  >
+    <Dialog
+      open={open}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      PaperProps={{ className: "AddFuel-dialog" }}
+    >
       <section className="px-6 mt-6">
         <button
           onClick={()=>setOpen(false)}
@@ -33,16 +49,53 @@ function AddFile({open , setOpen}) {
         </p>
       </section>
 
+      {/* file */}
       <section className='p-6'>
-        <div className='p-3 flex flex-col items-center gap-3 border-2 border-dashed border-[#CDD5DF] rounded-[3px]'>
-          <img src="/images/uploadd.svg" alt="" />
-          <p className='text-[#1F055C] text-base font-normal'>{t('Click to upload the file')}</p>
-          <button className='w-[30%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] px-4 cursor-pointer'>
-            {t('Upload file')}
-          </button>
-        </div>        
-      </section>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className="hidden"
+          accept="image/*,.pdf,.doc,.docx"
+        />
 
+        {!selectedFile ? (
+          <div className='p-3 flex flex-col items-center gap-3 border-2 border-dashed border-[#CDD5DF] rounded-[3px]'>
+            <img src="/images/uploadd.svg" alt="" />
+            <p className='text-[#1F055C] text-base font-normal'>{t('Click to upload the file')}</p>
+            <button 
+              onClick={handleButtonClick}
+              className='w-[30%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] px-4 cursor-pointer'>
+              {t('Upload file')}
+            </button>
+          </div>
+        ) : (
+          <div className='p-3 border border-[#CDD5DF] rounded-[3px] flex items-center justify-between bg-white'>
+            <div className='flex items-center gap-3'>
+                <div className="relative w-12 h-12 flex items-center justify-center">
+                  <img src="/images/filephoto.svg" className="w-12 h-12" />
+                  <span className="absolute bottom-0 right-2  text-white text-[10px] px-1 py-0.5 rounded-sm">
+                    pdf
+                  </span>
+                </div>
+
+              <div className='flex flex-col'>
+                <p className='text-[#344054] text-sm font-medium'>{selectedFile.name}</p>
+                <p className='text-[#475467] text-sm font-normal'>
+                  200 كيلوبايت - 100% تم الرفع
+                </p>
+              </div>
+            </div>
+            
+            <div className='flex items-center'>
+              <button onClick={() => setSelectedFile(null)} className='cursor-pointer'>
+                <img src="/images/icons/checkmark-circle-false_bgRed.svg" alt="remove" className='w-6 h-6' />
+              </button>
+            </div>
+          </div>
+        )}     
+      </section>
+      
       <section className='px-4'>
         <p className='text-[#364152] text-sm font-medium mb-2'>{t('Specify the expiry date')}</p>
       <div className="relative w-full mb-4">
@@ -75,10 +128,10 @@ function AddFile({open , setOpen}) {
       </section>
 
       <section className='w-full flex gap-3 px-6 py-4'>
-        <button className={`bg-[#E3E8EF] text-[#9AA4B2] w-full h-14`}>{t('save')}</button>
+        <button className={`${selectedFile && expiryDate ? 'bg-[var(--color-primary)] text-white' : 'bg-[#E3E8EF] text-[#9AA4B2]'} w-full h-14 rounded-[3px] cursor-pointer`}>{t('save')}</button>
         <button
           onClick={()=>setOpen(false)}
-          className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full h-14 cursor-pointer '>{t('cancel')}</button>
+          className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full h-14 rounded-[3px] cursor-pointer '>{t('cancel')}</button>
       </section>
 
   </Dialog>
