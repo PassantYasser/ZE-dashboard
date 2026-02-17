@@ -646,6 +646,10 @@
   "Click to upload the file":"Click to upload the file",
   "Upload file":"Upload file",
   "Specify the expiry date":"Specify the expiry date",
+  "Expiry date":"Expiry date",
+  "The document was rejected. Please resubmit it.":"The document was rejected. Please resubmit it.",
+  "The document has expired; please add a newer copy.":"The document has expired; please add a newer copy.",
+  
   
   
   

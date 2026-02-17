@@ -646,6 +646,9 @@
   "Click to upload the file":"أضغط لرفع الملف",
   "Upload file":"ارفع ملف",
   "Specify the expiry date":"حدد تاريخ الصلاحية",
+  "Expiry date":"تاريخ الانتهاء",
+  "The document was rejected. Please resubmit it.":"تم رفض الوثيقة يرجي إضافتها مرة أخري",
+  "The document has expired; please add a newer copy.":"تم إنتهاء صلاحية الوثيقية , يرجي اضافة نسخة احدث",
   
 
 
