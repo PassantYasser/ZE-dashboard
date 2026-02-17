@@ -2,10 +2,13 @@
 import React, { useState } from 'react'
 import MapDialog from '../Dialog/MapDialog'
 import { useTranslation } from 'react-i18next'
+import DeleteDialog from '../Dialog/DeleteDialog'
 
 function HaveWorkplacesPage() {
   const {t} = useTranslation()
     const [openMap, setOpenMap] = useState(false)
+    const [openDelete , setOpenDelete] = useState(false)
+    
   
   return (
     <>
@@ -25,7 +28,7 @@ function HaveWorkplacesPage() {
             </div>
           </div>
 
-          <button className='cursor-pointer'>
+          <button className='cursor-pointer' onClick={()=>setOpenDelete(true)}>
             <img src="/images/icons/xxxx.svg" alt="" className='w-4 h-4' />
           </button>
 
@@ -46,7 +49,7 @@ function HaveWorkplacesPage() {
       
 
     <MapDialog open={openMap}  handleClose={() => setOpenMap(false)} />
-
+    <DeleteDialog open={openDelete}  setOpen={setOpenDelete}/>
     </>
   )
 }
