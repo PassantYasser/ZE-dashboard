@@ -4,7 +4,7 @@ import HaveWorkplacesPage from './HaveWorkplaces/page';
 import NoWorkplacesPage from './NoWorkplaces/page';
 
 function WorkplacesPage() {
-    const data = false ;
+    const data = true ;
 
   return (
     <>
