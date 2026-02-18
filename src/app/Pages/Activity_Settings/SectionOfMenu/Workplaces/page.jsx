@@ -6,9 +6,9 @@ import { getWorkplacesThunk } from '@/redux/slice/Setting/SettingSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function WorkplacesPage() {
-    const data = true ;
     const dispatch = useDispatch()
     const {Workplaces , loading , error} = useSelector((state)=>state.setting)
+    const hasWorkplaces = Workplaces?.areas?.length > 0
     useEffect(()=>{
       dispatch(getWorkplacesThunk())
     },[dispatch])
@@ -19,7 +19,7 @@ function WorkplacesPage() {
     <div className="border border-[#E3E8EF] mb-8">
       <Header/>
       {
-        data? (
+        hasWorkplaces? (
           <HaveWorkplacesPage Workplaces={Workplaces}/>
         ):(
           <NoWorkplacesPage/>
