@@ -57,7 +57,7 @@ function HaveReviewsPage({ reviews }) {
     "bg-indigo-400",
   ];
   const getAvatarColor = (user_name) => {
-    if (user_name) return "bg-gray-400";
+    if (!user_name) return "bg-gray-400";
     const charCode = user_name.charCodeAt(0);
     return avatarColors[charCode % avatarColors.length];
   };
@@ -71,7 +71,7 @@ function HaveReviewsPage({ reviews }) {
           const expanded = expandedIndexes[index] || false;
 
           return (
-            <section className="p-4 " key={rating.id}>
+            <section className="p-4 " key={rating?.booking_id}>
               <div className="border-b border-[#CDD5DF]">
                 <div className="flex justify-between">
                   <div className="flex mb-4 gap-3">

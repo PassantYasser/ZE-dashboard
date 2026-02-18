@@ -20,16 +20,17 @@ function ReviewsPage() {
 
     <>
     <div className="border border-[#E3E8EF] mb-8">
-      <Header/>
-      {/* > */}
-      
-      {
-        data? (
-          <HaveReviewsPage reviews={reviews}/>
-        ):(
-          <NoReviewsPage/>
-        )
-      }
+      <Header />
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : reviews?.data && reviews?.data.length > 0 ? (
+        <HaveReviewsPage reviews={reviews} />
+      ) : (
+        <NoReviewsPage />
+      )}
     </div>
 
     </>
