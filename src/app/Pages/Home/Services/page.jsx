@@ -8,8 +8,8 @@ import TileOfSevicesPage from './TileOfSevices/page'
 import CardsPage from './Cards/page'
 
 function ServicesPage() {
-  const current_module_key ='خدمات السيارات'; // Example value, replace with actual logic to get the current module key
-   
+  const current_module_key ='خدمات السيارات'; 
+
   return (
     <MainLayout>
       <TileOfSevicesPage current_module_key={current_module_key}/>

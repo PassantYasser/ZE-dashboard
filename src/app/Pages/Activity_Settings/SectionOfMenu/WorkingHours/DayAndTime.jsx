@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import Button from '@mui/material/Button'
 
 function DayAndTime() {
   const { t } = useTranslation()
@@ -212,7 +214,14 @@ function DayAndTime() {
           
         </div>
       </section>
+      
 
+
+
+      {/* btn */}
+      <button className='bg-[var(--color-primary)] text-white w-[30%] h-14 rounded-[3px] cursor-pointer'>
+        {t('save')}
+      </button>
     </div>
   )
 }
