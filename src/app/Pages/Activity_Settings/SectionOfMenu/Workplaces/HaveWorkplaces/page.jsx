@@ -4,35 +4,37 @@ import MapDialog from '../Dialog/MapDialog'
 import { useTranslation } from 'react-i18next'
 import DeleteDialog from '../Dialog/DeleteDialog'
 
-function HaveWorkplacesPage() {
+function HaveWorkplacesPage({Workplaces}) {
   const {t} = useTranslation()
     const [openMap, setOpenMap] = useState(false)
     const [openDelete , setOpenDelete] = useState(false)
     
-  
+  console.log('Workplaces' , Workplaces);
   return (
     <>
       <div className='grid grid-cols-2 gap-6 px-6 pt-6'>
-
-        <section className='flex justify-between border border-[#CDD5DF] py-4 px-3 rounded-lg'>
-          <div className='flex gap-1.5'>
-            <p  className='flex items-center'>
-              <img src="/images/icons/location.svg" alt="" className='w-4 h-4' />
-            </p>
-            <div className='flex gap-1.5 text-[#364152] text-base font-normal'>
-              <p>مدينة نصر </p>
-              <p className='flex items-center' >
-                <img src="/images/icons/Ellipse.svg" alt="" className='w-1 h-1' />
+        {Workplaces?.areas?.map((Workplace ,index)=>(
+          <section className='flex justify-between border border-[#CDD5DF] py-4 px-3 rounded-lg' key={Workplace?.id}>
+            <div className='flex gap-1.5'>
+              <p  className='flex items-center'>
+                <img src="/images/icons/location.svg" alt="" className='w-4 h-4' />
               </p>
-              <p>القاهرة</p>
+              <div className='flex gap-1.5 text-[#364152] text-base font-normal'>
+                <p>{Workplace?.city}</p>
+                <p className='flex items-center' >
+                  <img src="/images/icons/Ellipse.svg" alt="" className='w-1 h-1' />
+                </p>
+                <p>القاهرة</p>
+              </div>
             </div>
-          </div>
 
-          <button className='cursor-pointer' onClick={()=>setOpenDelete(true)}>
-            <img src="/images/icons/xxxx.svg" alt="" className='w-4 h-4' />
-          </button>
+            <button className='cursor-pointer' onClick={()=>setOpenDelete(true)}>
+              <img src="/images/icons/xxxx.svg" alt="" className='w-4 h-4' />
+            </button>
 
-        </section>
+          </section>
+        ))}
+        
         
 
       </div>

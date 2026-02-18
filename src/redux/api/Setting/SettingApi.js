@@ -99,3 +99,9 @@ export const getReview = async()=>{
   const response = await API.get('/provider/reviews')
   return response.data
 }
+
+export const getWorkplaces = async()=>{
+  const response = await API.get('/provider/getAllAreas')
+  return response.data
+
+}

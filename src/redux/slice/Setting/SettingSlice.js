@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -191,6 +191,17 @@ export const getReviewThunk = createAsyncThunk('setting/getReviewThunk',
   }
 )
 
+export const getWorkplacesThunk = createAsyncThunk('setting/getWorkplacesThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getWorkplaces()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get Workplaces");
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -219,6 +230,7 @@ const initialState ={
   editpolicies:null,
 
   reviews:[],
+  Workplaces:[],
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -464,6 +476,19 @@ const settingSlice = createSlice({
         state.reviews = action.payload;
       })
       .addCase(getReviewThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getWorkplacesThunk
+      .addCase(getWorkplacesThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getWorkplacesThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.Workplaces = action.payload;
+      })
+      .addCase(getWorkplacesThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })
