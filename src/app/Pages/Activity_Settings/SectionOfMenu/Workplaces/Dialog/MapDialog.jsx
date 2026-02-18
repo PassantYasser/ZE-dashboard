@@ -105,7 +105,7 @@ export default function MapDialog({ open, handleClose }) {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} PaperProps={{ className: "ServicePage-dialog" }}>
+    <Dialog open={open} onClose={handleClose} PaperProps={{ className: "AddFuel-dialog" }}>
       <div style={{ padding: 20 }}>
         <h3 className="mb-4 text-lg font-semibold text-right">اختر موقعك على الخريطة</h3>
         <div style={{ height: 400 }}>
