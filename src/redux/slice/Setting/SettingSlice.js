@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -179,6 +179,18 @@ export const editPoliciesThunk = createAsyncThunk('setting/editPoliciesThunk',
   }
 )
 
+export const getReviewThunk = createAsyncThunk('setting/getReviewThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getReview();
+      console.log("getReviewThunk" , response);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get Review");
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -205,6 +217,8 @@ const initialState ={
   policies:[],
   addpolicies:null,
   editpolicies:null,
+
+  reviews:[],
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -437,6 +451,19 @@ const settingSlice = createSlice({
         state.editpolicies = action.payload;
       })
       .addCase(editPoliciesThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getReviewThunk
+      .addCase(getReviewThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getReviewThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.reviews = action.payload;
+      })
+      .addCase(getReviewThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })

@@ -5,7 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-function HaveReviewsPage({ handleClose }) {
+function HaveReviewsPage({ reviews }) {
   const { t } = useTranslation();
 
   const [expandedIndexes, setExpandedIndexes] = useState({});
@@ -56,15 +56,15 @@ function HaveReviewsPage({ handleClose }) {
     "bg-yellow-400",
     "bg-indigo-400",
   ];
-  const getAvatarColor = (name) => {
-    if (!name) return "bg-gray-400";
-    const charCode = name.charCodeAt(0);
+  const getAvatarColor = (user_name) => {
+    if (user_name) return "bg-gray-400";
+    const charCode = user_name.charCodeAt(0);
     return avatarColors[charCode % avatarColors.length];
   };
-
+     console.log(reviews?.data);
   return (
     <>
-        {ratings.map((rating, index) => {
+        {reviews?.data?.map((rating, index) => {
           const text = rating?.review || "";
           const isLong = text.length > maxLength;
           const shortText = text.slice(0, maxLength);
@@ -76,17 +76,17 @@ function HaveReviewsPage({ handleClose }) {
                 <div className="flex justify-between">
                   <div className="flex mb-4 gap-3">
                     <p
-                      className={`${getAvatarColor(rating?.user?.name)} 
+                      className={`${getAvatarColor(rating?.user_name)} 
                       w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2 text-white`}
                     >
-                      {rating?.user?.name?.charAt(0)}
+                      {rating?.user_name?.charAt(0)}
                     </p>
                     <div className="flex flex-col gap-1">
                       <p className="text-[#364152] text-base font-medium">
-                        {rating?.user?.name} {rating?.user?.lastname}
+                        {rating?.user_name}
                       </p>
                       <p className="text-[#697586] text-sm font-normal">
-                        {new Date(rating.created_at).toLocaleDateString("en-GB")}
+                        {new Date(rating.date).toLocaleDateString("en-GB")}
                       </p>
                     </div>
                   </div>
@@ -94,7 +94,7 @@ function HaveReviewsPage({ handleClose }) {
                   <div className="">
                     <p className="flex gap-1.5 ">
                       <span className="text-[#8B8B8B] ">#</span>
-                      <Link href='#' className="text-[#4D0CE7] text-sm font-medium underline ">6504</Link>
+                      <Link href='#' className="text-[#4D0CE7] text-sm font-medium underline ">{rating?.booking_id}</Link>
                     </p>
                     <div className="flex gap-1  mr-2">
                       <img

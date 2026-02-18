@@ -92,3 +92,10 @@ export const editPolicies = async(formData)=>{
   const response = await API.post('/provider/policies/edit' ,formData )
   return response.data
 }
+
+
+// get review
+export const getReview = async()=>{
+  const response = await API.get('/provider/reviews')
+  return response.data
+}
