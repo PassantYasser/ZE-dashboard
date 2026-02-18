@@ -114,3 +114,8 @@ export const addArea = async(formData)=>{
   const response = await API.post('/provider/addArea',formData)
   return response.data
 }
+
+export const getSchedule = async()=>{
+  const response = await API.get('/provider/schedule')
+  return response.data.data
+}
