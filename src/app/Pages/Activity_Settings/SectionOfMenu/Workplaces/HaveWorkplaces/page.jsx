@@ -8,8 +8,8 @@ function HaveWorkplacesPage({Workplaces}) {
   const {t} = useTranslation()
     const [openMap, setOpenMap] = useState(false)
     const [openDelete , setOpenDelete] = useState(false)
+    const [selectedAreaId, setSelectedAreaId] = useState(null)
     
-  console.log('Workplaces' , Workplaces);
   return (
     <>
       <div className='grid grid-cols-2 gap-6 px-6 pt-6'>
@@ -24,11 +24,11 @@ function HaveWorkplacesPage({Workplaces}) {
                 <p className='flex items-center' >
                   <img src="/images/icons/Ellipse.svg" alt="" className='w-1 h-1' />
                 </p>
-                <p>القاهرة</p>
+                <p>{Workplace?.state}</p>
               </div>
             </div>
 
-            <button className='cursor-pointer' onClick={()=>setOpenDelete(true)}>
+            <button className='cursor-pointer' onClick={()=>{setSelectedAreaId(Workplace?.id); setOpenDelete(true)}}>
               <img src="/images/icons/xxxx.svg" alt="" className='w-4 h-4' />
             </button>
 
@@ -51,7 +51,7 @@ function HaveWorkplacesPage({Workplaces}) {
       
 
     <MapDialog open={openMap}  handleClose={() => setOpenMap(false)} />
-    <DeleteDialog open={openDelete}  setOpen={setOpenDelete}/>
+    <DeleteDialog open={openDelete}  setOpen={setOpenDelete} areaId={selectedAreaId}/>
     </>
   )
 }

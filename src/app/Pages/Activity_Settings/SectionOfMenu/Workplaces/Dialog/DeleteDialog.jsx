@@ -2,10 +2,21 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteAreaThunk } from '@/redux/slice/Setting/SettingSlice';
 
 
-function DeleteDialog({open,setOpen }) {
+function DeleteDialog({open, setOpen, areaId }) {
     const {t} = useTranslation();
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.setting);
+
+    const handleDelete = async () => {
+      const result = await dispatch(deleteAreaThunk(areaId));
+      if (deleteAreaThunk.fulfilled.match(result)) {
+        setOpen(false);
+      }
+    };
 
   return (
     <>
@@ -44,15 +55,18 @@ function DeleteDialog({open,setOpen }) {
 
       <section className='w-full flex p-6 gap-3'>
         <button 
+          onClick={handleDelete}
+          disabled={loading}
           className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <span className='text-base font-medium'>
-            {t('delete')}
+            {loading ? t('deleting...') : t('delete')}
           </span>
         </button>
         
         <button 
           onClick={()=>setOpen(false)} 
+          disabled={loading}
           className='w-full border border-[#697586] text-[#4B5565]  h-13.5  rounded-[3px]  cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <span className='text-base font-normal'>{t('cancel')}</span>

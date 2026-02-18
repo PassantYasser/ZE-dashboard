@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -202,6 +202,28 @@ export const getWorkplacesThunk = createAsyncThunk('setting/getWorkplacesThunk',
   }
 )
 
+export const deleteAreaThunk = createAsyncThunk('setting/deleteAreaThunk',
+  async(areaId , {rejectWithValue})=>{
+    try{
+      await deleteArea(areaId)
+      return areaId
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to delete area");
+    }
+  }
+)
+
+export const addAreaThunk = createAsyncThunk('setting/addAreaThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await addArea(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to add area");
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -231,6 +253,7 @@ const initialState ={
 
   reviews:[],
   Workplaces:[],
+  areas:null,
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -489,6 +512,37 @@ const settingSlice = createSlice({
         state.Workplaces = action.payload;
       })
       .addCase(getWorkplacesThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //deleteAreaThunk
+      .addCase(deleteAreaThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(deleteAreaThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.Workplaces = {
+          ...state.Workplaces,
+          areas: state.Workplaces?.areas?.filter(
+            (area) => area.id !== action.payload
+          )
+        };
+      })
+      .addCase(deleteAreaThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //addAreaThunk
+      .addCase(addAreaThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addAreaThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.areas = action.payload;
+      })
+      .addCase(addAreaThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

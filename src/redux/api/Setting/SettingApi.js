@@ -103,5 +103,14 @@ export const getReview = async()=>{
 export const getWorkplaces = async()=>{
   const response = await API.get('/provider/getAllAreas')
   return response.data
+}
 
+export const deleteArea = async(areaId)=>{
+  const response = await API.post('/provider/deleteArea' , {id: areaId})
+  return response.data
+}
+
+export const addArea = async(formData)=>{
+  const response = await API.post('/provider/addArea',formData)
+  return response.data
 }
