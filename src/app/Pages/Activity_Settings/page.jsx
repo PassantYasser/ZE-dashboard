@@ -8,18 +8,10 @@ import Header from './Header';
 
 
 function Activity_SettingsPage() {
-  const current_module_key ='خدمات المنازل'
-  // let content;
+  const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
+  const current_module_key = userData?.current_module_key
 
-  // if (current_module_key === 'خدمات السيارات' || current_module_key === 'خدمات المنازل' ) {
-  //   content = <Home_Car_ModulePage />;
-  // } else if (current_module_key === 'خدمات الطريق') {
-  //   content = <StreetAssistant_ModulePage />;
-  // } else {
-  //   content = <div>المكون غير متاح</div>;
-  // }
-
-      const [selectedMenu, setSelectedMenu] = useState(1)
+  const [selectedMenu, setSelectedMenu] = useState(1)
   
   return (
     <>
