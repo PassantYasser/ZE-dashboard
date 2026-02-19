@@ -8,8 +8,8 @@ import TileOfSevicesPage from './TileOfSevices/page'
 import CardsPage from './Cards/page'
 
 function ServicesPage() {
-  const current_module_key ='خدمات السيارات'; 
-
+  const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
+  const current_module_key = userData?.current_module_key
   return (
     <MainLayout>
       <TileOfSevicesPage current_module_key={current_module_key}/>
