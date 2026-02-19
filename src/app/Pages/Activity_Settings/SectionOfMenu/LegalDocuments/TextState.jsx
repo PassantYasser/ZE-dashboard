@@ -9,7 +9,7 @@ function TextState({documents}) {
   // reviewing
   // expired
 
-  const textState = documents.textState
+  const textState = documents?.textState
   let content;
 
 

@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -257,6 +257,18 @@ export const getRequiredDocumentsThunk = createAsyncThunk('setting/getRequiredDo
   }
 )
 
+export const uploadDocumentThunk = createAsyncThunk('setting/uploadDocumentThunk' , 
+  async(formData ,{rejectWithValue})=>{
+    try{
+      const response = await uploadDocument(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to upload document");
+    }
+  }
+)
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -290,6 +302,7 @@ const initialState ={
   schedule:null,
 
   documents:[],
+  documents:null,
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -618,6 +631,19 @@ const settingSlice = createSlice({
         state.documents = action.payload;
       })
       .addCase(getRequiredDocumentsThunk.rejected , (state , action)=>{
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //uploadDocumentThunk
+      .addCase(uploadDocumentThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(uploadDocumentThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.document = action.payload;
+      })
+      .addCase(uploadDocumentThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

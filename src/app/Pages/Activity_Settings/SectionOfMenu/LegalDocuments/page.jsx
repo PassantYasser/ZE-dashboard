@@ -14,7 +14,6 @@ function LegalDocumentsPage() {
     dispatch(getRequiredDocumentsThunk())
   },[dispatch])
 
-  console.log(documents);
   return (
     <>
     <div className="border border-[#E3E8EF] mb-8">

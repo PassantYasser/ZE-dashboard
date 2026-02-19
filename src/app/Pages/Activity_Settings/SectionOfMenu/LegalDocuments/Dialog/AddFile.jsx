@@ -6,12 +6,12 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { uploadDocumentThunk, getRequiredDocumentsThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function AddFile({open , setOpen, docKey}) {
   const {t} = useTranslation()
   const [expiryDate, setExpiryDate] = useState(null);
-
-  console.log(docKey);
   //////
   const fileInputRef = useRef(null)
   const [selectedFile, setSelectedFile] = useState(null)
@@ -26,7 +26,24 @@ function AddFile({open , setOpen, docKey}) {
       setSelectedFile(file)
     }
   }
+  //api
+  const dispatch = useDispatch()
+  const {document , loading ,error} = useSelector((state)=>state.setting)
 
+  const handleUpload = async ()=>{
+    if (!selectedFile || !expiryDate) return;
+
+  const formData = new FormData();
+
+  formData.append("doc_key", docKey);
+  formData.append("file", selectedFile);
+  formData.append("expiry_date", expiryDate.format("YYYY-MM-DD"));
+
+  await dispatch(uploadDocumentThunk(formData)).unwrap();
+  dispatch(getRequiredDocumentsThunk());
+
+  setOpen(false);
+  }
   return (
     <Dialog
       open={open}
@@ -129,7 +146,8 @@ function AddFile({open , setOpen, docKey}) {
       </section>
 
       <section className='w-full flex gap-3 px-6 py-4'>
-        <button className={`${selectedFile && expiryDate ? 'bg-[var(--color-primary)] text-white' : 'bg-[#E3E8EF] text-[#9AA4B2]'} w-full h-14 rounded-[3px] cursor-pointer`}>{t('save')}</button>
+        <button   onClick={handleUpload}
+        className={`${selectedFile && expiryDate ? 'bg-[var(--color-primary)] text-white' : 'bg-[#E3E8EF] text-[#9AA4B2]'} w-full h-14 rounded-[3px] cursor-pointer`}>{t('save')}</button>
         <button
           onClick={()=>setOpen(false)}
           className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full h-14 rounded-[3px] cursor-pointer '>{t('cancel')}</button>
