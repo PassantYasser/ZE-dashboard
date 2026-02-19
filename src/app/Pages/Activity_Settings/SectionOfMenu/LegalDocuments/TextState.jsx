@@ -2,14 +2,14 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function TextState() {
+function TextState({documents}) {
   const {t} = useTranslation()
   // all_fine
   // not_uploaded
   // reviewing
   // expired
 
-  const textState = 'expired'
+  const textState = documents.textState
   let content;
 
 

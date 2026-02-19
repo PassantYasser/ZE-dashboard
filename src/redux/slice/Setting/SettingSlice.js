@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -246,6 +246,17 @@ export const updateScheduleThunk = createAsyncThunk('setting/updateScheduleThunk
   }
 )
 
+export const getRequiredDocumentsThunk = createAsyncThunk('setting/getRequiredDocumentsThunk' ,
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRequiredDocuments()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get required documents");
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -277,6 +288,8 @@ const initialState ={
   Workplaces:[],
   areas:null,
   schedule:null,
+
+  documents:[],
 }
 const settingSlice = createSlice({
   name:'setting' ,
@@ -592,6 +605,19 @@ const settingSlice = createSlice({
         state.schedule = action.payload;
       })
       .addCase(updateScheduleThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRequiredDocumentsThunk
+      .addCase(getRequiredDocumentsThunk.pending , (state)=>{
+        state.loading = true ;
+        state.error = null;
+      })
+      .addCase(getRequiredDocumentsThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.documents = action.payload;
+      })
+      .addCase(getRequiredDocumentsThunk.rejected , (state , action)=>{
         state.loading = false;
         state.error = action.payload;
       })

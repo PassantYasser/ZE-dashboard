@@ -124,3 +124,8 @@ export const updateSchedule =async(formData)=>{
   const response = await API.post('/provider/updateSchedule' ,formData)
   return response.data
 }
+
+export const getRequiredDocuments = async()=>{
+  const response = await API.get('/provider/required-documents')
+  return response.data
+}
