@@ -119,3 +119,8 @@ export const getSchedule = async()=>{
   const response = await API.get('/provider/schedule')
   return response.data.data
 }
+
+export const updateSchedule =async(formData)=>{
+  const response = await API.post('/provider/updateSchedule' ,formData)
+  return response.data
+}

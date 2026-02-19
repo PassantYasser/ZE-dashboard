@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux'
-import { getScheduleThunk } from '@/redux/slice/Setting/SettingSlice'
+import { getScheduleThunk, updateScheduleThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function DayAndTime() {
   const { t } = useTranslation()
@@ -15,13 +15,13 @@ function DayAndTime() {
   // الأيام
   const [selectedDays, setSelectedDays] = useState([])
   const days = [
+    { id: 7, day: 'Saturday' },
     { id: 1, day: 'Sunday' },
     { id: 2, day: 'Monday' },
     { id: 3, day: 'Tuesday' },
     { id: 4, day: 'Wednesday' },
     { id: 5, day: 'Thursday' },
     { id: 6, day: 'Friday' },
-    { id: 7, day: 'Saturday' }
   ]
 
   // أوقات العمل
@@ -32,7 +32,6 @@ function DayAndTime() {
     dispatch(getScheduleThunk())
   }, [dispatch])
 
-  // لو البيانات جاهزة، نحدث state
   useEffect(() => {
     if (schedule && schedule.length > 0) {
       // نحول اسم اليوم من API إلى id عندنا
@@ -87,6 +86,32 @@ function DayAndTime() {
       setCurrentPeriod({ from: null, to: null })
     }
   }
+
+
+  //
+  const handleSave = () => {
+  if (!currentPeriod.from || !currentPeriod.to) return
+
+  const dayNameMap = {
+    1: 'sunday',
+    2: 'monday',
+    3: 'tuesday',
+    4: 'wednesday',
+    5: 'thursday',
+    6: 'friday',
+    7: 'saturday'
+  }
+
+  const formattedData = {
+    days: selectedDays.map((id) => ({
+      day: dayNameMap[id],
+      from: currentPeriod.from.format('HH:mm'),
+      to: currentPeriod.to.format('HH:mm')
+    }))
+  }
+
+  dispatch(updateScheduleThunk(formattedData))
+}
 
   return (
     <div className='p-6'>
@@ -168,8 +193,10 @@ function DayAndTime() {
         </div>
       </section>
 
-      {/* زر الحفظ */}
-      <button className='bg-[var(--color-primary)] text-white w-[30%] h-14 rounded-[3px] cursor-pointer'>
+      {/* BTN*/}
+      <button 
+        onClick={handleSave}
+        className='bg-[var(--color-primary)] text-white w-[30%] h-14 rounded-[3px] cursor-pointer'>
         {t('save')}
       </button>
     </div>
