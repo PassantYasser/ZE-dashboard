@@ -9,11 +9,16 @@ import { getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
 import { IMAGE_BASE_URL } from '../../../../../config/imageUrl'
 import ServicesPage from '../../Home/Services/page'
 
-function Module_key({}) {
+function Module_key({ onClose }) {
     const {t} = useTranslation()
     //api
       const dispatch= useDispatch()
       const {getmodules , loadingDetails,errorDetails}=useSelector((state)=>state.services)
+
+      // Read current_module_key from localStorage
+      const userData = typeof window !== 'undefined' ? localStorage.getItem('user') : null
+      const current_module_key = userData ? JSON.parse(userData)?.current_module_key : null
+
       useEffect(()=>{
         dispatch(getmodulesThunk())
 
@@ -32,6 +37,18 @@ function Module_key({}) {
         }
         fetchProfile()
       },[dispatch])
+
+      // Pre-select the module that matches current_module_key
+      useEffect(() => {
+        if (getmodules.length > 0 && current_module_key) {
+          const matchingModule = getmodules.find(
+            (service) => service.module_key === current_module_key
+          )
+          if (matchingModule) {
+            setSelectedService(matchingModule.id)
+          }
+        }
+      }, [getmodules, current_module_key])
 
     const router = useRouter()
     const [selectedService, setSelectedService] = useState(null)
@@ -63,8 +80,10 @@ function Module_key({}) {
             router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/RejectAccount')
           } else if (status === 'active') {
             if (has_subscription === true) {
+              if (onClose) onClose()
               router.push('/Pages/Home/Services')
             } else {
+              if (onClose) onClose()
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
             }
           }
@@ -82,13 +101,13 @@ function Module_key({}) {
           <p className='text-[#656565] text-xl font-normal'>{t('Choose the service that best suits your needs')}</p>
         </div>
 
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-2 gap-4 '>
           {getmodules.map((service) => (
             <button
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
               className={`
-                py-6 px-4 flex flex-col items-center transition-all duration-200 cursor-pointer rounded-[3px]
+                py-6 px-4 flex flex-col  items-center transition-all duration-200 cursor-pointer rounded-[3px]
                 border-1
                 ${selectedService === service.id 
                   ? 'border-[var(--color-primary)]' 
