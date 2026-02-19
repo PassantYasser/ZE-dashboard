@@ -7,7 +7,8 @@ import dayjs from "dayjs";
 function Files({documents}) {
   const {t} = useTranslation()
   const [openAddFile , setOpenAddFile] = useState(false)
-  
+  const [selectedDocKey, setSelectedDocKey] = useState(null)
+
 /**true-->expired  false-- not expired */
   return (
     <>
@@ -104,7 +105,7 @@ function Files({documents}) {
             }else (
               btn=(
                   <div
-                    onClick={()=>setOpenAddFile(true)}
+                    onClick={()=>{ setSelectedDocKey(doc.doc_key); setOpenAddFile(true); }}
                     className='w-[50%] flex justify-end items-center cursor-pointer'
                   >
                     <img src="/images/icons/checkmark-circle-false_yellow.svg" alt="" />
@@ -126,7 +127,7 @@ function Files({documents}) {
 
                 <div className='flex flex-col gap-1'>
                   <p className='text-[#344054] text-sm font-medium'>{doc?.doc_name}</p>
-                  <p>{content}</p>
+                  <>{content}</>
                 </div>
                 
               </div>
@@ -142,7 +143,7 @@ function Files({documents}) {
       </div>
 
 
-      <AddFile open={openAddFile} setOpen={setOpenAddFile}/>
+      <AddFile open={openAddFile} setOpen={setOpenAddFile} docKey={selectedDocKey} />
     </>
   )
 }

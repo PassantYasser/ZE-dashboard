@@ -7,10 +7,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function AddFile({open , setOpen}) {
+function AddFile({open , setOpen, docKey}) {
   const {t} = useTranslation()
   const [expiryDate, setExpiryDate] = useState(null);
 
+  console.log(docKey);
   //////
   const fileInputRef = useRef(null)
   const [selectedFile, setSelectedFile] = useState(null)

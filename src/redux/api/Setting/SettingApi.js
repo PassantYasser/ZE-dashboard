@@ -129,3 +129,6 @@ export const getRequiredDocuments = async()=>{
   const response = await API.get('/provider/required-documents')
   return response.data
 }
+export const uploadDocument = async(formData)=>{
+  const response = await API.post('/provider/documents')
+}
