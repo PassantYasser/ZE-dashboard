@@ -45,7 +45,7 @@ function Files({documents}) {
               content =(
                 <p className='text-[#F04438] text-xs font-normal'>{t('The document was rejected. Please resubmit it.')}</p>
               ) 
-            }else if(is_uploaded === false && documentExpired === true  && status === 'expired'){
+            }else if(is_uploaded === false && status === 'expired'){
               content =(
                 <p className='text-[#F04438] text-xs font-normal'>{t('The document has expired; please add a newer copy.')}</p>
               )
@@ -77,7 +77,7 @@ function Files({documents}) {
                       pdf
                   </span>
                 </div>      ) 
-            }else if(is_uploaded === false && documentExpired === true  && status === 'expired'){
+            }else if(is_uploaded === false  && status === 'expired'){
               imgLog =(
                 <div className="relative w-12 h-12 flex items-center justify-center">
                   <img src="/images/filephoto.svg" className="w-8 h-10" />
@@ -123,7 +123,7 @@ function Files({documents}) {
                   {imgLog}
                 </div>
 
-                <div>
+                <div className='flex flex-col gap-1'>
                   <p className='text-[#344054] text-sm font-medium'>{doc?.doc_name}</p>
                   <p>{content}</p>
                 </div>
