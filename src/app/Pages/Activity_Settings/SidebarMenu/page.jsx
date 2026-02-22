@@ -4,40 +4,42 @@ import { useTranslation } from 'react-i18next'
 
 function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
   const {t}= useTranslation()
-    const [openDropdown, setOpenDropdown] = useState(null)
-    const current_module_key ='خدمات المنازل'   // 'خدمات الطريق'    'خدمات المنازل'
+  const [openDropdown, setOpenDropdown] = useState(null)
+  
+  const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
+  const current_module_key = userData?.current_module_key
 
-    
+  
 
-    const menuHomeCarItems = [
-      {id:1 , Label:'Terms and Policies', name:t('Terms and Policies'), icon:'/images/icons/Terms and Policies_Black.svg', iconSelected:'/images/icons/Terms and Policies_White.svg'},
-      {id:2 , Label:'Workplaces', name:t('Workplaces'), icon:'/images/icons/maps-location_Black.svg', iconSelected:'/images/icons/maps-location.svg'},
-      {id:3 , Label:'Working hours', name:t('Working hours'), icon:'/images/icons/date-time-black.svg', iconSelected:'/images/icons/date-time-white.svg'},
-      {id:4 , Label:'Legal documents', name:t('Legal documents'), icon:'/images/icons/document-attachment_black.svg', iconSelected:'/images/icons/document-attachment_white.svg'},
-      {id:5 , Label:'Reviews', name:t('Reviews'), icon:'/images/icons/star_black.svg', iconSelected:'/images/icons/star_white.svg'},
-    ];
+  const menuHomeCarItems = [
+    {id:1 , Label:'Terms and Policies', name:t('Terms and Policies'), icon:'/images/icons/Terms and Policies_Black.svg', iconSelected:'/images/icons/Terms and Policies_White.svg'},
+    {id:2 , Label:'Workplaces', name:t('Workplaces'), icon:'/images/icons/maps-location_Black.svg', iconSelected:'/images/icons/maps-location.svg'},
+    {id:3 , Label:'Working hours', name:t('Working hours'), icon:'/images/icons/date-time-black.svg', iconSelected:'/images/icons/date-time-white.svg'},
+    {id:4 , Label:'Legal documents', name:t('Legal documents'), icon:'/images/icons/document-attachment_black.svg', iconSelected:'/images/icons/document-attachment_white.svg'},
+    {id:5 , Label:'Reviews', name:t('Reviews'), icon:'/images/icons/star_black.svg', iconSelected:'/images/icons/star_white.svg'},
+  ];
 
-    const menuStreetItems = [
-      {id:1 , Label:'Terms and Policies', name:t('Terms and Policies'), icon:'/images/icons/Terms and Policies_Black.svg', iconSelected:'/images/icons/Terms and Policies_White.svg'},
-      {id:2 , Label:'Workplaces', name:t('Workplaces'), icon:'/images/icons/maps-location_Black.svg', iconSelected:'/images/icons/maps-location.svg'},
-      {id:4 , Label:'Legal documents', name:t('Legal documents'), icon:'/images/icons/document-attachment_black.svg', iconSelected:'/images/icons/document-attachment_white.svg'},
-      {id:5 , Label:'Reviews', name:t('Reviews'), icon:'/images/icons/star_black.svg', iconSelected:'/images/icons/star_white.svg'},
-    ];
+  const menuStreetItems = [
+    {id:1 , Label:'Terms and Policies', name:t('Terms and Policies'), icon:'/images/icons/Terms and Policies_Black.svg', iconSelected:'/images/icons/Terms and Policies_White.svg'},
+    {id:2 , Label:'Workplaces', name:t('Workplaces'), icon:'/images/icons/maps-location_Black.svg', iconSelected:'/images/icons/maps-location.svg'},
+    {id:4 , Label:'Legal documents', name:t('Legal documents'), icon:'/images/icons/document-attachment_black.svg', iconSelected:'/images/icons/document-attachment_white.svg'},
+    {id:5 , Label:'Reviews', name:t('Reviews'), icon:'/images/icons/star_black.svg', iconSelected:'/images/icons/star_white.svg'},
+  ];
 
-    let menuItems
-    switch (current_module_key) {
-      case 'خدمات السيارات':
-      case 'خدمات المنازل':
-        menuItems = menuHomeCarItems
-        break
+  let menuItems
+  switch (current_module_key) {
+    case 'home_services':
+    case 'car_services':
+      menuItems = menuHomeCarItems
+      break
 
-      case 'خدمات الطريق':
-        menuItems = menuStreetItems
-        break
+    case 'street_assistant':
+      menuItems = menuStreetItems
+      break
 
-      default:
-        menuItems = menuHomeCarItems
-    }
+    default:
+      menuItems = menuHomeCarItems
+  }
 
   return (
     <>
