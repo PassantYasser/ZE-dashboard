@@ -3,28 +3,13 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ViewHome_Car_ModulePage from "./Views/Home_Car_Module/View/page";
 import ViewStreetAssistant_ModulePage from "./Views/StreetAssistant_Module/View/page";
-
-function createData(orderNumber, customerName, service, dateTime, worker, workerImg, status, price) {
-  return { orderNumber, customerName, service, dateTime, worker, workerImg, status, price };
-}
-
-const rows = [
-  createData("#001", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "accepted", "$5000"),
-  createData("#002", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "pending_approval", "$30"),
-  createData("#003", "Khaled Mahmoud", "Electric Fix", "2025-10-13 / 05:00 PM", "Ali Hassan", "https://randomuser.me/api/portraits/men/15.jpg", "on_going", "$40"),
-  createData("#004", "Fatma Hassan", "Cleaning", "2025-10-14 / 09:00 AM", "Noor Samir", "https://randomuser.me/api/portraits/women/22.jpg", "rejected", "$20"),
-  createData("#0011", "Aly Salem", "AC Repair", "2025-10-12 / 10:30 AM", "Omar Khaled", "https://randomuser.me/api/portraits/men/32.jpg", "completed", "$5000"),
-  createData("#0021", "Mona Yasser", "Plumbing", "2025-10-13 / 02:15 PM", "Sara Adel", "https://randomuser.me/api/portraits/women/45.jpg", "on_going", "$30"),
-  createData("#0031", "Khaled Mahmoud", "Electric Fix", "2025-10-13 / 05:00 PM", "Ali Hassan", "https://randomuser.me/api/portraits/men/15.jpg", "in_progress", "$40"),
-  createData("#0041", "Fatma Hassan", "Cleaning", "2025-10-14 / 09:00 AM", "Noor Samir", "https://randomuser.me/api/portraits/women/22.jpg", "rejected", "$20"),
-
-];
+import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 
 
-export default function TableRequest() {
 
+export default function TableRequest({bookings}) {
   const { t } = useTranslation();
-
+  
   const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
   const current_module_key = userData?.current_module_key
 
@@ -109,31 +94,35 @@ export default function TableRequest() {
 
         {/* Table Body */}
         <tbody>
-          {rows.map((row) => (
+          {Array.isArray(bookings?.bookings?.data) &&
+            bookings.bookings.data.map((row) => (
             <tr
-              key={row.orderNumber}
+              key={row?.id}
               onClick={handleClickOpen}
               className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
             >
             
-              <td className="p-4">{row.orderNumber}</td>
-              <td className="p-4">{row.customerName}</td>
-              <td className="p-4">{row.service}</td>
-              <td className="p-4">{row.dateTime}</td>
+              <td className="p-4">{row?.id}</td>
+              <td className="p-4"> {row?.user?.name} {row?.user?.lastname}</td>
+              <td className="p-4"> {row?.service?.category?.title}</td>
+              <td className="p-4">{row?.visit_date} / {row?.visit_time}</td>
               <td className="p-4">
                 <div className="flex items-center gap-2">
                   <img
-                    src={row.workerImg}
-                    alt={row.worker}
+                    src={`${IMAGE_BASE_URL}${row?.assigned_handymen?.[0]?.ipn_image}`}
+                    alt={row?.worker}
                     className="w-8 h-8 rounded-full object-cover"
                   />
-                  <span>{row.worker}</span>
+                  <span>
+                    {row?.assigned_handymen?.[0]?.firstname}{" "}
+                    {row?.assigned_handymen?.[0]?.lastname}
+                  </span>
                 </div>
               </td>
               <td className='p-4'>
-                {StatusRender(row.status)}
+                {StatusRender(row?.status)}
               </td>
-              <td className="p-4">{row.price}</td>
+              <td className="p-4">{row?.price}</td>
             </tr>
           ))}
         </tbody>
