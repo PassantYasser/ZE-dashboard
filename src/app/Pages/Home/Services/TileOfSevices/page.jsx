@@ -1,8 +1,9 @@
 'use client';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { getModuleTitle } from '../../../../../../config/getModuleTitle';
 
 function TileOfSevicesPage({current_module_key}) {
   const {t} = useTranslation();
@@ -52,14 +53,14 @@ function TileOfSevicesPage({current_module_key}) {
         },
     }));
 
-
+  const title = getModuleTitle(current_module_key, t)
 
 
   return (
     <>
     <div className='flex justify-between mb-10 '>
       <div>
-        <p className='text-[#364152]  text-2xl font-medium mb-3'>{current_module_key}</p> 
+        <p className='text-[#364152]  text-2xl font-medium mb-3'>{title}</p> 
         <p className='text-[#697586] text-base font-normal'>تابع وادِر طلبات الخدمات المنزلية بسهولة وكفاءة.</p>
       </div>
       <div className='flex items-center justify-between gap-3 border border-[#CDD5DF] rounded-[3px] w-[30%]  p-4'>
