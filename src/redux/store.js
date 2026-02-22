@@ -5,7 +5,7 @@ import workerReducer from "./slice/Workers/WorkersSlice";
 import financeReducer from "./slice/Finance/FinanceSlice";
 import settingReducer from './slice/Setting/SettingSlice.js';
 import HomeReducer from './slice/Home/HomeSlice';
-
+import requestsReducer from './slice/Requests/RequestsSlice'
 export const store = configureStore({
   reducer:{
     auth: authReducer,
@@ -14,5 +14,7 @@ export const store = configureStore({
     finance: financeReducer,
     setting:settingReducer,
     Home:HomeReducer,
+    requests:requestsReducer,
+
   }
 })
