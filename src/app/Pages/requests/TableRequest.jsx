@@ -1,8 +1,8 @@
-
 "use client";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import ViewPage from "./View/page";
+import ViewHome_Car_ModulePage from "./Views/Home_Car_Module/View/page";
+import ViewStreetAssistant_ModulePage from "./Views/StreetAssistant_Module/View/page";
 
 function createData(orderNumber, customerName, service, dateTime, worker, workerImg, status, price) {
   return { orderNumber, customerName, service, dateTime, worker, workerImg, status, price };
@@ -24,6 +24,9 @@ const rows = [
 export default function TableRequest() {
 
   const { t } = useTranslation();
+
+  const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
+  const current_module_key = userData?.current_module_key
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => setOpen(true);
@@ -137,8 +140,14 @@ export default function TableRequest() {
       </table>
 
 
-        {/* ✅ Use the client-safe component */}
-      <ViewPage open={open} handleClose={handleClose} />
+      {/*✅*/}
+      {(current_module_key === 'car_services' || current_module_key === 'home_services') && (
+        <ViewHome_Car_ModulePage open={open} handleClose={handleClose} />
+      )}
+      {/*✅*/}
+      {current_module_key === 'street_assistant' && (
+        <ViewStreetAssistant_ModulePage open={open} handleClose={handleClose} />
+      )}
     </div>
 
 

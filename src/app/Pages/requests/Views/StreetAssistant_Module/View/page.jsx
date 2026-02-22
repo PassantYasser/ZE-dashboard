@@ -2,12 +2,10 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import RequestStatusDataPage from './RequestStatusData/page';
 
-// Force dynamic rendering - this page should not be statically generated
-export const dynamic = 'force-dynamic';
 
-function ViewPage({ open, handleClose }) {
+
+function ViewStreetAssistant_ModulePage({ open, handleClose }) {
   const { t } = useTranslation();
 
   return (
@@ -31,14 +29,13 @@ function ViewPage({ open, handleClose }) {
           </button>
         </section>
 
+streeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeet
 
 
-
-        <RequestStatusDataPage />
 
       </Dialog>
     </>
   )
 }
 
-export default ViewPage
+export default ViewStreetAssistant_ModulePage
