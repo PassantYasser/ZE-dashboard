@@ -107,17 +107,30 @@ export default function TableRequest({bookings}) {
               <td className="p-4"> {row?.service?.category?.title}</td>
               <td className="p-4">{row?.visit_date} / {row?.visit_time}</td>
               <td className="p-4">
+                {!row?.assigned_handymen?.[0]?(
+                  <div className="">
+                    <p>{t('There is no handymen')} </p>
+                  </div>
+                ):(
                 <div className="flex items-center gap-2">
-                  <img
-                    src={`${IMAGE_BASE_URL}${row?.assigned_handymen?.[0]?.ipn_image}`}
-                    alt={row?.worker}
-                    className="w-8 h-8 rounded-full object-cover"
-                  />
+                    {row?.assigned_handymen?.[0]?.image ? (
+                      <img
+                        src={`${IMAGE_BASE_URL}${row?.assigned_handymen?.[0]?.image}`}
+                        alt={row?.worker}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gray-400 text-white flex items-center justify-center text-sm font-semibold">
+                        {row?.assigned_handymen?.[0]?.firstname?.charAt(0)}
+                        {row?.assigned_handymen?.[0]?.lastname?.charAt(0)}
+                      </div>
+                    )}
                   <span>
                     {row?.assigned_handymen?.[0]?.firstname}{" "}
                     {row?.assigned_handymen?.[0]?.lastname}
                   </span>
                 </div>
+                )}
               </td>
               <td className='p-4'>
                 {StatusRender(row?.status)}
