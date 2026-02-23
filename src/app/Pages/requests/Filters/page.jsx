@@ -83,6 +83,8 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
 
   const handleApplyFilters = () => {
     const filters = {};
+    if (selected1) filters.city = selected1.city;
+    if (selected2) filters.service_id = selected2.id;
     if (selected3) filters.status = selected3;
     if (dateApplied && state[0].startDate) filters.date_from = format(state[0].startDate, 'yyyy-MM-dd');
     if (dateApplied && state[0].endDate) filters.date_to = format(state[0].endDate, 'yyyy-MM-dd');
