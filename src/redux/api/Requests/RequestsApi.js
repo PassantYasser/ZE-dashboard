@@ -10,3 +10,8 @@ export const getBookings = async({ page = 1, status, date_from, date_to } = {})=
   const response = await API.get(`/provider/bookings?${params.toString()}`)
   return response.data
 }
+
+export const getDrowpdownFilters = async()=>{
+  const response = await API.get('/provider/getFilters')
+  return response.data
+}

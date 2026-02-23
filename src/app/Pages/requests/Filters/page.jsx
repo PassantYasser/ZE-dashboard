@@ -7,6 +7,8 @@ import 'react-date-range/dist/theme/default.css';
 import { DateRangePicker } from 'react-date-range';
 import { addDays, format } from 'date-fns';
 import { ar } from 'date-fns/locale'; // Arabic locale
+import { useDispatch, useSelector } from "react-redux";
+import { getDrowpdownFiltersThunk } from "@/redux/slice/Requests/RequestsSlice";
 
 
 // Dynamically import Dialog to avoid SSR
@@ -14,12 +16,18 @@ const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
 function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState([]);
-  const options = [t("active"), t("pending"), t("refused"), t("stopped"), t("inactive")];
 
+
+
+
+  const dispatch = useDispatch();
+  const {filterData,loading,error}= useSelector((state)=>state.requests)
   
+  useEffect(()=>{
+    dispatch(getDrowpdownFiltersThunk())
+  },[dispatch])
 
-
+  console.log(filterData);
 
     
     // City (1)
@@ -28,7 +36,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
     const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const optionCity = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+    const optionCity = filterData?.cities;
   
 
     //service (2)
@@ -147,7 +155,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                 <input
                   type="text"
                   placeholder={t("Select City")}
-                  value={selected1 || searchValue1}   
+                  value={selected1?.city || searchValue1}   
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
                     setOpen1(true);
@@ -169,11 +177,11 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                 <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionCity
                     .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue1.toLowerCase())
+                      opt.city.toLowerCase().includes(searchValue1.toLowerCase())
                     )
                     .map((opt) => (
                       <li
-                        key={opt}
+                        key={opt.city}
                         onClick={() => {
                           setSelected1(opt);
                           setOpen1(false);
@@ -181,7 +189,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {opt}
+                        {opt?.city}
                       </li>
                     ))}
                 </ul>
