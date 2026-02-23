@@ -45,7 +45,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
     const [selected2, setSelected2] = useState(null);
     const [searchValue2, setSearchValue2] = useState("");
     const dropdownRef2 = useRef(null);
-    const optionservice = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+    const optionservice =filterData?.services ;
 
     // Status (3)
     // =========================
@@ -213,7 +213,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                 <input
                   type="text"
                   placeholder={t("Choose the service")}
-                  value={selected2 || searchValue2}   
+                  value={selected2?.title || searchValue2}   
                   onChange={(e) => {
                     setSearchValue2(e.target.value);
                     setOpen2(true);
@@ -235,11 +235,11 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                 <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionservice
                     .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue2.toLowerCase())
+                      opt.title.toLowerCase().includes(searchValue2.toLowerCase())
                     )
                     .map((opt) => (
                       <li
-                        key={opt}
+                        key={opt.id}
                         onClick={() => {
                           setSelected2(opt);
                           setOpen2(false);
@@ -247,7 +247,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {opt}
+                        {opt?.title}
                       </li>
                     ))}
                 </ul>
