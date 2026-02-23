@@ -53,14 +53,7 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
     const [selected3, setSelected3] = useState(null);
     const [searchValue3, setSearchValue3] = useState("");
     const dropdownRef3 = useRef(null);
-    const optionStatus = [
-    "accepted",
-    "completed",
-    "pending_approval",
-    "in_progress",
-    "on_going",
-    "rejected"
-  ];
+    const optionStatus = filterData?.statuses;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
