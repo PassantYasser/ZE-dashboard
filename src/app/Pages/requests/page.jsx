@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavRequest from './NavRequest'
 import TableRequest from './TableRequest'
 import Pagination from './Pagination'
@@ -9,11 +9,17 @@ import { getBookingsThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function RequestsPage() {
   const dispatch = useDispatch()
-  const {bookings , loading , error } =useSelector((state)=>state.requests)
+  const {bookings , loading , error, pagination } =useSelector((state)=>state.requests)
+  const [currentPage, setCurrentPage] = useState(1)
+
   useEffect(()=>{
-    dispatch(getBookingsThunk())
-  },[dispatch])
-  console.log('bookings',bookings?.bookings?.data);
+    dispatch(getBookingsThunk(currentPage))
+  },[dispatch, currentPage])
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
   return (
     <MainLayout>
 
@@ -21,7 +27,11 @@ function RequestsPage() {
 
       <TableRequest bookings={bookings}/>
 
-      <Pagination/>
+      <Pagination
+        totalPages={pagination?.last_page || 1}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
 
     </MainLayout>
   )
