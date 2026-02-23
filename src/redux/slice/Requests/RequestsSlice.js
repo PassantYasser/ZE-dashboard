@@ -2,9 +2,9 @@ import { getBookings } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
-  async(page = 1 , {rejectWithValue})=>{
+  async(filters = {} , {rejectWithValue})=>{
     try{
-      const response =await getBookings(page)
+      const response =await getBookings(filters)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to get bookings data");

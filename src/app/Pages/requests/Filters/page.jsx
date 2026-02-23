@@ -1,33 +1,23 @@
 "use client";
-// import React, { useEffect, useRef, useState } from "react";
-// import dynamic from "next/dynamic";
-// import { useTranslation } from "react-i18next";
-// import {DateRangePicker} from "@heroui/react";
 import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css';
 import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import { ar } from 'date-fns/locale'; // Arabic locale
 
 
 // Dynamically import Dialog to avoid SSR
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPage({ open, handleClose }) {
+function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState([]);
   const options = [t("active"), t("pending"), t("refused"), t("stopped"), t("inactive")];
 
-  const handleChange = (option) => {
-    setSelected((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
-    );
-  };
+  
 
 
 
@@ -83,11 +73,34 @@ function FiltersPage({ open, handleClose }) {
 
   const [state, setState] = useState([
     {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
+      startDate: null,
+      endDate: null,
       key: 'selection'
     }
   ]);
+  const [dateApplied, setDateApplied] = useState(false);
+
+  const handleApplyFilters = () => {
+    const filters = {};
+    if (selected3) filters.status = selected3;
+    if (dateApplied && state[0].startDate) filters.date_from = format(state[0].startDate, 'yyyy-MM-dd');
+    if (dateApplied && state[0].endDate) filters.date_to = format(state[0].endDate, 'yyyy-MM-dd');
+    if (onApplyFilters) onApplyFilters(filters);
+    handleClose();
+  };
+
+  const handleResetFilters = () => {
+    setSelected1(null);
+    setSearchValue1('');
+    setSelected2(null);
+    setSearchValue2('');
+    setSelected3(null);
+    setSearchValue3('');
+    setState([{ startDate: null, endDate: null, key: 'selection' }]);
+    setDateApplied(false);
+    if (onResetFilters) onResetFilters();
+    handleClose();
+  };
 
   return (
     <Dialog
@@ -308,7 +321,7 @@ function FiltersPage({ open, handleClose }) {
                 type="text"
                 placeholder={t("Select date range")}
                 value={
-                  state[0].startDate && state[0].endDate
+                  dateApplied && state[0].startDate && state[0].endDate
                     ? `${state[0].startDate.toLocaleDateString()} - ${state[0].endDate.toLocaleDateString()}`
                     : ""
                 }
@@ -375,11 +388,11 @@ function FiltersPage({ open, handleClose }) {
 
             {/* btns of calender */}
             <section className="p-6 flex gap-4 ">
-              <button className="w-23 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+              <button onClick={() => { setDateApplied(true); setOpen4(false); }} className="w-23 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
                 {t('apply')}
               </button>
 
-              <button className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+              <button onClick={() => setOpen4(false)} className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
                 {t('cancel')}
               </button>
             </section>
@@ -395,11 +408,11 @@ function FiltersPage({ open, handleClose }) {
 
       
       <section className="p-6 flex gap-4 ">
-        <button className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+        <button onClick={handleApplyFilters} className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
           {t('Show results')}
         </button>
 
-        <button className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+        <button onClick={handleResetFilters} className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
           {t('Reset')}
         </button>
       </section>

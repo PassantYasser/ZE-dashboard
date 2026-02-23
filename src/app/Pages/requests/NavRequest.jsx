@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import FiltersPage from './Filters/page'
 
 
-function NavRequest() {
+function NavRequest({ onApplyFilters, onResetFilters }) {
   const{t}= useTranslation()
 
     const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ function NavRequest() {
       </section>
 
 
-      <FiltersPage open={open} handleClose={handleClose} />
+      <FiltersPage open={open} handleClose={handleClose} onApplyFilters={onApplyFilters} onResetFilters={onResetFilters} />
 
 
     </>

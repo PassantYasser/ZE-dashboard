@@ -11,19 +11,30 @@ function RequestsPage() {
   const dispatch = useDispatch()
   const {bookings , loading , error, pagination } =useSelector((state)=>state.requests)
   const [currentPage, setCurrentPage] = useState(1)
+  const [filters, setFilters] = useState({})
 
   useEffect(()=>{
-    dispatch(getBookingsThunk(currentPage))
-  },[dispatch, currentPage])
+    dispatch(getBookingsThunk({ page: currentPage, ...filters }))
+  },[dispatch, currentPage, filters])
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
   }
 
+  const handleApplyFilters = (newFilters) => {
+    setFilters(newFilters)
+    setCurrentPage(1)
+  }
+
+  const handleResetFilters = () => {
+    setFilters({})
+    setCurrentPage(1)
+  }
+
   return (
     <MainLayout>
 
-      <NavRequest/>
+      <NavRequest onApplyFilters={handleApplyFilters} onResetFilters={handleResetFilters} />
 
       <TableRequest bookings={bookings}/>
 
