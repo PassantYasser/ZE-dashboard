@@ -1,4 +1,4 @@
-import { getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
+import { getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
@@ -23,12 +23,24 @@ export const getDrowpdownFiltersThunk = createAsyncThunk('Requests/getDrowpdownF
   }
 )
 
+export const getBookingByIDThunk = createAsyncThunk('Requests/getBookingByIDThunk' ,
+  async(id,{rejectWithValue})=>{
+    try{
+      const response= await getBookingByID(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of booking by ID ");
+    }
+  }
+)
+
 const initialState = {
   loading: false,
   error: null,
   bookings:[],
   pagination: null,
-  filterData:[]
+  filterData:[],
+  bookingDetails:null,
 }
 
 const RequestsSlice = createSlice({
@@ -65,6 +77,18 @@ const RequestsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //getBookingByIDThunk
+      .addCase(getBookingByIDThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getBookingByIDThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bookingDetails = action.payload;
+      })
+      .addCase(getBookingByIDThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   }
 })
 

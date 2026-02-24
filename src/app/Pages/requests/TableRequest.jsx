@@ -1,21 +1,50 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import ViewHome_Car_ModulePage from "./Views/Home_Car_Module/View/page";
 import ViewStreetAssistant_ModulePage from "./Views/StreetAssistant_Module/View/page";
 import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
+import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
 
 
 
 export default function TableRequest({bookings}) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   
   const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
   const current_module_key = userData?.current_module_key
 
   const [open, setOpen] = useState(false);
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+
+  useEffect(() => {
+    const id = searchParams.get('id');
+    if (id) {
+      setSelectedBookingId(id);
+      dispatch(getBookingByIDThunk(id));
+      setOpen(true);
+    } else {
+      setOpen(false);
+      setSelectedBookingId(null);
+    }
+  }, [searchParams, dispatch]);
+
+  const handleClickOpen = (id) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('id', id);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+  const handleClose = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('id');
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const StatusRender = (status) => {
     switch (status) {
@@ -98,10 +127,9 @@ export default function TableRequest({bookings}) {
             bookings.bookings.data.map((row) => (
             <tr
               key={row?.id}
-              onClick={handleClickOpen}
+              onClick={() => handleClickOpen(row?.id)}
               className="hover:bg-[#F9F5E8]  hover:border-0 hover:cursor-pointer  border-y border-[#E3E8EF] font-normal text-sm text-[#697586]"
             >
-            
               <td className="p-4">{row?.id}</td>
               <td className="p-4"> {row?.user?.name} {row?.user?.lastname}</td>
               <td className="p-4"> {row?.service?.category?.title}</td>
@@ -144,11 +172,20 @@ export default function TableRequest({bookings}) {
 
       {/*✅*/}
       {(current_module_key === 'car_services' || current_module_key === 'home_services') && (
-        <ViewHome_Car_ModulePage open={open} handleClose={handleClose} />
+        <ViewHome_Car_ModulePage 
+          open={open} 
+          handleClose={handleClose} 
+          bookingId={selectedBookingId} 
+        />
       )}
+      
       {/*✅*/}
       {current_module_key === 'street_assistant' && (
-        <ViewStreetAssistant_ModulePage open={open} handleClose={handleClose} />
+        <ViewStreetAssistant_ModulePage 
+          open={open} 
+          handleClose={handleClose} 
+          bookingId={selectedBookingId} 
+        />
       )}
     </div>
 

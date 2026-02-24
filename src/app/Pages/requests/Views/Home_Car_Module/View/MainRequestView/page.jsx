@@ -15,7 +15,7 @@ import Activity_logPage from './Activity_log/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection }) {
+function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection }) {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -24,6 +24,10 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
 
   const [activeSubSection, setActiveSubSection] = useState(1);
 
+  // setActiveSection  تعيين مختص
+  // setActiveSubSection  سجل النشاط
+
+  
   return (
     <>
 
@@ -32,7 +36,7 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
           {/* Title */}
           <section className="my-4 px-6 flex  justify-between  ">
 
-            <div className=' '>
+            <div className='  '>
               <p className="text-[#364152] text-xl font-medium mb-5">
                 {t("Order details")}
               </p>
@@ -53,7 +57,9 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
           </section>
           <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
 
-          <section className='px-6 mb-6'>
+
+          <section className='px-6 mb-6 '>
+
             {/* request Data card */}
             <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 '>
               <div className='flex justify-between'>
@@ -99,6 +105,9 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
 
           </section>
 
+
+
+
           {/* //Btns */}
           {status === 'pending_approval' && (
             <>
@@ -115,7 +124,6 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
                 </button>
               </div>
             </>
-
           )}
 
           {status === 'accepted' && (assigned_handymen.length === 0 ? (
@@ -163,24 +171,19 @@ function MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiv
       )}
 
 
+
+
+
+
+
+
+      {/* سجل النشاط */}
       {activeSubSection === 2 && (
         <>
           <Activity_logPage setActiveSubSection={setActiveSubSection} />
 
         </>
       )}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

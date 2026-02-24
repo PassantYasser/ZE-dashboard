@@ -85,7 +85,8 @@ function RequestStatusDataPage() {
     }
   };
 
-  const [activeSection, setActiveSection] = useState(1);
+  const [activeSection, setActiveSection] = useState(2);
+
 
   return (
     <>
@@ -104,6 +105,7 @@ function RequestStatusDataPage() {
       )}
 
 
+      {/* تعيين مختص */}
       {/* section 2*/}
       {activeSection === 2 && (
         <>

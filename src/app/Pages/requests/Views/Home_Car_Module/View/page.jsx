@@ -7,9 +7,9 @@ import RequestStatusDataPage from './RequestStatusData/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function ViewHome_Car_ModulePage({ open, handleClose }) {
+function ViewHome_Car_ModulePage({ open, handleClose, bookingId }) {
   const { t } = useTranslation();
-
+   console.log(bookingId);
   return (
     <>
       <Dialog
@@ -33,7 +33,7 @@ function ViewHome_Car_ModulePage({ open, handleClose }) {
 
 
 
-
+        {/* تفاصيل الطلب */}
         <RequestStatusDataPage />
 
       </Dialog>

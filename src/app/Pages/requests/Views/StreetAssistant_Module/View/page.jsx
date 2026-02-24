@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 
 
-function ViewStreetAssistant_ModulePage({ open, handleClose }) {
+function ViewStreetAssistant_ModulePage({ open, handleClose, bookingId }) {
   const { t } = useTranslation();
 
   return (

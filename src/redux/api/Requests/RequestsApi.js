@@ -17,3 +17,8 @@ export const getDrowpdownFilters = async()=>{
   const response = await API.get('/provider/getFilters')
   return response.data
 }
+
+export const getBookingByID =async(id)=>{
+  const response = await API.get(`/provider/bookings/${id}`)
+  return response.data
+}

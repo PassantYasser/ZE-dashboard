@@ -13,7 +13,7 @@ function Activity_logPage({setActiveSubSection}) {
 const action_by = 'employee';
 
 
-  const details_type = "LE";  
+  const details_type = "time";  
   const value = "400";
 
   const formatTime = (v) => {
@@ -24,26 +24,27 @@ const action_by = 'employee';
       return v;
     }
   };
-const renderDetails = () => {
-  switch (details_type) {
-    case "LE":
-      return <span>{value} جنيه</span>;
 
-    case "time":
-      return <span>{formatTime(value)}</span>;
+  const renderDetails = () => {
+    switch (details_type) {
+      case "LE":
+        return <span>{value} جنيه</span>;
 
-    case "rate":
-      return (
-        <span className="flex items-center gap-1">
-          <span className="text-yellow-500">★</span>
-          {value}
-        </span>
-      );
+      case "time":
+        return <span>{formatTime(value)}</span>;
 
-    default:
-      return {value};
-  }
-};
+      case "rate":
+        return (
+          <span className="flex items-center gap-1">
+            <span className="text-yellow-500">★</span>
+            {value}
+          </span>
+        );
+
+      default:
+        return {value};
+    }
+  };
 
   return (
     <>
@@ -63,6 +64,9 @@ const renderDetails = () => {
     
     </div>
     <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
+
+
+
 
     <section className='px-6  '>
       <div className=' flex gap-4'>
