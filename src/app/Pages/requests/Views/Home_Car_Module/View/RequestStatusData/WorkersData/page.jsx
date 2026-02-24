@@ -4,7 +4,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function WorkersDataPage({status , assigned_handymen}) {
+function WorkersDataPage({status , assigned_handymen ,bookingDetails}) {
   const [open, setOpen] = useState(false);
 
   const {t}= useTranslation();
@@ -35,20 +35,26 @@ function WorkersDataPage({status , assigned_handymen}) {
         {/* Content */}
         {open && (
           <>
-          
-            <div className=" mt-5 flex justify-between  text-right ">
+            {bookingDetails?.assigned_handymen?.map((item , index)=>(
+            <div 
+              key={item?.id}
+              className=" mt-5 flex justify-between  text-right ">
 
               <div className='flex items-center gap-2 '>
-                <p className='bg-[#007AFF] text-[#fff] w-8.5 h-8.5 flex justify-center rounded-[999px]'>ع</p>
-                <p className='text-[#364152]  text-sm font-normal'>عماد احمد</p>
+                <p className='bg-[#007AFF] text-[#fff] w-8.5 h-8.5 flex justify-center items-center rounded-[999px]'>  {item?.firstname?.charAt(0)}</p>
+                <p className='text-[#364152]  text-sm font-normal'>{item?.firstname} {item?.lastname}  </p>
               </div>
 
               {/* call */}
-              <div className=' bg-[var(--color-primary)] w-8.5 h-8.5 flex justify-center items-center rounded-[999px] cursor-pointer'>
+              <a 
+                href={`tel:${item?.phone}`}
+                className=' bg-[var(--color-primary)] w-8.5 h-8.5 flex justify-center items-center rounded-[999px] cursor-pointer'>
                 <img src="/images/icons/call white.svg" alt="" />
-              </div>
+              </a>
 
             </div>
+            ))}
+          
 
 
             

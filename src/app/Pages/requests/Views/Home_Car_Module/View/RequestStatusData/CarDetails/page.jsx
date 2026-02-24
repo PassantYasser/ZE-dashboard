@@ -10,7 +10,7 @@ function CarDetailsPage() {
   
   return (
     <>
-        
+        {/* //module:car */}
       <section className="w-full mt-6 p-3 shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] overflow-hidden bg-white select-none">
             {/* Header */}
             <button

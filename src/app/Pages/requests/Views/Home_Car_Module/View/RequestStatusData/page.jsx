@@ -7,36 +7,59 @@ import Appoint_SpecialistPage from '../Appoint_Specialist/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function RequestStatusDataPage() {
+function RequestStatusDataPage({bookingDetails}) {
   const { t } = useTranslation();
 
-  const status = 'pending_approval';
-  const assigned_handymen = [];
+  const status = 'accepted';
+  const assigned_handymen = bookingDetails?.assigned_handymen || [];
 
   const StatusRender = (status) => {
     switch (status) {
-      case "accepted": // تم القبول
-        switch (assigned_handymen.length) {
-          case 0: //assigned_handymen empty 
-            return (
-              <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-                <div className='py-1.5 px-3 flex gap-1'>
-                  <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
-                  <span className='text-xs font-normal flex items-center'>{t('accepted')}</span>
-                </div>
-              </div>
-            );
-          default:
-            return (
-              <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-                <div className='py-1.5 px-3 flex gap-1'>
-                  <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
-                  <span className='text-xs font-normal flex items-center'>{t('A specialist has been appointed')}</span>
-                </div>
-              </div>
-            );
+      // case "accepted": // تم القبول
+      //   switch (assigned_handymen.length) {
+      //     case 0: //assigned_handymen empty 
+      //       return (
+      //         <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
+      //           <div className='py-1.5 px-3 flex gap-1'>
+      //             <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+      //             <span className='text-xs font-normal flex items-center'>{t('accepted')}</span>
+      //           </div>
+      //         </div>
+      //       );
+      //     default:
+      //       return (
+      //         <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
+      //           <div className='py-1.5 px-3 flex gap-1'>
+      //             <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+      //             <span className='text-xs font-normal flex items-center'>{t('A specialist has been appointed')}</span>
+      //           </div>
+      //         </div>
+      //       );
 
+      //   }
+      case "accepted":
+        if (assigned_handymen.length === 0) {
+          return (
+            <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
+              <div className='py-1.5 px-3 flex gap-1'>
+                <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+                <span className='text-xs font-normal flex items-center'>
+                  {t('accepted')}
+                </span>
+              </div>
+            </div>
+          );
         }
+        return (
+          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+              <span className='text-xs font-normal flex items-center'>
+                {t('A specialist has been appointed')}
+              </span>
+            </div>
+          </div>
+        );
       case "completed"://مكتملة
         return (
           <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit   rounded-3xl'>
@@ -85,7 +108,7 @@ function RequestStatusDataPage() {
     }
   };
 
-  const [activeSection, setActiveSection] = useState(2);
+  const [activeSection, setActiveSection] = useState(1);
 
 
   return (
@@ -98,6 +121,7 @@ function RequestStatusDataPage() {
             status={status}
             assigned_handymen={assigned_handymen}
             setActiveSection={setActiveSection}
+            bookingDetails={bookingDetails}
           />
 
         </>

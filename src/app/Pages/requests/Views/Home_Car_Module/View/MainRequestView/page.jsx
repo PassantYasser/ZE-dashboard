@@ -15,7 +15,7 @@ import Activity_logPage from './Activity_log/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection }) {
+function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection ,bookingDetails}) {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -27,13 +27,14 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
   // setActiveSection  تعيين مختص
   // setActiveSubSection  سجل النشاط
 
-  
+    console.log("bookingDetails",bookingDetails);
+
   return (
     <>
 
       {activeSubSection === 1 && (
         <>
-          {/* Title */}
+          {/* Title-->  btn  سجل النشاط + title*/}
           <section className="my-4 px-6 flex  justify-between  ">
 
             <div className='  '>
@@ -60,12 +61,12 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
 
           <section className='px-6 mb-6 '>
 
-            {/* request Data card */}
-            <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 '>
+            {/* request Data card (card1) */}
+            <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4  '>
               <div className='flex justify-between'>
                 <p className='text-[#697586] text-sm font-normal flex items-center'>
                   <span>{t('request')}/</span>
-                  <span>56525</span>
+                  <span>{bookingDetails?.id}</span>
                 </p>
 
                 <div>
@@ -76,7 +77,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
               <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
 
               <div>
-                <p className='text-[#121926] text-base font-medium'>تصليح إطار سيارة</p>
+                <p className='text-[#121926] text-base font-medium'>{bookingDetails?.service?.category?.title}</p>
               </div>
 
               <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
@@ -84,17 +85,17 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
               <div className='flex justify-between  w-full'>
                 <div className='flex  gap-1.5 w-full'>
                   <img src="/images/icons/date.svg" alt="" className='w-6 h-6' />
-                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>الاحد 24 أغسطس</p>
+                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>{bookingDetails?.visit_date}</p>
                 </div>
                 <div className='flex justify-end gap-1.5  w-full'>
                   <img src="/images/icons/time.svg" alt="" className='w-6 h-6' />
-                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'> 02:10 م </p>
+                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>{bookingDetails?.visit_time}</p>
                 </div>
 
               </div>
             </div>
 
-            <WorkersDataPage status={status} assigned_handymen={assigned_handymen} />  {/* Workers data */}
+            <WorkersDataPage status={status} assigned_handymen={assigned_handymen} bookingDetails={bookingDetails}/>  {/* Workers data */}
             {status === 'rejected' && (<RejectedCompPage />)}      {/* Rejected Component */}
             <CustomerPage />  {/* Customer Info */}
             <DescriptionPage />  {/* Description message and voice */}

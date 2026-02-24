@@ -83,7 +83,7 @@ const RequestsSlice = createSlice({
       })
       .addCase(getBookingByIDThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.bookingDetails = action.payload;
+        state.bookingDetails = action.payload.booking;
       })
       .addCase(getBookingByIDThunk.rejected, (state, action) => {
         state.loading = false;

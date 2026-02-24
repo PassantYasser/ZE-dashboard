@@ -10,7 +10,7 @@ import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
 
 
 
-export default function TableRequest({bookings}) {
+export default function TableRequest({bookings ,bookingDetails}) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -176,6 +176,7 @@ export default function TableRequest({bookings}) {
           open={open} 
           handleClose={handleClose} 
           bookingId={selectedBookingId} 
+          bookingDetails={bookingDetails}
         />
       )}
       

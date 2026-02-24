@@ -27,7 +27,6 @@ function FiltersPage({ open, handleClose, onApplyFilters, onResetFilters }) {
     dispatch(getDrowpdownFiltersThunk())
   },[dispatch])
 
-  console.log(filterData);
 
     
     // City (1)

@@ -9,7 +9,7 @@ import { getBookingsThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function RequestsPage() {
   const dispatch = useDispatch()
-  const {bookings , loading , error, pagination } =useSelector((state)=>state.requests)
+  const {bookings ,bookingDetails, loading , error, pagination } =useSelector((state)=>state.requests)
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState({})
 
@@ -36,7 +36,7 @@ function RequestsPage() {
 
       <NavRequest onApplyFilters={handleApplyFilters} onResetFilters={handleResetFilters} />
 
-      <TableRequest bookings={bookings}/>
+      <TableRequest bookings={bookings} bookingDetails={bookingDetails}/>
 
       <Pagination
         totalPages={pagination?.last_page || 1}
