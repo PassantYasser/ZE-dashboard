@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { VOICE_BASE_URL } from '../../../../../../../../../config/imageUrl';
 
 function DescriptionPage({bookingDetails}) {
   const { t } = useTranslation();
 
-const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
 
 
   const audioRef = useRef(null);
@@ -31,18 +32,31 @@ const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
     const update = () => {
       setCurrentTime(audio.currentTime);
-      setProgress(audio.currentTime / audio.duration || 0); // نسبة التقدم
+      setProgress(audio.currentTime / audio.duration || 0);
+    };
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleEnded = () => setIsPlaying(false);
+    const handleLoaded = () => {
+      // Ensure we have duration
+      update();
     };
 
     audio.addEventListener("timeupdate", update);
-    audio.addEventListener("play", () => setIsPlaying(true));
-    audio.addEventListener("pause", () => setIsPlaying(false));
-    audio.addEventListener("ended", () => setIsPlaying(false));
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("loadedmetadata", handleLoaded);
 
     return () => {
       audio.removeEventListener("timeupdate", update);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("loadedmetadata", handleLoaded);
     };
-  }, []);
+  }, [src]);
 
   return (
     <>
@@ -95,7 +109,7 @@ const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
                 {/* waveform */}
                 <div className="flex-1 flex items-center gap-[3px] h-8">
                   {Array.from({ length: 45 }).map((_, i) => {
-                    const activeIndex = Math.floor(progress * 300); 
+                    const activeIndex = Math.floor(progress * 45); 
                     return (
                       <div
                         key={i}
@@ -103,7 +117,7 @@ const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
                           i <= activeIndex ? "bg-blue-500" : "bg-gray-300"
                         }`}
                         style={{
-                          height: `${5 + ((i * 7) % 10)}px`,
+                          height: `${5 + ((i * 7) % 15)}px`,
                           opacity: i <= activeIndex ? 1 : 0.5,
                         }}
                       ></div>
