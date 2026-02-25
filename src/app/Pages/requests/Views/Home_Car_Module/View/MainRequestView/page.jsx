@@ -100,9 +100,9 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
             <CustomerPage bookingDetails={bookingDetails} />  {/* Customer Info */}
             <DescriptionPage bookingDetails={bookingDetails} />  {/* Description message and voice */}
             <ImagesPage bookingDetails={bookingDetails}/>  {/* Images */}
-            <AddressPage />     {/* Address */}
-            <CarDetailsPage />  {/* Car Details */}
-            <PaymentDetailsPage /> {/* Payment Details */}
+            <AddressPage  bookingDetails={bookingDetails} />     {/* Address */}
+            <CarDetailsPage bookingDetails={bookingDetails} />  {/* Car Details */}
+            <PaymentDetailsPage bookingDetails={bookingDetails}/> {/* Payment Details */}
 
           </section>
 

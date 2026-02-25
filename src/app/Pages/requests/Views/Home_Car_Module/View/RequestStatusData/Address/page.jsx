@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function AddressPage() {
+function AddressPage({bookingDetails}) {
   const [open, setOpen] = useState(false);
 
   const {t}= useTranslation();
@@ -25,7 +25,7 @@ function AddressPage() {
             open ? "rotate-180" : "rotate-0"
           }`}
         >
-          <img src="/images/icons/ArrowUp.svg" alt="" />
+          <img src="/images/icons/ArrowDown.svg" alt="" />
         </div>
       </button>
 

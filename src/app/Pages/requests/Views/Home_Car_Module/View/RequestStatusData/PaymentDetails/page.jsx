@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function PaymentDetailsPage() {
+function PaymentDetailsPage({bookingDetails}) {
   const { t } = useTranslation();
 
   const invoice_url ='http//'; //link to invoice file empty or not
