@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 function PaymentDetailsPage({bookingDetails}) {
   const { t } = useTranslation();
 
-  const invoice_url ='http//'; //link to invoice file empty or not
+  const invoice_url =bookingDetails?.invoice_url;  //link to invoice file empty or not
   return (
     <>
       <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 mt-6'>
@@ -15,23 +15,42 @@ function PaymentDetailsPage({bookingDetails}) {
           {/* Price */}
           <div className='flex justify-between'>
             <p className='text-[#575757] text-sm font-normal'>{t('the price')}</p>
-            <p className='text-[#575757] text-base font-normal'>120 ج.م</p>
+            <p className='text-[#575757] text-base font-normal'>{bookingDetails?.service?.price} ج.م</p>
           </div>
 
           {/* Discount */}
           <div className='flex justify-between mt-4'>
             <p className='text-[#575757] text-sm font-normal'>{t('Discount value')}</p>
-            <p className='text-[#F04438] text-base font-normal '>20 ج.م</p>
+            <p className='text-[#F04438] text-base font-normal '>
+              {Number(bookingDetails?.service?.price || 0)- Number(bookingDetails?.price || 0)} ج.م
+            </p>
           </div>
           <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
 
           {/* Final Price */}
           <div className='flex justify-between mt-4'>
             <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
-            <p className='text-[var(--color-primary)] text-lg font-semibold'>100 ج.م</p>
+            <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
           </div>
 
         </div>
+
+        {/* note if cash or card */}
+        {bookingDetails?.payment_status === 'paid' ? (
+          <div>
+            {bookingDetails?.payment_method === 'cash' ?(
+            <div className='bg-[#ECFDF3] w-full flex justify-between items-center h-12.5 mt-4 p-2 rounded-[3px]'> 
+              <p className='text-[#079455] text-sm font-normal '>{t('Cash paid')}</p>
+              <img src="/images/icons/true_circle.svg" alt="" className='w-6 h-6' />
+            </div>
+            ): bookingDetails?.payment_method === 'card' ? (
+            <div className='bg-[#ECFDF3] w-full flex justify-between items-center h-12.5 mt-4 p-2 rounded-[3px]'> 
+              <p className='text-[#079455] text-sm font-normal '>{t('Payment was made by credit card.')}</p>
+              <img src="/images/icons/true_circle.svg" alt="" className='w-6 h-6' />
+            </div>
+            ):null}
+          </div>
+        ):null}
 
         {/* Invoice download */}
         {invoice_url ===null ? (
@@ -39,12 +58,7 @@ function PaymentDetailsPage({bookingDetails}) {
             <span className='text-base font-medium'>{t('invoice')}</span>
           </button>
         ):(
-          <>
-            <div className='bg-[#ECFDF3] w-full flex justify-between items-center h-12.5 mt-4 p-2 rounded-[3px]'> 
-              <p className='text-[#079455] text-sm font-normal '>{t('Cash paid')}</p>
-              <img src="/images/icons/true_circle.svg" alt="" className='w-6 h-6' />
-            </div>
-            
+          <>        
             <button className='flex justify-center items-center  gap-2 bg-[var(--color-primary)] text-[#fff] w-full h-13.5  mt-4 px-4 py-2.5 rounded-[3px] cursor-pointer'>
               <span className='text-base font-medium'>{t('invoice')}</span>  
               <img src="/images/icons/download.svg" alt="" className='w-6 h-6'  />
