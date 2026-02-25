@@ -28,7 +28,7 @@ function WorkersDataPage({status , assigned_handymen ,bookingDetails}) {
               open ? "rotate-180" : "rotate-0"
             }`}
           >
-            <img src="/images/icons/ArrowUp.svg" alt="" />
+            <img src="/images/icons/ArrowDown.svg" alt="" />
           </div>
         </button>
 
