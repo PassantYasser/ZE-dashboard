@@ -71,16 +71,18 @@ const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
                 {bookingDetails?.customer_description}
               </p>
             </div>
-          <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
             </>
+          )}
+
+          {(bookingDetails?.customer_description && bookingDetails?.voice_file) && (
+            <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
           )}
 
           {/* voice */}
           {bookingDetails?.voice_file === null ? null :(
             <div>
-            <p className='text-[#364152] text-base font-normal mb-1'>{t('voice message')} </p>
-            
-            
+              <p className='text-[#364152] text-base font-normal mb-1'>{t('voice message')} </p>
+        
               <div className="bg-white mt-4 border border-[#CDD5DF] rounded-[3px] p-2 flex items-center gap-3 shadow">
 
                 {/* On/Off button */}
