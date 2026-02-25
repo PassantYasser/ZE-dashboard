@@ -12,7 +12,6 @@ const images = Array.isArray(bookingDetails?.images)
   const [current, setCurrent] = useState(0);
   const length = images.length;
 
-  // Auto slide every 3 seconds
   useEffect(() => {
     if (length === 0) return;
     const interval = setInterval(() => {
