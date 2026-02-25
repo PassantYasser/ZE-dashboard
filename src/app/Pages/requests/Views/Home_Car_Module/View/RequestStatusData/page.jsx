@@ -7,7 +7,7 @@ import Appoint_SpecialistPage from '../Appoint_Specialist/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function RequestStatusDataPage({bookingDetails}) {
+function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
   const { t } = useTranslation();
 
   const status = 'accepted';
@@ -122,6 +122,7 @@ function RequestStatusDataPage({bookingDetails}) {
             assigned_handymen={assigned_handymen}
             setActiveSection={setActiveSection}
             bookingDetails={bookingDetails}
+            handleCloseViewHome_Car={handleCloseViewHome_Car}
           />
 
         </>

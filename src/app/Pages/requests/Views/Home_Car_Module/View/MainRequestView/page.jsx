@@ -15,7 +15,7 @@ import Activity_logPage from './Activity_log/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection ,bookingDetails}) {
+function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActiveSection ,bookingDetails , handleCloseViewHome_Car}) {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -136,7 +136,9 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                 >
                   {t('Appoint a specialist')}
                 </button>
-                <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
+                <button
+                  onClick={handleCloseViewHome_Car}
+                  className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('cancel')}
                 </button>
               </div>
@@ -148,7 +150,9 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                 <button className=' w-43.5 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('Reset')}
                 </button>
-                <button className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
+                <button 
+                  onClick={handleCloseViewHome_Car}
+                  className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('cancel')}
                 </button>
               </div>

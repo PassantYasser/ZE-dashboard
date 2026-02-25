@@ -34,7 +34,7 @@ function ViewHome_Car_ModulePage({ open, handleClose, bookingId ,bookingDetails}
 
 
         {/* تفاصيل الطلب */}
-        <RequestStatusDataPage bookingDetails={bookingDetails} />
+        <RequestStatusDataPage bookingDetails={bookingDetails}  handleCloseViewHome_Car={handleClose}/>
 
       </Dialog>
     </>
