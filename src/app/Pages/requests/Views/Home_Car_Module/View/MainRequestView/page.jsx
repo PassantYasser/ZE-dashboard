@@ -99,7 +99,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
             {status === 'rejected' && (<RejectedCompPage />)}      {/* Rejected Component */}
             <CustomerPage bookingDetails={bookingDetails} />  {/* Customer Info */}
             <DescriptionPage bookingDetails={bookingDetails} />  {/* Description message and voice */}
-            <ImagesPage />  {/* Images */}
+            <ImagesPage bookingDetails={bookingDetails}/>  {/* Images */}
             <AddressPage />     {/* Address */}
             <CarDetailsPage />  {/* Car Details */}
             <PaymentDetailsPage /> {/* Payment Details */}
