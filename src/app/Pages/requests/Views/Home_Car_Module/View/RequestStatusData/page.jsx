@@ -130,8 +130,6 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
         </>
 
       )}
-
-
       {/* تعيين مختص */}
       {/* section 2*/}
       {activeSection === 2 && (

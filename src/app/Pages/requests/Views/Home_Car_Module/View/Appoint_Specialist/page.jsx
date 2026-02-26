@@ -37,6 +37,9 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
   console.log("visit_date", visit_date);
   console.log("visit_time", visit_time);
 
+  const assignedIds = bookingDetails?.assigned_handymen_ids || [];
+  // const isAssigned = assignedIds.includes(bookingDetails?.id); // true لو موجود، false لو مش موجود
+  //   console.log("isAssigned", isAssigned);
 
   return (
     <>
@@ -63,7 +66,9 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
 
       {/* specialists list */}
       <section className='p-6 '>
-        {availableHandymen?.map((handyman)=>(
+        {availableHandymen?.map((handyman)=>{
+              const isAssigned = assignedIds.includes(handyman?.id); // ✅ داخل الـ map
+          return (
           <div 
             key={handyman?.id}
             className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4'>
@@ -74,7 +79,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
               </div>
               {/* name and specialization */}
               <div className='font-normal'>
-                <p className='text-[#202939] text-lg mb-2'>{handyman?.firstname} {handyman?.lastname}</p>
+                <p className='text-[#202939] text-lg mb-2'>{handyman?.firstname} {handyman?.lastname} {handyman?.id}</p>
                 <p className='text-[#697586] text-base'>{handyman?.designation?.name}</p>
               </div>
 
@@ -90,13 +95,16 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
             <button
               onClick={handleClick}
               className={`
-          flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
-          ${active ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
-        `}
+                flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
+                ${isAssigned ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
+              `}
             >
-              {active ? <img src='/images/icons/checkmark-circle.svg' /> : <img src='/images/icons/add-circle.svg' />}
+              {isAssigned 
+                ? <img src='/images/icons/checkmark-circle.svg' /> 
+                : <img src='/images/icons/add-circle.svg' />
+              }
               <span>
-                {!active ? (
+                {!isAssigned ? (
                   <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
                 ) : (
                   <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
@@ -105,7 +113,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
               </span>
             </button>
           </div>
-        ))}
+        )})}
         
       </section>
 
