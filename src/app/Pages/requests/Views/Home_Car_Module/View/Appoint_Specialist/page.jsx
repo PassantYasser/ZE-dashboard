@@ -67,7 +67,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
       {/* specialists list */}
       <section className='p-6 '>
         {availableHandymen?.map((handyman)=>{
-              const isAssigned = assignedIds.includes(handyman?.id); // ✅ داخل الـ map
+              const isAssigned = assignedIds.includes(handyman?.id); 
           return (
           <div 
             key={handyman?.id}
