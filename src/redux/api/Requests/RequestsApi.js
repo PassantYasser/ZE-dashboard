@@ -22,3 +22,8 @@ export const getBookingByID =async(id)=>{
   const response = await API.get(`/provider/bookings/${id}`)
   return response.data
 }
+
+export const getAvailableHandymen = async(formData)=>{
+  const response = await API.post('/available-handymen', formData)
+  return response.data
+}

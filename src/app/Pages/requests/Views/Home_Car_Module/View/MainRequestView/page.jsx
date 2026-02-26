@@ -147,7 +147,9 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
             <>
               <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
               <div className='px-6 pb-6 flex gap-3'>
-                <button className=' w-43.5 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
+                <button 
+                  onClick={() => setActiveSection(2)}
+                className=' w-43.5 h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('Reset')}
                 </button>
                 <button 
@@ -160,8 +162,10 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
           )
           )}
 
+
+          {/* (اعاده تعيين (مخفي     */}
           {status === 'on_going' && (
-            <>
+            <> 
               <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
               <div className='px-6 pb-6  '>
                 <button className=' w-full h-13.5 bg-[#E3E8EF] text-[#9AA4B2] text-base font-medium rounded-[3px] cursor-pointer '>

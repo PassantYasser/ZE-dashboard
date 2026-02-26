@@ -10,9 +10,11 @@ export const dynamic = 'force-dynamic';
 function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
   const { t } = useTranslation();
 
-  const status =  bookingDetails?.status;
-  const assigned_handymen = bookingDetails?.assigned_handymen || [];
-
+  // const status =  bookingDetails?.status;
+  const status = 'accepted'
+  // const assigned_handymen = bookingDetails?.assigned_handymen || [];
+  const assigned_handymen = ['dd']
+  
   const StatusRender = (status) => {
     switch (status) {
       // case "accepted": // تم القبول
@@ -134,7 +136,12 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
       {/* section 2*/}
       {activeSection === 2 && (
         <>
-          <Appoint_SpecialistPage setActiveSection={setActiveSection} />
+          <Appoint_SpecialistPage 
+            setActiveSection={setActiveSection} 
+            booking_id={bookingDetails?.id}
+            visit_date={bookingDetails?.visit_date}
+            visit_time={bookingDetails?.visit_time}
+          />
         </>
 
       )}

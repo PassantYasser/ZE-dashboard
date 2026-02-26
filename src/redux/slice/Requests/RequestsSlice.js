@@ -34,6 +34,17 @@ export const getBookingByIDThunk = createAsyncThunk('Requests/getBookingByIDThun
   }
 )
 
+export const getAvailableHandymenThunk = createAsyncThunk('Requests/getAvailableHandymenThunk' ,
+  async(formData,{rejectWithValue})=>{
+    try{
+      const response= await getAvailableHandymen(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of available handymen");
+    }
+  } 
+)
+
 const initialState = {
   loading: false,
   error: null,
@@ -41,6 +52,7 @@ const initialState = {
   pagination: null,
   filterData:[],
   bookingDetails:null,
+  availableHandymen: []
 }
 
 const RequestsSlice = createSlice({
@@ -88,7 +100,20 @@ const RequestsSlice = createSlice({
       .addCase(getBookingByIDThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      //getAvailableHandymenThunk
+      .addCase(getAvailableHandymenThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAvailableHandymenThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.availableHandymen = action.payload.handymen || [];
+      })
+      .addCase(getAvailableHandymenThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      
   }
 })
 
