@@ -1,19 +1,41 @@
 "use client"
 import SearchForm from '@/app/Components/Forms/SearchForm'
+import { getAvailableHandymenThunk } from '@/redux/slice/Requests/RequestsSlice';
 import { t } from 'i18next'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
 
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function Appoint_SpecialistPage({ setActiveSection }) {
-
+function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
+  
   const [active, setActive] = useState(false);
   const handleClick = () => {
     if (active) return;
     setActive(true);
   };
 
+  //api
+  const booking_id = bookingDetails?.id
+  const visit_date = bookingDetails?.visit_date
+  const visit_time = bookingDetails?.visit_time
+
+  const dispatch = useDispatch()
+  const {availableHandymen , loading, error} = useSelector((state) => state.requests)
+  useEffect(()=>{
+    const formData = new FormData()
+    formData.append('booking_id', booking_id)
+    formData.append('visit_date', visit_date)
+    formData.append('visit_time', visit_time)
+    dispatch(getAvailableHandymenThunk(formData))
+  },[dispatch])
+
+  console.log(' availableHandymen', availableHandymen);
+  console.log("booking_id", booking_id);
+  console.log("visit_date", visit_date);
+  console.log("visit_time", visit_time);
 
 
   return (
@@ -41,45 +63,50 @@ function Appoint_SpecialistPage({ setActiveSection }) {
 
       {/* specialists list */}
       <section className='p-6 '>
-        <div className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4'>
-          <div className='flex gap-2 mb-4'>
-            {/* avatar */}
-            <div className='w-15 h-15 rounded-full'>
-              <img src="/images/Avatarworker.svg" alt="" />
+        {availableHandymen?.map((handyman)=>(
+          <div 
+            key={handyman?.id}
+            className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4'>
+            <div className='flex gap-2 mb-4'>
+              {/* avatar */}
+              <div >
+                <img src={`${IMAGE_BASE_URL}${handyman?.image}`} alt="" className='w-15 h-15 rounded-full'/>
+              </div>
+              {/* name and specialization */}
+              <div className='font-normal'>
+                <p className='text-[#202939] text-lg mb-2'>{handyman?.firstname} {handyman?.lastname}</p>
+                <p className='text-[#697586] text-base'>{handyman?.designation?.name}</p>
+              </div>
+
             </div>
-            {/* name and specialization */}
-            <div className='font-normal'>
-              <p className='text-[#202939] text-lg mb-2'>احمد حسين</p>
-              <p className='text-[#697586] text-base'>السباكة</p>
+
+            {/* time */}
+            <div className='flex gap-1.5 mb-6'>
+              <img src="/images/icons/time.svg" alt="" />
+              <p className='text-[#697586]'> {t('Available time')}: {handyman?.working_time}</p>
             </div>
 
+            {/* btn */}
+            <button
+              onClick={handleClick}
+              className={`
+          flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
+          ${active ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
+        `}
+            >
+              {active ? <img src='/images/icons/checkmark-circle.svg' /> : <img src='/images/icons/add-circle.svg' />}
+              <span>
+                {!active ? (
+                  <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
+                ) : (
+                  <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
+                )
+                }
+              </span>
+            </button>
           </div>
-
-          {/* time */}
-          <div className='flex gap-1.5 mb-6'>
-            <img src="/images/icons/time.svg" alt="" />
-            <p className='text-[#697586]'>الوقت المتاح من 02:00 م إلي 05:00 ص</p>
-          </div>
-
-          {/* btn */}
-          <button
-            onClick={handleClick}
-            className={`
-        flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
-        ${active ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
-      `}
-          >
-            {active ? <img src='/images/icons/checkmark-circle.svg' /> : <img src='/images/icons/add-circle.svg' />}
-            <span>
-              {!active ? (
-                <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
-              ) : (
-                <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
-              )
-              }
-            </span>
-          </button>
-        </div>
+        ))}
+        
       </section>
 
 

@@ -1,4 +1,4 @@
-import { getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
+import { getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',

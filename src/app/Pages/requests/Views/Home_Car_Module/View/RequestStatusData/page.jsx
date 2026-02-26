@@ -138,9 +138,8 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
         <>
           <Appoint_SpecialistPage 
             setActiveSection={setActiveSection} 
-            booking_id={bookingDetails?.id}
-            visit_date={bookingDetails?.visit_date}
-            visit_time={bookingDetails?.visit_time}
+            bookingDetails={bookingDetails}
+            
           />
         </>
 
