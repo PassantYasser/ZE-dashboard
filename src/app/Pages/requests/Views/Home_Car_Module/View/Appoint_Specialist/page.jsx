@@ -1,6 +1,6 @@
 "use client"
 import SearchForm from '@/app/Components/Forms/SearchForm'
-import { getAvailableHandymenThunk } from '@/redux/slice/Requests/RequestsSlice';
+import { assignHandymanThunk, getAvailableHandymenThunk, getBookingByIDThunk } from '@/redux/slice/Requests/RequestsSlice';
 import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,16 +11,39 @@ export const dynamic = 'force-dynamic';
 
 function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
   
-  const [active, setActive] = useState(false);
-  const handleClick = () => {
-    if (active) return;
-    setActive(true);
+  const [selectedHandymen, setSelectedHandymen] = useState([]);
+
+  const handleToggleHandyman = (id) => {
+    setSelectedHandymen((prev) =>
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleAssign = () => {
+    if (selectedHandymen.length === 0) return;
+    const mergedHandymen = [...(bookingDetails?.assigned_handymen_ids || []), ...selectedHandymen];
+    dispatch(assignHandymanThunk({
+      booking_id: bookingDetails?.id,
+      handymen: mergedHandymen,
+    })).then((res) => {
+      if (res.meta.requestStatus === 'fulfilled') {
+        setSelectedHandymen([]);
+        // Refresh booking details to update assigned handymen
+        dispatch(getBookingByIDThunk(bookingDetails?.id));
+        // Refresh available handymen list
+        const formData = new FormData();
+        formData.append('booking_id', bookingDetails?.id);
+        formData.append('visit_date', bookingDetails?.visit_date);
+        formData.append('visit_time', bookingDetails?.visit_time);
+        dispatch(getAvailableHandymenThunk(formData));
+      }
+    });
   };
 
   //api
-  // const booking_id = bookingDetails?.id
-  // const visit_date = bookingDetails?.visit_date
-  // const visit_time = bookingDetails?.visit_time
+
 
   const dispatch = useDispatch()
   const {availableHandymen , loading, error } = useSelector((state) => state.requests)
@@ -62,7 +85,8 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
       {/* specialists list */}
       <section className='p-6 '>
         {availableHandymen?.map((handyman)=>{
-              const isAssigned = assignedIds.includes(handyman?.id); 
+              const isAssigned = assignedIds.includes(handyman?.id);
+              const isSelected = selectedHandymen.includes(handyman?.id);
               console.log('handyman?.id'  , handyman?.id);
           return (
           <div 
@@ -89,23 +113,25 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
 
             {/* btn */}
             <button
-              onClick={handleClick}
+              onClick={() => !isAssigned && handleToggleHandyman(handyman?.id)}
+              disabled={isAssigned}
               className={`
                 flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
-                ${isAssigned ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
+                ${isAssigned || isSelected ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
               `}
             >
-              {isAssigned 
-                ? <img src='/images/icons/checkmark-circle.svg' /> 
+              {isAssigned || isSelected
+                ? <img src='/images/icons/checkmark-circle.svg' />
                 : <img src='/images/icons/add-circle.svg' />
               }
               <span>
-                {!isAssigned ? (
-                  <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
-                ) : (
+                {isAssigned ? (
                   <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
-                )
-                }
+                ) : isSelected ? (
+                  <span className='text-white text-base font-medium'>{t('Selected')}</span>
+                ) : (
+                  <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
+                )}
               </span>
             </button>
           </div>
@@ -113,6 +139,17 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
         
       </section>
 
+      <div className='p-6'>
+        <button
+          onClick={handleAssign}
+          disabled={selectedHandymen.length === 0 || loading}
+          className={`bg-[var(--color-primary)] text-white w-full h-14 flex items-center justify-center rounded-md ${
+            selectedHandymen.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          {loading ? t('Assigning...') : t('assign')}
+        </button>
+      </div>
 
     </>
   )
