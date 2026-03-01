@@ -5,6 +5,7 @@ import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
+import { CircularProgress } from '@mui/material';
 
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
@@ -121,10 +122,13 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
                   ${isAssigned || isSelected ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
                 `}
               >
-                {isAssigned || isSelected
-                  ? <img src='/images/icons/checkmark-circle.svg' />
-                  : <img src='/images/icons/add-circle.svg' />
-                }
+                {isAssigned ?(
+                  <img src='/images/icons/checkmark-circle.svg' />
+                ) :isSelected ? (
+                  <img src='/images/icons/loading.svg' />
+                ) : (
+                  <img src='/images/icons/add-circle.svg' />
+                )}
                 <span>
                   {isAssigned ? (
                     <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
@@ -146,11 +150,13 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
         <button
           onClick={handleAssign}
           disabled={selectedHandymen.length === 0 || loading}
-          className={`bg-[var(--color-primary)] text-white w-full h-14 flex items-center justify-center rounded-md ${
+          className={`bg-[var(--color-primary)] text-white w-full h-14 flex items-center justify-center rounded-[3px] cursor-pointer ${
             selectedHandymen.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {loading ? t('Assigning...') : t('assign')}
+          {loading ? (
+            <CircularProgress color="inherit" size="20px"  />
+          ) : (t('assign'))}
         </button>
       </div>
 
