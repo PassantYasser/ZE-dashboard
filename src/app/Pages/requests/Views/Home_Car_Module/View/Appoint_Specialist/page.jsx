@@ -60,7 +60,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
   const assignedIds = bookingDetails?.assigned_handymen_ids || [];
 
   return (
-    <>
+    <div className='h-full flex flex-col'>
       <div className='px-6 flex gap-6 mb-5'>
         <div className='flex justify-center items-center cursor-pointer' onClick={() => setActiveSection(1)}>
           <p className='bg-[var(--color-primary)] w-10 h-10 flex justify-center items-center rounded-[3px]'>
@@ -82,62 +82,65 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
         <SearchForm placeholderKey="Search by employee name" width='full' />
       </section>
 
-      {/* specialists list */}
-      <section className='p-6 '>
-        {availableHandymen?.map((handyman)=>{
-              const isAssigned = assignedIds.includes(handyman?.id);
-              const isSelected = selectedHandymen.includes(handyman?.id);
-              console.log('handyman?.id'  , handyman?.id);
-          return (
-          <div 
-            key={handyman?.id}
-            className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4'>
-            <div className='flex gap-2 mb-4'>
-              {/* avatar */}
-              <div >
-                <img src={`${IMAGE_BASE_URL}${handyman?.image}`} alt="" className='w-15 h-15 rounded-full'/>
+      <div className=' h-[320px]  overflow-y-auto'>
+        {/* specialists list */}
+        <section className='p-6 '>
+          {availableHandymen?.map((handyman)=>{
+                const isAssigned = assignedIds.includes(handyman?.id);
+                const isSelected = selectedHandymen.includes(handyman?.id);
+                console.log('handyman?.id'  , handyman?.id);
+            return (
+            <div 
+              key={handyman?.id}
+              className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4'>
+              <div className='flex gap-2 mb-4'>
+                {/* avatar */}
+                <div >
+                  <img src={`${IMAGE_BASE_URL}${handyman?.image}`} alt="" className='w-15 h-15 rounded-full'/>
+                </div>
+                {/* name and specialization */}
+                <div className='font-normal'>
+                  <p className='text-[#202939] text-lg mb-2'>{handyman?.firstname} {handyman?.lastname} {handyman?.id}</p>
+                  <p className='text-[#697586] text-base'>{handyman?.designation?.name}</p>
+                </div>
+
               </div>
-              {/* name and specialization */}
-              <div className='font-normal'>
-                <p className='text-[#202939] text-lg mb-2'>{handyman?.firstname} {handyman?.lastname} {handyman?.id}</p>
-                <p className='text-[#697586] text-base'>{handyman?.designation?.name}</p>
+
+              {/* time */}
+              <div className='flex gap-1.5 mb-6'>
+                <img src="/images/icons/time.svg" alt="" />
+                <p className='text-[#697586]'> {t('Available time')}: {handyman?.working_time}</p>
               </div>
 
+              {/* btn */}
+              <button
+                onClick={() => !isAssigned && handleToggleHandyman(handyman?.id)}
+                disabled={isAssigned}
+                className={`
+                  flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
+                  ${isAssigned || isSelected ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
+                `}
+              >
+                {isAssigned || isSelected
+                  ? <img src='/images/icons/checkmark-circle.svg' />
+                  : <img src='/images/icons/add-circle.svg' />
+                }
+                <span>
+                  {isAssigned ? (
+                    <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
+                  ) : isSelected ? (
+                    <span className='text-white text-base font-medium'>{t('Selected')}</span>
+                  ) : (
+                    <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
+                  )}
+                </span>
+              </button>
             </div>
-
-            {/* time */}
-            <div className='flex gap-1.5 mb-6'>
-              <img src="/images/icons/time.svg" alt="" />
-              <p className='text-[#697586]'> {t('Available time')}: {handyman?.working_time}</p>
-            </div>
-
-            {/* btn */}
-            <button
-              onClick={() => !isAssigned && handleToggleHandyman(handyman?.id)}
-              disabled={isAssigned}
-              className={`
-                flex items-center justify-center gap-2 px-4 py-2 rounded-md transition w-full h-13.5 cursor-pointer
-                ${isAssigned || isSelected ? "bg-[#17B26A] " : "border border-[var(--color-primary)] "}
-              `}
-            >
-              {isAssigned || isSelected
-                ? <img src='/images/icons/checkmark-circle.svg' />
-                : <img src='/images/icons/add-circle.svg' />
-              }
-              <span>
-                {isAssigned ? (
-                  <span className='text-white text-base font-medium'>{t('The factor was identified')}</span>
-                ) : isSelected ? (
-                  <span className='text-white text-base font-medium'>{t('Selected')}</span>
-                ) : (
-                  <span className='text-[var(--color-primary)] text-base font-medium '>{t('to set')}</span>
-                )}
-              </span>
-            </button>
-          </div>
-        )})}
-        
-      </section>
+          )})}
+          
+        </section>
+      </div>
+    
 
       <div className='p-6'>
         <button
@@ -151,7 +154,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
         </button>
       </div>
 
-    </>
+    </div>
   )
 }
 
