@@ -27,3 +27,8 @@ export const getAvailableHandymen = async(formData)=>{
   const response = await API.post('/available-handymen', formData)
   return response.data
 }
+
+export const assignHandyman = async(formData)=>{
+  const response = await API.post('/assign-handymen', formData)
+  return response.data
+}

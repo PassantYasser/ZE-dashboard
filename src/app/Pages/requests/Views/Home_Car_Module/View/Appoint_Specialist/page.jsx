@@ -18,28 +18,23 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
   };
 
   //api
-  const booking_id = bookingDetails?.id
-  const visit_date = bookingDetails?.visit_date
-  const visit_time = bookingDetails?.visit_time
+  // const booking_id = bookingDetails?.id
+  // const visit_date = bookingDetails?.visit_date
+  // const visit_time = bookingDetails?.visit_time
 
   const dispatch = useDispatch()
-  const {availableHandymen , loading, error} = useSelector((state) => state.requests)
+  const {availableHandymen , loading, error } = useSelector((state) => state.requests)
   useEffect(()=>{
     const formData = new FormData()
-    formData.append('booking_id', booking_id)
-    formData.append('visit_date', visit_date)
-    formData.append('visit_time', visit_time)
+    formData.append('booking_id', bookingDetails?.id)
+    formData.append('visit_date', bookingDetails?.visit_date)
+    formData.append('visit_time', bookingDetails?.visit_time)
     dispatch(getAvailableHandymenThunk(formData))
   },[dispatch])
 
-  console.log(' availableHandymen', availableHandymen);
-  console.log("booking_id", booking_id);
-  console.log("visit_date", visit_date);
-  console.log("visit_time", visit_time);
+  console.log("booking_id", bookingDetails?.id);
 
   const assignedIds = bookingDetails?.assigned_handymen_ids || [];
-  // const isAssigned = assignedIds.includes(bookingDetails?.id); // true لو موجود، false لو مش موجود
-  //   console.log("isAssigned", isAssigned);
 
   return (
     <>
@@ -68,6 +63,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
       <section className='p-6 '>
         {availableHandymen?.map((handyman)=>{
               const isAssigned = assignedIds.includes(handyman?.id); 
+              console.log('handyman?.id'  , handyman?.id);
           return (
           <div 
             key={handyman?.id}

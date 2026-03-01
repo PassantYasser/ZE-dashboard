@@ -1,4 +1,4 @@
-import { getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
@@ -45,6 +45,17 @@ export const getAvailableHandymenThunk = createAsyncThunk('Requests/getAvailable
   } 
 )
 
+export const assignHandymanThunk = createAsyncThunk('Requests/assignHandymanThunk' ,
+  async(formData,{rejectWithValue})=>{
+    try{
+      const response= await assignHandyman(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to assign handyman");
+    } 
+  }
+)
+
 const initialState = {
   loading: false,
   error: null,
@@ -52,7 +63,8 @@ const initialState = {
   pagination: null,
   filterData:[],
   bookingDetails:null,
-  availableHandymen: []
+  availableHandymen: [],
+  assignHandymanResponse: null,
 }
 
 const RequestsSlice = createSlice({
@@ -110,6 +122,18 @@ const RequestsSlice = createSlice({
         state.availableHandymen = action.payload.handymen || [];
       })
       .addCase(getAvailableHandymenThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //assignHandymanThunk
+      .addCase(assignHandymanThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(assignHandymanThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.assignHandymanResponse = action.payload;
+      })
+      .addCase(assignHandymanThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
