@@ -3,12 +3,13 @@ import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function RejectedDialogPage({ open, handleClose}) {
+function RejectedDialogPage({ open, handleClose, onConfirmReject }) {
   const { t } = useTranslation();
 
     const [open1, setOpen1] = useState(false);
     const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
+    const [notesValue, setNotesValue] = useState("");
     const dropdownRef1 = useRef(null);
     const optionrej = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
 
@@ -120,17 +121,25 @@ function RejectedDialogPage({ open, handleClose}) {
             <textarea
               className="w-full mt-3 h-33 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] focus:outline-none resize-none"
               placeholder={t('Explain the reason for the rejection to the customer.')}
+              value={notesValue}
+              onChange={(e) => setNotesValue(e.target.value)}
             ></textarea>
           </div>
         </div>
       </section>
 
       <section className="px-6 pb-6 flex gap-4 ">
-        <button className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+        <button
+          className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium"
+          onClick={() => onConfirmReject && onConfirmReject(selected1, notesValue)}
+        >
           {t('send')}
         </button>
 
-        <button className="w-35 h-13.5 border border-[#B42318] cursor-pointer  text-[#B42318] rounded-[3px] text-base font-medium">
+        <button
+          className="w-35 h-13.5 border border-[#B42318] cursor-pointer  text-[#B42318] rounded-[3px] text-base font-medium"
+          onClick={handleClose}
+        >
           {t('cancel')}
         </button>
       </section>
