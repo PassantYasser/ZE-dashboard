@@ -37,7 +37,7 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
       //       );
 
       //   }
-      case "accepted":
+      case "accepted":// تم القبول
         if (assigned_handymen.length === 0) {
           return (
             <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>

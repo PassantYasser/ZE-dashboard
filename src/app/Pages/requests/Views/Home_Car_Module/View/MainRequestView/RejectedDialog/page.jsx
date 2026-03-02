@@ -1,17 +1,27 @@
 "use client"
+import { getRejectionReasonsThunk } from '@/redux/slice/Requests/RequestsSlice';
 import { Dialog } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 function RejectedDialogPage({ open, handleClose, onConfirmReject }) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+  const{RejectionReasons , loading, error}= useSelector((state)=>state.requests)
+  useEffect(()=>{
+    dispatch(getRejectionReasonsThunk())
+  },[dispatch])
+
+  console.log(' RejectionReasons' , RejectionReasons);
 
     const [open1, setOpen1] = useState(false);
     const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
     const [notesValue, setNotesValue] = useState("");
     const dropdownRef1 = useRef(null);
-    const optionrej = ['gg','hhhh','iiii','jjjj','kkkk','llll','mmmm','nnnn','oooo','pppp'];
+    const optionrej = RejectionReasons?.data;
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -21,6 +31,9 @@ function RejectedDialogPage({ open, handleClose, onConfirmReject }) {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
       }, []);
+
+
+    
   return (
     <>
     <Dialog
@@ -90,21 +103,21 @@ function RejectedDialogPage({ open, handleClose, onConfirmReject }) {
 
               {open1 && (
                 <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                  {optionrej
+                  {RejectionReasons
                     .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue1.toLowerCase())
+                      opt?.reason?.toLowerCase().includes(searchValue1.toLowerCase())
                     )
                     .map((opt) => (
                       <li
-                        key={opt}
+                        key={opt.id}
                         onClick={() => {
-                          setSelected1(opt);
+                          setSelected1(opt?.reason);
                           setOpen1(false);
                           setSearchValue1("");
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {opt}
+                        {opt?.reason}
                       </li>
                     ))}
                 </ul>

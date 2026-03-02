@@ -37,3 +37,8 @@ export const UpdateBooking = async(id, formData)=>{
   const response = await API.post(`/provider/bookings/${id}`, formData)
   return response.data
 }
+
+export const getRejectionReasons = async()=>{
+  const response = await API.get('/rejection-reasons')
+  return response.data
+}

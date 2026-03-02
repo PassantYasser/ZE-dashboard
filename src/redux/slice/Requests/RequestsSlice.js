@@ -1,4 +1,4 @@
-import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
@@ -45,6 +45,7 @@ export const getAvailableHandymenThunk = createAsyncThunk('Requests/getAvailable
   } 
 )
 
+
 export const assignHandymanThunk = createAsyncThunk('Requests/assignHandymanThunk' ,
   async(formData,{rejectWithValue})=>{
     try{
@@ -67,6 +68,18 @@ export const UpdateBookingThunk = createAsyncThunk('Requests/UpdateBookingThunk'
   }
 )
 
+export const getRejectionReasonsThunk = createAsyncThunk('Requests/getRejectionReasonsThunk' ,
+  async(_,{rejectWithValue})=>{
+    try{
+      const response= await getRejectionReasons()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of rejection reasons");
+    }
+  }
+)
+
+
 const initialState = {
   loading: false,
   error: null,
@@ -77,7 +90,7 @@ const initialState = {
   availableHandymen: [],
   assignHandymanResponse: null,
   bookingDetails:null,
-
+  RejectionReasons: [],
 }
 
 const RequestsSlice = createSlice({
@@ -159,6 +172,18 @@ const RequestsSlice = createSlice({
         state.bookingDetails = action.payload;
       })
       .addCase(UpdateBookingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getRejectionReasonsThunk
+      .addCase(getRejectionReasonsThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getRejectionReasonsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.RejectionReasons = action.payload.data;
+      })
+      .addCase(getRejectionReasonsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
