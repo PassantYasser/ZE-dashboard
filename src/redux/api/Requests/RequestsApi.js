@@ -32,3 +32,8 @@ export const assignHandyman = async(formData)=>{
   const response = await API.post('/assign-handymen', formData)
   return response.data
 }
+
+export const UpdateBooking = async(id, formData)=>{
+  const response = await API.post(`/provider/bookings/${id}`, formData)
+  return response.data
+}

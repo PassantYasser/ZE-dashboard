@@ -1,4 +1,4 @@
-import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
@@ -56,6 +56,17 @@ export const assignHandymanThunk = createAsyncThunk('Requests/assignHandymanThun
   }
 )
 
+export const UpdateBookingThunk = createAsyncThunk('Requests/UpdateBookingThunk' ,
+  async({id, formData},{rejectWithValue})=>{
+    try{
+      const response= await UpdateBooking(id, formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to update booking");
+    } 
+  }
+)
+
 const initialState = {
   loading: false,
   error: null,
@@ -65,6 +76,8 @@ const initialState = {
   bookingDetails:null,
   availableHandymen: [],
   assignHandymanResponse: null,
+  bookingDetails:null,
+
 }
 
 const RequestsSlice = createSlice({
@@ -136,6 +149,18 @@ const RequestsSlice = createSlice({
       .addCase(assignHandymanThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      //UpdateBookingThunk
+      .addCase(UpdateBookingThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(UpdateBookingThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bookingDetails = action.payload;
+      })
+      .addCase(UpdateBookingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
       })
       
   }

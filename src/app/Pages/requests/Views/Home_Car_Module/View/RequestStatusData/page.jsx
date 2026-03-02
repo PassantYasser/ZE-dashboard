@@ -10,10 +10,8 @@ export const dynamic = 'force-dynamic';
 function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
   const { t } = useTranslation();
 
-  // const status =  bookingDetails?.status;
-  const status = 'accepted'
-  // const assigned_handymen = bookingDetails?.assigned_handymen || [];
-  const assigned_handymen = ['dd']
+  const status =  bookingDetails?.status;
+  const assigned_handymen = bookingDetails?.assigned_handymen || [];
   
   const StatusRender = (status) => {
     switch (status) {
