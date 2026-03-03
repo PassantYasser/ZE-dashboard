@@ -9,30 +9,31 @@ function RejectedDialogPage({ open, handleClose ,bookingDetails }) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const{RejectionReasons , loading, error}= useSelector((state)=>state.requests)
-  useEffect(()=>{
-    dispatch(getRejectionReasonsThunk())
-  },[dispatch])
+  const { RejectionReasons, loading, error } = useSelector((state) => state.requests);
 
-  const handleConfirmReject = (reason, notes) => {
-    dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'rejected', reason, notes } }));
+  const [open1, setOpen1] = useState(false);
+  const [selected1, setSelected1] = useState(null);
+  const [searchValue1, setSearchValue1] = useState("");
+  const [notesValue, setNotesValue] = useState("");
+  const dropdownRef1 = useRef(null);
+
+  useEffect(() => {
+    dispatch(getRejectionReasonsThunk());
+  }, [dispatch]);
+
+  const handleConfirmReject = () => {
+    const cancel_reason = selected1 === "other" ? notesValue : selected1;
+    dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'rejected', reason: selected1, notes: notesValue, cancel_reason } }));
     handleClose();
   };
 
-    const [open1, setOpen1] = useState(false);
-    const [selected1, setSelected1] = useState(null);
-    const [searchValue1, setSearchValue1] = useState("");
-    const [notesValue, setNotesValue] = useState("");
-    const dropdownRef1 = useRef(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-          if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
-        
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-      }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
 
     
@@ -162,7 +163,7 @@ function RejectedDialogPage({ open, handleClose ,bookingDetails }) {
       <section className="px-6 pb-6 flex gap-4 ">
         <button
           className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium"
-          onClick={() => handleConfirmReject && handleConfirmReject(selected1, notesValue)}
+          onClick={handleConfirmReject}
         >
           {t('send')}
         </button>

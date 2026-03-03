@@ -103,7 +103,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
             </div>
 
             <WorkersDataPage status={status} assigned_handymen={assigned_handymen} bookingDetails={bookingDetails}/>  {/* Workers data */}
-            {status === 'rejected' && (<RejectedCompPage />)}      {/* Rejected Component */}
+            {status === 'rejected' && (<RejectedCompPage bookingDetails={bookingDetails} />)}      {/* Rejected Component */}
             <CustomerPage bookingDetails={bookingDetails} />  {/* Customer Info */}
             <DescriptionPage bookingDetails={bookingDetails} />  {/* Description message and voice */}
             <ImagesPage bookingDetails={bookingDetails}/>  {/* Images */}
