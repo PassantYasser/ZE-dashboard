@@ -29,11 +29,6 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
     dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'accepted' } }));
   };
 
-  const handleConfirmReject = (reason, notes) => {
-    dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'rejected', reason, notes } }));
-    handleClose();
-  };
-
   const [activeSubSection, setActiveSubSection] = useState(1);
 
   // setActiveSection  تعيين مختص
@@ -219,7 +214,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
 
 
 
-      <RejectedDialogPage open={open} handleClose={handleClose} onConfirmReject={handleConfirmReject} />
+      <RejectedDialogPage open={open} handleClose={handleClose} bookingDetails={bookingDetails} />
     </>
   )
 }
