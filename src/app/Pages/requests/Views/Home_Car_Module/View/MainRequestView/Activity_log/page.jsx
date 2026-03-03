@@ -2,49 +2,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function Activity_logPage({setActiveSubSection}) {
+function Activity_logPage({setActiveSubSection ,bookingDetails}) {
   const { t } = useTranslation();
-
-  const action_type = 'positive';       // positive , negative logo
-  const action_by_data = [{id:'employee' , label:t('employee')} ,
-                          {id:'user' , label:t('user')},
-                          {id:'handyman' , label:t('handyman')}
-                          ]; 
-const action_by = 'employee';
-
-
-  const details_type = "time";  
-  const value = "400";
-
-  const formatTime = (v) => {
-    try {
-      const d = new Date(v);
-      return d.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
-    } catch {
-      return v;
-    }
-  };
-
-  const renderDetails = () => {
-    switch (details_type) {
-      case "LE":
-        return <span>{value} جنيه</span>;
-
-      case "time":
-        return <span>{formatTime(value)}</span>;
-
-      case "rate":
-        return (
-          <span className="flex items-center gap-1">
-            <span className="text-yellow-500">★</span>
-            {value}
-          </span>
-        );
-
-      default:
-        return {value};
-    }
-  };
 
   return (
     <>
@@ -69,59 +28,111 @@ const action_by = 'employee';
 
 
     <section className='px-6  '>
-      <div className=' flex gap-4'>
-        {/* icon */}
-        <div>
-          <div className={`w-10 h-10  flex justify-center items-center rounded-full ${action_type==='positive' ? 'bg-[#DCFAE6]  ':'bg-[#FEE4E2]'}`}>
-            <img src={`/images/icons/${action_type==='positive' ? 'checkmark-circle-true.svg':'checkmark-circle-false.svg'}`} alt="" />
-          </div>
-          <div className=' px-4.5 py-1'>
-            <div className="h-10 border-r-1 border-dashed border-[#9AA4B2] "></div>
-          </div>
-        </div>
-        {/* content */}
-        <div className='  w-full'>
 
-          <div className='grid grid-cols-2   w-full '>
+        {bookingDetails?.logs?.map((log) => {
+          const action_type = log?.action_type;       // positive , negative logo
+          const action_by_data = [{id:'employee' , label:t('employee')} ,
+                          {id:'user' , label:t('user')},
+                          {id:'handyman' , label:t('handyman')}
+                          ]; 
+          const action_by = log?.action_by_data?.role;  //action_by_data?.role
 
-            <div  className='flex flex-col gap-4  w-full'>
+          const actionData = log?.action_data?.[0];
+          const details_type = actionData?.details_type;   //action_data?.details_type
+          const value = actionData?.details; //action_data?.details
 
-            <p className='text-[#364152] text-sm font-normal '>
-              {action_by_data.find(item => item.id === action_by)?.label}
-            </p>
+          const formatTime = (v) => {
+            try {
+              const d = new Date(v);
+              return d.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" });
+            } catch {
+              return v;
+            }
+          };
 
-            <p className='text-[#697586] text-sm font-normal '>
-              الثلاثاء  9سبتمبر 2025 02:00 م 
-            </p>
+          const renderDetails = () => {
+            switch (details_type) {
+              case "LE":
+                return <span>{value} جنيه</span>;
 
-            </div>
+              case "time":
+                return <span>{formatTime(value)}</span>;
 
-            <div className='flex flex-col gap-4   w-full '>
-              <p className='text-[#364152] text-sm font-normal '> 
-                خالد محمد
-              </p>
+              case "rate":
+                return (
+                  <span className="flex items-center gap-1">
+                    <span className="text-yellow-500">★</span>
+                    {value}
+                  </span>
+                );
 
-              <div className="flex flex-wrap gap-1 ">
-                <p className="text-[#364152] text-sm font-normal">
-                  قام قبول الطلب
-                </p>
+              default:
+                return <span>{value}</span>;
+            }
+          };
 
-                <p className="text-[#4B5565] text-sm font-normal">
-                  ({renderDetails()})
-                </p>
+          console.log('details_type',actionData?.details_type)
+          console.log('value',actionData?.value)
+
+          return (
+            <div
+              key={log?.id} 
+              className=' flex gap-4'>
+              {/* icon */}
+              <div>
+                <div className={`w-10 h-10  flex justify-center items-center rounded-full ${action_type==='positive' ? 'bg-[#DCFAE6]  ':'bg-[#FEE4E2]'}`}>
+                  <img src={`/images/icons/${action_type==='positive' ? 'checkmark-circle-true.svg':'checkmark-circle-false.svg'}`} alt="" />
+                </div>
+                <div className=' px-4.5 py-1'>
+                  <div className="h-10 border-r-1 border-dashed border-[#9AA4B2] "></div>
+                </div>
+              </div>
+              {/* content */}
+              <div className='  w-full'>
+
+                <div className='grid grid-cols-2   w-full '>
+
+                  <div  className='flex flex-col gap-4  w-full'>
+
+                  <p className='text-[#364152] text-sm font-normal '>
+                    {action_by_data.find(item => item.id === action_by)?.label}
+                  </p>
+
+                  <p className='text-[#697586] text-sm font-normal '>
+                    {log?.created_at} {/**created_at */}
+                  </p>
+
+                  </div>
+
+                  <div className='flex flex-col gap-4   w-full '>
+                    <p className='text-[#364152] text-sm font-normal '> 
+                      {log?.action_by_data?.name}  { /*action_by_data?.name */}
+                    </p>
+
+                  {log?.action_data?.map((item, index) => (
+                    <div className="flex flex-wrap gap-1 ">
+                      <p className="text-[#364152] text-sm font-normal">
+                          {item?.text}  {/**action_data?.description */}
+                      </p>
+
+                      <p className="text-[#4B5565] text-sm font-normal">
+                      {item?.details && (<span>({renderDetails(item)})</span>) }                        
+                      </p>
+                    </div>
+                  ))}
+                  </div>
+
+                </div>
+                
+                <hr className="border-0.5 border-[#E3E8EF] my-5 " />
+
               </div>
 
             </div>
-
-          </div>
-          
-          <hr className="border-0.5 border-[#E3E8EF] my-5 " />
-
-        </div>
-
-            
-
-      </div>
+          )
+        })}
+      
+    
 
       
 

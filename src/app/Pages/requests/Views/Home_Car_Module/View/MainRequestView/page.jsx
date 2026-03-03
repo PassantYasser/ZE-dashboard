@@ -209,7 +209,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
       {/* سجل النشاط */}
       {activeSubSection === 2 && (
         <>
-          <Activity_logPage setActiveSubSection={setActiveSubSection} />
+          <Activity_logPage setActiveSubSection={setActiveSubSection} bookingDetails={bookingDetails}/>
 
         </>
       )}
