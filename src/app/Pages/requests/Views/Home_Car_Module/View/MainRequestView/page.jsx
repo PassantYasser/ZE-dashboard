@@ -26,8 +26,19 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
   const handleClose = () => setOpen(false);
 
   const handleApprove = () => {
-    dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'accepted' } }));
+    dispatch(UpdateBookingThunk({ 
+      id: bookingDetails?.id, 
+      formData: { status: 'accepted' } 
+    }));
   };
+
+  const handleCancelled = () => {
+    dispatch(UpdateBookingThunk({ 
+      id: bookingDetails?.id, 
+      formData: { status: 'cancelled' } 
+    }));
+  };
+
 
   const [activeSubSection, setActiveSubSection] = useState(1);
 
@@ -146,7 +157,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                   {t('Appoint a specialist')}
                 </button>
                 <button
-                  onClick={handleCloseViewHome_Car}
+                  onClick={()=> handleCancelled()}
                   className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('cancel')}
                 </button>
@@ -162,7 +173,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                   {t('Reset')}
                 </button>
                 <button 
-                  onClick={handleCloseViewHome_Car}
+                  onClick={()=> handleCancelled()}
                   className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
                   {t('cancel')}
                 </button>

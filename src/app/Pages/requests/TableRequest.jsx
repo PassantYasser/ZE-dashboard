@@ -102,7 +102,16 @@ export default function TableRequest({bookings ,bookingDetails}) {
             </div>
           </div>
         );
-    }
+      case "cancelled": // ملغيه
+        return (
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
+              <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
+            </div>
+          </div>
+        );
+      }
   };
 
   return (

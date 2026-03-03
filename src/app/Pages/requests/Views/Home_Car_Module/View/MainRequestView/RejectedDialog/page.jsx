@@ -23,7 +23,17 @@ function RejectedDialogPage({ open, handleClose ,bookingDetails }) {
 
   const handleConfirmReject = () => {
     const cancel_reason = selected1 === "other" ? notesValue : selected1;
-    dispatch(UpdateBookingThunk({ id: bookingDetails?.id, formData: { status: 'rejected', reason: selected1, notes: notesValue, cancel_reason } }));
+    dispatch(
+      UpdateBookingThunk({
+        id: bookingDetails?.id,
+        formData: {
+          status: 'rejected',
+          reason: selected1,
+          notes: notesValue,
+          cancel_reason
+        }
+      })
+    );
     handleClose();
   };
 

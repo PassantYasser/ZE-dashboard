@@ -15,28 +15,6 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
   
   const StatusRender = (status) => {
     switch (status) {
-      // case "accepted": // تم القبول
-      //   switch (assigned_handymen.length) {
-      //     case 0: //assigned_handymen empty 
-      //       return (
-      //         <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-      //           <div className='py-1.5 px-3 flex gap-1'>
-      //             <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
-      //             <span className='text-xs font-normal flex items-center'>{t('accepted')}</span>
-      //           </div>
-      //         </div>
-      //       );
-      //     default:
-      //       return (
-      //         <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-      //           <div className='py-1.5 px-3 flex gap-1'>
-      //             <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
-      //             <span className='text-xs font-normal flex items-center'>{t('A specialist has been appointed')}</span>
-      //           </div>
-      //         </div>
-      //       );
-
-      //   }
       case "accepted":// تم القبول
         if (assigned_handymen.length === 0) {
           return (
@@ -105,8 +83,23 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
             </div>
           </div>
         );
+      case "cancelled": // ملغيه
+      return (
+        <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+          <div className='py-1.5 px-3 flex gap-1'>
+            <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
+            <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
+          </div>
+        </div>
+      );
     }
   };
+
+// pending
+// hold
+// cancelled
+// paid
+// approved
 
   const [activeSection, setActiveSection] = useState(1);
 
