@@ -9,7 +9,7 @@ function RejectedCompPage({bookingDetails}) {
       <section>
         <div className='my-6 bg-[#FEE4E2] px-4 py-3 rounded-[3px]'>
             <p className='text-[#313131] text-sm font-medium mb-2'> {t('the reason')}: الموعد غير متاح   </p>
-            <ol className="list-decimal list-inside space-y-2 text-[#D92D20] text-sm font-normal">
+            <ol className="list-disc list-inside space-y-2 text-[#D92D20] text-sm font-normal">
             <li>{bookingDetails?.cancel_reason}</li>
             </ol>
           </div>
