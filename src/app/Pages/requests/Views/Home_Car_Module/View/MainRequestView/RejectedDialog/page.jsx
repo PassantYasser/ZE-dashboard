@@ -122,6 +122,20 @@ function RejectedDialogPage({ open, handleClose ,bookingDetails }) {
                         {opt?.reason}
                       </li>
                     ))}
+                  {/* Static "other" option */}
+                  {"other".includes(searchValue1.toLowerCase()) && (
+                  <li
+                    key="other"
+                    onClick={() => {
+                      setSelected1("other");
+                      setOpen1(false);
+                      setSearchValue1("");
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                  >
+                    {t('other')}
+                  </li>
+                  )}
                 </ul>
               )}
 
@@ -129,17 +143,19 @@ function RejectedDialogPage({ open, handleClose ,bookingDetails }) {
           </div>
 
 
-          <div>
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t('Explaining the reason for rejection')}
-            </label>
-            <textarea
-              className="w-full mt-3 h-33 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] focus:outline-none resize-none"
-              placeholder={t('Explain the reason for the rejection to the customer.')}
-              value={notesValue}
-              onChange={(e) => setNotesValue(e.target.value)}
-            ></textarea>
-          </div>
+          {selected1 === "other" && (
+            <div>
+              <label className="text-[#364152] text-base font-normal mb-3">
+                {t('Explaining the reason for rejection')}
+              </label>
+              <textarea
+                className="w-full mt-3 h-33 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] focus:outline-none resize-none"
+                placeholder={t('Explain the reason for the rejection to the customer.')}
+                value={notesValue}
+                onChange={(e) => setNotesValue(e.target.value)}
+              ></textarea>
+            </div>
+          )}
         </div>
       </section>
 
