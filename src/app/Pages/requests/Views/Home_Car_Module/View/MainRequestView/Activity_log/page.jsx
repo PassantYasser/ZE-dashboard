@@ -89,12 +89,12 @@ function Activity_logPage({setActiveSubSection ,bookingDetails}) {
               className=' flex gap-4'
             >
               {/* icon */}
-              <div>
-                <div className={`w-10 h-10  flex justify-center items-center rounded-full ${action_type==='positive' ? 'bg-[#DCFAE6]  ':'bg-[#FEE4E2]'}`}>
+              <div className='flex flex-col items-center'>
+                <div className={`w-10 h-10 flex-shrink-0 flex justify-center items-center rounded-full ${action_type==='positive' ? 'bg-[#DCFAE6]':'bg-[#FEE4E2]'}`}>
                   <img src={`/images/icons/${action_type==='positive' ? 'checkmark-circle-true.svg':'checkmark-circle-false.svg'}`} alt="" />
                 </div>
-                <div className=' px-4.5 py-1'>
-                  <div className="h-10 border-r-1 border-dashed border-[#9AA4B2] "></div>
+                <div className='flex-1 py-1'>
+                  <div className="h-full border-r-1 border-dashed border-[#9AA4B2]"></div>
                 </div>
               </div>
               {/* content */}
