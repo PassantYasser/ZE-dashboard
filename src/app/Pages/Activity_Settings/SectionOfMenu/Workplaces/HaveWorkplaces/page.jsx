@@ -12,7 +12,7 @@ function HaveWorkplacesPage({Workplaces}) {
     
   return (
     <>
-      <div className='grid grid-cols-2 gap-6 px-6 pt-6'>
+      <div className='grid grid-cols-1 lg1:grid-cols-2 gap-6 px-6 pt-6'>
         {Workplaces?.areas?.map((Workplace ,index)=>(
           <section className='flex justify-between border border-[#CDD5DF] py-4 px-3 rounded-lg' key={Workplace?.id}>
             <div className='flex gap-1.5'>
@@ -42,7 +42,7 @@ function HaveWorkplacesPage({Workplaces}) {
       <div className='px-6'>
         <button 
           onClick={() => setOpenMap(true)}
-          className='flex items-center justify-center gap-2  w-[30%] h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer my-6'
+          className='flex items-center justify-center gap-2 w-[50%] lg1:w-[30%] h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer my-6'
         >
           <span>{t('Add a place')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" className='w-6 h-6'/>
