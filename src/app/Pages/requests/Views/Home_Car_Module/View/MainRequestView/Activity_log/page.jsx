@@ -24,22 +24,18 @@ function Activity_logPage({setActiveSubSection ,bookingDetails}) {
     </div>
     <span className="border-[0.5px] border-[#E3E8EF] mb-6" />
 
-
-
-
     <section className='px-6  '>
-
         {bookingDetails?.logs?.map((log) => {
           const action_type = log?.action_type;       // positive , negative logo
           const action_by_data = [{id:'employee' , label:t('employee')} ,
                           {id:'user' , label:t('user')},
                           {id:'handyman' , label:t('handyman')}
                           ]; 
-          const action_by = log?.action_by_data?.role;  //action_by_data?.role
+          const action_by = log?.action_by_data?.role;  
 
           const actionData = log?.action_data?.[0];
-          const details_type = actionData?.details_type;   //action_data?.details_type
-          const value = actionData?.details; //action_data?.details
+          const details_type = actionData?.details_type;  
+          const value = actionData?.details; 
 
           const formatTime = (v) => {
             try {
@@ -71,13 +67,27 @@ function Activity_logPage({setActiveSubSection ,bookingDetails}) {
             }
           };
 
-          console.log('details_type',actionData?.details_type)
-          console.log('value',actionData?.value)
+          const formatDate = (dateValue) => {
+            if (!dateValue) return "";
+
+            const date = new Date(dateValue);
+
+            return date.toLocaleString("ar-EG", {
+              weekday: "long",   
+              day: "numeric",    
+              month: "long",     
+              year: "numeric",   
+              hour: "2-digit",   
+              minute: "2-digit", 
+              hour12: true 
+            });
+          };
 
           return (
             <div
               key={log?.id} 
-              className=' flex gap-4'>
+              className=' flex gap-4'
+            >
               {/* icon */}
               <div>
                 <div className={`w-10 h-10  flex justify-center items-center rounded-full ${action_type==='positive' ? 'bg-[#DCFAE6]  ':'bg-[#FEE4E2]'}`}>
@@ -89,37 +99,35 @@ function Activity_logPage({setActiveSubSection ,bookingDetails}) {
               </div>
               {/* content */}
               <div className='  w-full'>
-
                 <div className='grid grid-cols-2   w-full '>
-
                   <div  className='flex flex-col gap-4  w-full'>
+                    <p className='text-[#364152] text-sm font-normal '>
+                      {action_by_data.find(item => item.id === action_by)?.label}
+                    </p>
 
-                  <p className='text-[#364152] text-sm font-normal '>
-                    {action_by_data.find(item => item.id === action_by)?.label}
-                  </p>
-
-                  <p className='text-[#697586] text-sm font-normal '>
-                    {log?.created_at} {/**created_at */}
-                  </p>
-
+                    <p className='text-[#697586] text-sm font-normal '>
+                      {formatDate(log?.created_at)}
+                    </p>
                   </div>
 
                   <div className='flex flex-col gap-4   w-full '>
                     <p className='text-[#364152] text-sm font-normal '> 
-                      {log?.action_by_data?.name}  { /*action_by_data?.name */}
+                      {log?.action_by_data?.name} 
                     </p>
 
-                  {log?.action_data?.map((item, index) => (
-                    <div className="flex flex-wrap gap-1 ">
-                      <p className="text-[#364152] text-sm font-normal">
-                          {item?.text}  {/**action_data?.description */}
-                      </p>
+                    {log?.action_data?.map((item, index) => (
+                      <div 
+                        key={item?.id}
+                        className="flex flex-wrap gap-1 ">
+                        <p className="text-[#364152] text-sm font-normal">
+                            {item?.text} 
+                        </p>
 
-                      <p className="text-[#4B5565] text-sm font-normal">
-                      {item?.details && (<span>({renderDetails(item)})</span>) }                        
-                      </p>
-                    </div>
-                  ))}
+                        <p className="text-[#4B5565] text-sm font-normal">
+                        {item?.details && (<span>({renderDetails(item)})</span>) }                        
+                        </p>
+                      </div>
+                    ))}
                   </div>
 
                 </div>
