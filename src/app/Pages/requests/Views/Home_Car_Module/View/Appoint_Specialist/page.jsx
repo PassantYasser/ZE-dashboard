@@ -13,6 +13,7 @@ export const dynamic = 'force-dynamic';
 function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
   
   const [selectedHandymen, setSelectedHandymen] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleToggleHandyman = (id) => {
     setSelectedHandymen((prev) =>
@@ -79,14 +80,23 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
 
 
       {/* search */}
-      <section className='px-6 pt-6 '>
-        <SearchForm placeholderKey="Search by employee name" width='full' />
+      <section className='px-6 pt-6'>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={t('Search by employee name')}
+          className='w-full border border-[#E3E8EF] rounded-[6px] px-4 py-2.5 text-sm text-[#364152] outline-none focus:border-[var(--color-primary)] transition'
+        />
       </section>
 
       <div className=' h-[320px]  overflow-y-auto'>
         {/* specialists list */}
         <section className='p-6 '>
-          {availableHandymen?.map((handyman)=>{
+          {availableHandymen?.filter((handyman) => {
+              const fullName = `${handyman?.firstname ?? ''} ${handyman?.lastname ?? ''}`.toLowerCase();
+              return fullName.includes(searchQuery.toLowerCase());
+            }).map((handyman)=>{
                 const isAssigned = assignedIds.includes(handyman?.id);
                 const isSelected = selectedHandymen.includes(handyman?.id);
                 console.log('handyman?.id'  , handyman?.id);
