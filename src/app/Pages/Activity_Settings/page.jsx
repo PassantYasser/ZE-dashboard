@@ -20,11 +20,11 @@ function Activity_SettingsPage() {
               <Header current_module_key={current_module_key}/>
 
           <div className="flex gap-4 mt-14">
-          <div className='w-[25%]' >
+          <div className='lg1:w-[25%] w-[35%]' >
             <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
           </div>
 
-          <div className='w-[75%]'>
+          <div className='lg1:w-[75%] w-[65%]'>
             <SectionOfMenuPage selectedMenu={selectedMenu}/>
           </div>
         </div>

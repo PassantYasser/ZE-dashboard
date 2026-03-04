@@ -48,7 +48,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
     <div className='p-6'>
 
   
-      <div className=' grid grid-cols-2 gap-6'>
+      <div className=' grid grid-cols-1 lg1:grid-cols-2 gap-6 '>
         {policies.map((policy, index)=>(
           <div key={policy?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] ' >
           <div className='p-4'>
@@ -86,7 +86,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
       </div>
       <button 
           onClick={onAddClick}
-          className='mt-12 bg-[var(--color-primary)] rounded-[3px] cursor-pointer text-white flex items-center justify-center gap-2 w-[35%] h-14 '
+          className='mt-12 bg-[var(--color-primary)] rounded-[3px] cursor-pointer text-white flex items-center justify-center gap-2 lg1:w-[35%] w-[50%] h-14 '
         >
           <span className='text-base font-semibold'>{t('Add policy')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" />
