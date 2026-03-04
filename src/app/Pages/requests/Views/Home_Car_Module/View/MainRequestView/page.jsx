@@ -64,13 +64,23 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
               </p>
             </div>
 
-            <div className=' flex items-center '>
-              <button className='flex gap-2 border border-[var(--color-primary)] rounded-[3px]  px-4 py-2.5 cursor-pointer'
-                onClick={() => setActiveSubSection(2)}>
-                <img src="/images/icons/Activity log.svg" className="w-6 h-6" />
-                <p className='text-[var(--color-primary)] text-base font-normal'>{t('Activity log')}</p>
-              </button>
-            </div>
+            {bookingDetails?.logs?.length > 0 ? (
+              <div className=' flex items-center '>
+                <button className='flex gap-2 border border-[var(--color-primary)] rounded-[3px]  px-4 py-2.5 cursor-pointer'
+                  onClick={() => setActiveSubSection(2)}>
+                  <img src="/images/icons/Activity log.svg" className="w-6 h-6" />
+                  <p className='text-[var(--color-primary)] text-base font-normal'>{t('Activity log')}</p>
+                </button>
+              </div>
+            ):(
+              <div className=' flex items-center '>
+                <button className='flex gap-2 border border-[#4B5565] rounded-[3px]  px-4 py-2.5 cursor-not-allowed'
+                  disabled >
+                  <img src="/images/icons/No record log.svg" className="w-6 h-6" />
+                  <p className='text-[#4B5565] text-base font-normal'>{t('No record')}</p>
+                </button>
+              </div>
+            )}
 
 
           </section>

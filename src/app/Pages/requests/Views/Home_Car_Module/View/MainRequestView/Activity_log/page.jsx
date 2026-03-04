@@ -117,7 +117,7 @@ function Activity_logPage({setActiveSubSection ,bookingDetails}) {
 
                     {log?.action_data?.map((item, index) => (
                       <div 
-                        key={item?.id}
+                        key={index}
                         className="flex flex-wrap gap-1 ">
                         <p className="text-[#364152] text-sm font-normal">
                             {item?.text} 
