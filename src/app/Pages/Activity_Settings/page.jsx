@@ -17,12 +17,11 @@ function Activity_SettingsPage() {
     <>
       {/* {content} */}
       <MainLayout>
-              <Header current_module_key={current_module_key}/>
-
-          <div className="flex flex-col gap-4 mt-14">
-            <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
-            <SectionOfMenuPage selectedMenu={selectedMenu}/>
-          </div>
+        <Header current_module_key={current_module_key}/>
+        <div className="flex flex-col gap-14 mt-14">
+          <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+          <SectionOfMenuPage selectedMenu={selectedMenu}/>
+        </div>
       </MainLayout>
     </>
   )

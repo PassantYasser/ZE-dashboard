@@ -3,10 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import ViewHome_Car_ModulePage from "./Views/Home_Car_Module/View/page";
-import ViewStreetAssistant_ModulePage from "./Views/StreetAssistant_Module/View/page";
 import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
+import ViewHome_Car_Street_ModulePage from "./Views/Home_Car_Street_Module/View/page";
 
 
 
@@ -180,23 +179,14 @@ export default function TableRequest({bookings ,bookingDetails}) {
 
 
       {/*✅*/}
-      {(current_module_key === 'car_services' || current_module_key === 'home_services') && (
-        <ViewHome_Car_ModulePage 
+        <ViewHome_Car_Street_ModulePage 
           open={open} 
           handleClose={handleClose} 
           bookingId={selectedBookingId} 
           bookingDetails={bookingDetails}
         />
-      )}
       
-      {/*✅*/}
-      {current_module_key === 'street_assistant' && (
-        <ViewStreetAssistant_ModulePage 
-          open={open} 
-          handleClose={handleClose} 
-          bookingId={selectedBookingId} 
-        />
-      )}
+    
     </div>
 
 

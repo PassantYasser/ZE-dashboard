@@ -7,7 +7,7 @@ import RequestStatusDataPage from './RequestStatusData/page';
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
 
-function ViewHome_Car_ModulePage({ open, handleClose, bookingId ,bookingDetails}) {
+function ViewHome_Car_Street_ModulePage({ open, handleClose, bookingId ,bookingDetails}) {
   const { t } = useTranslation();
   console.log("bookingId" ,bookingId);
   return (
@@ -41,4 +41,4 @@ function ViewHome_Car_ModulePage({ open, handleClose, bookingId ,bookingDetails}
   )
 }
 
-export default ViewHome_Car_ModulePage
+export default ViewHome_Car_Street_ModulePage
