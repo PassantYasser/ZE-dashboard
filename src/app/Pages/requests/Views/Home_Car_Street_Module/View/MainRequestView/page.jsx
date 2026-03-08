@@ -13,6 +13,7 @@ import PaymentDetailsPage from '../RequestStatusData/PaymentDetails/page';
 import RejectedCompPage from '../RequestStatusData/RejectedComp/page';
 import RejectedDialogPage from './RejectedDialog/page';
 import Activity_logPage from './Activity_log/page';
+import RequestDataPage from '../RequestStatusData/RequestData/page';
 
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';
@@ -88,41 +89,8 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
 
 
           <section className='px-6 mb-6 '>
-
-            {/* request Data card (card1) */}
-            <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4  '>
-              <div className='flex justify-between'>
-                <p className='text-[#697586] text-sm font-normal flex items-center'>
-                  <span>{t('request')}/</span>
-                  <span>{bookingDetails?.id}</span>
-                </p>
-
-                <div>
-                  {StatusRender && typeof StatusRender === 'function' ? StatusRender(status) : null}
-                </div>
-              </div>
-
-              <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
-
-              <div>
-                <p className='text-[#121926] text-base font-medium'>{bookingDetails?.service?.category?.title}</p>
-              </div>
-
-              <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
-
-              <div className='flex justify-between  w-full'>
-                <div className='flex  gap-1.5 w-full'>
-                  <img src="/images/icons/date.svg" alt="" className='w-6 h-6' />
-                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>{bookingDetails?.visit_date}</p>
-                </div>
-                <div className='flex justify-end gap-1.5  w-full'>
-                  <img src="/images/icons/time.svg" alt="" className='w-6 h-6' />
-                  <p className='text-[#575757] text-sm font-normal flex justify-center items-center'>{bookingDetails?.visit_time}</p>
-                </div>
-
-              </div>
-            </div>
-
+            
+            <RequestDataPage bookingDetails={bookingDetails} StatusRender={StatusRender} status={status}/> {/* request Data card (card1) */}
             <WorkersDataPage status={status} assigned_handymen={assigned_handymen} bookingDetails={bookingDetails}/>  {/* Workers data */}
             {status === 'rejected' && (<RejectedCompPage bookingDetails={bookingDetails} />)}      {/* Rejected Component */}
             <CustomerPage bookingDetails={bookingDetails} />  {/* Customer Info */}
