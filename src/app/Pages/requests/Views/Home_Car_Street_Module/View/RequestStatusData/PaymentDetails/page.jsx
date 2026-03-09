@@ -6,32 +6,153 @@ function PaymentDetailsPage({bookingDetails}) {
   const { t } = useTranslation();
 
   const invoice_url =bookingDetails?.invoice_url;  //link to invoice file empty or not
+
+    const service_id = bookingDetails?.service_id;
+    let content = null;
+
+    switch (service_id) {
+      case 39:
+        content = (
+          <>
+            {/* Price */}
+            <div className='flex justify-between'>
+              <p className='text-[#575757] text-sm font-normal'>{t('Delivery price')}</p>
+              <p className='text-[#575757] text-base font-normal'>{bookingDetails?.delivery_price} ج.م</p>
+            </div>
+
+            {/* Fuel price */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#575757] text-sm font-normal'>{t('Fuel price')} ({bookingDetails?.quantity}{t('liters')})</p>
+              <p className='text-[#575757] text-base font-normal '>
+                  {bookingDetails?.fuel_price} ج.م
+              </p>
+            </div>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Final Price */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
+            </div>
+          </>
+        );
+        break;
+      case 40:
+        content = (
+          <>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Final price */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
+            </div>
+          </>
+        )
+        break;
+      case 36:
+        content = (
+          <>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Price upon viewing */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Price upon viewing')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.service_setting?.price} ج.م</p>
+            </div>
+          </>
+        )
+        break;
+      case 35:
+        content=(
+          <>
+            {/* Price */}
+            <div className='flex justify-between'>
+              <p className='text-[#575757] text-sm font-normal'>{t('Shipping price')}</p>
+              <p className='text-[#575757] text-base font-normal'>{bookingDetails?.distanceData?.total?.price} ج.م</p>
+            </div>
+
+            {/* Car towing cost */}
+            {bookingDetails?.is_low_area===1 &&(
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#575757] text-sm font-normal'>{t('Car towing cost')}</p>
+              
+                <p className='text-[#575757] text-base font-normal '>
+                  {bookingDetails?.service_setting?.additional_price} ج.م
+                </p>
+            </div>
+            )}
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Final Price */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
+            </div>
+          </>
+        );
+        break;
+      case 37:
+        content = (
+          <>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Price upon viewing */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Price upon viewing')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.service_setting?.price} ج.م</p>
+            </div>
+          </>
+        )
+        break;
+      case 38:
+        content = (
+          <>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Price upon viewing */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Price upon viewing')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.service_setting?.price} ج.م</p>
+            </div>
+          </>
+        )
+        break;
+      default:
+        content = (
+          <>
+            {/* Price */}
+            <div className='flex justify-between'>
+              <p className='text-[#575757] text-sm font-normal'>{t('the price')}</p>
+              <p className='text-[#575757] text-base font-normal'>{bookingDetails?.service?.price} ج.م</p>
+            </div>
+
+            {/* Discount */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#575757] text-sm font-normal'>{t('Discount value')}</p>
+              <p className='text-[#F04438] text-base font-normal '>
+                {Number(bookingDetails?.service?.price || 0)- Number(bookingDetails?.price || 0)} ج.م
+              </p>
+            </div>
+            <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
+
+            {/* Final Price */}
+            <div className='flex justify-between mt-4'>
+              <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
+              <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
+            </div>
+          </>
+        );
+    }
+
+
   return (
     <>
       <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 mt-6'>
         <div>
           <p className='text-[#0F022E] text-base font-medium mb-4'>{t('Payment details')}</p>
 
-          {/* Price */}
-          <div className='flex justify-between'>
-            <p className='text-[#575757] text-sm font-normal'>{t('the price')}</p>
-            <p className='text-[#575757] text-base font-normal'>{bookingDetails?.service?.price} ج.م</p>
-          </div>
-
-          {/* Discount */}
-          <div className='flex justify-between mt-4'>
-            <p className='text-[#575757] text-sm font-normal'>{t('Discount value')}</p>
-            <p className='text-[#F04438] text-base font-normal '>
-              {Number(bookingDetails?.service?.price || 0)- Number(bookingDetails?.price || 0)} ج.م
-            </p>
-          </div>
-          <hr className="border-[0.5px] border-dashed border-[#E3E8EF] my-4  " />
-
-          {/* Final Price */}
-          <div className='flex justify-between mt-4'>
-            <p className='text-[#0F022E] text-base font-medium'>{t('Final price')}</p>
-            <p className='text-[var(--color-primary)] text-lg font-semibold'>{bookingDetails?.price} ج.م</p>
-          </div>
+          {content}
 
         </div>
 
