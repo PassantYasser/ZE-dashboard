@@ -11,7 +11,9 @@ function AddressPage({bookingDetails}) {
   const AddressDetails = bookingDetails?.user_address
 
   let contentAddress = null
-  const service_id = 39
+  let contentMoreAddress = null
+
+  const service_id = 35
     switch(service_id) {
       case 39:
         contentAddress =(
@@ -46,10 +48,35 @@ function AddressPage({bookingDetails}) {
           </>
         )
     }
+
+    switch(service_id) {
+      case 39:
+        contentMoreAddress =null
+        break;
+      default:
+        contentMoreAddress = (
+          <>
+            <hr className="border border-[#E3E8EF] my-4  " />
+
+            <div className= "grid grid-cols-2 gap-3">
+              <div className='flex gap-1.5'>
+                <img src="/images/icons/route.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'> 32 كم الي الوجهة</p>
+              </div>
+
+            
+              <div className='flex gap-1.5'>
+                <img src="/images/icons/clock-gray.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'>5 دقايق</p>
+              </div>
+            </div>
+          </>
+        )
+    }
+
   return (
     <>
     {/*   */}
-    {/* {(AddressDetails || bookingDetails?.address)  && ( */}
       <div className="w-full p-3 shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] overflow-hidden bg-white select-none mt-6">
         {/* Header */}
         <button
@@ -192,26 +219,13 @@ function AddressPage({bookingDetails}) {
                 <p className='text-[#364152] text-sm font-normal'> 3 كم الي العميل</p>
               </div>
 
-              <div className='flex gap-1.5'>
-                <img src="/images/icons/clock-gray.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'>5 دقايق</p>
-              </div>
-            </div>
-
-            <hr className="border border-[#E3E8EF] my-4  " />
-
-            <div className= "grid grid-cols-2 gap-3">
-              <div className='flex gap-1.5'>
-                <img src="/images/icons/route.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'> 32 كم الي الوجهة</p>
-              </div>
-
               <div className='flex  gap-1.5'>
                 <img src="/images/icons/clock-gray.svg" alt="" />
                 <p className='text-[#364152] text-sm font-normal'>الاجمالي 45 دقيقة</p>
               </div>
-
             </div>
+
+            {contentMoreAddress }
 
           </div>
 
@@ -219,7 +233,6 @@ function AddressPage({bookingDetails}) {
 
       </div>
 
-    {/* )} */}
 
     
 
