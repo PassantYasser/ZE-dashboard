@@ -6,12 +6,14 @@ function AddressPage({bookingDetails}) {
   const [open, setOpen] = useState(false);
 
   const {t}= useTranslation();
+  const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : null
+  const current_module_key = userData?.current_module_key
   const AddressDetails = bookingDetails?.user_address
 
   return (
     <>
-    {/* home& car  */}
-    {AddressDetails && (
+    {/*   */}
+    {/* {(AddressDetails || bookingDetails?.address)  && ( */}
       <div className="w-full p-3 shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] overflow-hidden bg-white select-none mt-6">
         {/* Header */}
         <button
@@ -32,8 +34,8 @@ function AddressPage({bookingDetails}) {
           </div>
         </button>
 
-        {/* Content */}
-        {open && (
+        {/* Content  (home& car) */}
+        {open && (current_module_key === 'home_services' || current_module_key === 'car_services') && (
           <div className="px-3 mt-3  text-right ">
 
             {AddressDetails?.address_line && (
@@ -138,8 +140,66 @@ function AddressPage({bookingDetails}) {
             )}
           </div>
         )}
+
+
+        {/** content (street) */}
+        {open && current_module_key === 'street_assistant' && (
+          <div className="px-3 mt-3   ">
+
+            <div className="flex flex-col items-start gap-1">
+              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+                <img src='/images/icons/google-map-icon.svg'/>
+                <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
+              </div>
+
+              {/* Line + Arrow */}
+              <div className="flex flex-col items-center w-[18px] ml-2">
+                <div className="border-l-2 border-dashed border-[#8B8B8B] h-4 "></div>
+                <img src="/images/icons/ArrowDown_gray.svg" alt="" />
+              </div>
+
+              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+                <img src='/images/icons/google-map-icon_gray.svg'/>
+                <span className="text-[#8B8B8B] text-sm font-normal">{bookingDetails?.desired_address}</span>
+              </div>
+            </div>
+
+            <hr className="border border-[#E3E8EF] my-4  " />
+
+            <div className= "grid grid-cols-2 gap-3 ">
+              <div className='flex gap-1.5'>
+                <img src="/images/icons/route.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'> 3 كم الي العميل</p>
+              </div>
+
+              <div className='flex gap-1.5'>
+                <img src="/images/icons/clock-gray.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'>5 دقايق</p>
+              </div>
+            </div>
+
+            <hr className="border border-[#E3E8EF] my-4  " />
+
+            <div className= "grid grid-cols-2 gap-3">
+              <div className='flex gap-1.5'>
+                <img src="/images/icons/route.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'> 32 كم الي الوجهة</p>
+              </div>
+
+              <div className='flex  gap-1.5'>
+                <img src="/images/icons/clock-gray.svg" alt="" />
+                <p className='text-[#364152] text-sm font-normal'>الاجمالي 45 دقيقة</p>
+              </div>
+              
+            </div>
+
+          </div>
+
+        )}
+
       </div>
-    )}
+
+    {/* )} */}
 
     
 
