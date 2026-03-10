@@ -10,6 +10,42 @@ function AddressPage({bookingDetails}) {
   const current_module_key = userData?.current_module_key
   const AddressDetails = bookingDetails?.user_address
 
+  let contentAddress = null
+  const service_id = 39
+    switch(service_id) {
+      case 39:
+        contentAddress =(
+          <>
+            <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+              <img src='/images/icons/google-map-icon.svg'/>
+              <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
+            </div>
+          </>
+        )
+        break;
+      default:
+        contentAddress = (
+          <>
+          <div className="flex flex-col items-start gap-1">
+              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+                <img src='/images/icons/google-map-icon.svg'/>
+                <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
+              </div>
+
+              {/* Line + Arrow */}
+              <div className="flex flex-col items-center w-[18px] ml-2">
+                <div className="border-l-2 border-dashed border-[#8B8B8B] h-4 "></div>
+                <img src="/images/icons/ArrowDown_gray.svg" alt="" />
+              </div>
+
+              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+                <img src='/images/icons/google-map-icon_gray.svg'/>
+                <span className="text-[#8B8B8B] text-sm font-normal">{bookingDetails?.desired_address}</span>
+              </div>
+          </div>
+          </>
+        )
+    }
   return (
     <>
     {/*   */}
@@ -146,23 +182,7 @@ function AddressPage({bookingDetails}) {
         {open && current_module_key === 'street_assistant' && (
           <div className="px-3 mt-3   ">
 
-            <div className="flex flex-col items-start gap-1">
-              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
-                <img src='/images/icons/google-map-icon.svg'/>
-                <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
-              </div>
-
-              {/* Line + Arrow */}
-              <div className="flex flex-col items-center w-[18px] ml-2">
-                <div className="border-l-2 border-dashed border-[#8B8B8B] h-4 "></div>
-                <img src="/images/icons/ArrowDown_gray.svg" alt="" />
-              </div>
-
-              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
-                <img src='/images/icons/google-map-icon_gray.svg'/>
-                <span className="text-[#8B8B8B] text-sm font-normal">{bookingDetails?.desired_address}</span>
-              </div>
-            </div>
+            {contentAddress}
 
             <hr className="border border-[#E3E8EF] my-4  " />
 
@@ -190,7 +210,7 @@ function AddressPage({bookingDetails}) {
                 <img src="/images/icons/clock-gray.svg" alt="" />
                 <p className='text-[#364152] text-sm font-normal'>الاجمالي 45 دقيقة</p>
               </div>
-              
+
             </div>
 
           </div>
