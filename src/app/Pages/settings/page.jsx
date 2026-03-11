@@ -9,7 +9,7 @@ const menuItems = [
     Label: 'Company_data',
     nameKey: 'Company data',
     icon: '/images/icons/Company_dataBlack.svg',
-    iconSelected: '/images/icons/Company_dataWhite.svg',
+    iconSelected: '/images/icons/Company_data_yellow.svg',
     subItems: [
       { Label: 'BasicInformation', nameKey: 'Basic Information' },
       { Label: 'YourFiles', nameKey: 'Your Files' },
@@ -18,13 +18,13 @@ const menuItems = [
       { Label: 'CompanyAddress', nameKey: 'Company Address' },
     ],
   },
-  { Label: 'Personal_data', nameKey: 'Personal data', icon: '/images/icons/Personal_dataBlack.svg', iconSelected: '/images/icons/Personal_dataWhite.svg' },
-  { Label: 'Marketer_Panel', nameKey: 'Marketer panel', icon: '/images/icons/Marketer_PanelBlack.svg', iconSelected: '/images/icons/Marketer_PanelWhite.svg' },
+  { Label: 'Personal_data', nameKey: 'Personal data', icon: '/images/icons/Personal_dataBlack.svg', iconSelected: '/images/icons/Personal_data_yellow.svg' },
+  { Label: 'Marketer_Panel', nameKey: 'Marketer panel', icon: '/images/icons/Marketer_PanelBlack.svg', iconSelected: '/images/icons/Marketer_Panel_yellow.svg' },
 ]
 
 function SettingsPage() {
   const { t } = useTranslation()
-  const [selectedMenu, setSelectedMenu] = useState('Company_data')
+  const [selectedMenu, setSelectedMenu] = useState('BasicInformation')
 
   const activeParent = menuItems.find(
     (item) => item.Label === selectedMenu || item.subItems?.some((s) => s.Label === selectedMenu)
@@ -52,14 +52,14 @@ function SettingsPage() {
                 className={`flex items-center justify-center w-full gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
                   isActive
                     ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
-                    : 'border-transparent text-[#4B5565] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]'
+                    : 'border-transparent text-[#4B5565] '
                 }`}
               >
                 <img
-                  src={isActive ? item.iconSelected?.replace('White', 'Black') ?? item.icon : item.icon}
+                  src={isActive ?  item.iconSelected : item.icon}
                   alt={item.Label}
                   className="w-5 h-5"
-                  style={isActive ? { filter: 'invert(40%) sepia(80%) saturate(500%) hue-rotate(180deg)' } : {}}
+                  // style={isActive ? { filter: 'invert(40%) sepia(80%) saturate(500%) hue-rotate(180deg)' } : {}}
                 />
                 {t(item.nameKey)}
               </button>
