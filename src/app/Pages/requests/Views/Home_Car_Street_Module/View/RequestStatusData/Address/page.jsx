@@ -13,7 +13,7 @@ function AddressPage({bookingDetails}) {
   let contentAddress = null
   let contentMoreAddress = null
 
-  const service_id = 35
+  const service_id = bookingDetails?.service_id
     switch(service_id) {
       case 39:
         contentAddress =(

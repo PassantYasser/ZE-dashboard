@@ -1,22 +1,93 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useState } from 'react'
-import SidebarMenuPage from './SidebarMenu/page'
 import SectionOfMenuPage from './SectionOfMenu/page'
+import { useTranslation } from 'react-i18next'
+
+const menuItems = [
+  {
+    Label: 'Company_data',
+    nameKey: 'Company data',
+    icon: '/images/icons/Company_dataBlack.svg',
+    iconSelected: '/images/icons/Company_dataWhite.svg',
+    subItems: [
+      { Label: 'BasicInformation', nameKey: 'Basic Information' },
+      { Label: 'YourFiles', nameKey: 'Your Files' },
+      { Label: 'ContactInformation', nameKey: 'Contact Information' },
+      { Label: 'ChangePassword', nameKey: 'Change Password' },
+      { Label: 'CompanyAddress', nameKey: 'Company Address' },
+    ],
+  },
+  { Label: 'Personal_data', nameKey: 'Personal data', icon: '/images/icons/Personal_dataBlack.svg', iconSelected: '/images/icons/Personal_dataWhite.svg' },
+  { Label: 'Marketer_Panel', nameKey: 'Marketer panel', icon: '/images/icons/Marketer_PanelBlack.svg', iconSelected: '/images/icons/Marketer_PanelWhite.svg' },
+]
 
 function SettingsPage() {
+  const { t } = useTranslation()
   const [selectedMenu, setSelectedMenu] = useState('Company_data')
+
+  const activeParent = menuItems.find(
+    (item) => item.Label === selectedMenu || item.subItems?.some((s) => s.Label === selectedMenu)
+  )
+
+  const handleTabClick = (item) => {
+    if (item.subItems) {
+      setSelectedMenu(item.subItems[0].Label)
+    } else {
+      setSelectedMenu(item.Label)
+    }
+  }
 
   return (
     <MainLayout>
-      <div className="flex gap-4 ">
-        <div className='w-[40%]'>
-          <SidebarMenuPage 
-            selectedMenu={selectedMenu} 
-            setSelectedMenu={setSelectedMenu}
-          />
+      <div className="flex flex-col gap-4">
+        {/* Main Tab Bar */}
+        <div className="flex border-b border-gray-200 gap-1 overflow-x-auto">
+          {menuItems.map((item) => {
+            const isActive = activeParent?.Label === item.Label
+            return (
+              <button
+                key={item.Label}
+                onClick={() => handleTabClick(item)}
+                className={`flex items-center gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
+                  isActive
+                    ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
+                    : 'border-transparent text-[#4B5565] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]'
+                }`}
+              >
+                <img
+                  src={isActive ? item.iconSelected?.replace('White', 'Black') ?? item.icon : item.icon}
+                  alt={item.Label}
+                  className="w-5 h-5"
+                  style={isActive ? { filter: 'invert(40%) sepia(80%) saturate(500%) hue-rotate(180deg)' } : {}}
+                />
+                {t(item.nameKey)}
+              </button>
+            )
+          })}
         </div>
-        <div className='w-[65%]'>
+
+        {/* Sub-Tab Bar (shown only when active parent has subItems) */}
+        {activeParent?.subItems && (
+          <div className="flex gap-1 border-b border-gray-100 overflow-x-auto">
+            {activeParent.subItems.map((sub) => (
+              <button
+                key={sub.Label}
+                onClick={() => setSelectedMenu(sub.Label)}
+                className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
+                  selectedMenu === sub.Label
+                    ? 'border-[var(--color-primary)] text-[var(--color-primary)] font-medium'
+                    : 'border-transparent text-[#4B5565] hover:text-[var(--color-primary)]'
+                }`}
+              >
+                {t(sub.nameKey)}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Content */}
+        <div>
           <SectionOfMenuPage selectedMenu={selectedMenu} />
         </div>
       </div>
