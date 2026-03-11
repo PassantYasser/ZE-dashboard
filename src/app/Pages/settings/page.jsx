@@ -42,14 +42,14 @@ function SettingsPage() {
     <MainLayout>
       <div className="flex flex-col gap-4">
         {/* Main Tab Bar */}
-        <div className="flex border-b border-gray-200 gap-1 overflow-x-auto">
+        <div className="flex border-b border-gray-200 gap-1 w-full">
           {menuItems.map((item) => {
             const isActive = activeParent?.Label === item.Label
             return (
               <button
                 key={item.Label}
                 onClick={() => handleTabClick(item)}
-                className={`flex items-center gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
+                className={`flex items-center justify-center w-full gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
                   isActive
                     ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
                     : 'border-transparent text-[#4B5565] hover:text-[var(--color-primary)] hover:border-[var(--color-primary)]'
@@ -69,14 +69,14 @@ function SettingsPage() {
 
         {/* Sub-Tab Bar (shown only when active parent has subItems) */}
         {activeParent?.subItems && (
-          <div className="flex gap-1 border-b border-gray-100 overflow-x-auto">
+          <div className="flex gap-1 border border-[#EEF2F6]  bg-[#EEF2F6] w-fit  h-14 rounded-[3px] p-2">
             {activeParent.subItems.map((sub) => (
               <button
                 key={sub.Label}
                 onClick={() => setSelectedMenu(sub.Label)}
-                className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 transition-colors cursor-pointer ${
+                className={`px-3 py-2 text-sm rounded-[3px] cursor-pointer  ${
                   selectedMenu === sub.Label
-                    ? 'border-[var(--color-primary)] text-[var(--color-primary)] font-medium'
+                    ? 'bg-[var(--color-primary)] text-[white] font-medium'
                     : 'border-transparent text-[#4B5565] hover:text-[var(--color-primary)]'
                 }`}
               >
