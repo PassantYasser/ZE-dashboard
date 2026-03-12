@@ -11,7 +11,7 @@ import { getPoliciesThunk } from '@/redux/slice/Setting/SettingSlice'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import Loader from '@/app/Components/Loader/Loader'
 
-function Terms_PoliciesPage() {
+function TermsPoliciesContent() {
   const [showAddForm, setShowAddForm] = useState(false)
   
   const router = useRouter()
@@ -46,35 +46,39 @@ function Terms_PoliciesPage() {
   }
 
   return (
-    <>
+    <div className="border border-[#E3E8EF] mb-8">
+      <Header/>
+      
+      {showEditForm ? (
+        <EditPage 
+          policy={selectedPolicy} 
+          onSuccess={handleEditSuccess} 
+        />
+      ) : showAddForm ? (
+        <Addpage onSuccess={() => setShowAddForm(false)} />
+      ) : policies && policies.length > 0 ? (
+        <HaveTerms_PoliciesPage  
+          onAddClick={() => setShowAddForm(true)} 
+          onEditClick={handleEditClick}
+          policies={policies}
+          loading={loading}
+
+        />
+      ) : (
+        <NoTerms_PoliciesPage 
+          onAddClick={() => setShowAddForm(true)} 
+        />
+      )}
+
+    </div>
+  )
+}
+
+function Terms_PoliciesPage() {
+  return (
     <Suspense fallback={<Loader />}>
-      <div className="border border-[#E3E8EF] mb-8">
-        <Header/>
-        
-        {showEditForm ? (
-          <EditPage 
-            policy={selectedPolicy} 
-            onSuccess={handleEditSuccess} 
-          />
-        ) : showAddForm ? (
-          <Addpage onSuccess={() => setShowAddForm(false)} />
-        ) : policies && policies.length > 0 ? (
-          <HaveTerms_PoliciesPage  
-            onAddClick={() => setShowAddForm(true)} 
-            onEditClick={handleEditClick}
-            policies={policies}
-            loading={loading}
-
-          />
-        ) : (
-          <NoTerms_PoliciesPage 
-            onAddClick={() => setShowAddForm(true)} 
-          />
-        )}
-
-      </div>
+      <TermsPoliciesContent />
     </Suspense>
-    </>
   )
 }
 
