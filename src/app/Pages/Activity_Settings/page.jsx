@@ -1,9 +1,10 @@
 'use client'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import SidebarMenuPage from './SidebarMenu/page';
 import SectionOfMenuPage from './SectionOfMenu/page';
 import Header from './Header';
+import Loader from '@/app/Components/Loader/Loader';
 
 
 
@@ -18,10 +19,12 @@ function Activity_SettingsPage() {
       {/* {content} */}
       <MainLayout>
         <Header current_module_key={current_module_key}/>
-        <div className="flex flex-col gap-14 mt-14">
-          <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
-          <SectionOfMenuPage selectedMenu={selectedMenu}/>
-        </div>
+          <Suspense fallback={<Loader />}>
+            <div className="flex flex-col gap-14 mt-14">
+              <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
+              <SectionOfMenuPage selectedMenu={selectedMenu}/>
+            </div>
+          </Suspense>
       </MainLayout>
     </>
   )

@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import HaveTerms_PoliciesPage from './HaveTerms_Policies/page'
 import NoTerms_PoliciesPage from './NoTerms_Policies/page'
 import Addpage from './Add/page'
@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPoliciesThunk } from '@/redux/slice/Setting/SettingSlice'
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import Loader from '@/app/Components/Loader/Loader'
 
 function Terms_PoliciesPage() {
   const [showAddForm, setShowAddForm] = useState(false)
@@ -46,31 +47,33 @@ function Terms_PoliciesPage() {
 
   return (
     <>
-    <div className="border border-[#E3E8EF] mb-8">
-      <Header/>
-      
-      {showEditForm ? (
-        <EditPage 
-          policy={selectedPolicy} 
-          onSuccess={handleEditSuccess} 
-        />
-      ) : showAddForm ? (
-        <Addpage onSuccess={() => setShowAddForm(false)} />
-      ) : policies && policies.length > 0 ? (
-        <HaveTerms_PoliciesPage  
-          onAddClick={() => setShowAddForm(true)} 
-          onEditClick={handleEditClick}
-          policies={policies}
-          loading={loading}
+    <Suspense fallback={<Loader />}>
+      <div className="border border-[#E3E8EF] mb-8">
+        <Header/>
+        
+        {showEditForm ? (
+          <EditPage 
+            policy={selectedPolicy} 
+            onSuccess={handleEditSuccess} 
+          />
+        ) : showAddForm ? (
+          <Addpage onSuccess={() => setShowAddForm(false)} />
+        ) : policies && policies.length > 0 ? (
+          <HaveTerms_PoliciesPage  
+            onAddClick={() => setShowAddForm(true)} 
+            onEditClick={handleEditClick}
+            policies={policies}
+            loading={loading}
 
-        />
-      ) : (
-        <NoTerms_PoliciesPage 
-          onAddClick={() => setShowAddForm(true)} 
-        />
-      )}
+          />
+        ) : (
+          <NoTerms_PoliciesPage 
+            onAddClick={() => setShowAddForm(true)} 
+          />
+        )}
 
-    </div>
+      </div>
+    </Suspense>
     </>
   )
 }

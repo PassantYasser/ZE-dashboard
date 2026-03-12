@@ -44,7 +44,7 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
         return (
           <li
             key={item.id}
-            className={`flex w-full items-center justify-center gap-2 px-4 py-3 cursor-pointer whitespace-nowrap text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
+            className={`flex w-full items-center justify-center gap-2 px-1 lg1:px-4 py-3 cursor-pointer whitespace-nowrap text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
               isSelected
                 ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
                 : 'border-transparent text-[#364152] hover:text-[var(--color-primary)] hover:border-gray-300'

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import DeleteDialog from './DeleteDialog';
 
-function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
+function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading}) {
   const {t} = useTranslation()
   const StatusRender = (Status) => {
     switch (Status) {
@@ -49,7 +49,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies ,loading}) {
 
   
       <div className=' grid grid-cols-1 lg1:grid-cols-2 gap-6 '>
-        {policies.map((policy, index)=>(
+        {policies?.map((policy, index)=>(
           <div key={policy?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] ' >
           <div className='p-4'>
             <div className='flex justify-between gap-2 w-full'>

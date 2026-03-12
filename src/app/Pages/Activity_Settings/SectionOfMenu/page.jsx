@@ -8,12 +8,13 @@
 
 // export default SectionOfMenuPage
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import Terms_PoliciesPage from './Terms_Policies/page'
 import WorkplacesPage from './Workplaces/page'
 import WorkingHoursPage from './WorkingHours/page'
 import LegalDocumentsPage from './LegalDocuments/page'
 import ReviewsPage from './Reviews/page'
+import Loader from '@/app/Components/Loader/Loader'
 
 function SectionOfMenuPage({selectedMenu}) {
 
@@ -21,29 +22,41 @@ function SectionOfMenuPage({selectedMenu}) {
     switch(selectedMenu){
       case 1:
         return (
-          <Terms_PoliciesPage/>
+          <Suspense fallback={<Loader />}>
+            <Terms_PoliciesPage/>
+          </Suspense>
         )
       case 2:
         return (
-          <WorkplacesPage/>
+          <Suspense fallback={<Loader />}>
+            <WorkplacesPage/>
+          </Suspense>
         )
       case 3:
         return(
-          <WorkingHoursPage/>
+          <Suspense fallback={<Loader />}>
+            <WorkingHoursPage/>
+          </Suspense>
         )
       case 4:
         return(
-          <LegalDocumentsPage/>
+          <Suspense fallback={<Loader />}>
+            <LegalDocumentsPage/>
+          </Suspense>
         )
       case 5:
         return(
-          <ReviewsPage/>
+          <Suspense fallback={<Loader />}>
+            <ReviewsPage/>
+          </Suspense>
         )
     }
   }
   return (
     <>
-    {renderContent()}
+    <Suspense fallback={<Loader />}>
+      {renderContent()}
+    </Suspense>
     </>
   )
 }
