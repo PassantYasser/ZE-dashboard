@@ -7,6 +7,7 @@ import EditInfoDataPage from "./EditInfoData/page";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "next/navigation";
 import { getWorkerByIdThunk } from "@/redux/slice/Workers/WorkersSlice";
+import Loader from "@/app/Components/Loader/Loader";
 
 function EditPageContent() {
   const { t } = useTranslation();
@@ -63,7 +64,7 @@ const dispatch = useDispatch();
 
 function EditPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <EditPageContent />
     </Suspense>
   );

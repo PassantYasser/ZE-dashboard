@@ -1,11 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import NavRequest from './NavRequest'
 import TableRequest from './TableRequest'
 import Pagination from './Pagination'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBookingsThunk } from '@/redux/slice/Requests/RequestsSlice'
+import Loader from '@/app/Components/Loader/Loader'
 
 function RequestsPage() {
   const dispatch = useDispatch()
@@ -36,8 +37,10 @@ function RequestsPage() {
 
       <NavRequest onApplyFilters={handleApplyFilters} onResetFilters={handleResetFilters} />
 
-      <TableRequest bookings={bookings} bookingDetails={bookingDetails}/>
-
+      <Suspense fallback={<Loader />}>
+        <TableRequest bookings={bookings} bookingDetails={bookingDetails}/>
+      </Suspense>
+      
       <Pagination
         totalPages={pagination?.last_page || 1}
         currentPage={currentPage}
