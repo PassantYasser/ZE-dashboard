@@ -38,15 +38,25 @@ const maxLength = 130;
         </div>
 
         <div className='border border-[#CDD5DF] rounded-[3px] my-4 py-2 px-4 flex  gap-6'>
-          <p className='text-[#0F022E] text-[40px] font-semibold'>4.5</p>
+          <p className='text-[#0F022E] text-[40px] font-semibold'>{providerState?.average_rating}</p>
           <div className='flex flex-col justify-center items-start'>
             <p className='flex gap-1'>
-              <img src="/images/icons/star.svg" alt="star" className='w-5 h-5'/>
-              <img src="/images/icons/star.svg" alt="star" className='w-5 h-5'/>
-              <img src="/images/icons/star.svg" alt="star" className='w-5 h-5'/>
-              <img src="/images/icons/star.svg" alt="star" className='w-5 h-5'/>
+              {Array.from({ length: 5 }, (_, i) => {
+                const rating = providerState?.average_rating ?? 0;
+                const full = Math.floor(rating);
+                const hasHalf = rating - full >= 0.5;
+                let src;
+                if (i < full) {
+                  src = "/images/icons/star.svg";
+                } else if (i === full && hasHalf) {
+                  src = "/images/icons/star-half.svg";
+                } else {
+                  src = "/images/icons/star-empty.svg";
+                }
+                return <img key={i} src={src} alt="star" className='w-5 h-5' />;
+              })}
             </p>
-            <p className='text-[#565656] text-xl font-medium'>120</p>
+            <p className='text-[#565656] text-xl font-medium'>{providerState?.average_count}</p>
           </div>
         </div>
 
