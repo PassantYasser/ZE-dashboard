@@ -3,13 +3,14 @@ import { getProviderStateThunk } from '@/redux/slice/Home/HomeSlice';
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import Loader from '@/app/Components/Loader/Loader';
 
 function BoxPage({current_module_key}) {
   const {t} = useTranslation();
   
   //API
   const dispatch = useDispatch()
-  const {providerState}= useSelector((state)=>state.Home)
+  const {providerState , loading}= useSelector((state)=>state.Home)
 
   useEffect(() => {
     dispatch(getProviderStateThunk())
@@ -18,6 +19,8 @@ function BoxPage({current_module_key}) {
 
   // Determine the role of the provider
   const role =providerState ?.role  // 'freelance'  'company'
+
+  if (loading) return <Loader />;
 
   return (
     <>
