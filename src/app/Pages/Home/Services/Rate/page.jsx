@@ -1,25 +1,33 @@
 'use client';
-import React, { useState } from 'react'
+import { getProviderRateThunk } from '@/redux/slice/Home/HomeSlice';
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 function RatePage() {
   const { t } = useTranslation();
-    const [expandedIndexes, setExpandedIndexes] = useState({});
-  
-    const toggleExpanded = (index) => {
-      setExpandedIndexes((prev) => ({
-        ...prev,
-        [index]: !prev[index],
-      }));
-    };
-  
-    const maxLength = 130;
-    const text =
-  "خدمة جيدة وتعامل محترم، أصلحوا المشكلة بشكل جيد والسعر كان مناسبًا.تحسين سرعة الإنجاز، لكن بشكل عام تجربة إيجابية فقط أتمنى تحسين سرعة الإنجاز، لكن بشكل عام تجربة تحسين سرعة الإنجاز، لكن بشكل عام تجربة إيجابية إيجابية.";
-const isLong = text.length > maxLength;
-const shortText = text.slice(0, maxLength);
-const index = 0;
-const expanded = expandedIndexes[index];
+
+
+  //API
+  const dispatch = useDispatch()
+  const {providerRate , providerState , loading} = useSelector((state) => state.Home)
+  useEffect(()=>{
+    dispatch(getProviderRateThunk())
+  },[dispatch])
+
+  console.log(providerRate);
+
+
+  const [expandedIndexes, setExpandedIndexes] = useState({});
+
+const toggleExpanded = (index) => {
+  setExpandedIndexes((prev) => ({
+    ...prev,
+    [index]: !prev[index],
+  }));
+};
+
+const maxLength = 130;
 
   return (
     <>
@@ -42,31 +50,38 @@ const expanded = expandedIndexes[index];
           </div>
         </div>
 
+      {providerRate?.ratings?.map((rate, index) => {
+          const text = rate?.review || "";
+          const isLong = text.length > maxLength;
+          const shortText = text.slice(0, maxLength);
+          const expanded = expandedIndexes[index];
 
-          <div className="border-b border-[#CDD5DF]">
+          return(
+          <div
+            key={index}
+            className="border-b border-[#CDD5DF]"
+          >
               <div className="flex justify-between">
                 <div className="flex mb-4 gap-3">
                   <p className="bg-amber-400 w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2">
-                  ش
+                    {rate?.user?.name?.charAt(0)}
                   </p>
                   <div className="flex flex-col gap-1">
                     <p className="text-[#364152] text-base font-medium">
-                    شريف اكرامي
+                    {rate?.user?.name} {rate?.user?.lastname}
                     </p>
                     <p className="text-[#697586] text-sm font-normal">
-                      21/8/2025
+                      {`${new Date(rate?.created_at).getDate()}/${
+                        new Date(rate?.created_at).getMonth() + 1
+                      }/${new Date(rate?.created_at).getFullYear()}`}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center ">
-                  <img
-                    src="/images/icons/star.svg"
-                    alt=""
-                    className="w-4 h-4 mt-0.5 "
-                  />
+                  <img src="/images/icons/star.svg" className="w-4 h-4 mt-0.5 "/>
                   <p className="text-[#FDB022] text-sm font-medium">
-                    4
+                    {rate?.rating}
                   </p>
                 </div>
               </div>
@@ -84,6 +99,8 @@ const expanded = expandedIndexes[index];
             </p>
 
             </div>
+        )})}
+          
       </div>
 
     </>
