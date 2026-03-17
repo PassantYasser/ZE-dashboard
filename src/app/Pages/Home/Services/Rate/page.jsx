@@ -19,6 +19,7 @@ function RatePage() {
 
 
   const [expandedIndexes, setExpandedIndexes] = useState({});
+  const [showAll, setShowAll] = useState(false);
 
 const toggleExpanded = (index) => {
   setExpandedIndexes((prev) => ({
@@ -34,7 +35,14 @@ const maxLength = 130;
       <div className='border border-[#CDD5DF] rounded-[3px] my-4  p-6'>
         <div className='flex justify-between items-center'>
           <p className='text-[#0F022E] text-xl font-medium'>{t('Reviews')}</p>
-          <button className='text-[var(--color-primary)] text-base font-medium cursor-pointer'>{t('More')}</button>
+          <button 
+            onClick={() => (providerRate?.ratings?.length ?? 0) > 3 && setShowAll(prev => !prev)} 
+            className={`text-base font-medium  
+                        ${(providerRate?.ratings?.length ?? 0) <= 3 ? 'text-gray-500 cursor-not-allowed' : 'text-[var(--color-primary)] cursor-pointer'}
+                      `}
+          >
+            {showAll ? t('Less') : t('More')}
+          </button>
         </div>
 
         <div className='border border-[#CDD5DF] rounded-[3px] my-4 py-2 px-4 flex  gap-6'>
@@ -60,7 +68,7 @@ const maxLength = 130;
           </div>
         </div>
 
-      {providerRate?.ratings?.map((rate, index) => {
+      {(showAll ? providerRate?.ratings : providerRate?.ratings?.slice(0, 3))?.map((rate, index) => {
           const text = rate?.review || "";
           const isLong = text.length > maxLength;
           const shortText = text.slice(0, maxLength);
