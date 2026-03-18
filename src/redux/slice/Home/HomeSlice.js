@@ -1,4 +1,4 @@
-import { getBookingNew, getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
+import { getBookingNew, getBookingOngoing, getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //add or update module
@@ -46,6 +46,17 @@ export const getBookingNewThunk = createAsyncThunk('Home/getBookingNewThunk',
   }
 )
 
+export const getBookingOngoingThunk = createAsyncThunk('Home/getBookingOngoingThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getBookingOngoing()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch ongoing bookings");
+    }
+  }
+)
+
 const initialState = {
   loading:false,
   error:null,
@@ -53,6 +64,8 @@ const initialState = {
   providerState:null,
   providerRate:[],
   newBookings:[],
+  ongoingBookings:[],
+
 
 
 }
@@ -121,7 +134,22 @@ const homeSlice = createSlice({
         state.loading = false;
         state.error = action.payload; 
       })
-      //
+      //getBookingOngoingThunk
+      .addCase(getBookingOngoingThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getBookingOngoingThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.ongoingBookings = action.payload; 
+        state.error = null;
+      })
+      .addCase(getBookingOngoingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+
+      
   }
 })
 export const {} = homeSlice.actions;
