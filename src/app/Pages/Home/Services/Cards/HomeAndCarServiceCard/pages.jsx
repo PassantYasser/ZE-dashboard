@@ -39,7 +39,7 @@ function HomeAndCarServiceCardPages({current_module_key}) {
   return (
     <>
       <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
-        <NewOrdersPage orders={newOrders} />
+        <NewOrdersPage orders={newOrders} current_module_key={current_module_key}/>
         <CurrentOrdersPage orders={currentOrders} current_module_key={current_module_key} />
       </div>
     </>

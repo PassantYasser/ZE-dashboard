@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
+import Loader from '@/app/Components/Loader/Loader';
 
 function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
   const { t } = useTranslation();
@@ -15,7 +16,8 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
   useEffect(()=>{
     dispatch(getBookingOngoingThunk())
   },[dispatch])
-  console.log(ongoingBookings);
+
+  if (loading) return <Loader />;
 
   const StatusRender = (status) => {
     switch (status) {
