@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-function CurrentOrdersPage({ orders = [], layout = "list" }) {
+function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
   const { t } = useTranslation();
 
   const StatusRender = (status) => {
@@ -100,10 +100,29 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
             </div>
           </div>
 
-          <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
-            <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
-            <span>{t('Open the map')}</span>
-          </button>
+          {/* Buttons */}
+          {current_module_key === 'home_services' && (
+            <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
+              <span>{t('Open the map')}</span>
+            </button>
+          )}
+          
+          {current_module_key === 'car_services' && (
+            <div className='flex gap-4'>
+              <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+                <span>{t('Start Service')}</span>
+                <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
+              </button>
+
+              <button className='flex gap-2 items-center justify-center border border-[#7F7F7F66] text-[#7F7F7F80] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+                <img src='/images/icons/maps-location_gray.svg' alt='' className='w-6 h-6' />
+                <span>{t('Open the map')}</span>
+              </button>
+            </div>
+          )}
+        
+
         </div>
       ))}
       </div>
