@@ -93,7 +93,15 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
           <div key={order?.booking_id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
             <div className='flex justify-between w-full'>
               <div className='flex gap-2 w-full'>
-                <img src={`${IMAGE_BASE_URL}${order?.service_icon}`} alt='' className='w-6 h-6 mt-1' />
+                <img
+                  src={
+                    order?.service_icon
+                      ? `${IMAGE_BASE_URL}${order.service_icon}`
+                      : "/images/icons/renewable-energy.svg"
+                  }
+                  alt="service"
+                  className='w-6 h-6 mt-1'
+                />
                 <p className='text-[#364152] text-lg font-medium'>{order?.service_name}</p>
               </div>
               <div className='w-full flex justify-end'>{StatusRender(order?.booking_status)}</div>
