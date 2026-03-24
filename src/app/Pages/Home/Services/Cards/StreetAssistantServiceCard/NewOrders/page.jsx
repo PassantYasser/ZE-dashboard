@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
 
-function NewOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
+function NewOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
 
   //API
@@ -41,7 +41,7 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
 
 
   return (
-    <div className="border border-[#CDD5DF] rounded-[3px] p-6">
+    <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
       <p className="text-[#0F022E] text-xl font-medium">
         {t("New orders")}
       </p>
