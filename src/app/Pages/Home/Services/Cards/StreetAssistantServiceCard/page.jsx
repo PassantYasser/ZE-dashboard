@@ -2,27 +2,14 @@
 import React from 'react'
 import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
+import { useSelector } from 'react-redux'
 
-function StreetAssistantServiceCardPage() {
-  const newOrders = [
-    {
-      id: 1,
-      service: "تشغيل بطارية",
-      customer: "هاني سعيد",
-      price: "40.00",
-      distance: "32 كم",
-      location: "شارع رئيسي 123 مدينة نصر",
-    },
-  ];
+function StreetAssistantServiceCardPage({current_module_key}) {
+      const {ongoingBookings,newBookings , loading ,error}= useSelector((state)=>state.Home)
+  
+  const newOrders = newBookings ;
 
-  const currentOrders = [
-    {
-      id: 1,
-      service: "تشغيل بطارية",
-      status: 'in_progress',
-      customer: 'هاني سعيد',
-    },
-  ];
+  const currentOrders = ongoingBookings ;
 
   const isNewOrdersEmpty = newOrders.length === 0;
   const isCurrentOrdersEmpty = currentOrders.length === 0;
@@ -38,8 +25,8 @@ function StreetAssistantServiceCardPage() {
   return (
     <>
       <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
-        <NewOrdersPage orders={newOrders} />
-        <CurrentOrdersPage orders={currentOrders} />
+        <NewOrdersPage orders={newOrders} current_module_key={current_module_key}/>
+        <CurrentOrdersPage orders={currentOrders} current_module_key={current_module_key}/>
       </div>
     </>
   )
