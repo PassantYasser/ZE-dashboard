@@ -16,6 +16,15 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
   },[dispatch])
 
 
+
+
+
+
+
+
+
+
+  
   const StatusRender = (status) => {
     switch (status) {
       case "accepted": //تم القبول
@@ -105,9 +114,9 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
                 <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                   <img src='/images/icons/chat.svg' alt='' />
                 </p>
-                <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                <a href={`tel:${order?.phone}`} className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                   <img src='/images/icons/calll.svg' alt='' />
-                </p>
+                </a>
               </div>
             </div>
 

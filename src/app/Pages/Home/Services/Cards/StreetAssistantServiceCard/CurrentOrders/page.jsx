@@ -104,9 +104,9 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/chat.svg' alt='' />
               </p>
-              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+              <a href={`tel:${order?.phone}`} className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/calll.svg' alt='' />
-              </p>
+              </a>
             </div>
           </div>
           {order?.assigned_handyman?.id && (
@@ -125,9 +125,9 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
               </div>
               
               <div className='lg1:w-full w-[30%] flex justify-end gap-4'>
-                <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                <a href={`tel:${order?.assigned_handyman?.phone}`} className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                   <img src='/images/icons/calll.svg' alt='' />
-                </p>
+                </a>
               </div>
             </div>
           )}
