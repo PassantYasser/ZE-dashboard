@@ -32,7 +32,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
             newSet.delete(order.id);
             return newSet;
           });
-        }, 16000000);
+        }, 60000);
       }
     });
   }, [orders]);
