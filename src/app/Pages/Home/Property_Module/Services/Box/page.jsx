@@ -1,9 +1,8 @@
 "use client";
 import { getProviderStateThunk } from '@/redux/slice/Home/HomeSlice';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import Loader from '@/app/Components/Loader/Loader';
+
 
 function BoxPage({analysisProperties}) {
   const {t} = useTranslation();

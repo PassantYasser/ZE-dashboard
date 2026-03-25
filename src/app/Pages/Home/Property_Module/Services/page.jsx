@@ -5,20 +5,23 @@ import TileOfSevicesPage from './TileOfSevices/page'
 import BoxPage from './Box/page'
 import Cardspage from './Cards/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPropertiesAnalysisThunk } from '@/redux/slice/Home/HomeSlice'
+import { getPropertiesAnalysisThunk, getPropertiesTopThunk } from '@/redux/slice/Home/HomeSlice'
 
 function ServicesPage() {
   const dispatch = useDispatch()
-  const {analysisProperties } = useSelector((state)=>state.Home)
+  const {analysisProperties ,topProperties} = useSelector((state)=>state.Home)
+
   useEffect(()=>{
     dispatch(getPropertiesAnalysisThunk())
+    dispatch(getPropertiesTopThunk())
   },[dispatch])
-  console.log(analysisProperties);
+
+  console.log(topProperties);
   return (
     <MainLayout>
       <TileOfSevicesPage/>
       <BoxPage analysisProperties={analysisProperties}/>
-      <Cardspage/>
+      <Cardspage topProperties={topProperties}/>
     </MainLayout>
   )
 }

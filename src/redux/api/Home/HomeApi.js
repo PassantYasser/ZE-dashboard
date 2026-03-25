@@ -34,3 +34,8 @@ export const getPropertiesAnalysis = async()=>{
   const response = await API.get('/properties/analysis')
   return response.data
 }
+
+export const getPropertiesTop = async()=>{
+  const response = await API.get('/properties/top')
+  return response.data
+}
