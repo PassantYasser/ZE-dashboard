@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '@/app/Components/Loader/Loader';
 
-function BoxPage() {
+function BoxPage({analysisProperties}) {
   const {t} = useTranslation();
   
-
+  const analysisPropertiesData = analysisProperties?.data
 
   return (
     <>
@@ -23,7 +23,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565]'>{t('Access operations')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>(100)</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>({analysisPropertiesData?.check_ins_today})</p>
       </div>
     
       {/* Departure*/}
@@ -34,7 +34,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565]'>{t('Departure')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>22</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{analysisPropertiesData?.check_outs_today}</p>
       
       </div>
 
@@ -46,7 +46,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565]'>{t('Pending')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'> 2</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'> {analysisPropertiesData?.pending_bookings}</p>
       </div>
 
     {/* Continuous stays */}
@@ -57,7 +57,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565]'>{t('Continuous stays')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>2</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{analysisPropertiesData?.ongoing_vacancies}</p>
       </div>
 
     
