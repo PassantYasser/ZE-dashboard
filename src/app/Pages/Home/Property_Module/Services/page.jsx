@@ -23,10 +23,13 @@ function ServicesPage() {
   console.log(topProperties);
   return (
     <MainLayout>
+
       <TileOfSevicesPage/>
+
       <BoxPage analysisProperties={analysisProperties}/>
-      <Cardspage topProperties={topProperties}/>
       
+      <Cardspage topProperties={topProperties}/>
+
       <div className='grid grid-cols-2 gap-6'>
         <UpcomingBookingsPage />
         <div>
