@@ -6,6 +6,7 @@ import BoxPage from './Box/page'
 import Cardspage from './Cards/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPropertiesAnalysisThunk, getPropertiesTopThunk } from '@/redux/slice/Home/HomeSlice'
+import UpcomingBookingsPage from './UpcomingBookings/page'
 
 function ServicesPage() {
   const dispatch = useDispatch()
@@ -22,6 +23,10 @@ function ServicesPage() {
       <TileOfSevicesPage/>
       <BoxPage analysisProperties={analysisProperties}/>
       <Cardspage topProperties={topProperties}/>
+      <div className='grid grid-cols-2'>
+        <UpcomingBookingsPage />
+      </div>
+      
     </MainLayout>
   )
 }
