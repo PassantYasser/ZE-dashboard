@@ -78,7 +78,7 @@ function UpcomingBookingsPage() {
         </button>
       </div>
   
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 mb-10'>
+      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 mb-10 rounded-[3px]'>
           <div className='flex justify-between mb-4'>
             <div className='flex items-center gap-2'>
               <p className='w-9 h-9 flex items-center justify-center bg-[#007AFF] text-white rounded-full'>a</p>
