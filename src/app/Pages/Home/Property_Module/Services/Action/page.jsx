@@ -2,8 +2,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ActionPage() {
+function ActionPage({analysisProperties}) {
   const {t} = useTranslation()
+
+  const analysisPropertiesPending = analysisProperties?.pending
+
   return (
     <>
       <div className='border border-[#FEC84B] bg-[#FFFCF5] rounded-[3px]  p-4 mb-8'>
@@ -14,7 +17,7 @@ function ActionPage() {
         </div>
 
         {/*  */}
-        <p className='text-[#697586] text-base font-normal'>{t('There are reservations that require your approval.')}</p>
+        <p className='text-[#697586] text-base font-normal'>{analysisPropertiesPending?.message}</p>
           
         {/*  */}
         <button className='  bg-[var(--color-primary)] mt-1.5 flex items-center justify-center gap-2 w-full h-14 rounded-[3px] cursor-pointer'>

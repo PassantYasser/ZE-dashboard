@@ -2,8 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PerformancePage() {
+function PerformancePage({analysisProperties}) {
   const {t} = useTranslation()
+
+  const analysisPropertiesMonthlyAnalysis = analysisProperties?.monthly_analysis
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 mb-4 rounded-[3px]'>

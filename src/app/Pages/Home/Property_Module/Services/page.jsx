@@ -34,12 +34,12 @@ function ServicesPage() {
       <div className='grid grid-cols-2 gap-6'>
         <UpcomingBookingsPage topThreeBookings={topThreeBookings}/>
         <div>
-          <PerformancePage />
+          <PerformancePage  analysisProperties={analysisProperties}/>
           <ChatPage/>
         </div>
       </div>
 
-      <ActionPage/>
+      <ActionPage analysisProperties={analysisProperties}/>
       
     </MainLayout>
   )
