@@ -21,7 +21,29 @@ function CardOfService() {
         return null;  
     }
   }; 
-
+  //'draft','pending','active','inactive', 'rejected'
+  // const  status2 = 'draft'
+  // const StatusRender2 = (status) => {
+  //   switch(status) {
+  //     case "draft": //مسودة
+  //       return (
+  //         <div className=' bg-[#F9F5E8] border border-[#F59E0B] text-[#F59E0B] w-fit  h-9.5 rounded-3xl flex justify-center items-center '>
+  //         <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex gap-1'>
+  //           <img src="/images/icons/Draft Status.svg" alt="" className='w-4 h-4' />
+  //           <span className='text-xs lg1:text-sm'>{t('draft')}</span>
+  //         </div>
+  //       </div>
+  //       );
+  //     case "pending": //في انتظار الموافقة
+  //       return null;
+  //     case "active": //مكتمله
+  //       return null;
+  //     case "inactive": //غير نشط
+  //       return null;
+  //     case "rejected": //مرفوض
+  //       return null;
+  //   }
+  // }
   return (
     <>
 
