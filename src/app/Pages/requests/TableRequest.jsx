@@ -9,7 +9,7 @@ import ViewHome_Car_Street_ModulePage from "./Views/Home_Car_Street_Module/View/
 
 
 
-export default function TableRequest({bookings ,bookingDetails}) {
+export default function TableRequest({bookings ,bookingDetails, searchTerm}) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -133,7 +133,12 @@ export default function TableRequest({bookings ,bookingDetails}) {
         {/* Table Body */}
         <tbody>
           {Array.isArray(bookings?.bookings?.data) &&
-            bookings.bookings.data.map((row) => (
+            bookings.bookings.data
+              .filter((row) => {
+                if (!searchTerm) return true;
+                return String(row?.id).includes(searchTerm);
+              })
+              .map((row) => (
             <tr
               key={row?.id}
               onClick={() => handleClickOpen(row?.id)}

@@ -13,6 +13,7 @@ function RequestsPage() {
   const {bookings ,bookingDetails, loading , error, pagination } =useSelector((state)=>state.requests)
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState({})
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(()=>{
     const fetchBookings = () => {
@@ -45,10 +46,14 @@ function RequestsPage() {
   return (
     <MainLayout>
 
-      <NavRequest onApplyFilters={handleApplyFilters} onResetFilters={handleResetFilters} />
+      <NavRequest 
+        onApplyFilters={handleApplyFilters} 
+        onResetFilters={handleResetFilters} 
+        onSearch={setSearchTerm}
+      />
 
       <Suspense fallback={<Loader />}>
-        <TableRequest bookings={bookings} bookingDetails={bookingDetails}/>
+        <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
       </Suspense>
       
       <Pagination
