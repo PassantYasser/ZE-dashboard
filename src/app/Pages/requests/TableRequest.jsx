@@ -122,7 +122,8 @@ export default function TableRequest({bookings ,bookingDetails}) {
             <th className="p-4 font-normal">{t("order number")}</th>
             <th className="p-4 font-normal">{t("Customer name")}</th>
             <th className="p-4 font-normal">{t("Service")}</th>
-            <th className="p-4 font-normal">{t("the date")}/{t("the time")}</th>
+            <th className="p-4 font-normal">{t("the date")}</th>
+            <th className="p-4 font-normal">{t("the time")}</th>
             <th className="p-4 font-normal">{t("The worker")}</th>
             <th className="p-4 font-normal">{t("Status")}</th>
             <th className="p-4 font-normal">{t("the price")}</th>
@@ -141,7 +142,8 @@ export default function TableRequest({bookings ,bookingDetails}) {
               <td className="p-4">{row?.id}</td>
               <td className="p-4"> {row?.user?.name} {row?.user?.lastname}</td>
               <td className="p-4"> {row?.service?.category?.title}</td>
-              <td className="p-4">{row?.visit_date} / {row?.visit_time}</td>
+              <td className="p-4">{row?.visit_date}</td>
+              <td className="p-4">{row?.visit_time}</td>
               <td className="p-4">
                 {!row?.assigned_handymen?.[0]?(
                   <div className="">
