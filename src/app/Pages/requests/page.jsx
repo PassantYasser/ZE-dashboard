@@ -15,7 +15,17 @@ function RequestsPage() {
   const [filters, setFilters] = useState({})
 
   useEffect(()=>{
-    dispatch(getBookingsThunk({ page: currentPage, ...filters }))
+    const fetchBookings = () => {
+      dispatch(getBookingsThunk({ page: currentPage, ...filters }))
+    }
+
+    fetchBookings()
+
+    window.addEventListener('booking_updated', fetchBookings)
+
+    return () => {
+      window.removeEventListener('booking_updated', fetchBookings)
+    }
   },[dispatch, currentPage, filters])
 
   const handlePageChange = (page) => {
