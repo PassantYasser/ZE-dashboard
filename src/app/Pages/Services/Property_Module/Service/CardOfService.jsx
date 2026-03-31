@@ -192,34 +192,44 @@ const handleClick = (property) => {
             {openMenuIndex === index && (
               <div className='absolute top-8 left-2 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
               
-                <button onClick={() => handleClick(property)} className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
-                  <img src="/images/icons/checkmark-circle_black.svg"  />
-                  <p className=' text-[#364152] text-base font-normal'>
-                    {property.activity_status === "active"
-                    ? t("Activate")
-                    : t("Deactivate")}
-                  </p>
-                </button>
+                {(property?.side_actions?.includes('activate') || property?.side_actions?.includes('deactivate')) && (
+                  <button onClick={() => handleClick(property)} className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
+                    <img src="/images/icons/checkmark-circle_black.svg"  />
+                    <p className=' text-[#364152] text-base font-normal'>
+                      {property?.side_actions?.includes('activate')
+                      ? t("Activate")
+                      : t("Deactivate")}
+                    </p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
-                  <img src="/images/icons/fileBlack.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
-                </button>
+                {property?.side_actions?.includes('view_details') && (
+                  <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
+                    <img src="/images/icons/fileBlack.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/shareBlack.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property sharing')}</p>
-                </button>
+                {property?.side_actions?.includes('share') && (
+                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/shareBlack.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property sharing')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/remove-circle-black.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property Report')}</p>
-                </button>
+                {property?.side_actions?.includes('view_ratings') && (
+                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/remove-circle-black.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property Report')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/delete-darkRed.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
-                </button>
+                {property?.side_actions?.includes('remove') && (
+                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/delete-darkRed.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
+                  </button>
+                )}
               </div>
             )}
 
