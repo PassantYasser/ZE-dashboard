@@ -22,13 +22,18 @@ function ServicePage() {
   
   const dispatch = useDispatch()
   const {getProperties, propertiesMeta} = useSelector((state)=>state.services)
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(()=>{
-    dispatch(getAllPropertiesThunk({ page: 1 }))
-  }, [dispatch])
+    const delayDebounceFn = setTimeout(() => {
+      dispatch(getAllPropertiesThunk({ page: 1, search: searchQuery }))
+    }, 500)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchQuery, dispatch])
 
   const handlePageChange = (page) => {
-    dispatch(getAllPropertiesThunk({ page }))
+    dispatch(getAllPropertiesThunk({ page, search: searchQuery }))
   }
 
 
@@ -49,7 +54,11 @@ function ServicePage() {
         </div>
         {/* //search and filter */}
         <div className="flex gap-6 mb-4">
-          <SearchForm  placeholderKey="Search by property name or number" />
+          <SearchForm  
+            placeholderKey="Search by property name or number" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <FilterBtn onClick={handleClickOpen}/>
         </div>
 
