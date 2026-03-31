@@ -1,5 +1,5 @@
 "use client"
-import { changeStatusByIdThunk } from '@/redux/slice/Services/ServicesSlice';
+import { changeStatusByIdThunk, deletePropertyThunk } from '@/redux/slice/Services/ServicesSlice';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -96,6 +96,10 @@ const handleClick = (property) => {
   );
         
 
+};
+
+const handleDelete = (propertyId) => {
+  dispatch(deletePropertyThunk(propertyId));
 };
   return (
     <>
@@ -225,7 +229,7 @@ const handleClick = (property) => {
                 )}
 
                 {property?.side_actions?.includes('remove') && (
-                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                  <button onClick={() => handleDelete(property.id)} className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
                     <img src="/images/icons/delete-darkRed.svg" alt="" />
                     <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
                   </button>
