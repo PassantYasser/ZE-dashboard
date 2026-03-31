@@ -1,9 +1,12 @@
 "use client"
+import { changeStatusByIdThunk } from '@/redux/slice/Services/ServicesSlice';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 function CardOfService({getProperties}) {
   const {t}= useTranslation()
+  const dispatch = useDispatch()
 
   //
   console.log(getProperties);
@@ -80,7 +83,20 @@ function CardOfService({getProperties}) {
     setOpenMenuIndex(prev => (prev === index ? null : index));
   };
 
+const handleClick = (property) => {
+  const newStatus =
+    property.activity_status === "active" ? "inactive" : "active";
 
+  dispatch(
+    changeStatusByIdThunk({
+      property_id: property.id,
+      status: newStatus,
+    })
+      
+  );
+        
+
+};
   return (
     <>
 
@@ -176,9 +192,13 @@ function CardOfService({getProperties}) {
             {openMenuIndex === index && (
               <div className='absolute top-8 left-2 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
               
-                <button className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
+                <button onClick={() => handleClick(property)} className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
                   <img src="/images/icons/checkmark-circle_black.svg"  />
-                  <p className=' text-[#364152] text-base font-normal'>{t('Deactivate')}</p>
+                  <p className=' text-[#364152] text-base font-normal'>
+                    {property.activity_status === "active"
+                    ? t("Activate")
+                    : t("Deactivate")}
+                  </p>
                 </button>
 
                 <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
