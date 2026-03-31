@@ -142,7 +142,7 @@ function CardOfService({getProperties}) {
                   <p className='text-[#364152] text-sm font-medium'>{t('Required procedure')}</p>
                 </div>
                 <p className='text-[#4B5565] text-sm font-normal'>
-                  الصور لا تلبي معايير الجودة
+                  {property?.text_to_show}
                 </p>
               </div>
             )
@@ -192,8 +192,7 @@ function CardOfService({getProperties}) {
                   <>
                     <img src="/images/icons/calender.svg" className="w-6 h-6" />
                     <p className='text-[#364152] text-sm font-normal'>
-                      <span>{t('Available starting from')} : </span>
-                      <span> 20 اكتوبر </span>
+                      {property?.text_to_show}
                     </p>
                   </>
                   ):null}

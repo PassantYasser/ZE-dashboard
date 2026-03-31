@@ -21,11 +21,15 @@ function ServicePage() {
   const handleClose = () => setOpen(false);
   
   const dispatch = useDispatch()
-  const {getProperties} = useSelector((state)=>state.services)
+  const {getProperties, propertiesMeta} = useSelector((state)=>state.services)
 
   useEffect(()=>{
-    dispatch(getAllPropertiesThunk())
+    dispatch(getAllPropertiesThunk({ page: 1 }))
   }, [dispatch])
+
+  const handlePageChange = (page) => {
+    dispatch(getAllPropertiesThunk({ page }))
+  }
 
 
   return (
@@ -54,7 +58,9 @@ function ServicePage() {
           <CardOfService getProperties={getProperties}/>
         </div>
 
-        <Pagination/>
+        {propertiesMeta && propertiesMeta.total_pages > 1 && (
+          <Pagination meta={propertiesMeta} onPageChange={handlePageChange} />
+        )}
 
       </div>
 

@@ -128,7 +128,7 @@ export const updateFuelPrice = async(formData)=>{
 /* ************************** *****************************************/
 //**************************************************************************** */
 
-export const getAllProperties = async()=>{
-  const response = await API.get('/get_all/properties')
+export const getAllProperties = async(params = {}) => {
+  const response = await API.get('/get_all/properties', { params })
   return response.data
 }

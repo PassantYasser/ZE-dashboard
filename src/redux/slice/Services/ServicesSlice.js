@@ -247,10 +247,10 @@ export const updateFuelPriceThunk = createAsyncThunk(
 //**************************************************************************** */
 
 export const getAllPropertiesThunk = createAsyncThunk('service/getAllPropertiesThunk', 
-  async(_ , {rejectWithValue})=>{
+  async(params = {} , {rejectWithValue})=>{
     try{
-      const response = await getAllProperties()
-      return response.data
+      const response = await getAllProperties(params);
+      return response; // returning whole response to get meta
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -284,6 +284,7 @@ const initialState = {
 
     /** */
     getProperties:[],
+    propertiesMeta: null,
   };
 
 const servicesSlice = createSlice({
@@ -581,7 +582,8 @@ const servicesSlice = createSlice({
       })
       .addCase(getAllPropertiesThunk.fulfilled, (state, action) => {
         state.loadingList = false;
-        state.getProperties = action.payload;
+        state.getProperties = action.payload?.data || action.payload || [];
+        state.propertiesMeta = action.payload?.meta || null;
       })
       .addCase(getAllPropertiesThunk.rejected, (state, action) => {
         state.loadingList = false;  
