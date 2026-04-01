@@ -27,6 +27,19 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
       });
   };
 
+    const handleRejectedBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "rejected" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to reject booking:", err);
+      });
+  };
+
+
 
 
   return (
@@ -115,7 +128,10 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
                 {t("Application accepted")}
               </button>
 
-              <button className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-[3px] cursor-pointer hover:bg-[#fff5f5] transition-colors">
+              <button 
+                onClick={() => handleRejectedBooking(order?.booking_id)}
+                className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-[3px] cursor-pointer hover:bg-[#fff5f5] transition-colors"
+              >
                 {t("to reject")}
               </button>
             </div>
