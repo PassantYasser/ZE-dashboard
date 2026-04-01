@@ -4,7 +4,7 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function LocationPage({openLocation , setOpenLocation ,setOpenMainFilter,getPropertiesCities={}, selectedLocations={}, toggleLocation}) {
+function LocationPage({openLocation , setOpenLocation ,setOpenMainFilter,getPropertiesCities={}, selectedLocations=[], toggleLocation}) {
   const {t} = useTranslation()
 
   return (
