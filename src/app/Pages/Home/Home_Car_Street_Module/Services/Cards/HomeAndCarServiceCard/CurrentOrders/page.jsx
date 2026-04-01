@@ -89,7 +89,7 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
     }
   };
 
-  const handleOngoingBooking = (booking_id) => {
+  const handleInProgressBooking = (booking_id) => {
     if (!booking_id) return;
     dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "in_progress" } }))
       .unwrap()
@@ -159,7 +159,7 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
             {current_module_key === 'car_services' && (
               <div className='flex gap-4'>
                 <button 
-                  onClick={() => handleOngoingBooking(order?.booking_id)}
+                  onClick={() => handleInProgressBooking(order?.booking_id)}
                   className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
                   <span>{t('Start Service')}</span>
                   <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
