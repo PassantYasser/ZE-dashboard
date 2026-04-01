@@ -9,7 +9,6 @@ function CardOfService({getProperties}) {
   const dispatch = useDispatch()
 
   //
-  console.log(getProperties);
 
   const StatusRender = (status) => {
     switch (status) {
