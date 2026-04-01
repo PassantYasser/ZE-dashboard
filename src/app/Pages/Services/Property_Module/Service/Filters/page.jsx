@@ -7,9 +7,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import LocationPage from './Location/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function FiltersPage({ open,setOpen , handleClose }) {
   const { t } = useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const {getPropertyTypes} = useSelector((state)=>state.services)
+  useEffect(()=>{
+    dispatch(getPropertyTypesThunk())
+  },[dispatch])
+
+
+
+
 
   const [openLocation, setOpenLocation] = useState(false);
   //
@@ -26,8 +39,8 @@ function FiltersPage({ open,setOpen , handleClose }) {
   const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const optionPropertyType =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
-
+  const optionPropertyType = getPropertyTypes?.data
+  console.log(optionPropertyType);
   //3-Select availability =========================
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState(null);
@@ -189,11 +202,11 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionPropertyType
                   .filter((opt) =>
-                    opt.toLowerCase().includes(searchValue2.toLowerCase())
+                    opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
                   )
                   .map((opt) => (
                     <li
-                      key={opt}
+                      key={opt?.id}
                       onClick={() => {
                         setSelected2(opt);
                         setOpen2(false);
@@ -201,7 +214,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {opt?.name}
                     </li>
                   ))}
               </ul>
