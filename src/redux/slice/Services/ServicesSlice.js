@@ -314,9 +314,9 @@ export const getAllDetailsThunk = createAsyncThunk('services/getAllDetailsThunk'
 )
 
 export const getPropertyCalendarThunk = createAsyncThunk('services/getPropertyCalendarThunk',
-  async(id, {rejectWithValue}) =>{
+  async({id, month}, {rejectWithValue}) =>{
     try{
-      const response = await getPropertyCalendar(id); 
+      const response = await getPropertyCalendar(id, month); 
       return response;
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
