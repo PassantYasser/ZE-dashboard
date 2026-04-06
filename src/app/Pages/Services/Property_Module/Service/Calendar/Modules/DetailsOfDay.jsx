@@ -25,7 +25,8 @@ function DetailsOfDay({ selectedDayInfo, onClose }) {
             </button>
           </div>
           
-          <div className='mb-8 px-6'>
+          <div className='mb-8 px-6 flex items-center gap-3'>
+            <span className={`w-4 h-4 rounded-full ${selectedDayInfo.colorClass}`}></span>
             <span className='text-[#364152] text-2xl font-medium'>{selectedDayInfo.status}</span>
           </div>
 
@@ -36,7 +37,7 @@ function DetailsOfDay({ selectedDayInfo, onClose }) {
 
           <div className='mb-6 px-6'>
             <span className='text-[#697586] text-xl font-normal'>{t('Status')} : </span>
-            <span className='text-[#364152] text-xl font-normal'>{selectedDayInfo.date}</span>
+            <span className='text-[#364152] text-xl font-normal'>{selectedDayInfo.statusDetails}</span>
           </div>
     
           <div className='px-6 mb-6'>

@@ -85,21 +85,39 @@ function CalenderDaysPage() {
 
   const handleDayClick = (day) => {
     if (!day) return;
-    
     const apiStatus = getDayStatus(year, month, day);
     let statusLabel = t('Unspecified') || "غير محدد";
+    let statusDetails =t('Unspecified');
+    let colorClass = "bg-[#9AA4B2]"; // Default Unspecified
     
-    if (apiStatus === 'booked') statusLabel = t('Forbidden');
-    else if (apiStatus === 'blocked') statusLabel = t('reserved');
-    else if (apiStatus === 'available') statusLabel = t('Available');
+    if (apiStatus === 'booked') {
+      statusLabel = t('Forbidden');
+      statusDetails = t('This date is restricted and unavailable.');
+      colorClass = "bg-[#F04438]";
+    } 
+    else if (apiStatus === 'blocked') {
+      statusLabel = t('reserved');
+      statusDetails = t('This date is already booked by a guest.');
+      colorClass = "bg-[var(--color-primary)]";
+    } 
+    else if (apiStatus === 'available') {
+      statusLabel = t('Available');
+      statusDetails = t('This date is available for booking.');
+      colorClass = "bg-[#17B26A]";
+    }
     
     setSelectedDayInfo({
-      date: new Date(year, month, day).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
-      status: statusLabel
+      date: new Date(year, month, day).toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }),
+      status: statusLabel,
+      statusDetails: statusDetails,
+      colorClass: colorClass
     });
-  };
 
-
+  }
 
   return (
     <>
