@@ -16,9 +16,11 @@ function DetailsOfDay({ selectedDayInfo, onClose }) {
       {selectedDayInfo && (
         <div className="bg-white  ">
           
-
           <div className='py-6 px-6'>
-            <button onClick={onClose} className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center'>
+            <button 
+              onClick={onClose} 
+              className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center cursor-pointer'
+            > 
               <img src="/images/icons/xx.svg" alt="" />
             </button>
           </div>

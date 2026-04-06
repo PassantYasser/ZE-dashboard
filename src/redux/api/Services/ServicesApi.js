@@ -157,3 +157,9 @@ export const getAllDetails = async(id)=>{
   const response = await API.get(`/properties/${id}/allDetails`)
   return response.data
 }
+
+export const getPropertyCalendar = async(id)=>{
+  const response = await API.get(`/properties/${id}/calendar`)
+  return response.data
+
+}

@@ -5,7 +5,7 @@ import DetailsOfDay from '../Modules/DetailsOfDay';
 
 function CalenderDaysPage() {
   const {t} = useTranslation()
-  const days = ["سبت", "أحد", "إثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة"];
+  const days = [t('Saturday'), t('Sunday'), t('Monday'),t('Tuesday'), t('Wednesday'),t('Thursday'), t('Friday')];
 
   const BOOKED_DAYS = [5, 12, 20];
   const BLOCKED_DAYS = [8, 15];
