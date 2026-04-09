@@ -27,7 +27,7 @@ function ViewsPage({open , setOpen, id}) {
 
 
 
-  const status= "not_attend"
+  const status= getBookingDetails?.data?.status
 
   const StatusBtn = (status) => {
     switch (status) {

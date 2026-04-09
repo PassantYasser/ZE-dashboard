@@ -7,12 +7,10 @@ function PaymentDetailsPage({getBookingDetails}) {
   const getBookingDetailsData = getBookingDetails?.data
 
 
-  const status = getBookingDetailsData?.status
+  const status = getBookingDetailsData?.payment_status
   const StatusNote = (status) => {
     switch (status) {
-      case "confirmed": //مقبوله
-      case "completed"://مكتملة  
-      case "checked_in": // تم الوصول   
+      case "paid":   
       return (
           <div className='flex flex-col gap-1 border border-[#17B26A] bg-[#ECFDF3] rounded-[3px] p-3 mt-6'>
             <p className='flex gap-2'>
@@ -22,7 +20,7 @@ function PaymentDetailsPage({getBookingDetails}) {
             <p className='text-[#17B26A] text-base font-normal'>{t('The customer paid the booking fees.')}</p>
           </div>
         );
-      case "pending": //قيد الانتظار          
+      case "pending":         
         return (
           <div className='flex flex-col gap-1 border border-[#FDB022] bg-[#FFFCF5] rounded-[3px] p-3 mt-6'>
             <p className='flex gap-2'>
@@ -32,7 +30,7 @@ function PaymentDetailsPage({getBookingDetails}) {
             <p className='text-[#DC6803] text-base font-normal'>{t('The guest will be charged a fee after approval.')}</p>
           </div>
         );
-      case "not_attend": // لم يحضر
+      case "failed": 
         return (
           <div className='flex flex-col gap-1 border border-[#F04438] bg-[#FEF3F2] rounded-[3px] p-3 mt-6'>
             <p className='flex gap-2'>
@@ -42,8 +40,16 @@ function PaymentDetailsPage({getBookingDetails}) {
             <p className='text-[#F04438] text-base font-normal'>{t('The customer requested a refund of the booking fees.')}</p>
           </div>
           );
-      case "cancelled": // ملغيه
-        return null;
+      case "refunded": 
+        return (
+          <div className='flex flex-col gap-1 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px] p-3 mt-6'>
+            <p className='flex gap-2'>
+              <img src="/images/icons/credit-card_blue.svg" alt="" />
+              <span className='text-[#0F022E] text-base font-medium'>{t('refund request')}</span>
+            </p>
+            <p className='text-[#0F022E] text-base font-normal'>{t('The customer requested a refund of the booking fees.')}</p>
+          </div>
+        );
       }
   };
 
@@ -58,7 +64,7 @@ function PaymentDetailsPage({getBookingDetails}) {
         <div className='flex justify-between '>
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Basic price')} ({getBookingDetailsData?.nights} {t('nights')})</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>{getBookingDetailsData?.price * getBookingDetailsData?.nights}</span>
+            <span> {(Number(getBookingDetailsData?.price) || 0) *(Number(getBookingDetailsData?.nights) || 0)}</span>
             <span>{getBookingDetailsData?.currency}</span>
           </p>
         </div>
