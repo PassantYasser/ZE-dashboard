@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 function RequestPage({getBookingDetails}) {
   const {t} = useTranslation()
-  console.log(getBookingDetails);
   const getBookingDetailsData = getBookingDetails?.data
   const status = getBookingDetailsData?.status
   const StatusRender = (status) => {

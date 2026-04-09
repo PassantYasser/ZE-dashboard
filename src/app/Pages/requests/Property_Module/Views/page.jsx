@@ -114,10 +114,10 @@ function ViewsPage({open , setOpen, id}) {
       {/* content */}
       <div className='px-6'>
         <RequestPage getBookingDetails={getBookingDetails}/>
-        <GuestInformationPage/>
-        <PropertyDetailsPage/>
-        <PaymentDetailsPage/>
-        <ProfitsPage/>
+        <GuestInformationPage getBookingDetails={getBookingDetails}/>
+        <PropertyDetailsPage getBookingDetails={getBookingDetails}/>
+        <PaymentDetailsPage getBookingDetails={getBookingDetails}/>
+        <ProfitsPage getBookingDetails={getBookingDetails}/>
       </div>
 
 

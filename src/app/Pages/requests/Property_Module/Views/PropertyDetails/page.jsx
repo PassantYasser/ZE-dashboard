@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PropertyDetailsPage() {
+function PropertyDetailsPage({getBookingDetails}) {
   const {t} = useTranslation()
     const [open, setOpen] = useState(false) 
 
