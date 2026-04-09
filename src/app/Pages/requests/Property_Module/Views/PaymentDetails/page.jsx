@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 function PaymentDetailsPage({getBookingDetails}) {
   const {t} = useTranslation();
+  const getBookingDetailsData = getBookingDetails?.data
 
-  const status = "checked_in"
+
+  const status = getBookingDetailsData?.status
   const StatusNote = (status) => {
     switch (status) {
       case "confirmed": //مقبوله
@@ -54,10 +56,10 @@ function PaymentDetailsPage({getBookingDetails}) {
 
         {/*  */}
         <div className='flex justify-between '>
-          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Basic price (3 nights)')}</p>
+          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Basic price')} ({getBookingDetailsData?.nights} {t('nights')})</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>500.00 </span>
-            <span> ج.م</span>
+            <span>{getBookingDetailsData?.price * getBookingDetailsData?.nights}</span>
+            <span>{getBookingDetailsData?.currency}</span>
           </p>
         </div>
 
@@ -65,26 +67,26 @@ function PaymentDetailsPage({getBookingDetails}) {
         <div className='flex justify-between  mt-3'>
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Cleaning fees')}</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>50.00</span>
-            <span>ج.م</span>
+            <span>{getBookingDetailsData?.cleaning_fee}</span>
+            <span>{getBookingDetailsData?.currency}</span>
+          </p> 
+        </div>
+
+        {/*  */}
+        <div className='flex justify-between  mt-3'>
+          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Service fees')}({getBookingDetailsData?.service_fee_percentage}%)</p>
+          <p className='text-[#364152] text-base font-medium flex  gap-1'>
+            <span>{getBookingDetailsData?.service_fee}</span>
+            <span>{getBookingDetailsData?.currency}</span>
           </p>
         </div>
 
         {/*  */}
         <div className='flex justify-between  mt-3'>
-          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Service fees')}</p>
+          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Taxes')} ({getBookingDetailsData?.tax_percentage}%)</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>50.00</span>
-            <span>ج.م</span>
-          </p>
-        </div>
-
-        {/*  */}
-        <div className='flex justify-between  mt-3'>
-          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Taxes')}</p>
-          <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>50.00</span>
-            <span>ج.م</span>
+            <span>{getBookingDetailsData?.tax}</span>
+            <span>{getBookingDetailsData?.currency}</span>
           </p>
         </div>
 
@@ -94,8 +96,8 @@ function PaymentDetailsPage({getBookingDetails}) {
         <div className='flex justify-between  '>
           <p className='text-[#364152] text-sm font-medium  flex items-center '>{t('Final price')} </p>
           <p className='text-[var(--color-primary)] text-base font-semibold flex  gap-1'>
-            <span>50.00</span>
-            <span>ج.م</span>
+            <span>{getBookingDetailsData?.total_amount}</span>
+            <span>{getBookingDetailsData?.currency}</span>
           </p>
         </div>
 
