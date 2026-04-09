@@ -8,9 +8,9 @@ import PaymentDetailsPage from './PaymentDetails/page';
 import ProfitsPage from './profits/page';
 
 function ViewsPage({open , setOpen}) {
-    const status= "not_attend"
+  const status= "not_attend"
 
-    const StatusBtn = (status) => {
+  const StatusBtn = (status) => {
     switch (status) {
       case "confirmed": //مقبوله
         return (
