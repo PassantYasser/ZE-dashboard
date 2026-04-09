@@ -68,6 +68,7 @@ function ViewsPage({open , setOpen, id}) {
         );
       }
   };
+  
   return (
     <>
     <Dialog
