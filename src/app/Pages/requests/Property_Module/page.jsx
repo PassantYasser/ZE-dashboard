@@ -4,25 +4,40 @@ import React, { useEffect, useState, useRef, Suspense } from 'react'
 import NavRequest from './NavRequest'
 import CardOfRequest from './CardOfRequest'
 import Pagination from './Pagination'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllBookingPropertyThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { getAllBookingPropertyThunk, getPropertyBookingByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 import Loader from '@/app/Components/Loader/Loader'
 
 function Property_ModulePage() {
 
   const dispatch = useDispatch()
-  const { getBooking, getBookingPagination } = useSelector((state) => state.requests)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+  const serviceid = searchParams.get('serviceid')
+
+  const { getBooking, getBookingPagination, getPropertyBooking } = useSelector((state) => state.requests)
 
   const [filters, setFilters] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
  
   useEffect(() => {
-    dispatch(getAllBookingPropertyThunk({ ...filters, page: currentPage, per_page: 10 }))
-  }, [dispatch, filters, currentPage])
+    if (serviceid) {
+      dispatch(getPropertyBookingByIdThunk(serviceid))
+    } else {
+      dispatch(getAllBookingPropertyThunk({ ...filters, page: currentPage, per_page: 10 }))
+    }
+  }, [dispatch, filters, currentPage, serviceid])
+
+  const currentBooking = serviceid ? getPropertyBooking : getBooking;
 
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters)
     setCurrentPage(1)
+    if (serviceid) {
+      router.replace(pathname, { scroll: false })
+    }
   }
 
   const handlePageChange = (page) => {
@@ -48,7 +63,7 @@ function Property_ModulePage() {
         <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
 
         <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
-          <CardOfRequest getBooking={getBooking} hasActiveFilters={hasActiveFilters}/>
+          <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>
         </div>
 
         <Pagination
