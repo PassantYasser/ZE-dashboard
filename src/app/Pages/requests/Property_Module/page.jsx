@@ -1,6 +1,6 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect, useState, Suspense } from 'react'
+import React, { useEffect, useState, useRef, Suspense } from 'react'
 import NavRequest from './NavRequest'
 import CardOfRequest from './CardOfRequest'
 import Pagination from './Pagination'
@@ -29,6 +29,15 @@ function Property_ModulePage() {
     setCurrentPage(page)
   }
 
+  const searchTimerRef = useRef(null)
+  const handleSearch = (value) => {
+    clearTimeout(searchTimerRef.current)
+    searchTimerRef.current = setTimeout(() => {
+      setFilters(prev => ({ ...prev, search: value }))
+      setCurrentPage(1)
+    }, 500)
+  }
+
   const hasActiveFilters = Object.values(filters).some(v =>
     Array.isArray(v) ? v.length > 0 : v !== '' && v !== undefined && v !== null
   )
@@ -36,7 +45,7 @@ function Property_ModulePage() {
   return (
     <MainLayout>
       <Suspense fallback={<div><Loader/></div>}>
-        <NavRequest onApplyFilters={handleApplyFilters}/>
+        <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
 
         <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
           <CardOfRequest getBooking={getBooking} hasActiveFilters={hasActiveFilters}/>
