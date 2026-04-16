@@ -1,12 +1,17 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import InformationPage from './Information/page';
 
 function PropertyDetailsPage({prevStep , nextStep }) {
   const {t} = useTranslation();
+
+
+
   return (
     <>
       <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
+        {/* title */}
         <div>
           <p className='text-[#364152] text-xl font-medium mb-3'>
             <span>{t('Step')} 4 :</span>
@@ -15,6 +20,13 @@ function PropertyDetailsPage({prevStep , nextStep }) {
           <p className='text-[#697586] text-base font-normal'>{t('Enter the property details to begin adding it.')}</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
+        
+        {/* Property Information */}
+        <InformationPage/>
+
+
+
+
 
       {/* btn */}
       <div className="flex justify-between mt-6">
