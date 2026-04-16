@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import InformationPage from './Information/page';
+import Arrival_DeparturePage from './Arrival_Departure/page';
 
 function PropertyDetailsPage({prevStep , nextStep }) {
   const {t} = useTranslation();
@@ -17,12 +18,15 @@ function PropertyDetailsPage({prevStep , nextStep }) {
             <span>{t('Step')} 4 :</span>
             <span>{t('Property details')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the property details to begin adding it.')}</p>
+            <p className='text-[#697586] text-base font-normal'>{t('Enter the property details to begin adding it.')}</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
         
         {/* Property Information */}
         <InformationPage/>
+
+        {/* Arrival and departure times */}
+        <Arrival_DeparturePage/>
 
 
 
