@@ -23,7 +23,7 @@ function RoomsAndBathroomsPage() {
             <span>{t('Step')} 3 :</span>
             <span>{t('Rooms and bathrooms')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the room and bathroom details to begin adding them.')}</p>
+          <p className='text-[#697586] text-base font-normal'>3 غرف نوم . 2 حمام . 4 أسرة</p>
           <div className='border border-[#CDD5DF] mt-4'></div>
         </div>
 

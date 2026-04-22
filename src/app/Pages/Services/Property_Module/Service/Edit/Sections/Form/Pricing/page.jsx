@@ -24,7 +24,7 @@ function PricingPage() {
             <span>{t('Step')} 6 :</span>
             <span>{t('Pricing')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter your pricing details to begin adding them.')}</p>
+          <p className='text-[#697586] text-base font-normal'>250 جنية في الليلة . سياسة  إلغاء معتدلة</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 

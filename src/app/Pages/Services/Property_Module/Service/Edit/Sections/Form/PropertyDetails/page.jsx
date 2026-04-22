@@ -26,7 +26,7 @@ function PropertyDetailsPage() {
             <span>{t('Step')} 4 :</span>
             <span>{t('Property details')}</span>
           </p>
-            <p className='text-[#697586] text-base font-normal'>{t('Enter the property details to begin adding it.')}</p>
+            <p className='text-[#697586] text-base font-normal'>الدور 1 . 120 م.ع . المصعد (متاح)</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
         

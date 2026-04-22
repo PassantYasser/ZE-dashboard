@@ -85,7 +85,7 @@ function AddressPage() {
             <span>{t('Step')} 2 :</span>
             <span>{t('the address')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the address details to begin adding it')}</p>
+          <p className='text-[#697586] text-base font-normal'>القاهرة,مصر . القاهرة,مدينة نصر</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 

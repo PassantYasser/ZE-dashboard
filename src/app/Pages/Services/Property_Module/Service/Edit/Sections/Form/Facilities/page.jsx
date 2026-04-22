@@ -22,7 +22,7 @@ function FacilitiesPage() {
             <span>{t('Step')} 5 :</span>
             <span>{t('Facilities')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the facility details to begin adding them.')}</p>
+          <p className='text-[#697586] text-base font-normal'>واي فاي . صانع القهوة . ميكرويوف</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
         

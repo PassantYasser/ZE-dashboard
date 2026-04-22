@@ -60,7 +60,7 @@ function BasicInformationPage() {
             <span>{t('Step')} 1 :</span>
             <span>{t('Basic Information')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the basic property details to begin adding them.')}</p>
+          <p className='text-[#697586] text-base font-normal'>الشقة بأكملها • 6 ضيوف كحد أقصى</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 

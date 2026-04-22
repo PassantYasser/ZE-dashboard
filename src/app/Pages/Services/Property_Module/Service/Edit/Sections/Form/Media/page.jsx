@@ -147,7 +147,7 @@ function MediaPage() {
             <span>{t('Step')} 8 :</span>
             <span>{t('Media')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the media details to begin adding them.')}</p>
+          <p className='text-[#697586] text-base font-normal'>تم تحميل 8 صور</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
         

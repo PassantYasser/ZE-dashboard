@@ -22,7 +22,7 @@ function AvailabilityPage() {
             <span>{t('Step')} 7 :</span>
             <span>{t('Availability')}</span>
           </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter availability details to begin adding them')}</p>
+          <p className='text-[#697586] text-base font-normal'>تم تمكين مزامنة التقويم . 45 ليلة متاحة</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 
