@@ -1,9 +1,13 @@
 "use client"
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function SectionsPage() {
     const {t} = useTranslation()
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
   
   return (
     <>
@@ -31,7 +35,9 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/BasicInformation?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
@@ -55,7 +61,9 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Address?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
@@ -81,13 +89,14 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/RoomsAndBathrooms?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
 
           </div>
-
 
           {/* Property details */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
@@ -108,13 +117,14 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button 
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/PropertyDetails?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
 
           </div>
-
 
           {/* Property amenities */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
@@ -133,14 +143,14 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button 
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Facilities?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
 
           </div>
-
-          
 
           {/* Pricing and policies */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
@@ -159,7 +169,9 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button 
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Pricing?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
@@ -183,13 +195,14 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button 
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Availability?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
 
           </div>
-
 
           {/* Images and Media */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
@@ -208,7 +221,9 @@ function SectionsPage() {
               </div>
             </div>
             <div className='flex items-center'>
-              <button className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
+              <button 
+                onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Media?id=${id}`)}
+                className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow_grey_left.svg" className="w-6 h-6" />
               </button>
             </div>
