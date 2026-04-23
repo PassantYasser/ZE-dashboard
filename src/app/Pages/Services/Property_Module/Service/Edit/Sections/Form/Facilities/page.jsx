@@ -43,8 +43,7 @@ function FacilitiesPage() {
       
           {getPropertiesAmenities?.data?.map((item ,index)=>(
           <div key={index} className='border border-[#CDD5DF] mb-6 py-4 px-6'>
-            
-            
+              
               <div  className='flex gap-2 mb-5'>
                 <img src={`${IMAGE_BASE_URL}${item?.category?.icon}`} className="w-6 h-6" />
                 <p className='text-[#364152] text-base font-medium'>{item?.category?.name}</p>
