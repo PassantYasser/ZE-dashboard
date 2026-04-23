@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import RoomCard from './RoomCard'
 import { useDispatch, useSelector } from 'react-redux';
-import { getRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { getBedTypesThunk, getRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function createRoom() {
   return {
@@ -22,10 +22,12 @@ function RoomPage() {
   const { t } = useTranslation();
   //api
   const dispatch = useDispatch()
-  const {getRoomTypes} = useSelector((state)=>state.services)
+  const {getRoomTypes , getBedTypes} = useSelector((state)=>state.services)
   useEffect(()=>{
     dispatch(getRoomTypesThunk())
+    dispatch(getBedTypesThunk())
   },[dispatch])
+
 
   const [rooms, setRooms] = useState([]);
 
@@ -61,6 +63,7 @@ function RoomPage() {
             onUpdate={(changes) => updateRoom(room.id, changes)}
             onDelete={() => deleteRoom(room.id)}
             getRoomTypes={getRoomTypes}
+            getBedTypes={getBedTypes}
           />
         ))}
 

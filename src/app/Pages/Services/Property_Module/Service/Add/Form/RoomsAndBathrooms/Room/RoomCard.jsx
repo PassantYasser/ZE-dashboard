@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 
 
 
-function RoomCard({ room, onUpdate, onDelete ,getRoomTypes }) {
+function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes }) {
   const { t } = useTranslation();
   const optionRoomType =getRoomTypes?.data ;
-  const optionBeds = ['Single Bed', 'Double Bed', 'King Bed', 'Queen Bed', 'Bunk Bed'];
+  const optionBeds = getBedTypes?.data;
   const MAX_IMAGES = 5;
 
   const optionalRoomFeatures = [
@@ -221,14 +221,14 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes }) {
                 {bed.open && (
                   <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                     {optionBeds
-                      .filter((opt) => opt.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
+                      .filter((opt) => opt?.name?.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
                       .map((opt) => (
                         <li
-                          key={opt}
-                          onClick={() => updateBed(bed.id, { selected: opt, searchValue: '', open: false })}
+                          key={opt?.id}
+                          onClick={() => updateBed(bed.id, { selected: opt?.name, searchValue: '', open: false })}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
-                          {opt}
+                          {opt?.name}
                         </li>
                       ))}
                   </ul>

@@ -29,7 +29,6 @@ function RoomPage() {
     dispatch(getBedTypesThunk())
   },[dispatch])
 
-console.log(getBedTypes);
 
   const [rooms, setRooms] = useState([]);
 
