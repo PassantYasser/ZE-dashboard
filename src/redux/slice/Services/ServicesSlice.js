@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -335,6 +335,17 @@ export const getRoomTypesThunk = createAsyncThunk('services/getRoomTypesThunk',
   }
 )
 
+export const getBedTypesThunk = createAsyncThunk('services/getBedTypesThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getBedTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -372,6 +383,8 @@ const initialState = {
     getDetails:null,
     getCalendar:[],
     getRoomTypes:[],
+    getBedTypes:[],
+
 
     
   };
@@ -775,6 +788,19 @@ const servicesSlice = createSlice({
         state.getRoomTypes = action.payload || [];
       })
       .addCase(getRoomTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getBedTypesThunk
+      .addCase(getBedTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getBedTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getBedTypes = action.payload || [];
+      })
+      .addCase(getBedTypesThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })
