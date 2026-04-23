@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -357,6 +357,17 @@ export const getRoomAmentyThunk = createAsyncThunk('services/getRoomAmentyThunk'
   }
 )
 
+export const getBathRoomTypesThunk = createAsyncThunk('services/getBathRoomTypesThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getBathRoomTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -396,6 +407,8 @@ const initialState = {
     getRoomTypes:[],
     getBedTypes:[],
     getRoomAmenty:[],
+    getBathRoomTypes:[],
+
 
 
 
@@ -828,6 +841,19 @@ const servicesSlice = createSlice({
         state.getRoomAmenty = action.payload || [];
       })
       .addCase(getRoomAmentyThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getBathRoomTypesThunk
+      .addCase(getBathRoomTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getBathRoomTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getBathRoomTypes = action.payload || [];
+      })
+      .addCase(getBathRoomTypesThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })

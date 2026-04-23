@@ -30,7 +30,6 @@ function RoomPage() {
     dispatch(getRoomAmentyThunk())
   },[dispatch])
 
-  console.log(getRoomAmenty);
 
   const [rooms, setRooms] = useState([]);
 
