@@ -4,18 +4,13 @@ import { useTranslation } from 'react-i18next'
 
 
 
-function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes }) {
+function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes ,getRoomAmenty }) {
   const { t } = useTranslation();
   const optionRoomType =getRoomTypes?.data ;
   const optionBeds = getBedTypes?.data;
   const MAX_IMAGES = 5;
 
-  const optionalRoomFeatures = [
-    { id: 1, title: 'حمام داخلي' },
-    { id: 2, title: 'تكييف' },
-    { id: 3, title: 'خزانة الملابس' },
-    { id: 4, title: 'تلفزيون' },
-  ];
+  const optionalRoomFeatures = getRoomAmenty?.data ; 
 
   const fileInputRef = useRef(null);
   const dropdownRef1 = useRef(null);
@@ -278,7 +273,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes }) {
               onChange={() => toggleFeature(item.id)}
               className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />
-            <p className='text-[#4B5565] text-sm font-normal'>{item.title}</p>
+            <p className='text-[#4B5565] text-sm font-normal'>{item.name}</p>
           </div>
         ))}
       </div>
