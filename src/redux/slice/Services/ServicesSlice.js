@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -346,6 +346,17 @@ export const getBedTypesThunk = createAsyncThunk('services/getBedTypesThunk',
   }
 )
 
+export const getRoomAmentyThunk = createAsyncThunk('services/getRoomAmentyThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getRoomAmenty()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -384,6 +395,8 @@ const initialState = {
     getCalendar:[],
     getRoomTypes:[],
     getBedTypes:[],
+    getRoomAmenty:[],
+
 
 
     
@@ -801,6 +814,20 @@ const servicesSlice = createSlice({
         state.getBedTypes = action.payload || [];
       })
       .addCase(getBedTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      
+      //getRoomAmentyThunk
+      .addCase(getRoomAmentyThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getRoomAmentyThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getRoomAmenty = action.payload || [];
+      })
+      .addCase(getRoomAmentyThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })

@@ -174,3 +174,8 @@ export const getBedTypes = async()=>{
   const response = await API.get('/bed-types')
   return response.data
 }
+
+export const getRoomAmenty = async()=>{
+  const response = await API.get('/Room-Amenty')
+  return response.data
+}
