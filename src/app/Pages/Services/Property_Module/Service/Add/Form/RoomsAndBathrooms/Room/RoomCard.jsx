@@ -2,19 +2,21 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const optionRoomType = ['Master Room', 'Single Room', 'Double Room', 'Suite'];
-const optionBeds = ['Single Bed', 'Double Bed', 'King Bed', 'Queen Bed', 'Bunk Bed'];
-const MAX_IMAGES = 5;
 
-const optionalRoomFeatures = [
-  { id: 1, title: 'حمام داخلي' },
-  { id: 2, title: 'تكييف' },
-  { id: 3, title: 'خزانة الملابس' },
-  { id: 4, title: 'تلفزيون' },
-];
 
-function RoomCard({ room, onUpdate, onDelete }) {
+function RoomCard({ room, onUpdate, onDelete ,getRoomTypes }) {
   const { t } = useTranslation();
+  const optionRoomType =getRoomTypes?.data ;
+  const optionBeds = ['Single Bed', 'Double Bed', 'King Bed', 'Queen Bed', 'Bunk Bed'];
+  const MAX_IMAGES = 5;
+
+  const optionalRoomFeatures = [
+    { id: 1, title: 'حمام داخلي' },
+    { id: 2, title: 'تكييف' },
+    { id: 3, title: 'خزانة الملابس' },
+    { id: 4, title: 'تلفزيون' },
+  ];
+
   const fileInputRef = useRef(null);
   const dropdownRef1 = useRef(null);
 
@@ -109,14 +111,14 @@ function RoomCard({ room, onUpdate, onDelete }) {
           {room.open1 && (
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionRoomType
-                .filter((opt) => opt.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
+                .filter((opt) => opt?.name?.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
                 .map((opt) => (
                   <li
-                    key={opt}
-                    onClick={() => onUpdate({ selected1: opt, searchValue1: '', open1: false })}
+                    key={opt?.id}
+                    onClick={() => onUpdate({ selected1: opt?.name, searchValue1: '', open1: false })}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
