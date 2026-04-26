@@ -92,7 +92,6 @@ function AddressPage({prevStep , nextStep }) {
       longitude:"",
     });
 
-    console.log(addBasicProperty?.data?.id);
     const handleSubmit = async (e) => {
       e.preventDefault();
         try {
