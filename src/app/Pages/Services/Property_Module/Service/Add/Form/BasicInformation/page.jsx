@@ -53,8 +53,6 @@ function BasicInformationPage({prevStep , nextStep }) {
   ]
 
   //api
-
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",

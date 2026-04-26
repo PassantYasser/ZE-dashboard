@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -392,6 +392,18 @@ export const addBasicInfoThunk = createAsyncThunk('services/addBasicInfoThunk',
 )
 
 
+export const addLocationThunk = createAsyncThunk('services/addLocationThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await addLocation(formData)
+      return response;
+    }catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 
 const initialState = {
     services: [],
@@ -432,7 +444,7 @@ const initialState = {
     getBathRoomTypes:[],
     getPropertiesAmenities:[],
     addBasicProperty:null,
-
+    addLocation:null,
 
 
     
@@ -903,6 +915,19 @@ const servicesSlice = createSlice({
         state.addBasicProperty = action.payload;
       })
       .addCase(addBasicInfoThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+        //addLocationThunk
+      .addCase(addLocationThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(addLocationThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addLocation = action.payload;
+      })
+      .addCase(addLocationThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })

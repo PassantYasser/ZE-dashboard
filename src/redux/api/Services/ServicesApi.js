@@ -196,3 +196,8 @@ export const addBasicInfo = async(formData)=>{
   const response = await API.post('/properties/basic-info' , formData)
   return response.data
 }
+
+export const addLocation = async(formData)=>{
+  const response = await API.post('/properties/location' , formData)
+  return response.data
+}
