@@ -191,3 +191,8 @@ export const getPropertiesAmenities = async (property_id) => {
   });
   return response.data;
 };
+
+export const addBasicInfo = async(formData)=>{
+  const response = await API.post('/properties/basic-info' , formData)
+  return response.data
+}
