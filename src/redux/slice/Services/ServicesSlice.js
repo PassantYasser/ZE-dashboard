@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -413,6 +413,17 @@ export const addPropertyDetailsThunk = createAsyncThunk('services/addPropertyDet
   }
 )
 
+export const addAmenitiesThunk = createAsyncThunk('services/addAmenitiesThunk', 
+  async(formData , {rejectWithValue})=>{  
+    try{
+      const response = await addAmenities(formData) 
+      return response;
+    }catch (error) {  
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
 
 
 
@@ -457,7 +468,7 @@ const initialState = {
     addBasicProperty:null,
     addLocation:null,
     addPropertyDetails:null,
-
+    addAmenities:null,
 
     
   };
@@ -953,6 +964,19 @@ const servicesSlice = createSlice({
         state.addPropertyDetails = action.payload;
       })
       .addCase(addPropertyDetailsThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      //addAmenitiesThunk
+      .addCase(addAmenitiesThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(addAmenitiesThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addAmenities = action.payload;
+      })
+      .addCase(addAmenitiesThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })
