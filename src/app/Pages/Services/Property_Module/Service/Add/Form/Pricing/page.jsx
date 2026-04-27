@@ -1,12 +1,42 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PricingInfoPage from './PricingInfo/page';
 import CancellationPolicyPage from './CancellationPolicy/page';
 import PricingDetailsPage from './PricingDetails/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPoliciesApprovedThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function PricingPage({prevStep , nextStep }) {
   const {t} = useTranslation();
+
+  
+  const dispatch = useDispatch();
+  const {getPoliciesApproved , addBasicProperty} = useSelector((state)=>state.services)
+    
+    const [property_id, setProperty_id] = useState(() => {
+      if (typeof window !== 'undefined') {
+        return addBasicProperty?.data?.id || sessionStorage.getItem('property_id') || null;
+      }
+      return addBasicProperty?.data?.id || null;
+    });
+  
+    useEffect(() => {
+      if (addBasicProperty?.data?.id) {
+        setProperty_id(addBasicProperty?.data?.id);
+        sessionStorage.setItem('property_id', addBasicProperty?.data?.id);
+      }
+    }, [addBasicProperty?.data?.id]);
+  
+    useEffect(() => {
+      if (property_id) {
+        dispatch(getPoliciesApprovedThunk(property_id));
+      }
+    }, [dispatch, property_id]); 
+
+
+  console.log(getPoliciesApproved);
+
   return (
     <>
       <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
@@ -20,7 +50,7 @@ function PricingPage({prevStep , nextStep }) {
         </div>
 
           <PricingInfoPage/>
-          <CancellationPolicyPage/>
+          <CancellationPolicyPage getPoliciesApproved={getPoliciesApproved}/>
           <PricingDetailsPage/>
 
       {/* btn */}

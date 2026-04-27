@@ -211,3 +211,8 @@ export const addAmenities = async(formData)=>{
   const response = await API.post('/properties/amenities/create' , formData)
   return response.data
 }
+
+export const getPoliciesApproved = async(property_id)=>{
+  const response = await API.get(`/provider/policies/Approved/${property_id}`)
+  return response.data
+}
