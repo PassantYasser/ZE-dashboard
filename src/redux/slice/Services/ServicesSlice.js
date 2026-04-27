@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -435,6 +435,17 @@ export const getPoliciesApprovedThunk = createAsyncThunk('services/getPoliciesAp
   }
 )
 
+export const addPricingPoliciesThunk = createAsyncThunk('services/addPricingPoliciesThunk',
+  async({property_id, formData} , {rejectWithValue})=>{
+    try{
+      const response = await addPricingPolicies(property_id, formData)
+      return response;
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 const initialState = {
@@ -480,7 +491,8 @@ const initialState = {
     addPropertyDetails:null,
     addAmenities:null,
     getPoliciesApproved:null,
-    
+    addPricingPolicies:null,
+
   };
 
 const servicesSlice = createSlice({
@@ -1000,6 +1012,19 @@ const servicesSlice = createSlice({
         state.getPoliciesApproved = action.payload;
       })
       .addCase(getPoliciesApprovedThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+        //addPricingPoliciesThunk
+      .addCase(addPricingPoliciesThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(addPricingPoliciesThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addPricingPolicies = action.payload;
+      })
+      .addCase(addPricingPoliciesThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })

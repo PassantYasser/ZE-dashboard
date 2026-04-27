@@ -2,25 +2,36 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function CancellationPolicyPage({getPoliciesApproved}) {
+function CancellationPolicyPage({formData , setFormData , getPoliciesApproved}) {
 
-  // /provider/policies/Approved/4  
-  ///properties/5/pricing-policies
   const { t } = useTranslation()
+  const inputClassName = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
   const [selectedPolicy, setSelectedPolicy] = useState()
   const [displayCount, setDisplayCount] = useState(4)
 
-  useEffect(() => {
-    if (getPoliciesApproved?.length > 0) {
-      const defaultPolicy = getPoliciesApproved.find((policy) => policy.is_selected);
-      if (defaultPolicy) {
-        setSelectedPolicy(defaultPolicy.id);
-      }
+useEffect(() => {
+  if (getPoliciesApproved?.length > 0) {
+    const defaultPolicy = getPoliciesApproved.find((policy) => policy.is_selected);
+
+    if (defaultPolicy) {
+      setSelectedPolicy(defaultPolicy.id);
+
+      setFormData((prev) => ({
+        ...prev,
+        cancellation_policy_id: defaultPolicy.id,
+      }));
     }
-  }, [getPoliciesApproved]);
+  }
+}, [getPoliciesApproved]);
 
-  const inputClassName = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+  const handleSelectPolicy = (id) => {
+    setSelectedPolicy(id);
 
+    setFormData((prev) => ({
+      ...prev,
+      cancellation_policy_id: id,
+    }));
+  };
   return (
     <>
       <div className='mt-6'>
@@ -35,7 +46,7 @@ function CancellationPolicyPage({getPoliciesApproved}) {
                   ? 'border-[var(--color-primary)]'
                   : 'border-[#E3E8EF]'
               }`}
-              onClick={() => setSelectedPolicy(policy.id)}
+              onClick={() => handleSelectPolicy(policy.id)}
             >
               <div className='flex gap-2'>
                 <input
@@ -43,7 +54,7 @@ function CancellationPolicyPage({getPoliciesApproved}) {
                   name="cancellation_policy"
                   value={policy.id}
                   checked={selectedPolicy === policy.id}
-                  onChange={() => setSelectedPolicy(policy.id)}
+                  onChange={() => handleSelectPolicy(policy.id)}
                   className={inputClassName}
                 />
 
