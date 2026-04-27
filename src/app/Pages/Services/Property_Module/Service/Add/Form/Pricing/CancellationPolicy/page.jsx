@@ -8,6 +8,7 @@ function CancellationPolicyPage({getPoliciesApproved}) {
   ///properties/5/pricing-policies
   const { t } = useTranslation()
   const [selectedPolicy, setSelectedPolicy] = useState()
+  const [displayCount, setDisplayCount] = useState(4)
 
   useEffect(() => {
     if (getPoliciesApproved?.length > 0) {
@@ -26,7 +27,7 @@ function CancellationPolicyPage({getPoliciesApproved}) {
         <p className='text-[#364152] text-lg font-medium'>{t('Cancellation Policy')}</p>
         <div className='border border-[#E3E8EF] p-3 mt-6'>
           <div className='grid grid-cols-2 gap-4'>
-          {getPoliciesApproved?.map((policy) => (
+          {getPoliciesApproved?.slice(0, displayCount).map((policy) => (
             <div
               key={policy?.id}
               className={`border p-3 cursor-pointer rounded-[3px] ${
@@ -57,6 +58,17 @@ function CancellationPolicyPage({getPoliciesApproved}) {
             </div>
           ))}
             </div>
+            {getPoliciesApproved?.length > displayCount && (
+              <div className='mt-4 flex justify-center cursor-pointer'>
+                <button
+                  type="button"
+                  onClick={() => setDisplayCount(prev => prev + 2)}
+                  className='text-[var(--color-primary)] font-medium text-base hover:underline underline-offset-4'
+                >
+                  {t('More')}
+                </button>
+              </div>
+            )}
         </div>
         
       </div>
