@@ -57,13 +57,16 @@ function MediaPage({prevStep , nextStep }) {
     try {
       setLoading(true);
       data.append("property_id", formData.property_id);
-      data.append("vr_path", formData.vr_path);
 
       formData.images.forEach((img, index) => {
         data.append(`images[${index}][file]`, img.file);
         data.append(`images[${index}][sort_order]`, img.sort_order);
         data.append(`images[${index}][is_primary]`, img.is_primary);
       });
+
+      if (formData.vr_path) {
+        data.append("vr_path", formData.vr_path);
+      }
 
       if (formData.video) {
         data.append("video", formData.video);
