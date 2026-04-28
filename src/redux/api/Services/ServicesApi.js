@@ -238,3 +238,10 @@ export const addMedia = async (formData) => {
   });
   return response.data;
 };
+
+export const addUnits = async (formData) => {
+  const response = await API.post('/properties/units', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+};
