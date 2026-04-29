@@ -11,26 +11,12 @@ function AvailabilityPage({prevStep , nextStep }) {
 
   const dispatch = useDispatch();
   const {addBasicProperty} = useSelector((state) => (state.services));
-  console.log("id====",addBasicProperty?.data?.id)
-  const [property_id, setProperty_id] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return addBasicProperty?.data?.id || addBasicProperty?.id || sessionStorage.getItem('property_id') || null;
-    }
-    return addBasicProperty?.data?.id || addBasicProperty?.id || null;
-  });
 
-  useEffect(() => {
-    if (addBasicProperty?.data?.id || addBasicProperty?.id) {
-      const id = addBasicProperty?.data?.id || addBasicProperty?.id;
-      setProperty_id(id);
-      sessionStorage.setItem('property_id', id);
-    }
-  }, [addBasicProperty?.data?.id, addBasicProperty?.id]);
 
   const [formData, setFormData] = useState({
     property_id: "",
     availability: {
-      all_available: false,
+      all_avalable: false,
       slots: [
         {
           from: "",
@@ -49,14 +35,31 @@ function AvailabilityPage({prevStep , nextStep }) {
     ]
   })
 
+  useEffect(() => {
+    const storedPropertyId = sessionStorage.getItem("property_id");
+    const propertyId = addBasicProperty?.data?.id || storedPropertyId;
+
+    if (propertyId) {
+      if (!storedPropertyId) {
+        sessionStorage.setItem("property_id", propertyId);
+      }
+      setFormData((prevData) => ({
+        ...prevData,
+        property_id: propertyId,
+      }));
+    }
+      console.log('id' , propertyId);
+
+  }, [addBasicProperty]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = new FormData();
 
-      data.append("property_id", property_id || "");
-      data.append("availability[all_available]", formData.availability.all_available ? 1 : 0);
+      data.append("property_id", formData.property_id || "");
+      data.append("availability[all_avalable]", formData.availability.all_avalable ? 1 : 0);
 
       formData.availability.slots.forEach((slot, index) => {
         data.append(`availability[slots][${index}][from]`, slot.from);
