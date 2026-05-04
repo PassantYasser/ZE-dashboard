@@ -283,3 +283,8 @@ export const getUnits = async(id)=>{
   })
   return response.data
 }
+
+export const getPropertyDetails = async(id)=>{
+  const response = await API.get(`/properties/${id}/details`)
+  return response.data
+}
