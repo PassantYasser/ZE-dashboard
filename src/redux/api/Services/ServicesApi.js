@@ -277,3 +277,9 @@ export const getLocation = async(id)=>{
   return response.data
 }
 
+export const getUnits = async(id)=>{
+  const response = await API.get('/get/properties/units',{
+    params:{ property_id: id }
+  })
+  return response.data
+}
