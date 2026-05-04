@@ -72,15 +72,16 @@ function AddressPageContent() {
     const [openMap, setOpenMap] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(t('Click to open the map'));
 
-    const handleMapConfirm = (data) => {
-      setFormData((prev) => ({
-        ...prev,
-        address: data.address || prev.address,
-        latitude: data.latitude || prev.latitude,
-        longitude: data.longitude || prev.longitude,
-    }))
+const handleMapConfirm = (data) => {
+  setFormData((prev) => ({
+    ...prev,
+    address: data.address || '',
+    latitude: data.lat || '',
+    longitude: data.lng || '',
+  }))
 
   setSelectedAddress(data.address)
+  setCount(data.address?.length || 0)
 }
 
     const GreenSwitch = styled((props) => (
@@ -135,17 +136,18 @@ function AddressPageContent() {
     ]
 
 
-const handleSave = async () => {
-  try {
-    const result = await dispatch(addLocationThunk(formData))
+  const handleSave = async () => {
+    try {
+      const result = await dispatch(addLocationThunk(formData))
 
-    if (result?.meta?.requestStatus === "fulfilled") {
-      router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+      if (result?.meta?.requestStatus === "fulfilled") {
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+      }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (error) {
-    console.log(error)
   }
-}
+
   return (
     <MainLayout>
       <TitleOfHeader/>
