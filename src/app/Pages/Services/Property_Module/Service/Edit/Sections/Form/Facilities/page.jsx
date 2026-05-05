@@ -15,17 +15,17 @@ function FacilitiesPageContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-    //api
-    const dispatch = useDispatch()
-    const {getPropertiesAmenities ,getAmenities } = useSelector((state)=>state.services)
-    useEffect(() => {
-      if (id) {
-        dispatch(getPropertiesAmenitiesThunk(id));
-        dispatch(getAmenitiesThunk());
-      }
-    }, [dispatch, id]); 
+  //api
+  const dispatch = useDispatch()
+  const {getPropertiesAmenities ,getAmenities } = useSelector((state)=>state.services)
+  useEffect(() => {
+    if (id) {
+      dispatch(getPropertiesAmenitiesThunk(id));
+      dispatch(getAmenitiesThunk());
+    }
+  }, [dispatch, id]); 
   
-const [selectedAmenities, setSelectedAmenities] = useState([]);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
   useEffect(() => {
     if (getPropertiesAmenities?.data) {
       const selected = [];
@@ -42,31 +42,31 @@ const [selectedAmenities, setSelectedAmenities] = useState([]);
     }
   }, [getPropertiesAmenities]);
 
-    console.log('getAmenities',getAmenities);
-    const handleToggleAmenity = (id) => {
-      setSelectedAmenities(prev => 
-        prev.includes(id)
-          ? prev.filter(item => item !== id)
-          : [...prev, id]
-      );
-    };
+  const handleToggleAmenity = (id) => {
+    setSelectedAmenities(prev => 
+      prev.includes(id)
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    );
+  };
 
-    const handleSave = async () => {
-  const formData = new FormData();
+  const handleSave = async () => {
+    const formData = new FormData();
 
-  formData.append("property_id", id);
+    formData.append("property_id", id);
 
-  selectedAmenities.forEach((amenityId) => {
-    formData.append("amenities[]", amenityId);
-  });
+    selectedAmenities.forEach((amenityId) => {
+      formData.append("amenities[]", amenityId);
+    });
 
-  try {
-    await dispatch(addAmenitiesThunk(formData));
-    console.log("Saved successfully");
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      await dispatch(addAmenitiesThunk(formData));
+      console.log("Saved successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <MainLayout>
       <TitleOfHeader/>
