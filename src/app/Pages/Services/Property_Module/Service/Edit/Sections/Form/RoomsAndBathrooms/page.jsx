@@ -8,7 +8,7 @@ import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUnitsThunk, getUnitsThunk } from '@/redux/slice/Services/ServicesSlice';
+import { addUnitsThunk, deleteRoomThunk, deleteBathroomThunk, getUnitsThunk } from '@/redux/slice/Services/ServicesSlice';
 
 const createRoom = () => ({
   id: Date.now() + Math.random(),
@@ -95,25 +95,61 @@ function RoomsAndBathroomsPageContent() {
     }
   }, [getUnitsData]);
 
+  // Helper: IDs > 1 billion are locally-generated (not in DB)
+  const isNewId = (id) => !id || id > 1_000_000_000;
+
   // --- Room handlers ---
   const addRoom = () => setFormData(prev => ({ ...prev, rooms: [...prev.rooms, createRoom()] }));
-  const deleteRoom = (rid) => setFormData(prev => ({ ...prev, rooms: prev.rooms.filter(r => r.id !== rid) }));
+
+  const deleteRoom = async (rid) => {
+    // If room exists in DB, call API to delete it first
+    if (!isNewId(rid)) {
+      try {
+        const result = await dispatch(deleteRoomThunk(rid));
+        if (result?.meta?.requestStatus !== 'fulfilled') {
+          console.error('Failed to delete room from server');
+          return; // Don't remove from UI if API call failed
+        }
+      } catch (error) {
+        console.error('Error deleting room:', error);
+        return;
+      }
+    }
+    // Remove from local state
+    setFormData(prev => ({ ...prev, rooms: prev.rooms.filter(r => r.id !== rid) }));
+  };
+
   const updateRoom = (rid, changes) => setFormData(prev => ({
     ...prev, rooms: prev.rooms.map(r => r.id === rid ? { ...r, ...changes } : r)
   }));
 
   // --- Bathroom handlers ---
   const addBathroom = () => setFormData(prev => ({ ...prev, bathrooms: [...prev.bathrooms, createBathroom()] }));
-  const deleteBathroom = (bid) => setFormData(prev => ({ ...prev, bathrooms: prev.bathrooms.filter(b => b.id !== bid) }));
+
+  const deleteBathroom = async (bid) => {
+    // If bathroom exists in DB, call API to delete it first
+    if (!isNewId(bid)) {
+      try {
+        const result = await dispatch(deleteBathroomThunk(bid));
+        if (result?.meta?.requestStatus !== 'fulfilled') {
+          console.error('Failed to delete bathroom from server');
+          return;
+        }
+      } catch (error) {
+        console.error('Error deleting bathroom:', error);
+        return;
+      }
+    }
+    // Remove from local state
+    setFormData(prev => ({ ...prev, bathrooms: prev.bathrooms.filter(b => b.id !== bid) }));
+  };
+
   const updateBathroom = (bid, changes) => setFormData(prev => ({
     ...prev, bathrooms: prev.bathrooms.map(b => b.id === bid ? { ...b, ...changes } : b)
   }));
 
   const handleSave = async () => {
     try {
-      const isNewId = (id) => !id || id > 1_000_000_000;
-
-      // --- Clean rooms: keep only rooms with a room_type_id ---
       const cleanRooms = formData.rooms
         .filter((room) => room.room_type_id)
         .map((room) => ({
