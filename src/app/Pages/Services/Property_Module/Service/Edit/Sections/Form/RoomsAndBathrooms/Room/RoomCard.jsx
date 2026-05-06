@@ -73,12 +73,14 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
 
   // --- features ---
   const toggleFeature = (id) => {
-    onUpdate({
-      features: room.features.includes(id)
-        ? room.features.filter((f) => f !== id)
-        : [...room.features, id],
-    });
-  };
+  const current = room.features || [];
+
+  onUpdate({
+    features: current.includes(id)
+      ? current.filter((x) => x !== id)
+      : [...current, id],
+  });
+};
 
   return (
     <div className='border border-[#CDD5DF] rounded-[3px] p-4 mt-6'>
@@ -277,7 +279,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
           <div key={item.id} className='flex gap-2 mt-2'>
             <input
               type="checkbox"
-              checked={room.features.includes(item.id)}
+            checked={(room.features || []).includes(item.id)}
               onChange={() => toggleFeature(item.id)}
               className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />

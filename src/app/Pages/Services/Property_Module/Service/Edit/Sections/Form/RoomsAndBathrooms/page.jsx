@@ -74,7 +74,10 @@ function RoomsAndBathroomsPageContent() {
             open: false,
             counter: b.count || 1,
           })),
-          features: (room.amenities || []).map((a) => a.id),
+        features: Array.isArray(room.amenities)
+        ? room.amenities.map((a) => a.id)
+        : [],
+
         })),
         bathrooms: (getUnitsData.bathrooms || []).map((b) => ({
           id: b.id,
@@ -133,7 +136,7 @@ function RoomsAndBathroomsPageContent() {
 
         // Room amenities
         (room.features || []).forEach((amenityId, ai) => {
-          fd.append(`rooms[${i}][amenities][${ai}]`, amenityId);
+          fd.append(`rooms[${i}][amenity_ids][${ai}]`, amenityId);
         });
 
         // Room beds
