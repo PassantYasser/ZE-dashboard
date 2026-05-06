@@ -73,14 +73,14 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
 
   // --- features ---
   const toggleFeature = (id) => {
-  const current = room.features || [];
+    const current = room.features || [];
 
-  onUpdate({
-    features: current.includes(id)
-      ? current.filter((x) => x !== id)
-      : [...current, id],
-  });
-};
+    onUpdate({
+      features: current.includes(id)
+        ? current.filter((x) => x !== id)
+        : [...current, id],
+    });
+  };
 
   return (
     <div className='border border-[#CDD5DF] rounded-[3px] p-4 mt-6'>

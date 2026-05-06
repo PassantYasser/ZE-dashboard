@@ -253,6 +253,11 @@ function RoomsAndBathroomsPageContent() {
           )}
         </div>
 
+
+
+
+
+
         {/* Bathrooms Accordion */}
         <div className='border border-[#CDD5DF] rounded-[3px] mt-4'>
           {/* Header - always visible */}
@@ -285,6 +290,11 @@ function RoomsAndBathroomsPageContent() {
             </div>
           )}
         </div>
+
+
+
+
+
 
         {/* Buttons */}
         <div className="flex mt-6">
