@@ -45,6 +45,10 @@ function RoomsAndBathroomsPageContent() {
   const [roomsOpen, setRoomsOpen] = useState(true);
   const [bathroomsOpen, setBathroomsOpen] = useState(true);
 
+  // Track IDs of rooms/bathrooms to delete from DB on save
+  const [pendingDeleteRoomIds, setPendingDeleteRoomIds] = useState([]);
+  const [pendingDeleteBathroomIds, setPendingDeleteBathroomIds] = useState([]);
+
   useEffect(() => {
     if (id) setFormData((prev) => ({ ...prev, property_id: id }))
   }, [id])
@@ -101,21 +105,12 @@ function RoomsAndBathroomsPageContent() {
   // --- Room handlers ---
   const addRoom = () => setFormData(prev => ({ ...prev, rooms: [...prev.rooms, createRoom()] }));
 
-  const deleteRoom = async (rid) => {
-    // If room exists in DB, call API to delete it first
+  const deleteRoom = (rid) => {
+    // If room exists in DB, queue it for deletion on save
     if (!isNewId(rid)) {
-      try {
-        const result = await dispatch(deleteRoomThunk(rid));
-        if (result?.meta?.requestStatus !== 'fulfilled') {
-          console.error('Failed to delete room from server');
-          return; // Don't remove from UI if API call failed
-        }
-      } catch (error) {
-        console.error('Error deleting room:', error);
-        return;
-      }
+      setPendingDeleteRoomIds(prev => [...prev, rid]);
     }
-    // Remove from local state
+    // Remove from UI immediately
     setFormData(prev => ({ ...prev, rooms: prev.rooms.filter(r => r.id !== rid) }));
   };
 
@@ -126,21 +121,12 @@ function RoomsAndBathroomsPageContent() {
   // --- Bathroom handlers ---
   const addBathroom = () => setFormData(prev => ({ ...prev, bathrooms: [...prev.bathrooms, createBathroom()] }));
 
-  const deleteBathroom = async (bid) => {
-    // If bathroom exists in DB, call API to delete it first
+  const deleteBathroom = (bid) => {
+    // If bathroom exists in DB, queue it for deletion on save
     if (!isNewId(bid)) {
-      try {
-        const result = await dispatch(deleteBathroomThunk(bid));
-        if (result?.meta?.requestStatus !== 'fulfilled') {
-          console.error('Failed to delete bathroom from server');
-          return;
-        }
-      } catch (error) {
-        console.error('Error deleting bathroom:', error);
-        return;
-      }
+      setPendingDeleteBathroomIds(prev => [...prev, bid]);
     }
-    // Remove from local state
+    // Remove from UI immediately
     setFormData(prev => ({ ...prev, bathrooms: prev.bathrooms.filter(b => b.id !== bid) }));
   };
 
@@ -150,6 +136,22 @@ function RoomsAndBathroomsPageContent() {
 
   const handleSave = async () => {
     try {
+      // --- Delete rooms/bathrooms that were removed from UI ---
+      for (const roomId of pendingDeleteRoomIds) {
+        const result = await dispatch(deleteRoomThunk(roomId));
+        if (result?.meta?.requestStatus !== 'fulfilled') {
+          console.error(`Failed to delete room ${roomId} from server`);
+          return;
+        }
+      }
+      for (const bathroomId of pendingDeleteBathroomIds) {
+        const result = await dispatch(deleteBathroomThunk(bathroomId));
+        if (result?.meta?.requestStatus !== 'fulfilled') {
+          console.error(`Failed to delete bathroom ${bathroomId} from server`);
+          return;
+        }
+      }
+
       const cleanRooms = formData.rooms
         .filter((room) => room.room_type_id)
         .map((room) => ({
@@ -232,6 +234,9 @@ function RoomsAndBathroomsPageContent() {
 
       const result = await dispatch(addUnitsThunk(fd))
       if (result?.meta?.requestStatus === "fulfilled") {
+        // Clear pending deletions after successful save
+        setPendingDeleteRoomIds([]);
+        setPendingDeleteBathroomIds([]);
         router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
       }
     } catch (error) {
