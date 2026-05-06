@@ -16,7 +16,7 @@ const createRoom = () => ({
   open1: false,
   selected1: null,
   searchValue1: '',
-  images: [],
+  photos: [],
   previewImages: [],
   beds: [],
   features: [],
@@ -27,7 +27,7 @@ const createBathroom = () => ({
   isOpen: true,
   open1: false, selected1: null, searchValue1: '',
   open2: false, selected2: null, searchValue2: '',
-  images: [], previewImages: [],
+  photos: [], previewImages: [],
   selectedFeature: null,
 });
 
@@ -64,7 +64,7 @@ function RoomsAndBathroomsPageContent() {
           open1: false,
           selected1: room.room_type?.name || null,
           searchValue1: '',
-          images: [],
+          photos: [],
           previewImages: (room.photos || []).map((p) => p.path),
           beds: (room.beds || []).map((b) => ({
             id: b.id,
@@ -84,7 +84,7 @@ function RoomsAndBathroomsPageContent() {
           isOpen: false,
           open1: false, selected1: b.bathroom_type?.name || null, searchValue1: '',
           open2: false, selected2: b.location || null, searchValue2: '',
-          images: [],
+          photos: [],
           previewImages: (b.photos || []).map((p) => p.path),
           selectedFeature: b.access_type === 'private' ? 1 : b.access_type === 'public' ? 2 : null,
         })),
@@ -113,44 +113,85 @@ function RoomsAndBathroomsPageContent() {
       // --- Clean rooms: keep only rooms with a room_type_id ---
       const cleanRooms = formData.rooms
         .filter((room) => room.room_type_id)
-        .map((room) => {
-          const r = {
-            room_type_id: room.room_type_id,
-            amenities: (room.features || []).filter(Boolean),
-            beds: (room.beds || [])
-              .filter((bed) => bed.bed_type_id)
-              .map((bed) => {
-                const b = { bed_type_id: bed.bed_type_id, count: bed.counter || 1 };
-                if (!isNewId(bed.id)) b.id = bed.id;
-                return b;
-              }),
-          };
-          if (!isNewId(room.id)) r.id = room.id;
-          return r;
-        });
+        .map((room) => ({
+          ...room,
+          beds: (room.beds || []).filter((bed) => bed.bed_type_id),
+        }));
 
       // --- Clean bathrooms: keep only those with all 3 required fields ---
       const cleanBathrooms = formData.bathrooms
-        .filter((b) => b.bathroom_type_id && b.location_value && b.access_type)
-        .map((b) => {
-          const bath = {
-            bathroom_type_id: b.bathroom_type_id,
-            location: b.location_value,
-            access_type: b.access_type,
-          };
-          if (!isNewId(b.id)) bath.id = b.id;
-          return bath;
+        .filter((b) => b.bathroom_type_id && b.location_value && b.access_type);
+
+      // --- Build FormData ---
+      const fd = new FormData();
+      fd.append('property_id', formData.property_id);
+
+      // Rooms
+      cleanRooms.forEach((room, i) => {
+        if (!isNewId(room.id)) fd.append(`rooms[${i}][id]`, room.id);
+        fd.append(`rooms[${i}][room_type_id]`, room.room_type_id);
+
+        // Room amenities
+        (room.features || []).forEach((amenityId, ai) => {
+          fd.append(`rooms[${i}][amenities][${ai}]`, amenityId);
         });
 
-      const payload = {
-        property_id: formData.property_id,
-        rooms: cleanRooms,
-        bathrooms: cleanBathrooms,
-      };
+        // Room beds
+        room.beds.forEach((bed, bi) => {
+          if (!isNewId(bed.id)) fd.append(`rooms[${i}][beds][${bi}][id]`, bed.id);
+          fd.append(`rooms[${i}][beds][${bi}][bed_type_id]`, bed.bed_type_id);
+          fd.append(`rooms[${i}][beds][${bi}][count]`, bed.counter || 1);
+        });
 
-      console.log('Payload:', payload);
+        // Room photos (File objects only)
+        (room.photos || []).forEach((file, fi) => {
+          if (file instanceof File) {
+            fd.append(`rooms[${i}][photos][${fi}]`, file);
+          }
+        });
+      });
 
-      const result = await dispatch(addUnitsThunk(payload))
+      // Bathrooms
+      cleanBathrooms.forEach((b, i) => {
+        if (!isNewId(b.id)) fd.append(`bathrooms[${i}][id]`, b.id);
+        fd.append(`bathrooms[${i}][bathroom_type_id]`, b.bathroom_type_id);
+        fd.append(`bathrooms[${i}][location]`, b.location_value);
+        fd.append(`bathrooms[${i}][access_type]`, b.access_type);
+
+        // Bathroom photos (File objects only)
+        (b.photos || []).forEach((file, fi) => {
+          if (file instanceof File) {
+            fd.append(`bathrooms[${i}][photos][${fi}]`, file);
+          }
+        });
+      });
+
+      // DEBUG: Check raw state before building FormData
+      console.log('=== DEBUG: Raw formData.rooms ===');
+      formData.rooms.forEach((room, i) => {
+        console.log(`Room ${i}:`, {
+          room_type_id: room.room_type_id,
+          features: room.features,
+          beds: room.beds?.map(b => ({ bed_type_id: b.bed_type_id, count: b.counter })),
+          imagesCount: room.photos?.length,
+          imagesAreFiles: room.photos?.map(img => img instanceof File),
+        });
+      });
+      console.log('=== DEBUG: Raw formData.bathrooms ===');
+      formData.bathrooms.forEach((b, i) => {
+        console.log(`Bathroom ${i}:`, {
+          bathroom_type_id: b.bathroom_type_id,
+          location_value: b.location_value,
+          access_type: b.access_type,
+          imagesCount: b.photos?.length,
+          imagesAreFiles: b.photos?.map(img => img instanceof File),
+        });
+      });
+
+      console.log('=== FormData entries ===');
+      for (const [key, val] of fd.entries()) console.log(key, val);
+
+      const result = await dispatch(addUnitsThunk(fd))
       if (result?.meta?.requestStatus === "fulfilled") {
         router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
       }

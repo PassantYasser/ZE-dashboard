@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../../../../../../config/imageUrl';
 
 
 
@@ -28,21 +29,27 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
 
   // --- images ---
   const handleFilesChange = (e) => {
-    const files = Array.from(e.target.files);
-    if (room.images.length + files.length > MAX_IMAGES) {
-      alert(`Maximum number of photos ${MAX_IMAGES}`);
-      return;
-    }
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
-    onUpdate({
-      images: [...room.images, ...files],
-      previewImages: [...room.previewImages, ...newPreviews],
-    });
-  };
+  const files = Array.from(e.target.files || []);
+
+  const currentPhotos = room.photos || [];
+  const currentPreviews = room.previewImages || [];
+
+  if (currentPhotos.length + files.length > MAX_IMAGES) {
+    alert(`Maximum number of photos ${MAX_IMAGES}`);
+    return;
+  }
+
+  const newPreviews = files.map((file) => URL.createObjectURL(file));
+
+  onUpdate({
+    photos: [...currentPhotos, ...files],
+    previewImages: [...currentPreviews, ...newPreviews],
+  });
+};
 
   const handleDeleteImage = (index) => {
     onUpdate({
-      images: room.images.filter((_, i) => i !== index),
+      photos: room.photos.filter((_, i) => i !== index),
       previewImages: room.previewImages.filter((_, i) => i !== index),
     });
   };
@@ -151,7 +158,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
               <div className="flex gap-2 flex-wrap">
                 {room.previewImages.map((src, idx) => (
                   <div key={idx} className="relative w-36 h-28 border border-[#E5E7EB] rounded-[3px] overflow-hidden">
-                    <img src={src} alt="preview" className="w-full h-full object-cover" />
+                    <img src={src.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`} alt="preview" className="w-full h-full object-cover" />
                     <button
                       onClick={(e) => { e.stopPropagation(); handleDeleteImage(idx); }}
                       className="absolute top-1 right-1 bg-[#00000080] w-5 h-5 flex justify-center items-center rounded-full cursor-pointer"
