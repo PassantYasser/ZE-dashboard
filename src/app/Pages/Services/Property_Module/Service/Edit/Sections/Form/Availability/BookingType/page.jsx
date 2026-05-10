@@ -20,7 +20,6 @@ function BookingTypePage({ formData, setFormData }) {
   const [banAllActive, setBanAllActive]       = useState(false);
   const [activeMode, setActiveMode] = useState('available');
 
-  // ─── 1. Derive selectedPolicy from formData ───────────────────────────────
   const selectedPolicy = formData?.availability?.all_avalable ? '2' : '1';
 
   const setSelectedPolicy = (value) => {
@@ -33,10 +32,10 @@ function BookingTypePage({ formData, setFormData }) {
     }));
   };
 
-  // ─── 2. Hydrate local calendar state from formData.availability.slots ─────
   useEffect(() => {
-    const slots = formData?.availability?.slots || [];
-    if (!slots.length) return;
+  
+  const slots = formData?.availability?.slots || [];
+  if (!slots.length) return;
 
     const getDatesInRange = (startDate, endDate) => {
       const dates = [];
@@ -71,12 +70,9 @@ function BookingTypePage({ formData, setFormData }) {
     setSelectedDates(Array.from(initSelected));
     setBannedDates(Array.from(initBanned));
     setReservedDates(Array.from(initReserved));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // run once on mount so we don't fight user edits
+  }, [formData?.availability?.slots]);
 
-  // ─── 3. Push local calendar state back into formData ─────────────────────
-  // Converts an array of date strings into consecutive ranges
-  // e.g. ["2026-05-01","2026-05-02","2026-05-04"] → [{from:"2026-05-01",to:"2026-05-02"},{from:"2026-05-04",to:"2026-05-04"}]
+
   const datesToRanges = (dates, status) => {
     if (!dates.length) return [];
     const sorted = [...dates].sort(); // sort ascending
@@ -90,10 +86,8 @@ function BookingTypePage({ formData, setFormData }) {
       prev.setDate(prev.getDate() + 1); // expected next day
 
       if (prev.toISOString().slice(0, 10) === sorted[i]) {
-        // consecutive — extend current range
         rangeEnd = sorted[i];
       } else {
-        // gap — close current range and start new one
         ranges.push({ from: rangeStart, to: rangeEnd, status });
         rangeStart = sorted[i];
         rangeEnd   = sorted[i];

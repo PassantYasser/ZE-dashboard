@@ -37,7 +37,7 @@ function AvailabilityPageContent() {
 
         availability: {
           all_avalable: getAvailabilitySeasonsData.all_avalable || false,
-          slots: (getAvailabilitySeasonsData.availability_seasons || []).map(item => ({
+          slots: (getAvailabilitySeasonsData.availability || []).map(item => ({
             from:   item.start_date?.split('T')[0],
             to:     item.end_date?.split('T')[0],
             status: item.status,
@@ -64,7 +64,7 @@ function AvailabilityPageContent() {
         availability: {
           all_avalable: formData.availability.all_avalable,
           slots: formData.availability.slots.map(item => ({
-            from:   item.from,    // ✅ الـ API عايز from/to هنا
+            from:   item.from,    
             to:     item.to,
             status: item.status,
           })),
@@ -72,7 +72,7 @@ function AvailabilityPageContent() {
 
         seasonal_pricing: formData.seasonal_pricing.map(item => ({
           title:      item.title,
-          start_date: item.start_date || item.from,  // ✅ الـ API عايز start_date/end_date هنا
+          start_date: item.start_date || item.from,  
           end_date:   item.end_date   || item.to,
           price:      item.price,
         })),
