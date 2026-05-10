@@ -8,7 +8,7 @@ import Loader from '@/app/Components/Loader/Loader';
 import FirstNote from './FirstNote';
 import UploadImage from './UploadImage';
 import UploadVideo from './UploadVideo';
-import { addMediaThunk, getMediaThunk } from '@/redux/slice/Services/ServicesSlice';
+import { addMediaThunk, deleteVideoThunk, getMediaThunk } from '@/redux/slice/Services/ServicesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function MediaPageContent() {
@@ -36,10 +36,17 @@ function MediaPageContent() {
   }, [id]);
 
   // Populate formData from server response
+  // Track original server values to detect deletions
+  const [originalMedia, setOriginalMedia] = useState({ video: '', vr_path: '' });
+
   useEffect(() => {
     if (getMediaData) {
       setFormData({
         images: getMediaData?.images || [],
+        video: getMediaData?.video || '',
+        vr_path: getMediaData?.vr_path || '',
+      });
+      setOriginalMedia({
         video: getMediaData?.video || '',
         vr_path: getMediaData?.vr_path || '',
       });
@@ -69,12 +76,23 @@ function MediaPageContent() {
       }
     });
 
-    // ✅ Fix: vr_path can be a File OR a string URL
-      if (formData.vr_path instanceof File) {
+    // Delete video from server if it was cleared
+    if (originalMedia.video && !formData.video) {
+      await dispatch(deleteVideoThunk({ id, type: 'video' })).unwrap();
+    }
+
+    // Delete VR tour from server if it was cleared
+    if (originalMedia.vr_path && !formData.vr_path) {
+      await dispatch(deleteVideoThunk({ id, type: 'vr' })).unwrap();
+    }
+
+    // Upload new vr_path file
+    if (formData.vr_path instanceof File) {
       data.append("vr_path", formData.vr_path);
     }
 
-      if (formData.video instanceof File) {
+    // Upload new video file
+    if (formData.video instanceof File) {
       data.append("video", formData.video);
     }
 
@@ -120,7 +138,7 @@ function MediaPageContent() {
               onClick={handleSave}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
-            {loading ? t('Saving...') : t('the next')}
+            {loading ? t('Saving...') : t('save')}
             </button>
           </div>
         </div>
