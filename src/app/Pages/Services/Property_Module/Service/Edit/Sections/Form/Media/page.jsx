@@ -16,6 +16,8 @@ function MediaPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { getMedia } = useSelector((state) => state.services);
@@ -44,40 +46,49 @@ function MediaPageContent() {
     }
   }, [getMediaData]);
 
-  // Save: build FormData and POST
   const handleSave = async () => {
-    const data = new FormData();
-    data.append('property_id', id);
+  const data = new FormData();
 
-    // Images — only send new File uploads, server paths are already saved
-    formData.images.forEach((img, i) => {
-      if (img instanceof File) {
-        data.append(`images[${i}][file]`, img, img.name);
+  try {
+    setLoading(true);
+    data.append("property_id", id);
+
+    formData.images.forEach((img, index) => {
+      if (img?.file instanceof File) {
+        data.append(`images[${index}][file]`, img.file);
+        data.append(`images[${index}][sort_order]`, img.sort_order ?? index + 1);
+        data.append(`images[${index}][is_primary]`, img.is_primary ? 1 : 0);
+      } else if (img?.id) {
+        data.append(`images[${index}][id]`, img.id);
+        data.append(`images[${index}][sort_order]`, img.sort_order ?? index + 1);
+        data.append(`images[${index}][is_primary]`, img.is_primary ? 1 : 0);
+      } else if (img?.image_url) {
+        data.append(`images[${index}][image_url]`, img.image_url);
+        data.append(`images[${index}][sort_order]`, img.sort_order ?? index + 1);
+        data.append(`images[${index}][is_primary]`, img.is_primary ? 1 : 0);
       }
     });
 
-    // Videos
-    if (formData.video) {
-      data.append('video', formData.video);
+    // ✅ Fix: vr_path can be a File OR a string URL
+      if (formData.vr_path instanceof File) {
+      data.append("vr_path", formData.vr_path);
     }
 
-    // VR path
-    if (formData.vr_path) {
-      data.append('vr_path', formData.vr_path);
+      if (formData.video instanceof File) {
+      data.append("video", formData.video);
     }
 
-    // Debug
-    console.log('=== FormData entries ===');
-    for (const [key, val] of data.entries()) {
-      console.log(key, val instanceof File ? `[File: ${val.name}]` : val);
-    }
+    await dispatch(addMediaThunk(data)).unwrap();
+    router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`);
 
-    const result = await dispatch(addMediaThunk(data));
-    if (result?.meta?.requestStatus === 'fulfilled') {
-      router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`);
-    }
+  } catch (error) {
+    console.error(error);
+    setErrors([error?.message || 'Something went wrong']);
+  } finally {
+    setLoading(false);
+  }
   };
-
+  
   return (
     <MainLayout>
       <TitleOfHeader/>
@@ -109,7 +120,7 @@ function MediaPageContent() {
               onClick={handleSave}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
-              {t('Save changes')}
+            {loading ? t('Saving...') : t('the next')}
             </button>
           </div>
         </div>
