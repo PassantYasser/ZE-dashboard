@@ -109,24 +109,28 @@ function Content() {
 
   return (
     <>
-    {/* checkbox 1 */}
-    <div className='border border-[#CDD5DF] py-4 px-2 flex justify-between rounded-[3px] '>
-      <p className='text-[#364152] text-sm font-normal '>{t('Automatic booking approval')}</p>
-      <input
-        type='checkbox'
-        className={inputClassNameDot}
-      />
-    </div>
+    <div className='grid grid-cols-2 gap-4'>
 
-    {/* checkbox 2 */}
-    <div className='border border-[#CDD5DF] py-4 px-2 flex justify-between rounded-[3px] mt-4 '>
-      <p className='text-[#364152] text-sm font-normal '>{t('Manual approval is required')}</p>
-      <input
-        type='checkbox'
-        className={inputClassNameDot}
-      />
-    </div>
+      {/* checkbox 1 */}
+      <div className='border border-[#CDD5DF] py-4 px-2 flex justify-between rounded-[3px] '>
+        <p className='text-[#364152] text-sm font-normal '>{t('Automatic booking approval')}</p>
+        <input
+          type='radio'
+          name='box'
+          className={inputClassNameDot}
+        />
+      </div>
 
+      {/* checkbox 2 */}
+      <div className='border border-[#CDD5DF] py-4 px-2 flex justify-between rounded-[3px]  '>
+        <p className='text-[#364152] text-sm font-normal '>{t('Manual approval is required')}</p>
+        <input
+          type='radio'
+          name='box'
+          className={inputClassNameDot}
+        />
+      </div>
+    </div>
     {/* Minimum number of nights */}
     <div className='mt-4'>
       <p className='text-[#364152] text-sm font-normal'>{t('Minimum number of nights')}</p>

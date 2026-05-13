@@ -124,7 +124,7 @@ function Content() {
 
     </div>
 
-    {/*  */}
+    {/* Activate maintenance mode */}
     <div className='mt-4 flex justify-between'>
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Activate maintenance mode')}</span>
