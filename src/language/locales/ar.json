@@ -1025,6 +1025,14 @@
   "dayss":"أيام",
   "Activate maintenance mode":"تشغيل وضع الصيانة",
   "All bookings are blocked during maintenance.":"حظر جميع الحجوزات أثناء الصيانة",
+  "Virtual house rules":"قواعد المنزل الافتراضية",
+  "Enter the house rules...":"أدخل قواعد المنزل ...",
+  "Guest ID verification request":"طلب التحقق من هوية الضيف",
+  "Guests identities must be verified before booking.":"يجب التحقق من هوية الضيوف قبل الحجز",
+  "Determining how to communicate":"تحديد كيفية التواصل",
+  "Mobile phone":"الموبايل / الجوال",
+  "App Messages":"رسائل التطبيق",
+  "WhatsApp":"واتساب",
   
 
 
