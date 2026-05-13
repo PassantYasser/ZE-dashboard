@@ -1018,6 +1018,13 @@
   "select minimum booking time":"حدد الحد الأدنى لوقت الحجز",
   "Cleaning services are provided upon guest request.":"يتم تقديم خدمات التنظيف بناءَ على طلب الضيف",
   "Cleaning services are provided periodically.":"يتم تقديم خدمات التنظيف بشكل دوري",
+  "The property is always available":"العقار متاح دائماً",
+  "Manually check property availability.":"تحديد توفر مواعيد العقار يدويا",
+  "The ability to schedule cleaning services between bookings as desired.":"إمكانية تحديد أعمال التنظيف بين الحجوزات حسب الرغبة",
+  "Time between bookings":"الوقت الفاصل بين الحجوزات",
+  "dayss":"أيام",
+  "Activate maintenance mode":"تشغيل وضع الصيانة",
+  "All bookings are blocked during maintenance.":"حظر جميع الحجوزات أثناء الصيانة",
   
 
 

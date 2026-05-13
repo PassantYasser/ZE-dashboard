@@ -1017,6 +1017,13 @@
   "select minimum booking time":"select minimum booking time",
   "Cleaning services are provided upon guest request.":"Cleaning services are provided upon guest request.",
   "Cleaning services are provided periodically.":"Cleaning services are provided periodically.",
+  "The property is always available":"The property is always available",
+  "Manually check property availability.":"Manually check property availability.",
+  "The ability to schedule cleaning services between bookings as desired.":"The ability to schedule cleaning services between bookings as desired.",
+  "Time between bookings":"Time between bookings",
+  "dayss":"days",
+  "Activate maintenance mode":"Activate maintenance mode",
+  "All bookings are blocked during maintenance.":"All bookings are blocked during maintenance.",
   
 
 
