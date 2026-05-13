@@ -1004,7 +1004,21 @@
   "Minimum number of nights":"Minimum number of nights",
   "Maximum number of nights":"Maximum number of nights",
   "Minimum booking time":"Minimum booking time",
+  "3hours":"3 hours",
+  "6hours":"6 hours",
+  "12hours":"12 hours",
+  "One day":"One day",
+  "Two days":"Two days",
+  "Same-day booking allowed":"Same-day booking allowed",
+  "Maximum booking time is on the same day":"Maximum booking time is on the same day",
+  "Cleaning settings":"Cleaning settings",
+  "The period between each cleaning operation":"The period between each cleaning operation",
+  "day":"day",
+  "select minimum booking time":"select minimum booking time",
+  "Cleaning services are provided upon guest request.":"Cleaning services are provided upon guest request.",
+  "Cleaning services are provided periodically.":"Cleaning services are provided periodically.",
   
+
 
   
 
