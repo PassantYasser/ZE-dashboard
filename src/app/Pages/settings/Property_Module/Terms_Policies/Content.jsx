@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/navigation';
 import DeleteDialog from './Dialog/DeleteDialog';
 
 function Content({onEdit , onAdd}) {
@@ -40,7 +39,6 @@ function Content({onEdit , onAdd}) {
     }
   };
   const [open , setOpen] = useState(false)
-  const router = useRouter()
   return (
     <>
     <div className=' grid grid-cols-1 lg1:grid-cols-2 gap-6 '>
