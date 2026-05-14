@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import TextEditor from './TextEditor'
 import { useTranslation } from 'react-i18next'

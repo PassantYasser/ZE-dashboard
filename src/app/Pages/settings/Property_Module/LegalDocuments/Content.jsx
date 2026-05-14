@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect } from 'react'
 import TextState from './TextState'
 import Files from './Files'
