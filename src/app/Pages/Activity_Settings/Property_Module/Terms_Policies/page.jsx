@@ -1,40 +1,84 @@
-"use client"
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import Content from './Content'
+'use client'
+import React, { Suspense, useEffect, useState } from 'react'
+import HaveTerms_PoliciesPage from './HaveTerms_Policies/page'
+import NoTerms_PoliciesPage from './NoTerms_Policies/page'
+import Addpage from './Add/page'
+import EditPage from './Edit/page'
 import Header from './Header'
-import NoTerms_PoliciesPage from './NoTerms_Policies'
-import AddContent from './Add/AddContent'
-import EditContent from './Edit/EditContent'
+import { useDispatch, useSelector } from 'react-redux'
+import { getPoliciesThunk } from '@/redux/slice/Setting/SettingSlice'
 
-function Terms_PoliciesPage() {
-  const {t} = useTranslation()
-  const data = ["sd"]  
-  const [isAdding, setIsAdding] = useState(false)
-  const [editingId, setEditingId] = useState(null)
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
+import Loader from '@/app/Components/Loader/Loader'
+
+function TermsPoliciesContent() {
+  const [showAddForm, setShowAddForm] = useState(false)
+  
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const editId = searchParams.get('edit')
+
+  //api
+  const dispatch = useDispatch()
+  const {policies,loading,error} = useSelector((state)=>state.setting)
+  
+  useEffect(()=>{
+    dispatch(getPoliciesThunk())
+  },[dispatch])
+
+  // Derive selected policy from URL
+  const selectedPolicy = editId ? policies.find(p => p.id === Number(editId) || p.id === String(editId)) : null
+  const showEditForm = !!editId && !!selectedPolicy
+
+  const handleEditClick = (policy) => {
+    // Update URL to include edit param
+    const params = new URLSearchParams(searchParams)
+    params.set('edit', policy.id)
+    router.push(`${pathname}?${params.toString()}`)
+  }
+
+  const handleEditSuccess = () => {
+    // Remove edit param from URL
+    const params = new URLSearchParams(searchParams)
+    params.delete('edit')
+    router.push(`${pathname}?${params.toString()}`)
+  }
 
   return (
-    <>
-      <div className='border border-[#E3E8EF] '>
-        <Header/>
-        <div className='px-6 py-4'>
-          {isAdding ? (
-            <AddContent onCancel={() => setIsAdding(false)} />
-          ) : editingId !== null ? (
-            <EditContent onCancel={() => setEditingId(null)} />
-          ) : data?.length > 0 ? (
-            <Content onEdit={(id) => setEditingId(id)} onAdd={() => setIsAdding(true)}/>
-          ) : (
-            <NoTerms_PoliciesPage onAdd={() => setIsAdding(true)} />
-          )}
-          
-        
-        
+    <div className="border border-[#E3E8EF] mb-8">
+      <Header/>
       
-        </div>
-      </div>
+      {showEditForm ? (
+        <EditPage 
+          policy={selectedPolicy} 
+          onSuccess={handleEditSuccess} 
+        />
+      ) : showAddForm ? (
+        <Addpage onSuccess={() => setShowAddForm(false)} />
+      ) : policies && policies.length > 0 ? (
+        <HaveTerms_PoliciesPage  
+          onAddClick={() => setShowAddForm(true)} 
+          onEditClick={handleEditClick}
+          policies={policies}
+          loading={loading}
 
-    </>
+        />
+      ) : (
+        <NoTerms_PoliciesPage 
+          onAddClick={() => setShowAddForm(true)} 
+        />
+      )}
+
+    </div>
+  )
+}
+
+function Terms_PoliciesPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <TermsPoliciesContent />
+    </Suspense>
   )
 }
 
