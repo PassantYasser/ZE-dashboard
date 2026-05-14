@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import DeleteDialog from './DeleteDialog';
+import { useRouter } from 'next/navigation';
+import DeleteDialog from './Dialog/DeleteDialog';
 
-function Content() {
+function Content({ onEdit }) {
   const {t} = useTranslation()
   const status = "approved";
 
@@ -39,6 +40,7 @@ function Content() {
     }
   };
   const [open , setOpen] = useState(false)
+  const router = useRouter()
   return (
     <>
     <div className=' grid grid-cols-1 lg1:grid-cols-2 gap-6 '>
@@ -56,6 +58,7 @@ function Content() {
 
             <div className=' text-base font-normal w-full flex gap-4'>
               <button 
+                onClick={() => onEdit && onEdit(1)}
                 className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('modification')}
               </button>
