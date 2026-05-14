@@ -1,5 +1,7 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import DeleteDialog from './DeleteDialog';
 
 function Content() {
   const {t} = useTranslation()
@@ -36,7 +38,7 @@ function Content() {
         );
     }
   };
-
+  const [open , setOpen] = useState(false)
   return (
     <>
     <div className=' grid grid-cols-1 lg1:grid-cols-2 gap-6 '>
@@ -58,6 +60,7 @@ function Content() {
                 {t('modification')}
               </button>
               <button
+                onClick={()=>setOpen(true)}
                 className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('delete')}
               </button>
@@ -71,6 +74,10 @@ function Content() {
 
       </div>
 
+      <DeleteDialog
+        open={open}
+        setOpen={setOpen}
+      />
     </>
   )
 }
