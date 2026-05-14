@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import DeleteDialog from './Dialog/DeleteDialog';
 
-function Content({ onEdit }) {
+function Content({ onEdit ,onAdd}) {
   const {t} = useTranslation()
   const status = "approved";
 
@@ -73,9 +73,16 @@ function Content({ onEdit }) {
       
         
 
-        
+      
 
       </div>
+      <button 
+        onClick={onAdd}
+        className='bg-[var(--color-primary)] rounded-[3px] mt-12 mb-4 cursor-pointer text-white flex items-center justify-center gap-2 w-[25%] h-14 '
+      >
+        <span className='text-base font-semibold'>{t('Add policy')}</span>
+        <img src="/images/icons/AddIcon.svg" alt="" />
+      </button>
 
       <DeleteDialog
         open={open}

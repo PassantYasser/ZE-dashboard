@@ -25,13 +25,13 @@ function EditContent({ onCancel }) {
           <button 
             className='bg-[var(--color-primary)] text-white px-6 h-14 w-62.5 rounded-[3px] cursor-pointer font-medium '
           >
-            {t('save')}
+            {t('Save changes')}
           </button>
           <button 
             onClick={onCancel}
-            className='border border-[#DA5305] text-[#DA5305] px-6 h-14 w-50 rounded-[3px] cursor-pointer font-medium '
+            className='border border-[var(--color-primary)] text-[var(--color-primary)] px-6 h-14 w-50 rounded-[3px] cursor-pointer font-medium '
           >
-            {t('Return')}
+            {t('cancel')}
           </button>
         </div>
       </div>

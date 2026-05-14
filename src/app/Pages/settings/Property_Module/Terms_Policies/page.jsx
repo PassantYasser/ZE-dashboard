@@ -9,7 +9,7 @@ import EditContent from './Edit/EditContent'
 
 function Terms_PoliciesPage() {
   const {t} = useTranslation()
-  const data = []  
+  const data = ["sd"]  
   const [isAdding, setIsAdding] = useState(false)
   const [editingId, setEditingId] = useState(null)
 
@@ -23,16 +23,14 @@ function Terms_PoliciesPage() {
           ) : editingId !== null ? (
             <EditContent onCancel={() => setEditingId(null)} />
           ) : data?.length > 0 ? (
-            <Content onEdit={(id) => setEditingId(id)} />
+            <Content onEdit={(id) => setEditingId(id)} onAdd={() => setIsAdding(true)}/>
           ) : (
             <NoTerms_PoliciesPage onAdd={() => setIsAdding(true)} />
           )}
           
-          {!isAdding && editingId === null && (
-            <button className='h-14 w-[20%] mt-12 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer'>
-              {t('Save changes')}
-            </button>
-          )}
+        
+        
+      
         </div>
       </div>
 
