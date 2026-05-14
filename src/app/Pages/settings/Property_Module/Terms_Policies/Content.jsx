@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/navigation';
 import DeleteDialog from './Dialog/DeleteDialog';
 
-function Content({ onEdit ,onAdd}) {
+function Content({onEdit , onAdd}) {
   const {t} = useTranslation()
   const status = "approved";
 
