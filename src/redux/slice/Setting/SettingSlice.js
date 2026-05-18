@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -340,6 +340,29 @@ export const RuleSettingThunk = createAsyncThunk('settting/RuleSettingThunk' ,
   }
 )
 
+export const getAdvancedSettingThunk = createAsyncThunk('setting/getAdvancedSettingThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getAdvancedSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const AdvancedSettingThunk = createAsyncThunk('setting/AdvancedSettingThunk' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+        const response = await AdvancedSetting(formData)
+        return response
+      }catch(error){
+        return rejectWithValue(error.response?.data || error.message);
+      }
+  }
+)
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -381,6 +404,10 @@ const initialState ={
   CalendarSetting:null,
   getRuleSetting:null,
   RuleSetting:null,
+  getAdvancedSetting:null,
+  AdvancedSetting:null,
+
+
 
 
 }
@@ -806,6 +833,32 @@ const settingSlice = createSlice({
         state.RuleSetting = action.payload;
       })
       .addCase(RuleSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getAdvancedSettingThunk
+      .addCase(getAdvancedSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAdvancedSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getAdvancedSetting = action.payload;
+      })
+      .addCase(getAdvancedSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //AdvancedSettingThunk
+      .addCase(AdvancedSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AdvancedSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.AdvancedSetting = action.payload;
+      })
+      .addCase(AdvancedSettingThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
