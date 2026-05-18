@@ -80,35 +80,36 @@ function Content({formData , setFormData}) {
           onChange={(e)=>set('auto_set_no_show' , e.target.checked || 0)}
         />
       </div>
-
-      {/* Hours after check-in time */}
-      <div className='mt-4'>
-        <p className='text-[#364152] text-sm font-normal'>{t('Hours after check-in time')}</p>
       
-        <div className='flex items-center gap-3   py-2'>
-            
-          <button
-            type='button'
-            onClick={() => set('no_show_after_hours', Math.max(0, (Number(formData.no_show_after_hours) || 0) - 1))}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
-          >
-            -
-          </button>
+      {Number(formData?.auto_set_no_show) === 1 && (
+        <div className='mt-4'>
+          <p className='text-[#364152] text-sm font-normal'>{t('Hours after check-in time')}</p>
+        
+          <div className='flex items-center gap-3   py-2'>
+              
+            <button
+              type='button'
+              onClick={() => set('no_show_after_hours', Math.max(0, (Number(formData.no_show_after_hours) || 0) - 1))}
+              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
+            >
+              -
+            </button>
 
-          <span className='w-full h-11  text-[#4B5565] flex items-center justify-center font-medium  text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px]'>
-            {formData?.no_show_after_hours || 0} {t('hours')}
-          </span>
+            <span className='w-full h-11  text-[#4B5565] flex items-center justify-center font-medium  text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px]'>
+              {formData?.no_show_after_hours || 0} {t('hours')}
+            </span>
 
-          <button
-            type='button'
-            onClick={() => set('no_show_after_hours', Math.max(0, (Number(formData.no_show_after_hours) || 0) + 1))}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
-          >
-            +
-          </button>
+            <button
+              type='button'
+              onClick={() => set('no_show_after_hours', Math.max(0, (Number(formData.no_show_after_hours) || 0) + 1))}
+              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
+            >
+              +
+            </button>
+          </div>
         </div>
-      </div>
-
+      )}
+      
       {/* Booking completed automatically after departure */}
       <div className='mt-6 flex justify-between'>
         <p className='flex flex-col gap-1'>
