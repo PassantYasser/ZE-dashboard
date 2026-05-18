@@ -153,4 +153,12 @@ export const BookingSetting = async(formData)=>{
 }
 
 
+export const getCalendarSetting = async()=>{
+  const response = await API.get('/provider/calendar-settings')
+  return response.data
+}
 
+export const CalendarSetting = async(formData)=>{
+  const response = await API.post('/provider/calendar-settings' , formData )
+  return response.data
+}
