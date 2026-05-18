@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
@@ -65,12 +66,16 @@ function UpcomingBookingsPage({topThreeBookings}) {
     }
   };
 
+  const router = useRouter()
+
   return (
     <>
     <div className='flex flex-col '>
       <div className='flex justify-between mb-5 '>
         <p className='text-[#0F022E] text-xl font-medium mb-1'>{t('Upcoming bookings')}</p>
-        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+        <button 
+          onClick={()=>router.push('/Pages/requests/Property_Module')}
+          className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
           {t('More')}
         </button>
       </div>
