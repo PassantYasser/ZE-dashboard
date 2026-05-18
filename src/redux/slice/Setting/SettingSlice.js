@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -318,6 +318,27 @@ export const CalendarSettingThunk = createAsyncThunk('setting/CalendarSettingThu
   }
 )
 
+export const getRuleSettingThunk = createAsyncThunk('setting/getRuleSettingThunk' , 
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRuleSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const RuleSettingThunk = createAsyncThunk('settting/RuleSettingThunk' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await RuleSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initialState ={
   success:false,
@@ -358,6 +379,8 @@ const initialState ={
   BookingSetting:null,
   getCalendarSetting:null,
   CalendarSetting:null,
+  getRuleSetting:null,
+  RuleSetting:null,
 
 
 }
@@ -757,6 +780,32 @@ const settingSlice = createSlice({
         state.CalendarSetting = action.payload;
       })
       .addCase(CalendarSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRuleSettingThunk
+      .addCase(getRuleSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRuleSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getRuleSetting = action.payload;
+      })
+      .addCase(getRuleSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //RuleSettingThunk
+      .addCase(RuleSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(RuleSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.RuleSetting = action.payload;
+      })
+      .addCase(RuleSettingThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
