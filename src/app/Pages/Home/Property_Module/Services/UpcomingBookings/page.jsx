@@ -93,8 +93,16 @@ function UpcomingBookingsPage({topThreeBookings}) {
                 <p className='text-[#232323] text-sm font-normal w-[65%]'>
                   {booking?.property?.title}
                 </p>
-                <p className='text-[#4B5565] text-sm font-normal  w-[35%]mr-5 '>
-                  {booking?.check_in} : {booking?.check_out}
+                <p className='flex justify-end  text-[#4B5565] text-sm font-normal w-[35%] mr-5'>
+                  {new Date(booking?.check_in).toLocaleDateString('ar-EG', {
+                    day: 'numeric',
+                    month: 'long',
+                  })}
+                  {' : '}
+                  {new Date(booking?.check_out).toLocaleDateString('ar-EG', {
+                    day: 'numeric',
+                    month: 'long',
+                  })}
                 </p>
               </div>
 
