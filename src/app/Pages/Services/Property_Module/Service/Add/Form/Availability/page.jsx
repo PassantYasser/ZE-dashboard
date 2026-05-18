@@ -39,8 +39,21 @@ function AvailabilityPage({prevStep , nextStep }) {
 
   }, [addBasicProperty]);
   
+  const [fieldErrors, setFieldErrors] = useState({});
+
   const handleSubmit = async (e) => {
   e.preventDefault();
+
+  const errors = {};
+  const hasPolicy = formData.availability.all_avalable || formData.availability.slots.length > 0;
+  if (!hasPolicy) errors.booking_type = true;
+
+  if (Object.keys(errors).length > 0) {
+    setFieldErrors(errors);
+    return;
+  }
+  setFieldErrors({});
+
   try {
     // ابعت formData مباشرة كـ JSON مش FormData
     await dispatch(addAvailabilitySeasonsThunk({
@@ -73,7 +86,7 @@ function AvailabilityPage({prevStep , nextStep }) {
 
 
 
-        <BookingTypePage    formData={formData} setFormData={setFormData} />
+        <BookingTypePage    formData={formData} setFormData={setFormData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
         <SpecialPricesPage  formData={formData} setFormData={setFormData} />
 
 

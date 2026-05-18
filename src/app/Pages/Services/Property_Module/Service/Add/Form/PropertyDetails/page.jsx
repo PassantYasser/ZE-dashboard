@@ -37,10 +37,27 @@ function PropertyDetailsPage({prevStep , nextStep }) {
     availabilities:[],
     floor_number:"",
   })
+
+  const [fieldErrors, setFieldErrors] = useState({});
   
   console.log("property_id", property_id)
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = {};
+    if (!formData.check_in_time) errors.check_in_time = true;
+    if (!formData.check_out_time) errors.check_out_time = true;
+    if (formData.floor_number === "" && formData.floor_number !== 0) errors.floor_number = true;
+    if (formData.has_elevator === "") errors.has_elevator = true;
+    if (!formData.availabilities || formData.availabilities.length === 0) errors.availabilities = true;
+    if (!formData.area) errors.area = true;
+    if (!formData.area_unit) errors.area_unit = true;
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
 
     try {
       const data = new FormData();
@@ -78,13 +95,13 @@ function PropertyDetailsPage({prevStep , nextStep }) {
         </div>
         
         {/* Property Information */}
-        <InformationPage setFormData={setFormData} formData={formData} />
+        <InformationPage setFormData={setFormData} formData={formData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
 
         {/* Arrival and departure times */}
-        <Arrival_DeparturePage setFormData={setFormData} formData={formData} />
+        <Arrival_DeparturePage setFormData={setFormData} formData={formData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
 
         {/* Service provider available to receive guests */}
-        <Receive_GuestsPage setFormData={setFormData} formData={formData} />
+        <Receive_GuestsPage setFormData={setFormData} formData={formData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
 
 
 

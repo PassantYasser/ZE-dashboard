@@ -107,8 +107,20 @@ function AddressPage({prevStep , nextStep }) {
       longitude:"",
     });
 
+    const [fieldErrors, setFieldErrors] = useState({});
+
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      const errors = {};
+      if (!formData.address.trim()) errors.address = true;
+
+      if (Object.keys(errors).length > 0) {
+        setFieldErrors(errors);
+        return;
+      }
+      setFieldErrors({});
+
         try {
           const data = new FormData();
           data.append("property_id", property_id || "");
@@ -151,10 +163,11 @@ function AddressPage({prevStep , nextStep }) {
               onChange={(e) => {
                 setCount(e.target.value.length);
                 setFormData({ ...formData, address: e.target.value });
+                if (e.target.value.trim()) setFieldErrors(prev => ({...prev, address: false}));
               }}
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
-              className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
+              className={`w-full h-20 border rounded-[3px] p-3 text-sm text-[#7d8d84] outline-none ${fieldErrors.address ? 'border-[#F04438]' : 'border-[#C8C8C8]'}`}
               value={formData.address}
             />
 
