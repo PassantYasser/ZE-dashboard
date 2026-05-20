@@ -7,7 +7,7 @@ function QuickProceduresPage() {
   return (
     <>
 
-    <div className='border border-[#CDD5DF] rounded-[3px] p-4 mb-10'>
+    <div className='border border-[#CDD5DF] rounded-[3px] p-4 mb-10 mt-10'>
       <p className='text-[#364152] text-xl font-medium mb-4'>{t('Quick procedures')}</p>
 
       <div className='grid grid-cols-4 gap-4'>
