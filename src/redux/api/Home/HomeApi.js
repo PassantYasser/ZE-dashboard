@@ -54,3 +54,11 @@ export const getconversationsLatestUnseen = async()=>{
   const response = await API.get('/provider/conversations/latest-unseen')
   return response.data
 }
+
+
+//Queue_module
+//************************************************* */
+export const getcounters = async()=>{
+  const response = await API.get('/provider/dashboard/counters')
+  return response.data
+}

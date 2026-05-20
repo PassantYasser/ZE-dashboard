@@ -1,4 +1,4 @@
-import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
+import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -115,6 +115,19 @@ export const getconversationsLatestUnseenThunk = createAsyncThunk('Home/getconve
   }
 )
 
+//Queue_module
+//************************************************* */
+export const getcountersThunk = createAsyncThunk('Home/getcountersThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getcounters()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -130,7 +143,8 @@ const initialState = {
   analysisProperties:null,
   topProperties:[],
   topThreeBookings:[],
-  conversationsLatestUnseen:[]
+  conversationsLatestUnseen:[],
+  getcounters:null,
 
 
 
@@ -283,6 +297,20 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getconversationsLatestUnseenThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getcountersThunk
+      .addCase(getcountersThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getcountersThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getcounters = action.payload; 
+        state.error = null;
+      })
+      .addCase(getcountersThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
