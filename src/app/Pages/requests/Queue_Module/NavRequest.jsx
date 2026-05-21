@@ -9,7 +9,7 @@ function NavRequest() {
   const filterCardStatus = [
     {id:1 , name:t('today') },
     {id:2 , name:t('The next one') },
-    {id:3 , name:t('You need to take action')     },  
+    {id:3 , name:t('You need to take action') },  
     {id:4 , name:t('Complete')     },
   ]
   const [activeBtn, setActiveBtn] = useState(1)
