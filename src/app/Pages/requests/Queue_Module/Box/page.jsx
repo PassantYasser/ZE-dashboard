@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BoxPage() {
+function BoxPage({getReservationsSummary}) {
   const {t} = useTranslation()
 
   return (
@@ -17,7 +17,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565] text-xl font-normal'>{t('today')}</p>
         </div>
-        <p className='text-[#121926] text-2xl font-medium  my-2.5'>2</p>
+        <p className='text-[#121926] text-2xl font-medium  my-2.5'>{getReservationsSummary?.today}</p>
       </div>
     
       {/*Coming*/}
@@ -29,12 +29,12 @@ function BoxPage() {
           <p className='text-[#4B5565] text-xl font-normal'>{t('Coming')}</p>
         </div>
         <p className=' my-2.5'>
-          <span className='text-[#121926] text-2xl font-medium '>5</span> {' '}
+          <span className='text-[#121926] text-2xl font-medium '>{getReservationsSummary?.upcoming}</span> {' '}
           <span className='text-[#4B5565] text-base font-normal'>{t('minute')}</span></p>
       
       </div>
 
-      {/* waiting list */}
+      {/*late*/}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
         <div className='flex items-center gap-3'>
           <p className=' w-10 h-10 flex justify-center items-center bg-[#FEE4E2] rounded-md'>
@@ -42,7 +42,7 @@ function BoxPage() {
           </p>
           <p className='text-[#4B5565] text-xl font-normal'>{t('Late')}</p>
         </div>
-        <p className='text-[#121926] text-2xl font-medium my-2.5'>2 </p>
+        <p className='text-[#121926] text-2xl font-medium my-2.5'>{getReservationsSummary?.late}</p>
       </div>
 
       
