@@ -1,12 +1,24 @@
 'use client'
+import { getHallsThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { Dialog } from '@mui/material'
 import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
 function FilterPage({open , setOpen}) {
   const {t} = useTranslation()
+
+  //API
+  const dispatch = useDispatch()
+  const {getHalls} = useSelector((state)=>state.requests)
+
+  useEffect(()=>{
+    dispatch(getHallsThunk())
+  },[dispatch])
+
+  console.log('getHalls' , getHalls);
 
   // status
   const [open1, setOpen1] = useState(false);
@@ -29,7 +41,7 @@ function FilterPage({open , setOpen}) {
   const [selected2, setSelected2] = useState([]);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const optionHall = ["1", "2"];
+  const optionHall = getHalls?.data;
 
   // The view
   const [open3, setOpen3] = useState(false);
@@ -304,10 +316,7 @@ function FilterPage({open , setOpen}) {
                 <input
                   type="text"
                   placeholder={t("Choose the type of hall")}
-                  value={
-                    searchValue2 ||
-                    selected2.join(", ")
-                  }
+                  value={searchValue2 || selected2.map((item) => item.name).join(" , ")}
                   onChange={(e) => {
                     setSearchValue2(e.target.value);
                     setOpen2(true);
@@ -333,7 +342,7 @@ function FilterPage({open , setOpen}) {
 
                   {optionHall
                     .filter((opt) =>
-                      opt
+                      opt?.name
                         .toLowerCase()
                         .includes(searchValue2.toLowerCase())
                     )
@@ -344,7 +353,7 @@ function FilterPage({open , setOpen}) {
 
                       return (
                         <li
-                          key={opt}
+                          key={opt?.id}
                           onClick={() => {
 
                             if (alreadySelected) {
@@ -374,7 +383,7 @@ function FilterPage({open , setOpen}) {
                             className={inputClassName}
                           />
 
-                          <span>{opt}</span>
+                          <span>{opt?.name}</span>
 
                         </li>
                       );
