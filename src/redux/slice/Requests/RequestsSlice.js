@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, notifyUser, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getViews, notifyUser, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -166,7 +166,7 @@ export const notifyUserThunk = createAsyncThunk('request/notifyUserThunk',
   }
 )
 
-export const getHallsThunk = createAsyncThunk('',
+export const getHallsThunk = createAsyncThunk('request/getHallsThunk',
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getHalls()
@@ -176,6 +176,18 @@ export const getHallsThunk = createAsyncThunk('',
     }
   }
 )
+
+  export const getViewsThunk = createAsyncThunk('request/getViewsThunk',
+    async(_ , {rejectWithValue})=>{
+      try{
+        const response = await getViews()
+        return response
+      }catch(error){
+        return rejectWithValue(error.response?.data || error.message);
+      }
+    }
+  )
+
 
 const initialState = {
   loading: false,
@@ -198,6 +210,7 @@ const initialState = {
 
   getReservations:null,
   getHalls:[],
+  getViews:[],
 
 }
 
@@ -401,6 +414,19 @@ const RequestsSlice = createSlice({
         state.getHalls = action.payload;
       })
       .addCase(getHallsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getViewsThunk
+      .addCase(getViewsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getViewsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getViews = action.payload;
+      })
+      .addCase(getViewsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

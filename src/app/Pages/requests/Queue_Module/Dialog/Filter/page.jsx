@@ -1,5 +1,5 @@
 'use client'
-import { getHallsThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { getHallsThunk, getViewsThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { Dialog } from '@mui/material'
 import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -12,13 +12,14 @@ function FilterPage({open , setOpen}) {
 
   //API
   const dispatch = useDispatch()
-  const {getHalls} = useSelector((state)=>state.requests)
+  const {getHalls , getViews} = useSelector((state)=>state.requests)
 
   useEffect(()=>{
     dispatch(getHallsThunk())
+    dispatch(getViewsThunk())
   },[dispatch])
 
-  console.log('getHalls' , getHalls);
+  console.log('getViews' , getViews);
 
   // status
   const [open1, setOpen1] = useState(false);
@@ -48,7 +49,7 @@ function FilterPage({open , setOpen}) {
   const [selected3, setSelected3] = useState([]);
   const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionView = ["1", "2"];
+  const optionView = getViews?.data;
 
 
 
@@ -395,105 +396,106 @@ function FilterPage({open , setOpen}) {
         </div>
 
         {/* The view */}
-        <div>
-          <p className="text-[#364152] text-sm font-normal">
-            {t("The view")}
-          </p>
+<div>
+  <p className="text-[#364152] text-sm font-normal">
+    {t("The view")}
+  </p>
 
-          <div className="mt-2 w-full">
-            <div className="relative w-full" ref={dropdownRef3}>
-              
-              {/* Input */}
-              <div
-                className="relative flex items-center"
-                onClick={() => setOpen3(!open3)}
-              >
-                <input
-                  type="text"
-                  placeholder={t("Choose the type of look")}
-                  value={
-                    searchValue3 ||
-                    selected3.join(", ")
-                  }
-                  onChange={(e) => {
-                    setSearchValue3(e.target.value);
-                    setOpen3(true);
-                  }}
-                  className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
-                />
+  <div className="mt-2 w-full">
+    <div className="relative w-full" ref={dropdownRef3}>
 
-                <span className="absolute left-3 cursor-pointer">
-                  <img
-                    src={
-                      open3
-                        ? "/images/icons/ArrowUp.svg"
-                        : "/images/icons/ArrowDown.svg"
-                    }
-                    alt="arrow"
-                  />
-                </span>
-              </div>
+      {/* Input */}
+      <div
+        className="relative flex items-center"
+        onClick={() => setOpen3(!open3)}
+      >
+        <input
+          type="text"
+          placeholder={t("Choose the type of look")}
+          value={
+            searchValue3 ||
+            selected3.map((item) => item.name).join(", ")
+          }
+          onChange={(e) => {
+            setSearchValue3(e.target.value);
+            setOpen3(true);
+          }}
+          className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
+        />
 
-              {/* Dropdown */}
-              {open3 && (
-                <ul className="absolute left-0 right-0 z-10 max-h-48 overflow-y-auto rounded-[3px] border border-[#C8C8C8] bg-white shadow-md">
+        <span className="absolute left-3 cursor-pointer">
+          <img
+            src={
+              open3
+                ? "/images/icons/ArrowUp.svg"
+                : "/images/icons/ArrowDown.svg"
+            }
+            alt="arrow"
+          />
+        </span>
+      </div>
 
-                  {optionView
-                    .filter((opt) =>
-                      opt
-                        .toLowerCase()
-                        .includes(searchValue3.toLowerCase())
-                    )
-                    .map((opt) => {
+      {/* Dropdown */}
+      {open3 && (
+        <ul className="absolute left-0 right-0 z-10 max-h-48 overflow-y-auto rounded-[3px] border border-[#C8C8C8] bg-white shadow-md">
 
-                      const alreadySelected =
-                        selected3.includes(opt);
+          {optionView
+            ?.filter((opt) =>
+              opt?.name
+                ?.toLowerCase()
+                .includes(searchValue3.toLowerCase())
+            )
+            .map((opt) => {
 
-                      return (
-                        <li
-                          key={opt}
-                          onClick={() => {
+              const alreadySelected = selected3.some(
+                (item) => item.id === opt.id
+              );
 
-                            if (alreadySelected) {
-                              // remove
-                              setSelected3(
-                                selected3.filter(
-                                  (item) => item !== opt
-                                )
-                              );
-                            } else {
-                              // add
-                              setSelected3([
-                                ...selected3,
-                                opt,
-                              ]);
-                            }
+              return (
+                <li
+                  key={opt.id}
+                  onClick={() => {
 
-                            setSearchValue3("");
-                          }}
-                          className="
-                            cursor-pointer p-3 hover:bg-[#F5F5F5]
-                            flex items-center gap-3
-                          "
-                        >
+                    if (alreadySelected) {
 
-                          <input
-                            type="checkbox"
-                            checked={alreadySelected}
-                            readOnly
-                            className={inputClassName}
-                          />
-
-                          <span>{opt}</span>
-
-                        </li>
+                      // REMOVE
+                      setSelected3(
+                        selected3.filter(
+                          (item) => item.id !== opt.id
+                        )
                       );
-                    })}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
+
+                    } else {
+
+                      // ADD
+                      setSelected3((prev) => [
+                        ...prev,
+                        opt,
+                      ]);
+                    }
+
+                    setSearchValue3("");
+                  }}
+                  className="cursor-pointer p-3 hover:bg-[#F5F5F5] flex items-center gap-3"
+                >
+
+                  <input
+                    type="checkbox"
+                    checked={alreadySelected}
+                    readOnly
+                    className={inputClassName}
+                  />
+
+                  <span>{opt?.name}</span>
+
+                </li>
+              );
+            })}
+        </ul>
+      )}
+    </div>
+  </div>
+</div>
 
         {/* Payment */}
         <div>
