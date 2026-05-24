@@ -396,106 +396,106 @@ function FilterPage({open , setOpen}) {
         </div>
 
         {/* The view */}
-<div>
-  <p className="text-[#364152] text-sm font-normal">
-    {t("The view")}
-  </p>
+        <div>
+          <p className="text-[#364152] text-sm font-normal">
+            {t("The view")}
+          </p>
 
-  <div className="mt-2 w-full">
-    <div className="relative w-full" ref={dropdownRef3}>
+          <div className="mt-2 w-full">
+            <div className="relative w-full" ref={dropdownRef3}>
 
-      {/* Input */}
-      <div
-        className="relative flex items-center"
-        onClick={() => setOpen3(!open3)}
-      >
-        <input
-          type="text"
-          placeholder={t("Choose the type of look")}
-          value={
-            searchValue3 ||
-            selected3.map((item) => item.name).join(", ")
-          }
-          onChange={(e) => {
-            setSearchValue3(e.target.value);
-            setOpen3(true);
-          }}
-          className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
-        />
+              {/* Input */}
+              <div
+                className="relative flex items-center"
+                onClick={() => setOpen3(!open3)}
+              >
+                <input
+                  type="text"
+                  placeholder={t("Choose the type of look")}
+                  value={
+                    searchValue3 ||
+                    selected3.map((item) => item.name).join(", ")
+                  }
+                  onChange={(e) => {
+                    setSearchValue3(e.target.value);
+                    setOpen3(true);
+                  }}
+                  className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
+                />
 
-        <span className="absolute left-3 cursor-pointer">
-          <img
-            src={
-              open3
-                ? "/images/icons/ArrowUp.svg"
-                : "/images/icons/ArrowDown.svg"
-            }
-            alt="arrow"
-          />
-        </span>
-      </div>
+                <span className="absolute left-3 cursor-pointer">
+                  <img
+                    src={
+                      open3
+                        ? "/images/icons/ArrowUp.svg"
+                        : "/images/icons/ArrowDown.svg"
+                    }
+                    alt="arrow"
+                  />
+                </span>
+              </div>
 
-      {/* Dropdown */}
-      {open3 && (
-        <ul className="absolute left-0 right-0 z-10 max-h-48 overflow-y-auto rounded-[3px] border border-[#C8C8C8] bg-white shadow-md">
+              {/* Dropdown */}
+              {open3 && (
+                <ul className="absolute left-0 right-0 z-10 max-h-48 overflow-y-auto rounded-[3px] border border-[#C8C8C8] bg-white shadow-md">
 
-          {optionView
-            ?.filter((opt) =>
-              opt?.name
-                ?.toLowerCase()
-                .includes(searchValue3.toLowerCase())
-            )
-            .map((opt) => {
+                  {optionView
+                    ?.filter((opt) =>
+                      opt?.name
+                        ?.toLowerCase()
+                        .includes(searchValue3.toLowerCase())
+                    )
+                    .map((opt) => {
 
-              const alreadySelected = selected3.some(
-                (item) => item.id === opt.id
-              );
-
-              return (
-                <li
-                  key={opt.id}
-                  onClick={() => {
-
-                    if (alreadySelected) {
-
-                      // REMOVE
-                      setSelected3(
-                        selected3.filter(
-                          (item) => item.id !== opt.id
-                        )
+                      const alreadySelected = selected3.some(
+                        (item) => item.id === opt.id
                       );
 
-                    } else {
+                      return (
+                        <li
+                          key={opt.id}
+                          onClick={() => {
 
-                      // ADD
-                      setSelected3((prev) => [
-                        ...prev,
-                        opt,
-                      ]);
-                    }
+                            if (alreadySelected) {
 
-                    setSearchValue3("");
-                  }}
-                  className="cursor-pointer p-3 hover:bg-[#F5F5F5] flex items-center gap-3"
-                >
+                              // REMOVE
+                              setSelected3(
+                                selected3.filter(
+                                  (item) => item.id !== opt.id
+                                )
+                              );
 
-                  <input
-                    type="checkbox"
-                    checked={alreadySelected}
-                    readOnly
-                    className={inputClassName}
-                  />
+                            } else {
 
-                  <span>{opt?.name}</span>
+                              // ADD
+                              setSelected3((prev) => [
+                                ...prev,
+                                opt,
+                              ]);
+                            }
 
-                </li>
-              );
-            })}
-        </ul>
-      )}
-    </div>
-  </div>
-</div>
+                            setSearchValue3("");
+                          }}
+                          className="cursor-pointer p-3 hover:bg-[#F5F5F5] flex items-center gap-3"
+                        >
+
+                          <input
+                            type="checkbox"
+                            checked={alreadySelected}
+                            readOnly
+                            className={inputClassName}
+                          />
+
+                          <span>{opt?.name}</span>
+
+                        </li>
+                      );
+                    })}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
 
         {/* Payment */}
         <div>
