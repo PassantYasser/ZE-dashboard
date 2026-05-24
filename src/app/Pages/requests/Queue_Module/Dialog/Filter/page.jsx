@@ -19,7 +19,6 @@ function FilterPage({open , setOpen}) {
     dispatch(getViewsThunk())
   },[dispatch])
 
-  console.log('getViews' , getViews);
 
   // status
   const [open1, setOpen1] = useState(false);
@@ -528,6 +527,7 @@ function FilterPage({open , setOpen}) {
             {t('apply')}
           </button>
           <button
+            onClick={()=>setOpen(false)}
             className="w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
           >
             {t('cancel')}
