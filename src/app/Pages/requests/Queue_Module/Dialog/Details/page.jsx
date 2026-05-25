@@ -6,7 +6,7 @@ import Seating_detailsPage from './Seating_details/page'
 import PaymentPage from './Payment/page'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { getReservationsByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { getReservationsByIdThunk, confirmReservationThunk } from '@/redux/slice/Requests/RequestsSlice'
 import DeletePage from '../Delete/page'
 
 function DetailsPage({open , setOpen , reservationData}) {
@@ -55,21 +55,35 @@ function DetailsPage({open , setOpen , reservationData}) {
         <PaymentPage getReservationsById={getReservationsById}/>
       </section>
 
+      {getReservationsById?.status === 'confirmed' ? null :
+      (
         <div className='px-6 pb-6 flex gap-3'>
-          <button 
-            className=' w-[40%] h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '
-          >
-            {t('Booking confirmation')}
-          </button>
+      <button 
+        onClick={() => {
+          if (reservationData?.id) {
+            dispatch(confirmReservationThunk(reservationData.id)).then((res) => {
+              if (!res.error) {
+                setOpen(false)
+                window.location.reload()
+              }
+            })
+          }
+        }}
+        className=' w-[40%] h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '
+      >
+        {t('Booking confirmation')}
+      </button>
 
-          <button 
-            onClick={()=>setOpenDelete(true)}
-            className=' w-[20%] h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '
-          >
-            {t('reject')}
-          </button>
+      <button 
+        onClick={()=>setOpenDelete(true)}
+        className=' w-[20%] h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '
+      >
+        {t('reject')}
+      </button>
 
         </div>
+      )}
+    
 
     </Dialog>
 

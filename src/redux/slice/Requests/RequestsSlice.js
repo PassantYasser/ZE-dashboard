@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getViews, notifyUser, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getViews, notifyUser, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -188,7 +188,7 @@ export const getViewsThunk = createAsyncThunk('request/getViewsThunk',
   }
 )
 
-export const getReservationsByIdThunk = createAsyncThunk('/getReservationsByIdThunk',
+export const getReservationsByIdThunk = createAsyncThunk('requests/getReservationsByIdThunk',
   async(id , {rejectWithValue})=>{
     try{
       const response = await getReservationsById(id)
@@ -198,6 +198,18 @@ export const getReservationsByIdThunk = createAsyncThunk('/getReservationsByIdTh
     }
   }
 )
+
+export const confirmReservationThunk = createAsyncThunk('requests/confirmReservationThunk',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await confirmReservation(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -459,7 +471,19 @@ const RequestsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-      
+      //confirmReservationThunk
+      .addCase(confirmReservationThunk.pending , (state)=>{
+        state.loading =true;
+        state.error = null;
+      })
+      .addCase(confirmReservationThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(confirmReservationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
   }
 })
 
