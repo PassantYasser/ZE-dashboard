@@ -119,3 +119,8 @@ export const confirmReservation = async(id)=>{
   const response = await API.post(`/provider/reservation/${id}/confirm`)
   return response.data
 }
+
+export const rejectReservation = async(id)=>{
+  const response = await API.post(`/provider/reservation/${id}/reject`)
+  return response.data
+}

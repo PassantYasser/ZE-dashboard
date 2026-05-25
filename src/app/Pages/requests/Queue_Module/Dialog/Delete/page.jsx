@@ -3,9 +3,12 @@ import React from 'react'
 import Dialog from '@mui/material/Dialog';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
+import { rejectReservationThunk } from '@/redux/slice/Requests/RequestsSlice';
 
-function DeletePage({open , setOpen }) {
+function DeletePage({open , setOpen, reservationData }) {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
   return (
   <>
@@ -47,6 +50,16 @@ function DeletePage({open , setOpen }) {
 
       <section className='w-full flex p-6 gap-3'>
         <button 
+          onClick={() => {
+            if (reservationData?.id) {
+              dispatch(rejectReservationThunk(reservationData.id)).then((res) => {
+                if (!res.error) {
+                  setOpen(false)
+                  window.location.reload()
+                }
+              })
+            }
+          }}
           className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] '
         >
           <span className='text-base font-medium'>{t('Reject reservation')}</span>

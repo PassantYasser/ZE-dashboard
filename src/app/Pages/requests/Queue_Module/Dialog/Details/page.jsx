@@ -91,6 +91,7 @@ function DetailsPage({open , setOpen , reservationData}) {
     <DeletePage
       open={openDelete}
       setOpen={setOpenDelete}
+      reservationData={reservationData}
     />
     </>
   )
