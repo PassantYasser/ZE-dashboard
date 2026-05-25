@@ -69,7 +69,7 @@ function Guest_InformationPage({getReservationsById}) {
           {/* Booking status */}
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('Booking status')}</p>
-            <p className=''>{StatusRender(getReservationsById?.status)} </p>
+            <div>{StatusRender(getReservationsById?.status)} </div>
           </div>
           {/* Booking code */}
           <div className='font-normal'>
