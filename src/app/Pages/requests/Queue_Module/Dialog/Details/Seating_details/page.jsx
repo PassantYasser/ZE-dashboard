@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Seating_detailsPage() {
+function Seating_detailsPage({getReservationsById}) {
   const {t} = useTranslation()
   return (
     <>

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PaymentPage() {
+function PaymentPage({getReservationsById}) {
   const {t} = useTranslation()
   const status = 'pending'
     // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'

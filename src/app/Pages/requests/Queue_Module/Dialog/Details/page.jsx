@@ -1,14 +1,26 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Guest_InformationPage from './Guest_Information/page'
 import Seating_detailsPage from './Seating_details/page'
 import PaymentPage from './Payment/page'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { getReservationsByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function DetailsPage({open , setOpen , reservationData}) {
   const {t} = useTranslation()
 
+  //API
+  const dispatch = useDispatch()
+  const {getReservationsById} = useSelector((state)=>state.requests)
+  useEffect(() => {
+    if (reservationData?.id) {
+      dispatch(getReservationsByIdThunk(reservationData.id));
+    }
+  }, [dispatch, reservationData?.id]);
+
+  console.log('getReservationsById',getReservationsById);
 
   return (
     <>
@@ -18,6 +30,7 @@ function DetailsPage({open , setOpen , reservationData}) {
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "rerquest-dialog" }}
     >
+    <p>{reservationData?.id}</p>  
       {/* Header */}
       <section className="flex justify-end px-6 mt-6">
         <button
@@ -37,9 +50,9 @@ function DetailsPage({open , setOpen , reservationData}) {
 
 
       <section className='p-6 flex flex-col gap-6'>
-        <Guest_InformationPage/>
-        <Seating_detailsPage/>
-        <PaymentPage/>
+        <Guest_InformationPage getReservationsById={getReservationsById}/>
+        <Seating_detailsPage getReservationsById={getReservationsById}/>
+        <PaymentPage getReservationsById={getReservationsById}/>
       </section>
 
         <div className='px-6 pb-6 flex gap-3'>
@@ -54,7 +67,7 @@ function DetailsPage({open , setOpen , reservationData}) {
           >
             {t('reject')}
           </button>
-          
+
         </div>
 
     </Dialog>
