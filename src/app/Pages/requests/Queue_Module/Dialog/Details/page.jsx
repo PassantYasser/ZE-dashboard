@@ -20,7 +20,7 @@ function DetailsPage({open , setOpen , reservationData}) {
     }
   }, [dispatch, reservationData?.id]);
 
-  console.log('getReservationsById',getReservationsById);
+  console.log('reservationData.id',reservationData.id);
 
   return (
     <>
@@ -30,7 +30,6 @@ function DetailsPage({open , setOpen , reservationData}) {
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "rerquest-dialog" }}
     >
-    <p>{reservationData?.id}</p>  
       {/* Header */}
       <section className="flex justify-end px-6 mt-6">
         <button

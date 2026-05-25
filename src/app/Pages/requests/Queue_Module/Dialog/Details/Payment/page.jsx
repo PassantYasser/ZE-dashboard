@@ -93,11 +93,11 @@ function PaymentPage({getReservationsById}) {
         <div className='flex justify-between my-4'>
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('Deposit amount')}</p>
-            <p className='text-[#364152] text-lg'>200 جنيه </p>
+            <p className='text-[#364152] text-lg'>{getReservationsById?.payment?.deposit_paid} جنيه </p>
           </div>
 
           <div className='flex items-center'>
-            {StatusRender(status)}
+            {StatusRender(getReservationsById?.status)}
           </div>
         </div>
 
