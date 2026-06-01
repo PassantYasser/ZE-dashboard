@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -8,6 +9,8 @@ function CardOfHall() {
   const toggleMenu = (index) => {
     setOpenMenuIndex(prev => (prev === index ? null : index));
   };
+
+  const router = useRouter()
   return (
     <>
     <div className='grid  grid-cols-2'>
@@ -57,7 +60,7 @@ function CardOfHall() {
               <p className='text-[#364152] text-sm font-normal'>{t('copies')}</p>
             </button>
 
-            <button className='flex items-center justify-center gap-1.5 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+            <button onClick={() => router.push(`/Pages/Halls/Edit`)} className='flex items-center justify-center gap-1.5 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
