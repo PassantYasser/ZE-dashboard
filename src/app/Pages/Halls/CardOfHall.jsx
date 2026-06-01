@@ -26,7 +26,7 @@ function CardOfHall() {
           </div>
           {/* dropdown */}
           {openMenuIndex && (
-            <div className='absolute top-9 left-4 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
+            <div className='absolute top-9 left-4 p-3  w-47 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-[3px] bg-white z-10'>
 
               <button 
                 // onClick={() => router.push(`/Pages/Services/Property_Module/Service/View?id=${property.id}`)} 
