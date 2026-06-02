@@ -50,17 +50,29 @@ function EditPage() {
         status:getHallById?.data?.status || 0,
         default_reservation_duration_min:getHallById?.data?.default_reservation_duration_min || '',
         buffer_time_min:getHallById?.data?.buffer_time_min || '',
-        floor_number:getHallById?.data?.floor_number || '',
+        floor_number:getHallById?.data?.floor_number ?? '',
         image:getHallById?.data?.image || '',
       })
     }
   },[getHallById])
 
   const handleSubmit = () => {
-      console.log("Sending Data:", formData);
+    console.log("Sending Data:", formData);
 
-    dispatch(EditHallThunk(formData))
+    const data = new FormData();
+    data.append('_method', 'POST');
+    data.append('name', formData.name);
+    data.append('type_id', formData.type_id);
+    data.append('status', formData.status);
+    data.append('default_reservation_duration_min', formData.default_reservation_duration_min);
+    data.append('buffer_time_min', formData.buffer_time_min);
+    data.append('floor_number', formData.floor_number);
 
+    if (formData.image instanceof File) {
+      data.append('image', formData.image);
+    }
+
+    dispatch(EditHallThunk({ id: formData.id, data }))
   }
 
   return (

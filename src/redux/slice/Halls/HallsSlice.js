@@ -35,9 +35,9 @@ export const getHallByIdThunk = createAsyncThunk('halls/getHallById',
 )
 
 export const EditHallThunk = createAsyncThunk('halls/EditHall',
-  async(formData , {rejectWithValue})=>{
+  async({ id, data } , {rejectWithValue})=>{
     try {
-      const response = await EditHall(formData);
+      const response = await EditHall(id, data);
       return response;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
