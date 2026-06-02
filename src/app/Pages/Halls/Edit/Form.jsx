@@ -88,8 +88,7 @@ function Form({getHallType}) {
       const handleClickOutside = (event) => {
         if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
         if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-        // if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
-        // if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
+        if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
       };
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
