@@ -96,7 +96,7 @@ function CardOfHall({halls}) {
                 <p className='text-[#364152] text-sm font-normal'>{t('copies')}</p>
               </button>
 
-              <button onClick={() => router.push(`/Pages/Halls/Edit`)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+              <button onClick={() => router.push(`/Pages/Halls/Edit?id=${hall?.id}`)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
                 <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
               </button>
