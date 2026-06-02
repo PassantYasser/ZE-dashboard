@@ -31,31 +31,31 @@ function AddPage() {
 
   
 
-const handleSubmit = async () => {
-  const data = new FormData();
+  const handleSubmit = async () => {
+    const data = new FormData();
 
-  data.append('hall_type_id', formData.hall_type_id);
-  data.append('name', formData.name);
-  data.append('status', formData.status);
-  data.append(
-    'default_reservation_duration_min',
-    formData.default_reservation_duration_min
-  );
-  data.append('buffer_time_min', formData.buffer_time_min);
-  data.append('floor_number', formData.floor_number);
+    data.append('hall_type_id', formData.hall_type_id);
+    data.append('name', formData.name);
+    data.append('status', formData.status);
+    data.append(
+      'default_reservation_duration_min',
+      formData.default_reservation_duration_min
+    );
+    data.append('buffer_time_min', formData.buffer_time_min);
+    data.append('floor_number', formData.floor_number);
 
-  if (formData.image instanceof File) {
-    data.append('image', formData.image);
-  }
+    if (formData.image instanceof File) {
+      data.append('image', formData.image);
+    }
 
-  try {
-    await dispatch(AddHallThunk(data)).unwrap();
+    try {
+      await dispatch(AddHallThunk(data)).unwrap();
 
-    router.push('/Pages/Halls');
-  } catch (error) {
-    console.log(error);
-  }
-};
+      router.push('/Pages/Halls');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -66,7 +66,7 @@ const handleSubmit = async () => {
           <p className='text-[#4B5565] text-base font-normal'>{t('Enter the details of the new lounge to start offering it to your customers.')}</p>
         </div>
         
-        <button className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
+        <button onClick={() => router.push('/Pages/Halls')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
           <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
         </button>
       </div>

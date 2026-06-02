@@ -6,11 +6,12 @@ import Form from './Form'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditHallThunk, getHallByIdThunk, getHallTypeThunk } from '@/redux/slice/Halls/HallsSlice'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function EditPage() {
   const {t} = useTranslation();
   //api
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
@@ -80,7 +81,7 @@ function EditPage() {
       
       <div className='flex justify-between mb-10'>
         <p className='text-[#364152] text-2xl font-medium '>{t('Hall renovation')}</p>
-        <button className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
+        <button onClick={() => router.push('/Pages/Halls')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
           <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
         </button>
       </div>
