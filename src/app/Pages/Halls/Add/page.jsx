@@ -16,7 +16,6 @@ function AddPage() {
     dispatch(getHallTypeThunk())
   },[dispatch])
 
-  console.log('getHallType', getHallType);
   return (
     <MainLayout>
 
