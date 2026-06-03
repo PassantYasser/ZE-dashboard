@@ -50,14 +50,23 @@ function CardOfHall({ halls }) {
   }
 
   const router = useRouter()
+  const [selectedHall, setSelectedHall] = useState(null);
+
   return (
     <>
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
         {halls?.data?.map((hall) => (
           <div
-            onclick={() => router.push(`/Pages/Halls/Tables?id=${hall?.id}`)}
+            onClick={() => {
+              console.log("Hall ID:", hall?.id);
+
+              router.push(`/Pages/Halls/Tables?id=${hall?.id}`);
+              setSelectedHall(hall?.id);
+            }}
             key={hall?.id}
-            className='relative shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4 '
+            className={`relative  cursor-pointer rounded-[3px] p-3 grid grid-cols-4 gap-4 hover:shadow-[0_0_8px_var(--color-primary)] 
+                        ${selectedHall === hall?.id ? ' shadow-[0_0_8px_var(--color-primary)] ' : 'shadow-[0_0_4px_0_rgba(0,0,0,0.20)]'}
+                    `}
           >
             {/* image */}
             <div className=''>
