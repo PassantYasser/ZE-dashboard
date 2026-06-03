@@ -52,7 +52,7 @@ function CardOfHall({ halls }) {
   const router = useRouter()
   return (
     <>
-      <div className='grid  grid-cols-2 gap-6'>
+      <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
         {halls?.data?.map((hall) => (
           <div
             key={hall?.id}
@@ -118,7 +118,7 @@ function CardOfHall({ halls }) {
                   <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
                 </button>
 
-                {status ? (
+                {hall?.status ? (
                   <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
                     <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                     <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
