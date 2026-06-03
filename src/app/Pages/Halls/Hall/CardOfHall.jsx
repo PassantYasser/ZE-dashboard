@@ -2,9 +2,9 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IMAGE_BASE_URL } from '../../../../config/imageUrl';
 import { useDispatch } from 'react-redux';
 import { dublicateHallThunk, getHallsThunk } from '@/redux/slice/Halls/HallsSlice';
+import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
 
 function CardOfHall({ halls }) {
   const { t } = useTranslation()
@@ -55,6 +55,7 @@ function CardOfHall({ halls }) {
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
         {halls?.data?.map((hall) => (
           <div
+            onclick={() => router.push(`/Pages/Halls/Tables?id=${hall?.id}`)}
             key={hall?.id}
             className='relative shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4 '
           >
@@ -113,7 +114,7 @@ function CardOfHall({ halls }) {
                   <p className='text-[#364152] text-sm font-normal'>{t('copies')}</p>
                 </button>
 
-                <button onClick={() => router.push(`/Pages/Halls/Edit?id=${hall?.id}`)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+                <button onClick={() => router.push(`/Pages/Halls/Hall/Edit?id=${hall?.id}`)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
                   <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
                   <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
                 </button>

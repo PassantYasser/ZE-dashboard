@@ -86,7 +86,7 @@ function EditPage() {
 
       console.log('Hall updated successfully:', result);
 
-      router.push('/Pages/Halls');
+      router.push('/Pages/Halls/Hall');
     } catch (error) {
       console.error('Failed to update hall:', error);
     }
@@ -96,7 +96,7 @@ function EditPage() {
       
       <div className='flex justify-between mb-10'>
         <p className='text-[#364152] text-2xl font-medium '>{t('Hall renovation')}</p>
-        <button onClick={() => router.push('/Pages/Halls')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
+        <button onClick={() => router.push('/Pages/Halls/Hall')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
           <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
         </button>
       </div>

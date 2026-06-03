@@ -32,7 +32,7 @@ function HallsPage() {
             <p className='text-[#697586] text-xl font-normal'>{t("It was equipped")}  {halls?.active_halls}  {t("hall")}</p>
           </div>
           <AddBtn               
-            href="/Pages/Halls/Add"
+            href="/Pages/Halls/Hall/Add"
             label="Adding a new hall" 
           />
         </div>
