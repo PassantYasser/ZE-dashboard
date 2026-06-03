@@ -137,17 +137,17 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
 
 
           {/* Halls */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Halls/Hall") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/Halls/Hall" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Halls/Hall") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Halls')}</p>
+                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") ? "invert" : ""}/>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Halls')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") ? "invert" : ""}/>
+                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
