@@ -10,8 +10,8 @@ function CardOfHall({ halls }) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const [openMenuIndex, setOpenMenuIndex] = useState(false);
-  const toggleMenu = (index) => {
-    setOpenMenuIndex(prev => (prev === index ? null : index));
+  const toggleMenu = (id) => {
+    setOpenMenuIndex(prev => (prev === id ? null : id));
   };
 
   const handleDuplicate = (hallId) => {
@@ -67,12 +67,12 @@ function CardOfHall({ halls }) {
               {/*  */}
               <div className='flex justify-between items-center mb-2 '>
                 <p className='text-[#364152] text-xl font-medium'>{hall?.name}</p>
-                <p onClick={() => toggleMenu(!openMenuIndex)} className='bg-[#EEF2F6] w-6 h-6 rounded-full flex items-center justify-center cursor-pointer'>
+                <p onClick={() => toggleMenu(hall?.id)} className='bg-[#EEF2F6] w-6 h-6 rounded-full flex items-center justify-center cursor-pointer'>
                   <img src="/images/icons/dots.svg" alt="" />
                 </p>
               </div>
               {/* dropdown */}
-              {openMenuIndex && (
+              {openMenuIndex === hall?.id && (
                 <div className='absolute top-9 left-4 p-3  w-47 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-[3px] bg-white z-10'>
 
                   <button
