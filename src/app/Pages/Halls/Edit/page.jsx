@@ -57,40 +57,40 @@ function EditPage() {
     }
   },[getHallById])
 
-const handleSubmit = async () => {
-  console.log("Sending Data:", formData);
+  const handleSubmit = async () => {
+    console.log("Sending Data:", formData);
 
-  const data = new FormData();
-  data.append('_method', 'POST');
-  data.append('name', formData.name);
-  data.append('type_id', formData.type_id);
-  data.append('status', formData.status);
-  data.append(
-    'default_reservation_duration_min',
-    formData.default_reservation_duration_min
-  );
-  data.append('buffer_time_min', formData.buffer_time_min);
-  data.append('floor_number', formData.floor_number);
+    const data = new FormData();
+    data.append('_method', 'POST');
+    data.append('name', formData.name);
+    data.append('type_id', formData.type_id);
+    data.append('status', formData.status);
+    data.append(
+      'default_reservation_duration_min',
+      formData.default_reservation_duration_min
+    );
+    data.append('buffer_time_min', formData.buffer_time_min);
+    data.append('floor_number', formData.floor_number);
 
-  if (formData.image instanceof File) {
-    data.append('image', formData.image);
-  }
+    if (formData.image instanceof File) {
+      data.append('image', formData.image);
+    }
 
-  try {
-    const result = await dispatch(
-      EditHallThunk({
-        id: formData.id,
-        data,
-      })
-    ).unwrap();
+    try {
+      const result = await dispatch(
+        EditHallThunk({
+          id: formData.id,
+          data,
+        })
+      ).unwrap();
 
-    console.log('Hall updated successfully:', result);
+      console.log('Hall updated successfully:', result);
 
-    router.push('/Pages/Halls');
-  } catch (error) {
-    console.error('Failed to update hall:', error);
-  }
-};
+      router.push('/Pages/Halls');
+    } catch (error) {
+      console.error('Failed to update hall:', error);
+    }
+  };
   return (
     <MainLayout>
       

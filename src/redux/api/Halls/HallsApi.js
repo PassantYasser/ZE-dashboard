@@ -33,3 +33,9 @@ export const AddHall = async(formData)=>{
   });
   return response.data;
 }
+
+export const toggleViews = async(id)=>{
+  console.log("PATCH REQUEST:", id);
+  const response = await API.patch(`/provider/views/${id}/toggle`)
+  return response.data;
+}
