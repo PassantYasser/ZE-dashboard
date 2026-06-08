@@ -1,4 +1,4 @@
-import { AddHall, dublicateHall, EditHall, getHallById, getHalls, getHallType, getTables, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addTable, dublicateHall, EditHall, getHallById, getHalls, getHallType, getTables, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -88,6 +88,17 @@ export const getTablesThunk = createAsyncThunk('halls/getTables',
   async(id , {rejectWithValue})=>{
     try{
       const response = await getTables(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const addTableThunk = createAsyncThunk('halls/addTable' , 
+  async({ id, formData } , {rejectWithValue})=>{
+    try{
+      const response = await addTable(id, formData)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);

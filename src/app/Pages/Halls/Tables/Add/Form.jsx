@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form() {
+function Form({ formData, setFormData }) {
   const {t} = useTranslation();
 
   // =========================
@@ -94,6 +94,7 @@ function Form() {
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
+      
       {/* ========== Table name/number  ========== */}
       <div className='w-full'>
         <p className='text-sm font-medium mb-1.5'>
