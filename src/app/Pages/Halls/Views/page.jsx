@@ -11,6 +11,8 @@ function ViewsPage() {
   const {t} = useTranslation()
 
   const [openAdd , setOpenAdd] = useState(false)
+
+
   return (
     <MainLayout>
       
