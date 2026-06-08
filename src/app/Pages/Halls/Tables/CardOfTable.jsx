@@ -111,7 +111,7 @@ function CardOfTable({getTables}) {
             <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
           </button>
 
-          {status ? (
+          {table?.is_active ? (
               <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
