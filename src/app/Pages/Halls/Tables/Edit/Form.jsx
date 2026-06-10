@@ -3,9 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form({ getTage, getHallsView, formData, setFormData }) {
+function Form({getHallsView, formData, setFormData , availableTags }) {
   const {t} = useTranslation();
-console.log('formData?.tags',formData?.tags);
   // =========================
   const [open1, setOpen1] = useState(false);
   const [searchValue1, setSearchValue1] = useState("");
@@ -249,37 +248,56 @@ console.log('formData?.tags',formData?.tags);
       <div className="w-full flex flex-col gap-1.5 col-span-2">
         <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
-        <div className="grid grid-cols-6 gap-3">
-          {getTage?.tags?.map((tag) => (
-            <button
-              key={tag?.id}
-              onClick={() => setSelectedTag(tag.id)}
-              className={`
-                min-h-10 px-4 py-2 flex justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all
-                ${
-                  selectedTag === tag.id
-                    ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                    : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
-                }
-              `}
-            >
-              {tag?.name}
+        <div className="flex flex-wrap gap-3">
+          {availableTags?.map((tag) => {
+            const isSelected = formData?.tags?.includes(tag.id);
+            return (
+              <button
+                key={tag.id}
+                type="button"
+                onClick={() => {
+                  setFormData(prev => {
+                    const already = prev.tags?.includes(tag.id);
+                    return {
+                      ...prev,
+                      tags: already
+                        ? prev.tags.filter(id => id !== tag.id)   // إلغاء التحديد
+                        : [...(prev.tags || []), tag.id],          // إضافة
+                    };
+                  });
+                }}
+                className={`
+                  min-h-10 px-4 py-2 flex justify-center items-center gap-2 
+                  text-sm font-normal rounded-full border transition-all
+                  ${
+                    isSelected
+                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
+                  }
+                `}
+              >
+                {tag.name}
 
-              {selectedTag === tag.id && (
-                <span
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedTag(null);
-                  }}
-                  className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
-                >
-                  <img src="/images/icons/x_white.svg" alt="close" />
-                </span>
-              )}
-            </button>
-          ))}
+                {isSelected && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFormData(prev => ({
+                        ...prev,
+                        tags: prev.tags.filter(id => id !== tag.id),
+                      }));
+                    }}
+                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                  >
+                    <img src="/images/icons/x_white.svg" alt="close" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
+
 
       {/* Available for booking */}
       <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] py-3 px-4'>

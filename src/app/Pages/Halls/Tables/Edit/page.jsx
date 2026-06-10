@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHallsViewThunk, getTageThunk, getRestaurantTableThunk, EditRestaurantTableThunk } from '@/redux/slice/Halls/HallsSlice'
+import { getHallsViewThunk, getRestaurantTableThunk, EditRestaurantTableThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
 
 function EditPage() {
@@ -22,10 +22,9 @@ function EditPage() {
 
   //api
   const dispatch = useDispatch()
-  const {getTage, getHallsView, getRestaurantTable, loading} = useSelector((state)=>state.halls)
+  const {getHallsView, getRestaurantTable, loading} = useSelector((state)=>state.halls)
   
   useEffect(()=>{
-    dispatch(getTageThunk())
     if(hall_id){
       dispatch(getHallsViewThunk(hall_id))
     }
@@ -34,8 +33,6 @@ function EditPage() {
     }
   },[dispatch, hall_id, table_id])
 
-  console.log('getTage' , getTage);
-  console.log('getRestaurantTable' , getRestaurantTable);
 
   const [formData, setFormData] = useState({
     code: '',
@@ -47,30 +44,30 @@ function EditPage() {
     is_active: true
   });
 
-useEffect(() => {
-  if (getRestaurantTable?.data) {
-    const table = getRestaurantTable.data.table;
+  useEffect(() => {
+    if (getRestaurantTable?.data) {
+      const table = getRestaurantTable.data.table;
 
-    setFormData({
-      code: table?.code || '',
-      shape: table?.shape || '',
-      capacity: table?.capacity || 1,
+      setFormData({
+        code: table?.code || '',
+        shape: table?.shape || '',
+        capacity: table?.capacity || 1,
 
-      views:
-        getRestaurantTable.data.views
-          ?.filter(view => view.is_selected)
-          .map(view => view.id) || [],
+        views:
+          getRestaurantTable.data.views
+            ?.filter(view => view.is_selected)
+            .map(view => view.id) || [],
 
-      tags:
-        getRestaurantTable.data.tags
-          ?.filter(tag => tag.is_selected)
-          .map(tag => tag.id) || [],
+        tags:
+          getRestaurantTable.data.tags
+            ?.filter(tag => tag.is_selected)
+            .map(tag => tag.id) || [],
 
-      is_bookable: table?.is_bookable ?? true,
-      is_active: table?.is_active ?? true,
-    });
-  }
-}, [getRestaurantTable]);
+        is_bookable: table?.is_bookable ?? true,
+        is_active: table?.is_active ?? true,
+      });
+    }
+  }, [getRestaurantTable]);
 
   const handleSubmit = async () => {
 
@@ -116,10 +113,12 @@ useEffect(() => {
 
 
       <Form
-        getTage={getTage}
+
         getHallsView={getHallsView}
         formData={formData}
         setFormData={setFormData}
+        availableTags={getRestaurantTable?.data?.tags || []}  
+
       />
 
       <button 
