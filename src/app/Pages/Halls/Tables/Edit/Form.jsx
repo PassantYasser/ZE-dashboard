@@ -3,12 +3,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form({getTage , getHallsView}) {
+function Form({ getTage, getHallsView, formData, setFormData }) {
   const {t} = useTranslation();
-
+console.log('formData?.tags',formData?.tags);
   // =========================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
   const option1 =[
@@ -20,25 +19,22 @@ function Form({getTage , getHallsView}) {
 
   // =========================
   const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
   const option2 = getHallsView?.data;
-//round,square,rectangle,oval
+
+  // Derive display labels directly from formData (avoids stale state bugs)
+  const selected1 = option1.find(opt => opt.value === formData?.shape)?.name || null;
+  const selected2 = option2?.find(opt => opt.id === formData?.views?.[0])?.name || null;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
       if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-      // if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  //---------------------
-  const [guests, setGuests] = useState(1); 
-
-  const [selectedTag, setSelectedTag] = useState(null);
 
   //==================
   const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -91,10 +87,10 @@ function Form({getTage , getHallsView}) {
     },
   }));
     
-
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
+      
       {/* ========== Table name/number  ========== */}
       <div className='w-full'>
         <p className='text-sm font-medium mb-1.5'>
@@ -103,7 +99,9 @@ function Form({getTage , getHallsView}) {
         </p>
         <input 
           type="text"
-          name='title'
+          name='code'
+          value={formData?.code || ''}
+          onChange={(e) => setFormData({ ...formData, code: e.target.value })}
           placeholder={t('Write the table/number')}
           className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -145,13 +143,13 @@ function Form({getTage , getHallsView}) {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
-                  opt?.name.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
                     key={opt?.value}
                     onClick={() => {
-                      setSelected1(opt?.name);
+                      setFormData(prev => ({ ...prev, shape: opt?.value }));
                       setSearchValue1("");
                       setOpen1(false);
                     }}
@@ -201,13 +199,13 @@ function Form({getTage , getHallsView}) {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option2
                 ?.filter((opt) =>
-                  opt?.name.toLowerCase().includes(searchValue2.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
                 )
                 .map((opt) => (
                   <li
                     key={opt?.id}
                     onClick={() => {
-                      setSelected2(opt?.name);
+                      setFormData(prev => ({ ...prev, views: [opt?.id] }));
                       setSearchValue2("");
                       setOpen2(false);
                     }}
@@ -227,19 +225,19 @@ function Form({getTage , getHallsView}) {
 
         <div className=" h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]  ">
           <button
-            onClick={() => setGuests((prev) => prev + 1)}
+            onClick={() => setFormData(prev => ({ ...prev, capacity: (prev?.capacity || 1) + 1 }))}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
           >
             +
           </button>
 
           <div className="text-center">
-            <p className="text-xl font-medium text-[var(--color-primary)]">{guests}</p>
+            <p className="text-xl font-medium text-[var(--color-primary)]">{formData?.capacity || 1}</p>
             <p className="text-sm text-[#364152]">{t('Guests')}</p>
           </div>
 
           <button
-            onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
+            onClick={() => setFormData(prev => ({ ...prev, capacity: Math.max(1, (prev?.capacity || 1) - 1) }))}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
           >
             -
@@ -247,40 +245,53 @@ function Form({getTage , getHallsView}) {
         </div>
       </div>
 
-    {/* ========= slogans ============ */}
+      {/* ========= slogans ============ */}
       <div className="w-full flex flex-col gap-1.5 col-span-2">
         <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
         <div className="grid grid-cols-6  gap-3">
-          {getTage?.tags?.map((tag)=>(
-            <button
-            key={tag?.id}
-            onClick={() => setSelectedTag(tag.id)}
-            className={`
-              min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
-              ${
-                selectedTag === tag.id
-                  ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                  : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
-              }
-            `}
-          >
-            {tag?.name}
-
-            {selectedTag === tag.id && (
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedTag(null);
+          {getTage?.tags?.map((tag)=>{
+            const isSelected = formData?.tags?.includes(tag?.name);
+            return (
+              <button
+                key={tag?.id}
+                type="button"
+                onClick={() => {
+                  setFormData(prev => ({
+                    ...prev,
+                    tags: prev?.tags?.includes(tag?.name)
+                      ? (prev?.tags || []).filter((t) => t !== tag?.name)
+                      : [...(prev?.tags || []), tag?.name]
+                  }));
                 }}
-                className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                className={`
+                  min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
+                  ${
+                    isSelected
+                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
+                  }
+                `}
               >
-              <img src="/images/icons/x_white.svg" alt="" />
-              </span>
-            )}
-            </button>
-          ))}
-          
+                {tag?.name}
+
+                {isSelected && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFormData(prev => ({
+                        ...prev,
+                        tags: (prev?.tags || []).filter((t) => t !== tag?.name)
+                      }));
+                    }}
+                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                  >
+                    <img src="/images/icons/x_white.svg" alt="" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -295,7 +306,10 @@ function Form({getTage , getHallsView}) {
           </p>
         </div>
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={!!formData?.is_bookable}
+            onChange={(e) => { const v = e.target.checked; setFormData(prev => ({ ...prev, is_bookable: v })); }}
+          />
         </div>
       </div>
 
@@ -310,7 +324,10 @@ function Form({getTage , getHallsView}) {
           </p>
         </div>
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={!!formData?.is_active}
+            onChange={(e) => { const v = e.target.checked; setFormData(prev => ({ ...prev, is_active: v })); }}
+          />
         </div>
       </div>
 

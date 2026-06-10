@@ -68,3 +68,15 @@ export const getHallsView = async(id)=>{
   const response = await API.get(`/provider/halls/${id}/views`)
   return response.data
 }
+
+
+
+export const getRestaurantTable = async(id)=>{
+  const response = await API.get(`/provider/restaurant/tables/${id}`)
+  return response.data
+}
+
+export const EditRestaurantTable = async(id , formData)=>{
+  const response = await API.post(`/provider/restaurant/tables/${id}`,formData)
+  return response.data
+}
