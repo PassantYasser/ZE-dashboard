@@ -80,3 +80,8 @@ export const EditRestaurantTable = async(id , formData)=>{
   const response = await API.post(`/provider/restaurant/tables/${id}`,formData)
   return response.data
 }
+
+export const DeleteTable = async(Tableid)=>{
+  const response = await API.delete(`/provider/restaurant/tables/${Tableid}`)
+  return response.data
+}

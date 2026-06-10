@@ -1,4 +1,4 @@
-import { AddHall, addTable, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getRestaurantTable, getTables, getTage, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addTable, DeleteTable, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getRestaurantTable, getTables, getTage, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -150,6 +150,17 @@ export const EditRestaurantTableThunk = createAsyncThunk('halls/EditRestaurantTa
   }
 )
 
+export const DeleteTableThunk = createAsyncThunk('halls/DeleteTable',
+  async(Tableid , {rejectWithValue})=>{
+    try{
+      const response = await DeleteTable(Tableid)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initailState = {
   loading:false,
   error:null,
@@ -160,6 +171,7 @@ const initailState = {
   getTage:[],
   getHallsView:[],
   getRestaurantTable:null,
+  DeleteTable:[],
 
 
 }
@@ -331,6 +343,19 @@ const HallsSlice =createSlice({
         state.loading = false;
       })
       .addCase(EditRestaurantTableThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //DeleteTableThunk
+      .addCase(DeleteTableThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteTableThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.DeleteTable = action.payload;
+      })
+      .addCase(DeleteTableThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
