@@ -86,7 +86,7 @@ console.log('formData?.tags',formData?.tags);
       }),
     },
   }));
-    
+    const [selectedTag, setSelectedTag] = useState(null);
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
@@ -249,49 +249,35 @@ console.log('formData?.tags',formData?.tags);
       <div className="w-full flex flex-col gap-1.5 col-span-2">
         <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
-        <div className="grid grid-cols-6  gap-3">
-          {getTage?.tags?.map((tag)=>{
-            const isSelected = formData?.tags?.includes(tag?.name);
-            return (
-              <button
-                key={tag?.id}
-                type="button"
-                onClick={() => {
-                  setFormData(prev => ({
-                    ...prev,
-                    tags: prev?.tags?.includes(tag?.name)
-                      ? (prev?.tags || []).filter((t) => t !== tag?.name)
-                      : [...(prev?.tags || []), tag?.name]
-                  }));
-                }}
-                className={`
-                  min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
-                  ${
-                    isSelected
-                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
-                  }
-                `}
-              >
-                {tag?.name}
+        <div className="grid grid-cols-6 gap-3">
+          {getTage?.tags?.map((tag) => (
+            <button
+              key={tag?.id}
+              onClick={() => setSelectedTag(tag.id)}
+              className={`
+                min-h-10 px-4 py-2 flex justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all
+                ${
+                  selectedTag === tag.id
+                    ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                    : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
+                }
+              `}
+            >
+              {tag?.name}
 
-                {isSelected && (
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setFormData(prev => ({
-                        ...prev,
-                        tags: (prev?.tags || []).filter((t) => t !== tag?.name)
-                      }));
-                    }}
-                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
-                  >
-                    <img src="/images/icons/x_white.svg" alt="" />
-                  </span>
-                )}
-              </button>
-            );
-          })}
+              {selectedTag === tag.id && (
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedTag(null);
+                  }}
+                  className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                >
+                  <img src="/images/icons/x_white.svg" alt="close" />
+                </span>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
