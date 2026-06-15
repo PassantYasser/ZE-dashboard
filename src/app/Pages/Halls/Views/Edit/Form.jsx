@@ -10,7 +10,12 @@ function Form({getHallView}) {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const option1 =['1' ,'2']
+  const option1 =[
+    {name:t('Right side') , value:'right'},
+    {name:t('Left side') , value:'left'},
+    {name:t('Top side') , value:'top'},
+    {name:t('Bottom side') , value:'bottom'},
+  ]
 
 
   useEffect(() => {
@@ -96,19 +101,19 @@ function Form({getHallView}) {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
-                  opt.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
-                .map((opt) => (
+                .map((opt , index) => (
                   <li
-                    key={opt}
+                    key={index}
                     onClick={() => {
-                      setSelected1(opt);
+                      setSelected1(opt?.name);
                       setSearchValue1("");
                       setOpen1(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
               ))}
             </ul>
