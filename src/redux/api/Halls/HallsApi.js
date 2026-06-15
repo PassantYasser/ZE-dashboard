@@ -100,3 +100,8 @@ export const addHallView = async(Hallid,formData)=>{
   const response = await API.post(`/provider/halls/${Hallid}/views` , formData)
   return response.data
 }
+
+export const deleteView = async(id)=>{
+  const response = await API.delete(`/provider/views/${id}/delete`)
+  return response.data
+}

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import AddPage from './Add/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'next/navigation'
-import { getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
+import { deleteViewThunk, getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
 
 function ViewsPage() {
   const {t} = useTranslation()
@@ -27,6 +27,12 @@ function ViewsPage() {
     }
   },[dispatch , id])
 
+  const handleDelete = async (viewId) => {
+    const result = await dispatch(deleteViewThunk(viewId))
+    if (!result.error) {
+      dispatch(getViewsThunk(id))
+    }
+  }
   // console.log('getViews',getViews);
   return (
     <MainLayout>
@@ -53,7 +59,7 @@ function ViewsPage() {
 
         {/* cards */}
         <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-          <CardOfViews  getViews={getViews}/>
+          <CardOfViews  getViews={getViews} handleDelete={handleDelete}/>
         </div>
         
       </div>
