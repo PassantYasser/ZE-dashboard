@@ -27,7 +27,7 @@ function ViewsPage() {
     }
   },[dispatch , id])
 
-  console.log('getViews',getViews);
+  // console.log('getViews',getViews);
   return (
     <MainLayout>
       

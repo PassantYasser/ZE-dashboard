@@ -90,3 +90,8 @@ export const getViews = async(id)=>{
   const response = await API.get(`/provider/halls/${id}/views`)
   return response.data
 }
+
+export const getHallView = async()=>{
+  const response = await API.get('/provider/hall-views')
+  return response.data
+}
