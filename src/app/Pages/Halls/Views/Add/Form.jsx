@@ -58,7 +58,6 @@ function Form({getHallView}) {
             </div>
           ))}
           
-        
         </div>
       </div>
 

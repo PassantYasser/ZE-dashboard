@@ -1,8 +1,9 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
 
-function Form() {
+function Form({getHallView}) {
   const {t} = useTranslation()
   // =========================
   const [open1, setOpen1] = useState(false);
@@ -44,12 +45,17 @@ function Form() {
           <span className='text-[#364152] '>{t('Choose the icon')} </span>
         </p>
         <div className=' grid grid-cols-3 gap-4'>
-          <div className='border border-[#E3E8EF] py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-[8px]'>
-            <p className='w-12.5 h-12 bg-amber-300 flex items-center justify-center rounded-[3px]'>
-              <img src="/images/icons/Wheel repair.svg" alt="" />
-            </p>
-              <p className='text-[#4B5565] text-base font-normal'>الشارع</p>
-          </div>
+          {getHallView?.data?.map((items)=>(
+            <div key={items?.id} className='border border-[#E3E8EF] py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-[8px]'>
+              <p 
+                className='w-12.5 h-12  flex items-center justify-center rounded-[3px]'
+                style={{backgroundColor:items?.hex_code}}
+              >
+                <img src={`${IMAGE_BASE_URL}${items?.icon}`} alt="" />
+              </p>
+                <p className='text-[#4B5565] text-base font-normal'>{items?.name}</p>
+            </div>
+          ))}
         
         </div>
       </div>

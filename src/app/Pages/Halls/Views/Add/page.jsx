@@ -9,6 +9,7 @@ import { getHallViewThunk } from '@/redux/slice/Halls/HallsSlice'
 function AddPage({open , setOpen}) {
   const{t} = useTranslation()
 
+  //api
   const dispatch = useDispatch()
   const {getHallView} = useSelector((state)=>state.halls)
   useEffect(()=>{
