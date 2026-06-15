@@ -95,3 +95,8 @@ export const getHallView = async()=>{
   const response = await API.get('/provider/hall-views')
   return response.data
 }
+
+export const addHallView = async(Hallid,formData)=>{
+  const response = await API.post(`/provider/halls/${Hallid}/views` , formData)
+  return response.data
+}

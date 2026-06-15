@@ -63,6 +63,7 @@ function ViewsPage() {
       <AddPage
         open={openAdd}
         setOpen={setOpenAdd}
+        Hallid = {id}
       />
 
     </MainLayout>

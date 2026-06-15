@@ -1,14 +1,14 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { Dialog } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHallViewThunk } from '@/redux/slice/Halls/HallsSlice'
+import { addHallViewThunk, getHallViewThunk, getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function AddPage({open , setOpen}) {
+function AddPage({open , setOpen , Hallid}) {
   const{t} = useTranslation()
-
+  console.log('Hallid' , Hallid);
   //api
   const dispatch = useDispatch()
   const {getHallView} = useSelector((state)=>state.halls)
@@ -16,6 +16,29 @@ function AddPage({open , setOpen}) {
     dispatch(getHallViewThunk())
   },[dispatch])
 
+  const [formData , setFormData] = useState({
+    view_id:'',
+    name:'',
+    side:'',
+    description:'',
+  })
+
+  const handleSave = async () => {
+    try {
+      await dispatch(
+        addHallViewThunk({
+          hallid: Hallid,
+          formData,
+        })
+      ).unwrap();
+
+      await dispatch(getViewsThunk(Hallid));
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   console.log('getHallView',getHallView);
   return (
     <>
@@ -43,9 +66,11 @@ function AddPage({open , setOpen}) {
       <span className="border-[0.5px] border-[#E3E8EF]" />
 
       {/*  */}
-      <Form getHallView={getHallView}/>
+      <Form getHallView={getHallView} formData={formData} setFormData={setFormData}  />
+
+      {/* btn */}
       <div className='px-6'>
-        <button className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
+        <button onClick={handleSave} className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
           {t('save')}
         </button>
       </div>
