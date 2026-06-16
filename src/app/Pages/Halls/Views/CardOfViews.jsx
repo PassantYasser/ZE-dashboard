@@ -6,7 +6,7 @@ import EditPage from "./Edit/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 import ConfirmDelete from "./ConfirmDelete";
 
-function CardOfViews({getViews , handleDelete ,handleToggle}) {
+function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
   const {t} = useTranslation()
   const GreenSwitch = styled(Switch)(({ theme }) => ({
     width: 53,
@@ -172,6 +172,7 @@ const [selectedViewId, setSelectedViewId] = useState(null);
         open={openEdit}
         setOpen={setOpenEdit}
         viewId={selectedViewId}
+        refreshViews={refreshViews}
       />
 
       {/* Confirm Delete Dialog */}

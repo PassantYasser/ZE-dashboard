@@ -6,7 +6,7 @@ import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { editViewsThunk, getHallViewThunk, getViewsByIdThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function EditPage({open , setOpen , viewId}) {
+function EditPage({open , setOpen , viewId, refreshViews}) {
   const{t} = useTranslation()
 
   //api
@@ -53,6 +53,9 @@ function EditPage({open , setOpen , viewId}) {
           formData,
         })
       ).unwrap();
+      if (refreshViews) {
+        refreshViews();
+      }
       setOpen(false);
     } catch (error) {
       console.log(error);
@@ -67,7 +70,6 @@ console.log('getViewsById',getViewsById);
       aria-describedby="alert-dialog-description"
       PaperProps={{ className: "rerquest-dialog" }}
     >
-      <p>{viewId}</p>
       {/* header */}
       <section className="flex justify-end px-6 mt-6">
         <button
