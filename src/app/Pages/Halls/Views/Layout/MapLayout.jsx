@@ -2,11 +2,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
 
 function MapLayout({ 
-  tables = [], // Contains layout items: [{ id, x, y, width, height, table: {...} }]
-  views = [],  // Contains side views: [{ side, name, view: { hex_code } }]
+  tables = [], 
+  views = [], 
   hallId, 
   selectedTableId, 
   setSelectedTableId,
@@ -15,12 +14,11 @@ function MapLayout({
   canvasWidth = 1000,
   canvasHeight = 700
 }) {
-  const { t } = t => t // fallback if i18n is not loaded, but useTranslation is imported
+  const { t } = t => t 
   const { t: translate } = useTranslation()
   const router = useRouter()
   const [draggingId, setDraggingId] = useState(null)
 
-  // Ref to track coordinates synchronously during dragging
   const dragInfo = useRef({
     draggingId: null,
     dragStart: { x: 0, y: 0 },
@@ -136,12 +134,6 @@ function MapLayout({
 
   return (
     <div className="flex flex-col gap-5 border border-[#E3E8EF] bg-white rounded-[8px] p-6 shadow-sm">
-
-      {/* Info helper tooltip */}
-      <div className="flex items-center gap-2 text-slate-500 text-sm font-normal px-1" dir="auto">
-        <span>💡</span>
-        <p>{translate('Drag tables to arrange the layout. Click any table to view options.')}</p>
-      </div>
 
       {/* Layout Grid Board - Solid background color as Figma design */}
       <div

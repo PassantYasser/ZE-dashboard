@@ -34,7 +34,6 @@ function Layoutpage() {
   useEffect(() => {
     if (hallId) {
       dispatch(getHallLayoutThunk(hallId)).unwrap().then((res) => {
-        // If layout items are empty, trigger randomize to populate them initially
         if (!res?.data?.items || res.data.items.length === 0) {
           dispatch(randomizeHallLayoutThunk(hallId)).unwrap().then(() => {
             dispatch(getHallLayoutThunk(hallId));
@@ -119,7 +118,7 @@ function Layoutpage() {
       <div className='flex justify-end mt-8 mb-6'>
         <button
           onClick={handleSaveLayout}
-          className='bg-[var(--color-primary)] text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer hover:opacity-90 shadow-md transition-all flex items-center justify-center min-w-[200px]'
+          className='bg-[var(--color-primary)] text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer hover:opacity-90 shadow-[3px] transition-all flex items-center justify-center w-[20%] h-14'
         >
           {t('Save changes')}
         </button>
