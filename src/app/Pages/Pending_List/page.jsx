@@ -22,8 +22,8 @@ function Pending_ListPage() {
 
       <div className='border border-[#E3E8EF] rounded-[3px] p-6 mb-6'>
         <Filter activeTab={activeTab} setActiveTab={setActiveTab}/>
-        {/* <Cards  activeTab={activeTab}/> */}
-        <No_Guest_Add />
+        <Cards  activeTab={activeTab}/>
+        {/* <No_Guest_Add /> */}
       </div>
       
     </MainLayout>
