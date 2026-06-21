@@ -1188,6 +1188,15 @@
   "Delay period":"Delay period",
   "Enter the booking code":"Enter the booking code",
   "Enter the 6-letter/number code":"Enter the 6-letter/number code",
+  "Invalid code":"Invalid code",
+  "This code does not match a valid reservation for this restaurant.":"This code does not match a valid reservation for this restaurant.",
+  "Please check:":"Please check:",
+  "The symbol belongs to this branch.":"The symbol belongs to this branch.",
+  "The reservation has not been cancelled.":"The reservation has not been cancelled.",
+  "The date and time are correct.":"The date and time are correct.",
+  "Re-search":"Re-search",
+  "Do you need help?":"Do you need help?",
+  "Contact technical support":"Contact technical support",
   
 
   

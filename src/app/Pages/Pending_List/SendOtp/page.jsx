@@ -97,6 +97,7 @@ function SendOtpPage({open , setOpen}) {
     <WrongOtpPage
       open={openWrongOtp}
       setOpen={setWrongOtp}
+      setOpenOtp ={setOpen}
     />
 
     <DetailsBookingLoginPage
