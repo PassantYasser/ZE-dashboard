@@ -23,7 +23,7 @@ function Cards({ activeTab , getWaitingList }) {
           <div className='flex justify-between'>
             <div className='flex items-center gap-2'>
               <p className='bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] text-white w-15 h-14 rounded-[3px] flex justify-center items-center'>
-                {items?.table?.code}
+                {items?.table?.code ? items?.table?.code : '###'}
               </p>
               <p className='text-[#364152] text-lg font-medium'>{items?.guest_name}</p>
             </div>
@@ -46,9 +46,9 @@ function Cards({ activeTab , getWaitingList }) {
 
           {/*  */}
           {items?.notes &&(
-            <div className='flex gap-2'>
+            <div className='flex gap-2 items-start'>
               <img src="/images/icons/comment-gray.svg" alt="" />
-              <p className='text-[#364152] text-base font-normal'>{items?.notes}  </p>
+              <p className='min-w-0 text-[#364152] text-base font-normal break-words'>{items?.notes}  </p>
             </div>
           )}
           
