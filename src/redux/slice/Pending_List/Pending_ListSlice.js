@@ -14,9 +14,9 @@ export const getwaitlistAnalysisThunk = createAsyncThunk('PendingList/getwaitlis
 )
 
 export const getWaitingListThunk = createAsyncThunk('PendingList/getWaitingList',
-  async(_ , {rejectWithValue})=>{
+  async(params = {} , {rejectWithValue})=>{
     try{
-      const response = await getWaitingList()
+      const response = await getWaitingList(params)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
