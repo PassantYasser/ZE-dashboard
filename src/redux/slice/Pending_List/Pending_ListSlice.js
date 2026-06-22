@@ -1,4 +1,4 @@
-import { getwaitlistAnalysis } from "@/redux/api/Pending_List/Pending_ListApi";
+import { getWaitingList, getwaitlistAnalysis } from "@/redux/api/Pending_List/Pending_ListApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -13,10 +13,23 @@ export const getwaitlistAnalysisThunk = createAsyncThunk('PendingList/getwaitlis
   }
 )
 
+export const getWaitingListThunk = createAsyncThunk('PendingList/getWaitingList',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getWaitingList()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState = {
   loading:false,
   error:null,
   getwaitlistAnalysis:null,
+  getWaitingList:[],
+
 
 }
 
@@ -40,6 +53,20 @@ const Pending_ListSlice = createSlice({
         state.error = null;
       })
       .addCase(getwaitlistAnalysisThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getWaitingListThunk
+      .addCase(getWaitingListThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getWaitingListThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getWaitingList = action.payload; 
+        state.error = null;
+      })
+      .addCase(getWaitingListThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

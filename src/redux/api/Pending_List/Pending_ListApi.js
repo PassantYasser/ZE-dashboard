@@ -4,3 +4,8 @@ export const getwaitlistAnalysis = async()=>{
   const response = await API.get('/provider/waitlist/analysis')
   return response.data
 }
+
+export const getWaitingList = async()=>{
+  const response = await API.get('/provider/waitlist/get')
+  return response.data
+}
