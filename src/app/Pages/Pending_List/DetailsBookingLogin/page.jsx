@@ -1,13 +1,38 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SeatingDetails from './SeatingDetails'
 import GuestInformation from './GuestInformation'
+import { useDispatch } from 'react-redux'
+import { seatedWaitlistThunk } from '@/redux/slice/Pending_List/Pending_ListSlice'
+import { toast } from 'react-toastify'
 
-function DetailsBookingLoginPage({open , setOpen}) {
+function DetailsBookingLoginPage({open , setOpen ,guestID, refresh}) {
   const {t} = useTranslation()
-  
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  console.log('888888guestID8888===' , guestID);
+
+  const handleSeated = async () => {
+    try {
+      setLoading(true)
+      const payload = {
+        reservation_id: guestID
+      }
+      await dispatch(seatedWaitlistThunk(payload)).unwrap()
+      toast.success(t('Guest seated successfully'))
+      setOpen(false)
+      if (refresh) {
+        refresh()
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error(error?.message || t('Failed to seat guest'))
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <Dialog
       open={open}
@@ -66,9 +91,11 @@ function DetailsBookingLoginPage({open , setOpen}) {
           </button>
 
           <button
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            onClick={handleSeated}
+            disabled={loading}
+            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-50"
           >
-            {t('Successfully seated')}
+            {loading ? t('Loading...') : t('Successfully seated')}
           </button>
         </div>
       </div>
