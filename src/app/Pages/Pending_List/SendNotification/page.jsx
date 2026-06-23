@@ -1,12 +1,35 @@
 "use client"
+import { notifyUserThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 
-function SendNotificationPage({open , setOpen }) {
+function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
   const{t} = useTranslation()
   const [ message , setMessage] = useState('')
 
+  const dispatch = useDispatch()
+
+  const [formData , setFormData] = useState({
+    reservation_id:'',
+    message:''
+  })
+
+    const handleSubmit = async () => {
+      try {
+        await dispatch(
+          notifyUserThunk({
+            reservation_id: guestID,
+            message: formData.message,
+          })
+        ).unwrap();
+  
+        setOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
   return (
     <Dialog
@@ -37,7 +60,7 @@ function SendNotificationPage({open , setOpen }) {
         <section className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-[3px] mb-4 flex gap-1'>
           <img src="/images/icons/user_gray.svg" alt="" />
           <p className='text-[#697586] text-base font-normal'>{t('guest')} : </p>
-          <p className='text-[#364152] text-base font-normal'>احمد سعيد</p>
+          <p className='text-[#364152] text-base font-normal'>{guestDetails?.guest_name} </p>
         </section>
 
         <section className="flex flex-col mb-3">
@@ -48,6 +71,11 @@ function SendNotificationPage({open , setOpen }) {
             <textarea
               placeholder={t("Send notification")}
               maxLength={500}
+              value= {formData?.message}
+              onChange={(e)=>setFormData({
+                ...formData , 
+                message : e.target.value
+              })}
               className={`w-full h-50 border rounded-[3px] p-3 text-sm text-[#7d8d84] outline-none border-[#CDD5DF]`}
             />
 
@@ -69,7 +97,7 @@ function SendNotificationPage({open , setOpen }) {
           </button>
 
           <button
-          
+            onClick={handleSubmit}
             className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('send')}
