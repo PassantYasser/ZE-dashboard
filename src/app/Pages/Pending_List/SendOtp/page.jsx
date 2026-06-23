@@ -12,6 +12,7 @@ function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
   const [openWrongOtp , setWrongOtp] = useState(false)
   const [openDetailsBookingLogin , setOpenDetailsBookingLogin] = useState(false)
 
+  const [bookingToken, setBookingToken] = useState('');
   //api
   const dispatch = useDispatch()
   console.log('guestDetails====' , guestDetails);
@@ -20,7 +21,7 @@ function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
     qr_token:'',
   })
 
-  const handleSubmit = async () => {
+const handleSubmit = async () => {
   try {
     const payload = {
       qr_token: formData.qr_token,
@@ -30,6 +31,13 @@ function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
     const result = await dispatch(scanWaitlistThunk(payload)).unwrap();
 
     console.log(result);
+
+    if (result?.code === 422) {
+      setWrongOtp(true);
+      return;
+    }
+
+    setBookingToken(formData.qr_token)
     setOpenDetailsBookingLogin(true);
 
     setTimeout(() => {
@@ -46,7 +54,6 @@ function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
     }, 100);
   }
 };
-  
 
 
 
@@ -142,6 +149,7 @@ function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
       setOpen={setOpenDetailsBookingLogin}
       guestID={guestID}
       refresh={refresh}
+      token={bookingToken}
     />
 
 

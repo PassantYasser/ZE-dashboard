@@ -31,6 +31,10 @@ export const arrivedWaitlist = async(formData)=>{
 }
 
 export const getScanWaitlist = async(formData)=>{
-  const response = await API.get('/provider/waitlist/get-scanned',formData)
+  const response = await API.get('/provider/waitlist/get-scanned',{
+    params: {
+        qr_token: formData.qr_token,
+      },
+  })
   return response.data
 }

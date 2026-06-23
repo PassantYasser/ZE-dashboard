@@ -1,4 +1,4 @@
-import { addWaitlist, arrivedWaitlist, getWaitingList, getwaitlistAnalysis, scanWaitlist, seatedWaitlist } from "@/redux/api/Pending_List/Pending_ListApi";
+import { addWaitlist, arrivedWaitlist, getScanWaitlist, getWaitingList, getwaitlistAnalysis, scanWaitlist, seatedWaitlist } from "@/redux/api/Pending_List/Pending_ListApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -72,6 +72,7 @@ export const getScanWaitlistThunk = createAsyncThunk('PendingList/getScanWaitlis
   async(formData , {rejectWithValue})=>{
     try{
       const response = await getScanWaitlist(formData)
+        console.log('API Response:', response);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
