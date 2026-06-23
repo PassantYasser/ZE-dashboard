@@ -16,20 +16,20 @@ function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
     message:''
   })
 
-    const handleSubmit = async () => {
-      try {
-        await dispatch(
-          notifyUserThunk({
-            reservation_id: guestID,
-            message: formData.message,
-          })
-        ).unwrap();
-  
-        setOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        notifyUserThunk({
+          reservation_id: guestID,
+          message: formData.message,
+        })
+      ).unwrap();
+
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Dialog
@@ -81,7 +81,7 @@ function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
 
             {/* counter */}
             <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-              {message.length}/500
+              {formData?.message.length}/500
             </span>
           </div>
         </section>
