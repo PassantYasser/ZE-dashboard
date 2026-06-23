@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 
 function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
   const{t} = useTranslation()
-  const [ message , setMessage] = useState('')
 
   const dispatch = useDispatch()
 
