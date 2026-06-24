@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NoClassification() {
+function NoClassification({setOpenAdd}) {
   const {t} = useTranslation()
   return (
     <>
@@ -10,7 +10,8 @@ function NoClassification() {
         <img src="/images/NOMenu.svg" alt="" />
         <p className='text-[#364152] text-2xl font-semibold '>{t('Start by adding categories')}</p>
         <p className='text-[#697586] text-xl font-normal'>{t('Add menu categories to organize and display items more clearly.')}</p>
-        <button 
+        <button
+          onClick={()=>setOpenAdd(true)}
           className='flex justify-center gap-2 bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer'
         >
           <p className='text-base flex items-center'>{t('Add category')} </p>
