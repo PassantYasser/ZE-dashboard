@@ -38,7 +38,7 @@ function EditPage({open , setOpen}) {
       </div>
 
       {/* btn */}
-      <div className='px-6 flex  gap-6 mb-6'>
+      <div className='px-6 flex  gap-4 mb-6'>
         <button  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('Save changes')}
         </button>
