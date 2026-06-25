@@ -18,7 +18,7 @@ function SecondClassificationListPage({setOpenEdit, setShowSecond}) {
             </button>
           </div>
           <div className='grid grid-cols-2 gap-6'>
-            <Card setOpenEdit={setOpenEdit} setShowSecond={setShowSecond} />
+            <Card  />
           </div>
       </div>
 
