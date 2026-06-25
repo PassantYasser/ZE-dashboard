@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Edit_CategoryPage from '../Edit_Category/page'
 
-function Card() {
+function Card({ onViewCategoryItems }) {
   const {t} = useTranslation()
   const [openEditCategory , setOpenEditCategory] = useState(false)
 
@@ -55,6 +55,7 @@ function Card() {
             
             {/* second */}
             <button 
+              onClick={onViewCategoryItems}
               className='w-8 h-8 mt-3 bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'
             >
               <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />

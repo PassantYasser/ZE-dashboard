@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import ItemsPage from './Items/page'
 import CategoryPage from './Category/page'
 import Add_CategoryPage from './Category/Add_Category/page'
+import Item_Of_CategoryPage from './Items/Item_Of_Category/page'
 
 function MenusPage() {
   const {t} = useTranslation( )
@@ -16,7 +17,7 @@ function MenusPage() {
       {/*  */}
       <div className='flex justify-between mb-5'>
         <p className='text-[#364152] text-2xl font-medium '>{t('menu')}</p>
-        {activeTab==='Category' ?(
+        {(activeTab==='Category' || activeTab==='Item_Of_Category') ?(
           <button onClick={()=>setOpenAdd(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
             <p>  <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
@@ -35,17 +36,17 @@ function MenusPage() {
         <button 
           onClick={() => setActiveTab('Category')}
           className={`flex justify-center gap-1  p-4 cursor-pointer 
-            ${activeTab === 'Category'
+            ${(activeTab === 'Category' || activeTab === 'Item_Of_Category')
               ? 'bg-[var(--color-primary)] text-white rounded-[3px]'
               : ''
             }`}
         >
           <span className='flex items-center'>
-            <img src={`/images/icons/${activeTab === 'Category'?'serving-food-white.svg':'serving-food-black.svg'}`} className="w-5 h-5" />
+            <img src={`/images/icons/${(activeTab === 'Category' || activeTab === 'Item_Of_Category')?'serving-food-white.svg':'serving-food-black.svg'}`} className="w-5 h-5" />
           </span>
           <span 
             className={` text-xl font-normal   
-            ${activeTab === 'Category'?'text-white':'text-[#364152]'}`}
+            ${(activeTab === 'Category' || activeTab === 'Item_Of_Category')?'text-white':'text-[#364152]'}`}
           >
             {t('Classification')}
           </span>
@@ -75,17 +76,14 @@ function MenusPage() {
       <div className='mt-10'>
         {/* Content */}
         {activeTab === 'Category' && (
-          <CategoryPage />
+          <CategoryPage onViewCategoryItems={() => setActiveTab('Item_Of_Category')} />
         )}
         {activeTab === 'items' && (
           <ItemsPage />
         )}
-
-
-
-        
-
-      
+        {activeTab === 'Item_Of_Category' && (
+          <Item_Of_CategoryPage onClickBack={() => setActiveTab('Category')} />
+        )}
       </div>
 
 

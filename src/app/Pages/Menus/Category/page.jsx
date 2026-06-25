@@ -1,11 +1,11 @@
 import React from 'react'
 import All_CategoryPage from './All_Category/page'
 
-function CategoryPage() {
+function CategoryPage({ onViewCategoryItems }) {
   return (
     <div>
 
-      <All_CategoryPage/>
+      <All_CategoryPage onViewCategoryItems={onViewCategoryItems}/>
     </div>
   )
 }

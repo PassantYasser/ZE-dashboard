@@ -1,8 +1,11 @@
 import React from 'react'
+import All_ItemsPage from './All_Items/page'
 
 function ItemsPage() {
   return (
-    <div>ItemsPage</div>
+    <>
+      <All_ItemsPage/>
+    </>
   )
 }
 
