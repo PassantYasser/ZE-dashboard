@@ -43,8 +43,8 @@ function Details_Of_ItemsPage({open , setOpen}) {
         <button onClick={()=>setOpenEditItem(true)}  className=' flex justify-center gap-3 w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('Service modification')} <img src="/images/icons/edit.svg" className="w-5 h-5" />
         </button>
-        <button onClick={()=>setOpen(false)} className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
-          {t('cancel')}
+        <button  className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('delete')}
         </button>
         
       </div>
