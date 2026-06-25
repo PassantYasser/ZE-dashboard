@@ -77,7 +77,9 @@ function MenusPage() {
         {/* Content */}
         {activeTab === 'Category' && (
           <CategoryPage 
-            onViewCategoryItems={() => setActiveTab('Item_Of_Category')} />
+            onViewCategoryItems={() => setActiveTab('Item_Of_Category')} 
+            setOpenAdd ={setOpenAdd}
+          />
         )}
         {activeTab === 'items' && (
           <ItemsPage 
