@@ -1,9 +1,11 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Details_Of_ItemsPage from '../Details_Of_Items/page'
 
 function Card() {
     const {t} = useTranslation()
+    const [openDetailsItem , setOpenDetailsItem] = useState(false)
   
   return (
     <>
@@ -21,14 +23,20 @@ function Card() {
           </div>
           <div className='flex items-center '>
           
-            {/* detail */}
-            <button  className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
+            {/* details */}
+            <button onClick={()=>setOpenDetailsItem(true)}  className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
               <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />
             </button>
 
           </div>
         </div>
       </div>
+
+      <Details_Of_ItemsPage
+        open={openDetailsItem}
+        setOpen={setOpenDetailsItem}
+      />
+
       
 
     </>

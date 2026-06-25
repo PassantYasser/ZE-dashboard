@@ -76,10 +76,13 @@ function MenusPage() {
       <div className='mt-10'>
         {/* Content */}
         {activeTab === 'Category' && (
-          <CategoryPage onViewCategoryItems={() => setActiveTab('Item_Of_Category')} />
+          <CategoryPage 
+            onViewCategoryItems={() => setActiveTab('Item_Of_Category')} />
         )}
         {activeTab === 'items' && (
-          <ItemsPage />
+          <ItemsPage 
+            setOpenAdd ={setOpenAdd}
+          />
         )}
         {activeTab === 'Item_Of_Category' && (
           <Item_Of_CategoryPage onClickBack={() => setActiveTab('Category')} />

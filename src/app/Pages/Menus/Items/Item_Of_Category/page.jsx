@@ -5,6 +5,7 @@ import Card from './Card'
 
 function Item_Of_CategoryPage({ onClickBack }) {
   const {t} = useTranslation()
+  
   return (
     <>
       <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
