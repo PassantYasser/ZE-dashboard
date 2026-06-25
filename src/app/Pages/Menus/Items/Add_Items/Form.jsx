@@ -244,6 +244,21 @@ function Form() {
 
     </div>
 
+    {/* Savings schedule */}
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6'>
+      <p className='text-[#364152] text-base font-medium'>{t('Savings schedule')}</p>
+      <div className='mt-4 flex justify-between'>
+        <div className='flex flex-col gap-1'>
+          <p className='text-[#364152] text-sm font-normal'>{t('Available all day')}</p>
+          <p className='text-[#4B5565] text-sm font-normal'>{t('Available at all times')}</p>
+        </div>
+
+        <div>
+          <GreenSwitch/>
+        </div>
+      </div>
+    </div>
+
     {/* Status */}
     <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Status')}</p>
