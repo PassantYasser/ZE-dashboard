@@ -1,8 +1,10 @@
 import API from "../../../../config/api"
 
 
-export const getCategories = async()=>{
-  const response = await API.get('/provider/menu-categories')
+export const getCategories = async(page = 1)=>{
+  const response = await API.get('/provider/menu-categories', {
+    params: { page }
+  })
   return response.data
 }
 

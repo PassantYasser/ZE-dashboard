@@ -3,14 +3,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
 export const getCategoriesThunk = createAsyncThunk('Menus/getCategories',
-  async(_ , {rejectWithValue})=>{
+  async(page = 1, {rejectWithValue})=>{
     try{
-      const response = await getCategories();
+      const response = await getCategories(page);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
-
   }
 )
 
@@ -39,11 +38,16 @@ export const addCategoryThunk = createAsyncThunk('Menus/addCategory',
 
 
 const initialState = {
-  loading:false,
-  error:null,
-  getCategories:[],
-  getItems:[]
-
+  loading: false,
+  error: null,
+  getCategories: [],
+  categoriesMeta: {
+    current_page: 1,
+    per_page: 10,
+    total: 0,
+    last_page: 1
+  },
+  getItems: []
 }
 
 const MenusSlice = createSlice({
@@ -61,7 +65,8 @@ const MenusSlice = createSlice({
       })
       .addCase(getCategoriesThunk.fulfilled , (state , action)=>{
         state.loading = false;
-        state.getCategories = action.payload; 
+        state.getCategories = action.payload.data;      
+        state.categoriesMeta = action.payload.meta;     
         state.error = null;
       })
       .addCase(getCategoriesThunk.rejected, (state, action) => {

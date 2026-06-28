@@ -35,7 +35,7 @@ function Card({ onViewCategoryItems , getCategories }) {
   
   return (
     <>
-      {getCategories?.data?.map((category)=>(
+      {getCategories?.map((category)=>(
         <div key={category?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-4'>
           <div className=' flex justify-between'>
             <div className=''>
