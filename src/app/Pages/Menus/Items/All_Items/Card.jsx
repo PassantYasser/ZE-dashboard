@@ -14,7 +14,7 @@ function Card({getItems}) {
         <div key={item?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] pt-4 px-4'>
           <div className=' flex justify-between'>
             <div className='flex  gap-2'>
-              <div className='p-3'>
+              <div className='pb-2'>
                 <img src={`${IMAGE_BASE_URL}${item?.image}`} className="w-25 h-20" />
               </div>
               <div className='flex flex-col justify-center '>

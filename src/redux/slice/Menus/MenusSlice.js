@@ -1,4 +1,4 @@
-import { getCategories, getItems } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -22,6 +22,17 @@ export const getItemsThunk = createAsyncThunk('Menus/getItems',
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
+  }
+)
+
+export const addCategoryThunk = createAsyncThunk('Menus/addCategory',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await addCategory(formData);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
   }
 )
 
@@ -68,6 +79,19 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(getItemsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //addCategoryThunk
+      .addCase(addCategoryThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(addCategoryThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(addCategoryThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
