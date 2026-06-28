@@ -19,3 +19,8 @@ export const addCategory = async(formData)=>{
   })
   return response.data
 }
+
+export const getItemById = async(id)=>{
+  const response = await API.get(`/provider/menu-item/menu-categories/${id}`)
+  return response.data
+}
