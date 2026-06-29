@@ -38,3 +38,9 @@ export const addItem = async(formData)=>{
   )
   return response.data
 }
+
+
+export const showFullItem =async (id)=>{
+  const response = await API.get(`/provider/menu-item/showFull/${id}`)
+  return response.data
+}
