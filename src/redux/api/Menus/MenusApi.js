@@ -46,6 +46,11 @@ export const showFullItem =async (id)=>{
 }
 
 export const editItem =async (id)=>{
-  const response = await API.get(`/provider/menu-items/${id}`)
+  const response = await API.post(`/provider/menu-items/${id}`)
+  return response.data
+}
+
+export const showFullCategory =async (id)=>{
+  const response = await API.get(`/provider/menu-categories/${id}`)
   return response.data
 }

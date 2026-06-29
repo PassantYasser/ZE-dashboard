@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -90,6 +90,17 @@ export const editItemThunk = createAsyncThunk('Menus/editItem',
   }
 )
 
+export const showFullCategoryThunk = createAsyncThunk('Menus/showFullCategory',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await showFullCategory(id);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
 const initialState = {
   loading: false,
   error: null,
@@ -104,6 +115,8 @@ const initialState = {
   getItemById : [],
   getItemsDetails:null,
   showFullItem:null,
+  showFullCategory:null,
+
 
 
 }
@@ -223,6 +236,20 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(editItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //showFullCategoryThunk
+      .addCase(showFullCategoryThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(showFullCategoryThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.showFullCategory = action.payload; 
+        state.error = null;
+      })
+      .addCase(showFullCategoryThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
