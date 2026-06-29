@@ -54,3 +54,8 @@ export const showFullCategory =async (id)=>{
   const response = await API.get(`/provider/menu-categories/${id}`)
   return response.data
 }
+
+export const editCategory =async (id)=>{
+  const response = await API.post(`/provider/menu-categories/${id}`)
+  return response.data
+}
