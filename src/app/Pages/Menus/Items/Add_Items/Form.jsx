@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
 
-function Form() {
+function Form({getCategories}) {
   const {t} = useTranslation()
-
+  console.log(getCategories);
   // =========================
   const [open1, setOpen1] = useState(false);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const categoryType =['1' , 'dd'];
+  const categoryType = getCategories;
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
@@ -167,18 +167,18 @@ function Form() {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {categoryType
                   ?.filter((opt) =>
-                    opt.toLowerCase().includes(searchValue1.toLowerCase())
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                   )
                   .map((opt) => (
                     <li
-                      key={opt}
+                      key={opt?.id}
                       onClick={() => {
-                        setSearchValue1(opt);
+                        setSearchValue1(opt?.name);
                         setOpen1(false);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {opt?.name}
                     </li>
                   ))}
               </ul>
