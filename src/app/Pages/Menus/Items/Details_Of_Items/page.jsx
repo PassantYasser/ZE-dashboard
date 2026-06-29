@@ -10,7 +10,7 @@ import { getItemsDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
 function Details_Of_ItemsPage({open , setOpen ,itemID}) {
   const {t} = useTranslation()
   const [openEditItem , setOpenEditItem] = useState()
-  console.log('itemID' , itemID);
+  // console.log('itemID' , itemID);
   const dispatch = useDispatch()
   const {getItemsDetails } = useSelector((state)=>state.Menus)
   useEffect(() => {
@@ -18,7 +18,7 @@ function Details_Of_ItemsPage({open , setOpen ,itemID}) {
       dispatch(getItemsDetailsThunk(itemID))
     }
   }, [dispatch, open, itemID])
-  console.log('getItemsDetails*/*/*' , getItemsDetails);  
+  // console.log('getItemsDetails*/*/*' , getItemsDetails);  
   return (
     <>
       <Dialog
