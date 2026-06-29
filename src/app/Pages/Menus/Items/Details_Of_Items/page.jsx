@@ -13,7 +13,7 @@ function Details_Of_ItemsPage({open , setOpen ,itemID}) {
   console.log('itemID' , itemID);
   const dispatch = useDispatch()
   const {getItemsDetails } = useSelector((state)=>state.Menus)
-useEffect(() => {
+  useEffect(() => {
     if (open && itemID) {
       dispatch(getItemsDetailsThunk(itemID))
     }
