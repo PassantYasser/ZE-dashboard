@@ -24,3 +24,8 @@ export const getItemById = async(id)=>{
   const response = await API.get(`/provider/menu-item/menu-categories/${id}`)
   return response.data
 }
+
+export const getItemsDetails = async(id)=>{
+  const response = await API.get(`/provider/menu-items/${id}`)
+  return response.data
+}
