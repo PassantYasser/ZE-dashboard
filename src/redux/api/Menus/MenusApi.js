@@ -44,3 +44,8 @@ export const showFullItem =async (id)=>{
   const response = await API.get(`/provider/menu-item/showFull/${id}`)
   return response.data
 }
+
+export const editItem =async (id)=>{
+  const response = await API.get(`/provider/menu-items/${id}`)
+  return response.data
+}
