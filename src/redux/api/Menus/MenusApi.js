@@ -59,3 +59,9 @@ export const editCategory =async (id)=>{
   const response = await API.post(`/provider/menu-categories/${id}`)
   return response.data
 }
+
+
+export const deleteItem =async (id)=>{
+  const response = await API.delete(`/provider/menu-items/delete/${id}`)
+  return response.data
+}
