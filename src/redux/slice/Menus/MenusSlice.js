@@ -72,7 +72,7 @@ export const showFullItemThunk = createAsyncThunk('Menus/showFullItem',
   async(id , {rejectWithValue})=>{
     try{
       const response = await showFullItem(id);
-      return response
+      return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }  

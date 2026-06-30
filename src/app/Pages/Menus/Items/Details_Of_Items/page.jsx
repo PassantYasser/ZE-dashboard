@@ -77,6 +77,8 @@ function Details_Of_ItemsPage({open , setOpen ,itemID , selectedCategoryId}) {
       <Edit_ItemsPage
         open={openEditItem}
         setOpen={setOpenEditItem}
+        itemID={itemID}
+        categoryID={selectedCategoryId}
       />
 
       <DeleteItems

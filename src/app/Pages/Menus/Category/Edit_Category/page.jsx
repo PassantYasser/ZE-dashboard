@@ -43,7 +43,8 @@ function Edit_CategoryPage({open , setOpen , categoryID}) {
         ar: showFullCategory.description?.ar || "",
         en: showFullCategory.description?.en || "",
       },
-      status: showFullCategory.status === "active" ? 1 : 0,      is_visible: showFullCategory.is_visible ?? 1,
+      status: showFullCategory.status === "active" ? 1 : 0,      
+      is_visible: showFullCategory.is_visible ?? 1,
     });
     }
   }, [showFullCategory])

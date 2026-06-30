@@ -46,7 +46,9 @@ export const showFullItem =async (id)=>{
 }
 
 export const editItem =async (id , formData)=>{
-  const response = await API.post(`/provider/menu-items/${id}` , formData)
+  const response = await API.post(`/provider/menu-items/${id}` , formData , {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
   return response.data
 }
 
