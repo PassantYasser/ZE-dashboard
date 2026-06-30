@@ -45,8 +45,8 @@ export const showFullItem =async (id)=>{
   return response.data
 }
 
-export const editItem =async (id)=>{
-  const response = await API.post(`/provider/menu-items/${id}`)
+export const editItem =async (id , formData)=>{
+  const response = await API.post(`/provider/menu-items/${id}` , formData)
   return response.data
 }
 
@@ -55,8 +55,10 @@ export const showFullCategory =async (id)=>{
   return response.data
 }
 
-export const editCategory =async (id)=>{
-  const response = await API.post(`/provider/menu-categories/${id}`)
+export const editCategory =async (id , formData)=>{
+  const response = await API.post(`/provider/menu-categories/${id}` , formData , {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
   return response.data
 }
 
