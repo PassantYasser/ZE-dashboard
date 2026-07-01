@@ -36,7 +36,7 @@ function BasicInformation() {
             type="text"
             name='code'
             placeholder={t('Restaurant name')}
-            className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
 
@@ -50,7 +50,7 @@ function BasicInformation() {
             type="text"
             name='code'
             placeholder={t('Branch name')}
-            className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
 
@@ -63,7 +63,7 @@ function BasicInformation() {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative h-14 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -87,7 +87,7 @@ function BasicInformation() {
           </div>
 
           {open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
                   opt?.toLowerCase().includes(searchValue1.toLowerCase())
@@ -119,7 +119,7 @@ function BasicInformation() {
             type="text"
             name='code'
             placeholder={t('Restaurant description')}
-            className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
       </div>
