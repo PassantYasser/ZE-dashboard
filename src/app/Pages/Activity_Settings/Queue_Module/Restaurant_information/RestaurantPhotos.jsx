@@ -52,7 +52,7 @@ function RestaurantPhotos() {
               <button
                 type='button'
                 onClick={() => handleRemoveImage(img.id)}
-                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
+                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-[3px] flex justify-center items-center text-base opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
               >
                 ×
               </button>
