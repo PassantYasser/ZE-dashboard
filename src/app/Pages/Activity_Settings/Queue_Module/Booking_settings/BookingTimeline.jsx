@@ -46,7 +46,7 @@ function BookingTimeline() {
               >
                 <input
                   type="text"
-                  placeholder={t("Restaurant type")}
+                  placeholder={t("minute")}
                   value={
                     searchValue1 ||
                     (selected1 ? `${selected1} ${t("minute")}` : "")
@@ -102,7 +102,7 @@ function BookingTimeline() {
               >
                 <input
                   type="text"
-                  placeholder={t("Restaurant type")}
+                  placeholder={t("minute")}
                   value={
                     searchValue2 ||
                     (selected2 ? `${selected2} ${t("minute")}` : "")
