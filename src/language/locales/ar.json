@@ -1354,8 +1354,18 @@
   "Egyptian":"مصري",
   "A deposit fee is imposed for no-shows.":"فرض رسوم الوديعة عند عدم الحضور",
   "Retain the deposit in case the client does not attend":"الاحتفاظ  بالوديعة في حال عدم حضور العميل",
+  "Select your role":"اختر الدور",
+  "Receptionist privileges":"صلاحيات موظف الاستقبال",
+  "receptionist":"موظف الاستقبال",
+  "manager":"مدير",
+  "Confirm/Reject Reservations":"تأكيد / رفض الحجوزات",
+  "Mark attendance/non-attendance":"وضع علامة الحضور / عدم الحضور",
+  "Seating the guests":"إجلاس الضيوف",
+  "Floor plan modification":"تعديل مخطط الأرضية",
+  "Waiting List Management":"إدارة قائمة الانتظار",
+  "Authority Guidelines":"إرشادات الصلاحيات",
+  "Managers have full access by default. Adjust permissions based on your restaurant's workflow and employee responsibilities.":"المدراء لديهم وصول كامل افتراضياً. اضبط الصلاحيات بناءً على سير عمل مطعمك ومسؤوليات الموظفين.",
   
-
 
 
 

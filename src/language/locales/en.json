@@ -1353,6 +1353,17 @@
   "Egyptian":"Egyptian",
   "A deposit fee is imposed for no-shows.":"A deposit fee is imposed for no-shows.",
   "Retain the deposit in case the client does not attend":"Retain the deposit in case the client does not attend",
+  "Select your role":"Select your role",
+  "Receptionist privileges":"Receptionist privileges",
+  "receptionist":"receptionist",
+  "manager":"manager",
+  "Confirm/Reject Reservations":"Confirm/Reject Reservations",
+  "Mark attendance/non-attendance":"Mark attendance/non-attendance",
+  "Seating the guests":"Seating the guests",
+  "Floor plan modification":"Floor plan modification",
+  "Waiting List Management":"Waiting List Management",
+  "Authority Guidelines":"Authority Guidelines",
+  "Managers have full access by default. Adjust permissions based on your restaurant's workflow and employee responsibilities.":"Managers have full access by default. Adjust permissions based on your restaurant's workflow and employee responsibilities.",
   
   
 
