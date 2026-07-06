@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -383,6 +383,17 @@ export const getRestaurantInformationThunk = createAsyncThunk('setting/getRestau
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getRestaurantInformation()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const editRestaurantInformationThunk = createAsyncThunk('setting/editRestaurantInformation',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editRestaurantInformation(formData)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -922,6 +933,18 @@ const settingSlice = createSlice({
         state.getRestaurantInformation = action.payload;
       })
       .addCase(getRestaurantInformationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editRestaurantInformationThunk
+      .addCase(editRestaurantInformationThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editRestaurantInformationThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editRestaurantInformationThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
