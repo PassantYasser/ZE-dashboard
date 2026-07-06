@@ -1324,6 +1324,25 @@
   "Virtual table tags":"وسوم الطاولة الافتراضية",
   "Add a new Tag/logo":"إضافة وسم / شعار جديد",
   "Tag name / logo":"اسم الوسم / الشعار",
+  "Booking notifications":"إشعارات الحجز",
+  "Queueing list notifications":"إشعارات قائمة الانتظار",
+  "Provider alerts":"تنبيهات المزود",
+  "Delivery channels":"قنوات التوصيل",
+  "Reminder 24 hours before":"تذكير قبل 24 ساعة",
+  "Reminder 1 hour before":"تذكير قبل ساعة واحدة",
+  "The table is ready":"الطاولة جاهزة",
+  "Expected time updates":"تحديثات الوقت المتوقع",
+  "Alert when bookings exceed capacity":"تنبيه عندما تتجاوز الحجوزات السعة",
+  "Alert when the waiting time exceeds 45 minutes":"تنبيه عندما يتجاوز وقت الانتظار 45 دقيقة",
+  "Overbooking alert":"تنبيه الحجز الزائد",
+  "Long wait alert":"تنبيه الانتظار الطويل",
+  "text message":"رسالة نصية",
+  "mail":"بريد",
+  "Ready-made table notice":"إشعار الطاولة الجاهزة",
+  "pay":"دفع",
+  
+
+
 
 
 

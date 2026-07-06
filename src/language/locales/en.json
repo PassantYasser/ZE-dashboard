@@ -1323,8 +1323,23 @@
   "Virtual table tags":"Virtual table tags",
   "Add a new Tag/logo":"Add a new badge/logo",
   "Tag name / logo":"Tag name / logo",
-
-
+  "Booking notifications":"Booking notifications",
+  "Queueing list notifications":"Queueing list notifications",
+  "Provider alerts":"Provider alerts",
+  "Delivery channels":"Delivery channels",
+  "Reminder 24 hours before":"Reminder 24 hours before",
+  "Reminder 1 hour before":"Reminder 1 hour before",
+  "The table is ready":"The table is ready",
+  "Expected time updates":"Expected time updates",
+  "Alert when bookings exceed capacity":"Alert when bookings exceed capacity",
+  "Alert when the waiting time exceeds 45 minutes":"Alert when the waiting time exceeds 45 minutes",
+  "Overbooking alert":"Overbooking alert",
+  "Long wait alert":"Long wait alert",
+  "text message":"text message",
+  "mail":"mail",
+  "Ready-made table notice":"Ready-made table notice",
+  "pay":"pay",
+  
 
   
 
