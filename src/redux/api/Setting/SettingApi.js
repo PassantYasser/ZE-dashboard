@@ -192,3 +192,8 @@ export const getRestaurantTypes = async()=>{
   const response = await API.get('/provider/restaurant/types')
   return response.data
 }
+
+export const getRestaurantInformation = async()=>{
+  const response = await API.get('/provider/restaurant/profile')
+  return response.data
+}
