@@ -1339,8 +1339,21 @@
   "mail":"mail",
   "Ready-made table notice":"Ready-made table notice",
   "pay":"pay",
+  "Payment settings":"Payment settings",
+  "Deposit setup":"Deposit setup",
+  "No-show fees":"No-show fees",
+  "Prepayment":"Prepayment",
+  "Full payment required":"Full payment required",
+  "deposit":"deposit",
+  "Partial payment in advance":"Partial payment in advance",
+  "Free booking":"Free booking",
+  "No payment required":"No payment required",
+  "Applying the deposit to the invoice":"Applying the deposit to the invoice",
+  "Type":"Type",
+  "Egyptian":"Egyptian",
+  "A deposit fee is imposed for no-shows.":"A deposit fee is imposed for no-shows.",
+  "Retain the deposit in case the client does not attend":"Retain the deposit in case the client does not attend",
   
-
   
 
 

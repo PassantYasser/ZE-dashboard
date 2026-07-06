@@ -1340,7 +1340,22 @@
   "mail":"بريد",
   "Ready-made table notice":"إشعار الطاولة الجاهزة",
   "pay":"دفع",
+  "Payment settings":"وضع الدفع",
+  "Deposit setup":"تهيئة الوديعة",
+  "No-show fees":"رسوم عدم الحضور",
+  "Prepayment":"دفع مسبق",
+  "Full payment required":"مطلوب دفع كامل",
+  "deposit":"وديعة",
+  "Partial payment in advance":"دفعة جزئية مقدما",
+  "Free booking":"حجز مجاني",
+  "No payment required":"لا يلزم الدفع",
+  "Applying the deposit to the invoice":"تطبيق الوديعة على الفاتورة",
+  "Type":"النوع",
+  "Egyptian":"مصري",
+  "A deposit fee is imposed for no-shows.":"فرض رسوم الوديعة عند عدم الحضور",
+  "Retain the deposit in case the client does not attend":"الاحتفاظ  بالوديعة في حال عدم حضور العميل",
   
+
 
 
 
