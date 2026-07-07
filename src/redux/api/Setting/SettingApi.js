@@ -204,3 +204,8 @@ export const editRestaurantInformation = async(formData)=>{
   });
   return response.data;
 }
+
+export const getBookingSettings = async()=>{
+  const response = await API.get('/provider/restaurant/booking-settings')
+  return response.data
+}
