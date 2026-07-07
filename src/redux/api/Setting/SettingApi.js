@@ -216,3 +216,8 @@ export const editBookingSettings = async(formData)=>{
   });
   return response.data;
 }
+
+export const getWaitlistSettings = async()=>{
+  const response = await API.get('/provider/restaurant/waitlist-settings')
+  return response.data
+}
