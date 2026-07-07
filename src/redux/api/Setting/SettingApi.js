@@ -209,3 +209,10 @@ export const getBookingSettings = async()=>{
   const response = await API.get('/provider/restaurant/booking-settings')
   return response.data
 }
+
+export const editBookingSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/booking-settings', formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+}
