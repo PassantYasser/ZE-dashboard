@@ -221,3 +221,10 @@ export const getWaitlistSettings = async()=>{
   const response = await API.get('/provider/restaurant/waitlist-settings')
   return response.data
 }
+
+export const editWaitlistSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/waitlist-settings', formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+}

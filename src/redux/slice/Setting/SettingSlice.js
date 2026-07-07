@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -434,6 +434,16 @@ export const getWaitlistSettingsThunk = createAsyncThunk('setting/getWaitlistSet
   }
 )
 
+export const editWaitlistSettingsThunk = createAsyncThunk('setting/editWaitlistSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editWaitlistSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initialState ={
   success:false,
@@ -1017,6 +1027,18 @@ const settingSlice = createSlice({
         state.getWaitlistSettings = action.payload;
       })
       .addCase(getWaitlistSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editWaitlistSettingsThunk
+      .addCase(editWaitlistSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editWaitlistSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editWaitlistSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
