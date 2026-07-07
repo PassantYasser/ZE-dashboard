@@ -226,3 +226,8 @@ export const editWaitlistSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/waitlist-settings', formData);
   return response.data;
 }
+
+export const getSeatingSettings = async()=>{
+  const response = await API.get('/provider/restaurant/seating-settings')
+  return response.data
+}

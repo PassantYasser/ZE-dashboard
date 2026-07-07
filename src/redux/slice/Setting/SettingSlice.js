@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -445,6 +445,17 @@ export const editWaitlistSettingsThunk = createAsyncThunk('setting/editWaitlistS
   }
 )
 
+export const getSeatingSettingsThunk = createAsyncThunk('setting/getSeatingSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getSeatingSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -494,6 +505,7 @@ const initialState ={
   getRestaurantInformation:null,
   getBookingSettings:null,
   getWaitlistSettings:null,
+  getSeatingSettings:null,
 
 
 
@@ -1039,6 +1051,19 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editWaitlistSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getSeatingSettingsThunk
+      .addCase(getSeatingSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getSeatingSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getSeatingSettings = action.payload;
+      })
+      .addCase(getSeatingSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
