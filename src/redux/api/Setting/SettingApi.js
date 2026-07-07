@@ -231,3 +231,8 @@ export const getSeatingSettings = async()=>{
   const response = await API.get('/provider/restaurant/seating-settings')
   return response.data
 }
+
+export const editSeatingSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/seating-settings', formData);
+  return response.data;
+}
