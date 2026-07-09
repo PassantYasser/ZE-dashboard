@@ -526,7 +526,7 @@ export const getNotificationSettingsThunk = createAsyncThunk('setting/getNotific
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getNotificationSettings()
-      return response
+      return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
