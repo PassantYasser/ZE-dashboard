@@ -262,4 +262,8 @@ export const deleteTags = async(id)=>{
   return response.data;
 }
 
+export const getNotificationSettings = async()=>{
+  const response = await API.get('/provider/restaurant/notification-settings')
+  return response.data
+}
 
