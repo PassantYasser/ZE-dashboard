@@ -251,3 +251,8 @@ export const editFloorplanSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/floorplan-settings', formData);
   return response.data;
 }
+
+export const addTags = async(formData)=>{
+  const response = await API.post('/provider/Tag', formData);
+  return response.data;
+}

@@ -2,11 +2,43 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AddDialog from './AddDialog'
+import { useDispatch } from 'react-redux'
+import i18n from '@/language/i18n'
+import { addTagsThunk, getFloorplanSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
   const {t} = useTranslation() 
 
   const [openAdd , setOpenAdd]= useState(false)
+
+  const currentLang = i18n.language.startsWith("ar") ? "ar" : "en";
+
+  //api
+  const dispatch = useDispatch()
+  const [dataSend , setDataSend] = useState({
+    name:{
+      ar:'',
+      en:''
+    }
+  })
+  const handleAddTag = async () => {
+    const currentLang = i18n.language.startsWith("ar") ? "ar" : "en";
+
+    const payload = {
+      name: {
+        [currentLang]: dataSend.name[currentLang],
+      },
+    };
+
+    try {
+      await dispatch(addTagsThunk(payload)).unwrap();
+      dispatch(getFloorplanSettingsThunk())
+      setOpenAdd(false)
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
@@ -44,6 +76,10 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
     <AddDialog
       open={openAdd}
       setOpen={setOpenAdd}
+      handleAddTag={handleAddTag}
+      dataSend={dataSend}
+      setDataSend={setDataSend}
+      currentLang={currentLang}
     />
     </>
   )

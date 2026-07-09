@@ -82,7 +82,6 @@ function EditLayout({formData , setFormData}) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-console.log('formData' , formData);
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
