@@ -276,3 +276,8 @@ export const getPaymentSettings = async()=>{
   const response = await API.get('/provider/restaurant/payment-settings')
   return response.data
 }
+
+export const editPaymentSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/payment-settings', formData);
+  return response.data;
+}
