@@ -241,3 +241,8 @@ export const getRestaurantViews = async()=>{
   const response = await API.get('/provider/restaurant/Views')
   return response.data
 }
+
+export const getFloorplanSettings = async()=>{
+  const response = await API.get('/provider/restaurant/floorplan-settings')
+  return response.data
+}

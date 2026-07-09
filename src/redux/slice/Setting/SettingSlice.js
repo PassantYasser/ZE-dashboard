@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -478,6 +478,17 @@ export const getRestaurantViewsThunk = createAsyncThunk('setting/getRestaurantVi
   }
 )
 
+export const getFloorplanSettingsThunk = createAsyncThunk('setting/getFloorplanSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getFloorplanSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState ={
   success:false,
@@ -530,6 +541,8 @@ const initialState ={
   getWaitlistSettings:null,
   getSeatingSettings:null,
   getRestaurantViews:[],
+  getFloorplanSettings:null,
+
 
 
 
@@ -1113,6 +1126,19 @@ const settingSlice = createSlice({
         state.getRestaurantViews = action.payload;
       })
       .addCase(getRestaurantViewsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getFloorplanSettingsThunk
+      .addCase(getFloorplanSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getFloorplanSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getFloorplanSettings = action.payload;
+      })
+      .addCase(getFloorplanSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
