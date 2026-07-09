@@ -3,11 +3,10 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AddDialog from './AddDialog'
 
-function DefaultSettings() {
+function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
   const {t} = useTranslation() 
 
   const [openAdd , setOpenAdd]= useState(false)
-  
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
@@ -23,14 +22,17 @@ function DefaultSettings() {
           <p className='text-[#364152] text-sm font-normal'>{t('Virtual table tags')}</p>
 
           <div className='flex gap-3 mt-3'>
-            <div className='border border-[var(--color-primary)] bg-[#F4EAD0] flex gap-2 rounded-full px-3 h-7.5'>
-              <p className='text-[var(--color-primary)] text-sm font-normal flex items-center' >
-                <span>بالقرب من النافذة  </span>
-              </p>
-              <button className='cursor-pointer'>
-                <img src="/images/icons/x_yellow.svg" className="w-5 h-5" />
-              </button>
-            </div>
+            {getFloorplanSettings?.tags?.map((tag)=>(
+              <div key={tag?.id} className='border border-[var(--color-primary)] bg-[#F4EAD0] flex gap-2 rounded-full px-3 h-7.5'>
+                <p className='text-[var(--color-primary)] text-sm font-normal flex items-center' >
+                  <span>{tag?.name}  </span>
+                </p>
+                <button className='cursor-pointer'>
+                  <img src="/images/icons/x_yellow.svg" className="w-5 h-5" />
+                </button>
+              </div>
+            ))}
+            
           </div>
 
 

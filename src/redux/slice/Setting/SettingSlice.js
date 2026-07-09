@@ -482,7 +482,7 @@ export const getFloorplanSettingsThunk = createAsyncThunk('setting/getFloorplanS
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getFloorplanSettings()
-      return response.data
+      return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
