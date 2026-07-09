@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -544,6 +544,17 @@ export const editNotificationSettingsThunk = createAsyncThunk('setting/editNotif
   }
 )
 
+export const getPaymentSettingsThunk = createAsyncThunk('setting/getPaymentSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getPaymentSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState ={
   success:false,
@@ -598,10 +609,7 @@ const initialState ={
   getRestaurantViews:[],
   getFloorplanSettings:null,
   getNotificationSettings:null,
-
-
-
-
+  getPaymentSettings:null,
 
 
 }
@@ -1256,6 +1264,19 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editNotificationSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getPaymentSettingsThunk
+      .addCase(getPaymentSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPaymentSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getPaymentSettings = action.payload;
+      })
+      .addCase(getPaymentSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
