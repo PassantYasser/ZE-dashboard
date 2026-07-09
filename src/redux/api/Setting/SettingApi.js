@@ -267,3 +267,7 @@ export const getNotificationSettings = async()=>{
   return response.data
 }
 
+export const editNotificationSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/notification-settings', formData);
+  return response.data;
+}
