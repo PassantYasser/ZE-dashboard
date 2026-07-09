@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import AddDialog from './AddDialog'
 import { useDispatch } from 'react-redux'
 import i18n from '@/language/i18n'
-import { addTagsThunk, getFloorplanSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { addTagsThunk, deleteTagsThunk, getFloorplanSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
   const {t} = useTranslation() 
@@ -39,6 +39,15 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
       console.log(err);
     }
   };
+
+  const handleDeleteTag = async (id) => {
+    try {
+      await dispatch(deleteTagsThunk(id)).unwrap();
+      await dispatch(getFloorplanSettingsThunk());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
@@ -59,7 +68,7 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
                 <p className='text-[var(--color-primary)] text-sm font-normal flex items-center' >
                   <span>{tag?.name}  </span>
                 </p>
-                <button className='cursor-pointer'>
+                <button onClick={()=>handleDeleteTag(tag?.id)} className='cursor-pointer'>
                   <img src="/images/icons/x_yellow.svg" className="w-5 h-5" />
                 </button>
               </div>

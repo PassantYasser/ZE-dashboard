@@ -256,3 +256,10 @@ export const addTags = async(formData)=>{
   const response = await API.post('/provider/Tag', formData);
   return response.data;
 }
+
+export const deleteTags = async(id)=>{
+  const response = await API.delete(`/provider/Tag/${id}`);
+  return response.data;
+}
+
+
