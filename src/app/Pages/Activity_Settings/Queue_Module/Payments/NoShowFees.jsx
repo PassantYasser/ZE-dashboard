@@ -75,7 +75,17 @@ function NoShowFees({formData,setFormData}) {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Retain the deposit in case the client does not attend')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.no_show_fee_enabled}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  no_show_fee_enabled: e.target.checked ? 1 : 0
+                }))
+              }}
+            />
+          </p>
         </div>
 
       </div>
