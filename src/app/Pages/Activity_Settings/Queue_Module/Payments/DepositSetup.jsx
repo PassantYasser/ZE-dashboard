@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DepositSetup() {
+function DepositSetup({formData,setFormData}) {
   const {t} = useTranslation() 
     
     const GreenSwitch = styled((props) => (

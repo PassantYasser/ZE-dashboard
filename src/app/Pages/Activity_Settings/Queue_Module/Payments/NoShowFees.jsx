@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NoShowFees() {
+function NoShowFees({formData,setFormData}) {
   const {t} = useTranslation() 
 
     const GreenSwitch = styled((props) => (
