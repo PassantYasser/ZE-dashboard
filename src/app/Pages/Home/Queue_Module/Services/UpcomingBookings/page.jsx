@@ -1,10 +1,12 @@
 "use client"
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function UpcomingBookingsPage({getUpcoming}) {
   const{t}  = useTranslation()
   const getUpcomingData = getUpcoming?.data
+  const router = useRouter()
 
   return (
   <>
@@ -16,7 +18,9 @@ function UpcomingBookingsPage({getUpcoming}) {
           {t('Upcoming bookingss')}
         </p>
 
-        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+        <button 
+          onClick={()=>router.push(`/Pages/requests/Queue_Module`)}
+          className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
           {t('More')}
         </button>
       </div>
