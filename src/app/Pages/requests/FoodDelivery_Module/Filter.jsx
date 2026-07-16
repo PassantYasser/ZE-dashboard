@@ -27,9 +27,9 @@ function Filter({ activeTab, setActiveTab }) {
     active: ["For delivery"],
   },
   ];
-  
+
   return (
-    <div className="w-[70%] border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-4 gap-6 p-2 rounded-[3px]">
+    <div className="lg1:w-[70%] w-full border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-4 gap-6 p-2 rounded-[3px]">
       {tabs.map((tab) => (
         <button
           key={tab.id}
