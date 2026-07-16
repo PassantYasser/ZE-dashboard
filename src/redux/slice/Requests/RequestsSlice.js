@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -222,6 +222,22 @@ export const rejectReservationThunk = createAsyncThunk('requests/rejectReservati
 )
 
 
+//Food delivery_module
+/************************************************************ */
+
+export const getOrdersThunk = createAsyncThunk('requests/getOrders',
+  async(_ , {rejectWithValue} )=>{
+    try{
+      const response = await getOrders()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+
+  }
+)
+
+
 
 
 
@@ -249,6 +265,8 @@ const initialState = {
   getHalls:[],
   getViews:[],
   getReservationsById:null,
+
+  getOrders:[]
 
 
 }
@@ -507,6 +525,19 @@ const RequestsSlice = createSlice({
       .addCase(rejectReservationThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
+      })
+      //getOrdersThunk
+      .addCase(getOrdersThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getOrders = action.payload;
+      })
+      .addCase(getOrdersThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
   }
 })

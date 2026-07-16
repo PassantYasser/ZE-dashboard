@@ -124,3 +124,10 @@ export const rejectReservation = async(id)=>{
   const response = await API.post(`/provider/reservation/${id}/reject`)
   return response.data
 }
+
+//Food delivery_module
+/************************************************************ */
+export const getOrders  = async()=>{
+  const response = await API.get('/provider/food-delivery/orders')
+  return response.data
+}

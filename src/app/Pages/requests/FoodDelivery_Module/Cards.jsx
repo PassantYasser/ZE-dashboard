@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Cards() {
+function Cards({getOrders}) {
   const {t} = useTranslation()
   
   const StatusRender = (status) => {
@@ -27,14 +27,15 @@ function Cards() {
         );
     }
   };
+
   return (
     <>
-
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 '>
+      {getOrders?.data?.map((order , index)=>(
+        <div key={order?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
         {/*  */}
         <div className='flex justify-between mb-3'>
-          <p className='text-[#364152] text-lg font-medium'>#5263</p>
-          {StatusRender('delivery')}
+          <p className='text-[#364152] text-lg font-medium'>{order?.order_number}#</p>
+          {StatusRender(order?.type)}
         </div>
 
         {/*  */}
@@ -44,7 +45,7 @@ function Cards() {
               <img src="/images/icons/package.svg" className="w-4 h-4" />
             </span>
             <span className='text-[#4B5565] text-base font-normal'>
-              3 {t('products')}
+              {order?.items_count} {t('products')}
             </span>
           </p>
 
@@ -53,7 +54,7 @@ function Cards() {
               <img src="/images/icons/clock-gray.svg" className="w-4 h-4" />
             </span>
             <span className='text-[#4B5565] text-base font-normal'>
-              3 {t('minutes')}
+              {order?.created_at}
             </span>
           </p>
 
@@ -63,19 +64,21 @@ function Cards() {
 
         {/*  */}
         <div className='flex justify-between'>
-          <p className='text-[var(--color-primary)] text-lg font-semibold'> 15085جنيه</p>
+          <p className='text-[var(--color-primary)] text-lg font-semibold'> {order?.total}جنيه</p>
           <p className='flex gap-1.5'>
             <span className='flex items-center'>
               <img src="/images/icons/credit-card.svg" className="w-4 h-4" />
             </span>
             <span className='text-[#4B5565] text-base font-normal'>
-              {t('card')}
+              {order?.payment_method === 'card' ? t('card') : t('cash') }
             </span>
           </p>
         </div>
 
 
-      </div>
+        </div>
+      ))}
+      
       
     </>
   )
