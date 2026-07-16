@@ -15,21 +15,27 @@ function FoodDelivery_ModulePage() {
 
   //api
   const [page, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState('new');
 
   const dispatch = useDispatch()
   const {getOrders} = useSelector((state)=>state.requests)
   useEffect(() => {
-    dispatch(getOrdersThunk(page));
-  }, [dispatch, page]);
+    dispatch(getOrdersThunk({ page, status: activeTab }));
+  }, [dispatch, page, activeTab]);
   
   console.log('getOrders' , getOrders);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    setPage(1);
+  };
 
   return (
     <MainLayout>
       
       <Header/>
 
-      <Filter/>
+      <Filter getOrders={getOrders} activeTab={activeTab} setActiveTab={handleTabChange}/>
 
       <div className='grid grid-cols-2 gap-6 my-8'>
         <Cards getOrders={getOrders?.data}/>

@@ -1,10 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
-function Filter() {
+function Filter({ activeTab, setActiveTab }) {
   const {t} = useTranslation()
-  const [activeTab, setActiveTab] = useState('new')
 
   const tabs = [
   {
@@ -13,7 +12,7 @@ function Filter() {
     active: ["new"],
   },
   {
-    id: "Under preparation",
+    id: "preparing",
     label: t("Under preparation"),
     active: ["Under preparation"],
   },
@@ -23,7 +22,7 @@ function Filter() {
     active: ["ready"],
   },
   {
-    id: "For delivery",
+    id: "delivering",
     label: t("For delivery"),
     active: ["For delivery"],
   },
@@ -35,14 +34,14 @@ function Filter() {
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
           className={`flex justify-center gap-1 p-4 cursor-pointer ${
-            tab.active.includes(activeTab)
+            tab.id === activeTab
               ? "bg-[var(--color-primary)] text-white rounded-[3px]"
               : ""
           }`}
         >
           <span
             className={`text-base font-normal ${
-              tab.active.includes(activeTab)
+              tab.id === activeTab
                 ? "text-white"
                 : "text-[#4B5565]"
             }`}

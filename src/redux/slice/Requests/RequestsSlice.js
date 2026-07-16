@@ -226,9 +226,9 @@ export const rejectReservationThunk = createAsyncThunk('requests/rejectReservati
 /************************************************************ */
 export const getOrdersThunk = createAsyncThunk(
   "requests/getOrders",
-  async (page = 1, { rejectWithValue }) => {
+  async (params = 1, { rejectWithValue }) => {
     try {
-      return await getOrders(page);
+      return await getOrders(params);
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
