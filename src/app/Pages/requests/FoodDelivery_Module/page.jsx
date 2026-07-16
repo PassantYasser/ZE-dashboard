@@ -14,11 +14,13 @@ function FoodDelivery_ModulePage() {
   const {t} = useTranslation()
 
   //api
+  const [page, setPage] = useState(1);
+
   const dispatch = useDispatch()
   const {getOrders} = useSelector((state)=>state.requests)
-  useEffect(()=>{
-    dispatch(getOrdersThunk())
-  },[dispatch])
+  useEffect(() => {
+    dispatch(getOrdersThunk(page));
+  }, [dispatch, page]);
   
   console.log('getOrders' , getOrders);
 
@@ -32,7 +34,11 @@ function FoodDelivery_ModulePage() {
       <div className='grid grid-cols-2 gap-6 my-8'>
         <Cards getOrders={getOrders?.data}/>
       </div>
-      <Pagination/>
+      <Pagination
+          currentPage={getOrders?.data?.current_page}
+          totalPages={getOrders?.data?.last_page}
+          onPageChange={setPage}
+        />
       
     </MainLayout>
   )

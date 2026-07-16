@@ -224,18 +224,16 @@ export const rejectReservationThunk = createAsyncThunk('requests/rejectReservati
 
 //Food delivery_module
 /************************************************************ */
-
-export const getOrdersThunk = createAsyncThunk('requests/getOrders',
-  async(_ , {rejectWithValue} )=>{
-    try{
-      const response = await getOrders()
-      return response
-    }catch(error){
+export const getOrdersThunk = createAsyncThunk(
+  "requests/getOrders",
+  async (page = 1, { rejectWithValue }) => {
+    try {
+      return await getOrders(page);
+    } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
-
   }
-)
+);
 
 
 

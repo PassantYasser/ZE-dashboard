@@ -3,16 +3,20 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const Pagination = ({ totalPages = 10 }) => {
+const Pagination = ({
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
+}) => {
   const { t } = useTranslation();
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [isHoveredNext, setIsHoveredNext] = useState(false);
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    onPageChange(page);
   };
 
   const generatePages = () => {
