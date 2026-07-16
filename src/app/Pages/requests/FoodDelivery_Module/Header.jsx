@@ -22,11 +22,11 @@ const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
           <p className='text-[#697586] text-base font-normal'>{t('A comprehensive overview of all your orders')}</p>
         </div>
         
-        <div className="relative inline-block">
+        <div className="relative inline-block ">
           {/* Button */}
           <button
             onClick={() => setOpen(!open)}
-            className="relative flex items-center justify-between h-14 w-55 px-4 bg-[var(--color-primary)] text-white rounded-[3px]"
+            className="relative flex items-center justify-between h-14 w-55 px-4 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <span
