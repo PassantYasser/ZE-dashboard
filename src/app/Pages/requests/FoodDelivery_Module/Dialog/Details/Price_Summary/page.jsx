@@ -7,7 +7,7 @@ function Price_SummaryPage() {
   
   return (
     <>
-    <div className='border border-[#E3E8EF] rounded-[3px] p-4 mb-4'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-4 rounded-[3px]'>
       <p className='text-[#364152] text-base font-medium mb-5'>{t('Price Summary')}</p>
 
       <div>
