@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -257,6 +257,16 @@ export const getOrderByIdThunk = createAsyncThunk('requests/getOrderById' ,
   }
 )
 
+export const getDriversThunk = createAsyncThunk('request/getDrivers',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getDrivers()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 
@@ -289,6 +299,7 @@ const initialState = {
   getOrders:[],
   getRestaurantStatus:null,
   getOrderById:null,
+  getDrivers:[]
 
 
 }
@@ -584,6 +595,19 @@ const RequestsSlice = createSlice({
         state.getOrderById = action.payload;
       })
       .addCase(getOrderByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getDriversThunk
+      .addCase(getDriversThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDriversThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getDrivers = action.payload;
+      })
+      .addCase(getDriversThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
