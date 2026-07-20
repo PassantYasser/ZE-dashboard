@@ -1,11 +1,11 @@
 'use client'
-import { getDriversThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { assignDriverThunk, getDriversThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { Dialog } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
-function Appointing_Driver({open , setOpen}) {
+function Appointing_Driver({open , setOpen , orderID}) {
   const {t} = useTranslation()
   //api
   const dispatch = useDispatch()
@@ -15,7 +15,21 @@ function Appointing_Driver({open , setOpen}) {
   },[dispatch])
 
   console.log('getDrivers' , getDrivers);
+  
+  const handleAssignDriver = async () => {
+  if (!selectedDriverId) return;
 
+  const result = await dispatch(
+    assignDriverThunk({
+      orderId: orderID,
+      driver_id: selectedDriverId,
+    })
+  );
+
+  if (assignDriverThunk.fulfilled.match(result)) {
+    setOpen(false);
+  }
+};
 
   const StatusRender = (status) => {
     switch (status) {
@@ -117,6 +131,7 @@ function Appointing_Driver({open , setOpen}) {
 
             
             <button
+              onClick={handleAssignDriver}
               disabled={!selectedDriverId}
               className={`h-14 w-full mt-4 rounded-[3px] transition-colors ${
                 selectedDriverId

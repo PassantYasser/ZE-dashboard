@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignDriver, assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -268,6 +268,16 @@ export const getDriversThunk = createAsyncThunk('request/getDrivers',
   }
 )
 
+export const assignDriverThunk = createAsyncThunk('requests/assignDriver' , 
+  async({orderId , driver_id} , {rejectWithValue})=>{
+    try{
+      const response = await assignDriver({orderId , driver_id})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 
@@ -608,6 +618,18 @@ const RequestsSlice = createSlice({
         state.getDrivers = action.payload;
       })
       .addCase(getDriversThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //assignDriverThunk
+      .addCase(assignDriverThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(assignDriverThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(assignDriverThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
