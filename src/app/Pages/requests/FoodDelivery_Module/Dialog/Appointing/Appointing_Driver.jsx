@@ -17,19 +17,19 @@ function Appointing_Driver({open , setOpen , orderID}) {
   console.log('getDrivers' , getDrivers);
   
   const handleAssignDriver = async () => {
-  if (!selectedDriverId) return;
+    if (!selectedDriverId) return;
 
-  const result = await dispatch(
-    assignDriverThunk({
-      orderId: orderID,
-      driver_id: selectedDriverId,
-    })
-  );
+    const result = await dispatch(
+      assignDriverThunk({
+        orderId: orderID,
+        driver_id: selectedDriverId,
+      })
+    );
 
-  if (assignDriverThunk.fulfilled.match(result)) {
-    setOpen(false);
-  }
-};
+    if (assignDriverThunk.fulfilled.match(result)) {
+      setOpen(false);
+    }
+  };
 
   const StatusRender = (status) => {
     switch (status) {

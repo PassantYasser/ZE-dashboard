@@ -160,3 +160,8 @@ export const assignDriver = async({orderId,driver_id})=>{
   const response = await API.post(`/provider/food-delivery/orders/${orderId}/assign-driver` , {driver_id})
   return response.data
 }
+
+export const changeStatus = async({status})=>{
+  const response = await API.post('/provider/food-delivery/restaurant-status' , {status})
+  return response.data
+}
