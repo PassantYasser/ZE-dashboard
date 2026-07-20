@@ -8,7 +8,7 @@ import Delivery_DetailsPage from './Delivery_Details/page'
 import Price_SummaryPage from './Price_Summary/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
-import DeleteReservation from '../DeleteReservation'
+import DeleteReservation from '../Delete/DeleteReservation'
 
 function DetailsPage({open , setOpen ,id}) {
   const {t} = useTranslation()
