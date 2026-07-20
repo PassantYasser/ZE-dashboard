@@ -1,40 +1,55 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import OrderPage from './Order/page'
 import Products_RequestedPage from './Products_Requested/page'
 import Delivery_DetailsPage from './Delivery_Details/page'
 import Price_SummaryPage from './Price_Summary/page'
+import { useDispatch, useSelector } from 'react-redux'
+import { getOrderByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function DetailsPage({open , setOpen ,id}) {
   const {t} = useTranslation()
-    const StatusBtn = (status) => {
-      switch (status) {
-        case "new": 
-          return (
-            <div className='flex gap-6'>
-              <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accepting reservation')}</button>
-              <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
-            </div>
-          );
-        case "preparing":
-          return (
-            <div className='flex gap-6'>
-              <button className='bg-[#17B26A] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Order ready')}</button>
-              <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Appointing a driver')}</button>
-            </div>
-          );
-        
-        case "ready": 
-          return (
-            <div >
-              <button className='bg-[var(--color-primary)] text-[white] h-14 w-full cursor-pointer rounded-[3px]'>{t('Start delivery and enable tracking')}</button>
-            </div>
-          );
-        }
-    };
 
+  //api
+  const dispatch = useDispatch()
+  const {getOrderById} = useSelector((state)=>state.requests)
+  useEffect(()=>{
+    if(id){
+      dispatch(getOrderByIdThunk(id))
+    }
+  },[dispatch , id])
+
+  console.log('getOrderById' , getOrderById);
+
+  const StatusBtn = (status) => {
+    switch (status) {
+      case "new": 
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accepting reservation')}</button>
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
+          </div>
+        );
+      case "preparing":
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[#17B26A] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Order ready')}</button>
+            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Appointing a driver')}</button>
+          </div>
+        );
+      case "ready": 
+        return (
+          <div >
+            <button className='bg-[var(--color-primary)] text-[white] h-14 w-full cursor-pointer rounded-[3px]'>{t('Start delivery and enable tracking')}</button>
+          </div>
+        );
+    }
+  };
+  
+
+  
 
   return (
     <Dialog
@@ -78,14 +93,14 @@ function DetailsPage({open , setOpen ,id}) {
       <span className="border-[0.5px] border-[#E3E8EF]" />
 
       <section className='p-6 flex flex-col gap-4'>
-        <OrderPage/>
-        <Products_RequestedPage/>
-        <Delivery_DetailsPage/>
-        <Price_SummaryPage/>
+        <OrderPage getOrderById={getOrderById}/>
+        <Products_RequestedPage getOrderById={getOrderById}/>
+        <Delivery_DetailsPage getOrderById={getOrderById}/>
+        <Price_SummaryPage getOrderById={getOrderById}/>
       </section>
 
       <section className='px-6 pb-6'>
-        {StatusBtn('preparing')}
+        {StatusBtn(getOrderById?.data?.status)}
       </section>
     </Dialog>
   )
