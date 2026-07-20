@@ -9,10 +9,12 @@ import Price_SummaryPage from './Price_Summary/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrderByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 import DeleteReservation from '../Delete/DeleteReservation'
+import Appointing_Driver from '../Appointing/Appointing_Driver'
 
 function DetailsPage({open , setOpen ,id}) {
   const {t} = useTranslation()
   const [openDeleteReservation , setOpenDeleteReservation] = useState(false)
+  const [openAppointing , setOpenAppointing] = useState(false)
 
 
   //api
@@ -39,15 +41,10 @@ function DetailsPage({open , setOpen ,id}) {
         return (
           <div className='flex gap-6'>
             <button className='bg-[#17B26A] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Order ready')}</button>
-            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Appointing a driver')}</button>
+            <button onClick={()=>setOpenAppointing(true)} className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Appointing a driver')}</button>
           </div>
         );
-      case "ready": 
-        return (
-          <div >
-            <button className='bg-[var(--color-primary)] text-[white] h-14 w-full cursor-pointer rounded-[3px]'>{t('Start delivery and enable tracking')}</button>
-          </div>
-        );
+  
     }
   };
   
@@ -110,6 +107,11 @@ function DetailsPage({open , setOpen ,id}) {
       <DeleteReservation
         open={openDeleteReservation}
         setOpen={setOpenDeleteReservation}
+      />
+
+      <Appointing_Driver
+        open={openAppointing}
+        setOpen={setOpenAppointing}
       />
     </>
 
