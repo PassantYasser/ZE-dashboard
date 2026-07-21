@@ -107,6 +107,8 @@ function DetailsPage({open , setOpen ,id}) {
       <DeleteReservation
         open={openDeleteReservation}
         setOpen={setOpenDeleteReservation}
+        orderID={id}
+        setDetailsOpen={setOpen}
       />
 
       <Appointing_Driver

@@ -165,3 +165,8 @@ export const changeStatus = async({status})=>{
   const response = await API.post('/provider/food-delivery/restaurant-status' , {status})
   return response.data
 }
+
+export const RejectOrder = async(orderId)=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/reject` )
+  return response.data
+}
