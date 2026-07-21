@@ -1,4 +1,4 @@
-import { AcceptOrder, assignDriver, assignHandyman, changeBookingAction, changeStatus, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, RejectOrder, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { AcceptOrder, assignDriver, assignHandyman, changeBookingAction, changeStatus, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, ReadyOrder, RejectOrder, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -305,6 +305,17 @@ export const AcceptOrderThunk = createAsyncThunk('requests/AcceptOrder' ,
   async(orderId , {rejectWithValue})=>{
     try{
       const response = await AcceptOrder(orderId)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const ReadyOrderThunk = createAsyncThunk('requests/ReadyOrder' , 
+  async(orderId , {rejectWithValue})=>{
+    try{
+      const response = await ReadyOrder(orderId)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -697,6 +708,18 @@ const RequestsSlice = createSlice({
         state.loading = false;
       })
       .addCase(AcceptOrderThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //ReadyOrderThunk
+      .addCase(ReadyOrderThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(ReadyOrderThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(ReadyOrderThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
