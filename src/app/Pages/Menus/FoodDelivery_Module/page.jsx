@@ -20,6 +20,7 @@ function FoodDelivery_ModulePage() {
           </button>
       </div>
 
+      {/*  */}
       <div className='lg1:w-[40%] w-[60%] border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-2 gap-6 p-2 rounded-[3px]'> 
         <button 
           onClick={() => setActiveTab('Products')}
@@ -52,21 +53,18 @@ function FoodDelivery_ModulePage() {
             {t('Additions')}
           </span>
         </button>
-
       </div>
 
 
-
-        <div className='mt-10'>
-        {/* Content */}
-        {activeTab === 'Products' && (
-          <ProductsPage 
-          />
-        )}
-        {activeTab === 'Additions' && (
-          <AdditionsPage 
-          />
-        )}
+      {/*  */}
+      <div className='mt-10'>
+          {/* Content */}
+          {activeTab === 'Products' && (
+            <ProductsPage />
+          )}
+          {activeTab === 'Additions' && (
+            <AdditionsPage />
+          )}
       </div>
     </MainLayout>
   )

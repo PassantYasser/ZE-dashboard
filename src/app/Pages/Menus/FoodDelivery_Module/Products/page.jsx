@@ -1,8 +1,15 @@
 import React from 'react'
+import Header from './Header'
+import Box from './Box'
 
 function ProductsPage() {
   return (
-    <div>ProductsPage</div>
+    <div>
+      <Header/>
+
+      <Box/>
+
+    </div>
   )
 }
 
