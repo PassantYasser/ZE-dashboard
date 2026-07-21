@@ -170,3 +170,8 @@ export const RejectOrder = async(orderId)=>{
   const response = await API.post(`/provider/food-delivery/orders/${orderId}/reject` )
   return response.data
 }
+
+export const AcceptOrder = async(orderId)=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/accept` )
+  return response.data
+}

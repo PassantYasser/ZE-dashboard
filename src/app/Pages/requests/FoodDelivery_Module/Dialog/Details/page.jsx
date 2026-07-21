@@ -7,7 +7,7 @@ import Products_RequestedPage from './Products_Requested/page'
 import Delivery_DetailsPage from './Delivery_Details/page'
 import Price_SummaryPage from './Price_Summary/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrderByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { getOrderByIdThunk, AcceptOrderThunk, getOrdersThunk } from '@/redux/slice/Requests/RequestsSlice'
 import DeleteReservation from '../Delete/DeleteReservation'
 import Appointing_Driver from '../Appointing/Appointing_Driver'
 
@@ -28,12 +28,22 @@ function DetailsPage({open , setOpen ,id}) {
 
   console.log('getOrderById' , getOrderById);
 
+  const handleAcceptOrder = async () => {
+    if (id) {
+      const result = await dispatch(AcceptOrderThunk(id))
+      if (AcceptOrderThunk.fulfilled.match(result)) {
+        dispatch(getOrderByIdThunk(id))
+        dispatch(getOrdersThunk({ page: 1, status: 'new' }))
+      }
+    }
+  }
+
   const StatusBtn = (status) => {
     switch (status) {
       case "new": 
         return (
           <div className='flex gap-6'>
-            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accepting reservation')}</button>
+            <button onClick={handleAcceptOrder} className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accepting reservation')}</button>
             <button onClick={()=>setOpenDeleteReservation(true)} className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
           </div>
         );
