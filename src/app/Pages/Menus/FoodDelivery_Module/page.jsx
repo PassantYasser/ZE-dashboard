@@ -2,13 +2,11 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import AdditionsPage from './Additions/page'
 import ProductsPage from './Products/page'
 import { useRouter } from 'next/navigation'
 
 function FoodDelivery_ModulePage() {
   const {t} = useTranslation()
-  const [activeTab, setActiveTab] = useState('Products')
   const router = useRouter()
 
   
@@ -27,51 +25,7 @@ function FoodDelivery_ModulePage() {
       </div>
 
       {/*  */}
-      <div className='lg1:w-[40%] w-[60%] border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-2 gap-6 p-2 rounded-[3px]'> 
-        <button 
-          onClick={() => setActiveTab('Products')}
-          className={`flex justify-center gap-1  p-4 cursor-pointer 
-            ${(activeTab === 'Products' )
-              ? 'bg-[var(--color-primary)] text-white rounded-[3px]'
-              : ''
-            }`}
-        >
-          <span 
-            className={` text-xl font-normal   
-            ${(activeTab === 'Products')?'text-white':'text-[#364152]'}`}
-          >
-            {t('Products')}
-          </span>
-        </button>
-
-        <button 
-          onClick={() => setActiveTab('Additions')}
-          className={`flex justify-center gap-1  p-4 cursor-pointer 
-            ${activeTab === 'Additions'
-              ? 'bg-[var(--color-primary)] text-white rounded-[3px]'
-              : ''
-            }`}
-        >
-          <span 
-            className={` text-xl font-normal   
-            ${activeTab === 'Additions'?'text-white':'text-[#364152]'}`}
-          >
-            {t('Additions')}
-          </span>
-        </button>
-      </div>
-
-
-      {/*  */}
-      <div className='mt-10'>
-          {/* Content */}
-          {activeTab === 'Products' && (
-            <ProductsPage />
-          )}
-          {activeTab === 'Additions' && (
-            <AdditionsPage />
-          )}
-      </div>
+      <ProductsPage />
     </MainLayout>
   )
 }
