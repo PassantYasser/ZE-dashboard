@@ -1,11 +1,17 @@
 'use client'
 import SearchForm from '@/app/Components/Forms/SearchForm'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Edit_option from './Dialog/Edit_option'
+import Edit_group from './Dialog/Edit_group'
 
 function OptionsPage() {
   const {t} = useTranslation()
   const inputClassName ="w-5 h-5 appearance-none border border-gray-300 rounded-md bg-white cursor-pointer relative checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] after:absolute after:hidden checked:after:block checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:font-bold checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
+
+  const[openGroup , setOpenGroup] = useState(false)
+  const[openOption , setOpenOption] = useState(false)
+
   return (
     <>
     <SearchForm placeholderKey={t('Searching for a group')} />
@@ -32,7 +38,9 @@ function OptionsPage() {
           </div>
 
           {/*  */}
-          <button className='bg-[#F9F5E8] flex justify-center items-center w-8.5 h-8.5 rounded-[3px] cursor-pointer '>
+          <button 
+            onClick={()=>setOpenGroup(true)}
+            className='bg-[#F9F5E8] flex justify-center items-center w-8.5 h-8.5 rounded-[3px] cursor-pointer '>
             <img src="/images/icons/EditYellow.svg" alt="" />
           </button>
         </div>
@@ -49,7 +57,7 @@ function OptionsPage() {
               <span className='text-[var(--color-primary)]'> 150.00 ج.م</span>
             </p>
           </div>
-          <button>
+          <button onClick={()=>setOpenOption(true)} className='cursor-pointer'>
             <img src="/images/icons/EditYellow.svg" alt="" />
           </button>
           
@@ -58,6 +66,17 @@ function OptionsPage() {
 
       </div>
     </div>
+
+
+    <Edit_group
+      open={openGroup}
+      setOpen={setOpenGroup}
+    />
+
+    <Edit_option
+      open={openOption}
+      setOpen={setOpenOption}
+    />
       
     </>
   )
