@@ -46,6 +46,11 @@ function Edit_price({open , setOpen}) {
 
         <p className='text-sm text-[#9AA4B2] font-normal my-1'>{t('Enter 0 free add-ons')}</p>
 
+        <div className='p-3 bg-[#F9F5E8] text-sm font-normal '> 
+          <p className='text-[#B54708] mb-2'>{t('Note')} : </p> 
+          <p className='text-[#DC6803]'>{t('This price will only apply if added and will not affect the original product price.')}</p>
+        </div>
+
         {/* btn  */}
         <div className='w-full flex gap-4 my-4 '>
           <button
