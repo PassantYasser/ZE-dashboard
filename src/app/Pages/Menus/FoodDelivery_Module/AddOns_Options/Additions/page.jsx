@@ -75,9 +75,9 @@ function AdditionsPage() {
 
                 <button className='flex gap-1 text-[var(--color-primary)] cursor-pointer '>
                   <p className='flex justify-center '>
-                    <img src="/images/icons/EditYellow.svg" className="w-5 h-5" />
+                    <img src="/images/icons/EditYellow.svg" className="w-6 h-6" />
                   </p>
-                  <p>{t('modification')}</p>
+                  <p className='text-sm font-normal'>{t('modification')}</p>
                 </button>
 
               </div>
