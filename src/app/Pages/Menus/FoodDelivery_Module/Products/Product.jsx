@@ -3,9 +3,13 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import DetailsPage from './Details/page';
 import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
+import { useSearchParams } from 'next/navigation';
 
 function Product({getMenus}) {
   const {t} = useTranslation()
+  const searchParams = useSearchParams()
+  const search = searchParams.get('search') || ''
+  
   const [open, setOpen] = useState(false);
     
   const [openDetails , setOpenDetails] = useState(false)
@@ -13,37 +17,40 @@ function Product({getMenus}) {
   return (
     <>
 
-        {getMenus?.categories?.map((category)=>(
-          <div 
-            key={category?.id}
-            className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)] p-3 rounded-[3px]"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <div className="flex gap-4 items-center">
-                <p className="bg-[#F4EAD0] text-[var(--color-primary)] text-xs w-5 h-5 rounded-full flex justify-center items-center">{category?.items_count}</p>
-                <p className="text-[#364152] text-lg font-medium">{category?.name}</p>
-                <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full px-2 py-1 text-[#D92D20] text-xs font-normal"> {category?.unavailable_count} {t("Not available")} </p>            
+        {getMenus?.categories?.map((category)=>{
+          const isCategoryOpen = open === category.id || (search && category?.items?.length > 0)
+
+          return (
+            <div 
+              key={category?.id}
+              className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)] p-3 rounded-[3px]"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div className="flex gap-4 items-center">
+                  <p className="bg-[#F4EAD0] text-[var(--color-primary)] text-xs w-5 h-5 rounded-full flex justify-center items-center">{category?.items_count}</p>
+                  <p className="text-[#364152] text-lg font-medium">{category?.name}</p>
+                  <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full px-2 py-1 text-[#D92D20] text-xs font-normal"> {category?.unavailable_count} {t("Not available")} </p>            
+                </div>
+
+                <button
+                  onClick={() => setOpen(isCategoryOpen ? null : category.id)}
+                  className="cursor-pointer transition-transform duration-300"
+                >
+                  <img
+                    src="/images/icons/ArrowDown_gray.svg"
+                    alt=""
+                    className={`transition-transform duration-300 ${
+                      isCategoryOpen ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
               </div>
 
-              <button
-                onClick={() => setOpen(open === category.id ? null : category.id)}
-                className="cursor-pointer transition-transform duration-300"
-              >
-                <img
-                  src="/images/icons/ArrowDown_gray.svg"
-                  alt=""
-                  className={`transition-transform duration-300 ${
-                    open === category.id ? "rotate-180" : "rotate-0"
-                  }`}
-                />
-              </button>
-            </div>
-
-            {/* Dropdown */}
-            <div className={`overflow-hidden transition-all duration-300 ease-in-out 
-              ${open === category.id ? "max-h-96 opacity-100 p-2 mt-4" : "max-h-0 opacity-0" }`}
-            >            
+              {/* Dropdown */}
+              <div className={`overflow-hidden transition-all duration-300 ease-in-out 
+                ${isCategoryOpen ? "max-h-[1000px] opacity-100 p-2 mt-4" : "max-h-0 opacity-0" }`}
+              >            
               {/* items */}
               {category?.items?.map((item)=>(
                 <div 
@@ -87,10 +94,9 @@ function Product({getMenus}) {
             
 
               
-
             </div>
           </div>
-        ))}
+        )})}
         
 
 

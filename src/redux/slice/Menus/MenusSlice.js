@@ -138,9 +138,9 @@ export const getMenuStatisticsThunk = createAsyncThunk('Menu/getMenuStatistics' 
 )
 
 export const getMenusThunk = createAsyncThunk('Menu/getMenus' , 
-  async(_ , {rejectWithValue})=>{
+  async(search , {rejectWithValue})=>{
     try{
-      const response = await getMenus()
+      const response = await getMenus(search)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
