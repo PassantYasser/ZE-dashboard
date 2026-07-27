@@ -4,24 +4,26 @@ import Header from './Header'
 import Box from './Box'
 import Product from './Product'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMenuStatisticsThunk } from '@/redux/slice/Menus/MenusSlice'
+import { getMenuStatisticsThunk, getMenusThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function ProductsPage() {
   const dispatch = useDispatch()
-  const {getMenuStatistics} = useSelector((state)=>state.Menus)
+  const {getMenuStatistics , getMenus} = useSelector((state)=>state.Menus)
+
   useEffect(()=>{
     dispatch(getMenuStatisticsThunk())
+    dispatch(getMenusThunk())
   },[dispatch])
 
-  console.log('getMenuStatistics' , getMenuStatistics);
+  console.log('getMenus' , getMenus);
 
   return (
     <div className='mt-10'>
       <Header/>
       <Box getMenuStatistics={getMenuStatistics}/>
 
-      <div  className='grid grid-cols-2 gap-6'>
-        <Product/>
+      <div className="grid grid-cols-2 gap-6 items-start mt-8">
+        <Product getMenus={getMenus}/>
       </div>
 
 
