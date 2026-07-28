@@ -99,3 +99,8 @@ export const updateStatuses = async(formData)=>{
   const response = await API.post(`/provider/food-delivery/manage/menu-items/update-statuses` ,formData )
   return response.data
 }
+
+export const DeleteItem = async(itemID)=>{
+  const response = await API.delete(`/provider/menu-items/delete/${itemID}`)
+  return response.data
+}
