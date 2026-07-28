@@ -94,3 +94,8 @@ export const toggleAvailability = async(itemID)=>{
   const response = await API.post(`/provider/food-delivery/menu-config/toggle-availability/${itemID}`)
   return response.data
 }
+
+export const updateStatuses = async(formData)=>{
+  const response = await API.post(`/provider/food-delivery/manage/menu-items/update-statuses` ,formData )
+  return response.data
+}

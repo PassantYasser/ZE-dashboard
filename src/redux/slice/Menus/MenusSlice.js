@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -170,6 +170,16 @@ export const toggleAvailabilityThunk = createAsyncThunk('Menu/toggleAvailability
   }
 )
 
+export const updateStatusesThunk = createAsyncThunk('Menu/updateStatuses' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await updateStatuses(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 const initialState = {
@@ -407,6 +417,19 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(toggleAvailabilityThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //updateStatusesThunk
+      .addCase(updateStatusesThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(updateStatusesThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateStatusesThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
