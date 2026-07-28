@@ -89,3 +89,8 @@ export const getProductDetails = async(itemID)=>{
   const response = await API.get(`/provider/food-delivery/product-details/${itemID}`)
   return response.data
 }
+
+export const toggleAvailability = async(itemID)=>{
+  const response = await API.post(`/provider/food-delivery/menu-config/toggle-availability/${itemID}`)
+  return response.data
+}
