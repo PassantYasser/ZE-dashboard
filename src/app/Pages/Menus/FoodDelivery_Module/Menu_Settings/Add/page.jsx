@@ -1,9 +1,21 @@
+'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import ImageUpload from './ImageUpload'
+import Form from './Form'
 
 function AddPage() {
+  const {t} = useTranslation()
   return (
-    <MainLayout>AddPage</MainLayout>
+    <MainLayout>
+      
+      <p className='text-[#364152] text-2xl font-medium mb-8'>{t('Add a new category')}</p>
+      <div className='border border-[#E6E6E6] rounded-[3px] p-8'>
+        <Form/>
+        <ImageUpload/>
+      </div>
+    </MainLayout>
   )
 }
 
