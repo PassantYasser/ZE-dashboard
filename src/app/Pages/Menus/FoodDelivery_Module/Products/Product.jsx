@@ -34,7 +34,6 @@ const [selectedProductId, setSelectedProductId] = useState(null);
                   <p className="text-[#364152] text-lg font-medium">{category?.name}</p>
                   {category?.unavailable_count === 0 ? null :(
                     <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full px-2 py-1 text-[#D92D20] text-xs font-normal"> {category?.unavailable_count} {t("Not available")} </p>            
-
                   )}
                 </div>
 
