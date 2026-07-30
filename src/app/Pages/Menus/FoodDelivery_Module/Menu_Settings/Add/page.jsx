@@ -15,6 +15,17 @@ function AddPage() {
         <Form/>
         <ImageUpload/>
       </div>
+
+
+    <div className='flex justify-between'>
+      <button  className='border border-[#697586] text-[#697586] w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
+        {t('Return')}
+      </button>
+      <button  className='bg-[var(--color-primary)] text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
+        {t('save')}
+      </button>
+    </div>
+
     </MainLayout>
   )
 }
