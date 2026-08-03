@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
@@ -10,7 +9,6 @@ function ImageUpload({ formData, setFormData }) {
   const fileInputRef = useRef(null);
   const [previewImage, setPreviewImage] = useState("");
 
-  // عرض صورة الـ API عند فتح صفحة الـ Edit
   useEffect(() => {
     if (
       formData?.image &&
@@ -29,7 +27,6 @@ function ImageUpload({ formData, setFormData }) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // لو كانت الصورة الحالية Object URL امسحها
     if (previewImage.startsWith("blob:")) {
       URL.revokeObjectURL(previewImage);
     }

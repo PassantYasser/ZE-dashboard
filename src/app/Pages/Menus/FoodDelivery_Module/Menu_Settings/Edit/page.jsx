@@ -69,7 +69,6 @@ function EditPage() {
     data.append("is_visible", formData.is_visible);
     data.append("status", formData.status);
 
-    // فقط لو المستخدم اختار صورة جديدة (File object) — مش الـ URL القديم
     if (formData.image instanceof File) {
       data.append("image", formData.image);
     }
