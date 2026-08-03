@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -237,6 +237,17 @@ export const addItemsThunk = createAsyncThunk('Menu/addItems' ,
   }
 )
 
+export const getCategoriesListThunk = createAsyncThunk('Menu/getCategoriesList' , 
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getCategoriesList()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
@@ -258,7 +269,8 @@ const initialState = {
   getMenus:[],
   getProductDetails:null,
   ShowFullItem:null,
-  getCategoriesMenu:[]
+  getCategoriesMenu:[],
+  getCategoriesList:[],
 
 
 
@@ -555,6 +567,20 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(addItemsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getCategoriesListThunk
+      .addCase(getCategoriesListThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getCategoriesListThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getCategoriesList = action.payload; 
+        state.error = null;
+      })
+      .addCase(getCategoriesListThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
