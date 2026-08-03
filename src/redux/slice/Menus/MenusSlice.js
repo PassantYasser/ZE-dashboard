@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList, getCategoryDetails } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -248,6 +248,17 @@ export const getCategoriesListThunk = createAsyncThunk('Menu/getCategoriesList' 
   }
 )
 
+export const getCategoryDetailsThunk = createAsyncThunk('Menu/getCategoryDetails' , 
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await getCategoryDetails(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
@@ -271,6 +282,7 @@ const initialState = {
   ShowFullItem:null,
   getCategoriesMenu:[],
   getCategoriesList:[],
+  getCategoryDetails:null
 
 
 
@@ -581,6 +593,20 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(getCategoriesListThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getCategoryDetailsThunk
+      .addCase(getCategoryDetailsThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getCategoryDetailsThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getCategoryDetails = action.payload; 
+        state.error = null;
+      })
+      .addCase(getCategoryDetailsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

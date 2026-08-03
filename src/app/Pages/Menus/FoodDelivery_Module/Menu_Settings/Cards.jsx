@@ -54,7 +54,7 @@ function Cards({getCategoriesList}) {
             )}
 
             <button 
-              onClick={()=>router.push(`/Pages/Menus/FoodDelivery_Module/Menu_Settings/Edit`)}
+              onClick={()=>router.push(`/Pages/Menus/FoodDelivery_Module/Menu_Settings/Edit?id=${category?.id}`)}
               className="w-8 h-8 bg-[#F4EAD0] rounded-[3px] flex justify-center items-center cursor-pointer">
               <img src="/images/icons/EditYellow.svg" className="w-5 h-5" />
             </button>

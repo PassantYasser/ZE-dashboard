@@ -136,5 +136,10 @@ export const getCategoriesList = async()=>{
   return response.data
 }
 
+export const getCategoryDetails = async(id)=>{
+  const response = await API.get(`/provider/menu-categories/${id}`)
+  return response.data
+}
+
 
 
