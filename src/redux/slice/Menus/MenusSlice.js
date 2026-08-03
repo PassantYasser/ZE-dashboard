@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList, getCategoryDetails } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList, getCategoryDetails, editCategoryMenu } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -259,6 +259,16 @@ export const getCategoryDetailsThunk = createAsyncThunk('Menu/getCategoryDetails
   }
 )
 
+export const editCategoryMenuThunk = createAsyncThunk('Menu/editCategoryMenu' , 
+  async({id , formData} , {rejectWithValue})=>{
+    try{
+      const response = await editCategoryMenu({id , formData})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initialState = {
   loading: false,
@@ -607,6 +617,19 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(getCategoryDetailsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //editCategoryMenuThunk
+      .addCase(editCategoryMenuThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(editCategoryMenuThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(editCategoryMenuThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
