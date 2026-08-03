@@ -155,3 +155,11 @@ export const toggleVisibility = async(id)=>{
 }
 
 
+export const addCategoryMenu = async (formData) => {
+  const response = await API.post('/provider/menu-categories', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+}
+
+
