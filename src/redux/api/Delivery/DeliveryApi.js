@@ -7,4 +7,7 @@ export const getOrders = async () => {
 
 
 
-
+export const getDeliveryMap = async () => {
+  const response = await API.get(`/provider/food-delivery/delivery-map`);
+  return response.data;
+}
