@@ -18,6 +18,7 @@ const CARD_LOCATION = {
 function Card({getOrders}) {
   const { t } = useTranslation()
   const [mapOpen, setMapOpen] = useState(false)
+  const [selectedOrder, setSelectedOrder] = useState(null)
 
   return (
     <>
@@ -86,7 +87,10 @@ function Card({getOrders}) {
         {/* ── Location button — opens MapDialog ── */}
         <button
           className='flex gap-1 cursor-pointer'
-          onClick={() => setMapOpen(true)}
+          onClick={() => {
+            setSelectedOrder(order)
+            setMapOpen(true)
+          }}
         >
           <p className='flex items-center'>
             <img src="/images/icons/location-gray2.svg" className='w-4 h-4' />
@@ -103,8 +107,11 @@ function Card({getOrders}) {
       {/* ── Map Dialog ── */}
       <MapDialog
         open={mapOpen}
-        onClose={() => setMapOpen(false)}
-        location={CARD_LOCATION}
+        onClose={() => {
+          setMapOpen(false)
+          setSelectedOrder(null)
+        }}
+        location={selectedOrder}
       />
     </>
   )

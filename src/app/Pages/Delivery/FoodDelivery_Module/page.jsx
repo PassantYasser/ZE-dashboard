@@ -16,7 +16,7 @@ function FoodDelivery_Modulepage() {
     dispatch(getOrdersThunk());
   },[dispatch])
 
-  console.log('getOrders' , getOrders);
+  // console.log('getOrders' , getOrders);
 
   return (
     <MainLayout>
