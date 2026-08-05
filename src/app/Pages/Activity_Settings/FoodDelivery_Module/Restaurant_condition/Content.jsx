@@ -53,7 +53,9 @@ function Content() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div
-                className={`flex h-11 w-11 items-center justify-center rounded-[3px] ${item.iconBg}`}
+                className={`flex h-11 w-11 items-center justify-center rounded-[3px] transition-all duration-200 ${
+                  selectedStatus === item.key ? "bg-white" : item.iconBg
+                }`}
               >
                 <img src={item.icon} alt={item.title} className="h-6 w-6" />
               </div>
