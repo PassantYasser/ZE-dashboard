@@ -4,11 +4,14 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EditRole from '../Edit/Dialog/EditRole'
+import Disable from './Dialog/Disable'
 
 function DetailsPage({open , setOpen}) {
   const {t} = useTranslation()
   const router = useRouter()
   const [openEditRole, setOpenEditRole] = useState(false)
+  const [openDisable, setOpenDisable] = useState(false)
+
 
   return (
     <>
@@ -108,7 +111,7 @@ function DetailsPage({open , setOpen}) {
 
         {/* btn */}
         <div className='flex gap-2 w-full'>
-          <button className='w-full border border-[#B42318] text-[#B42318] text-base font-semibold py-3 px-6 rounded-[3px]  cursor-pointer'>
+          <button onClick={() => setOpenDisable(true)} className='w-full border border-[#B42318] text-[#B42318] text-base font-semibold py-3 px-6 rounded-[3px]  cursor-pointer'>
             {t('Employee suspension')}
           </button>
 
@@ -128,6 +131,7 @@ function DetailsPage({open , setOpen}) {
       </Dialog>
 
       <EditRole open={openEditRole} setOpen={setOpenEditRole} />
+      <Disable open={openDisable} setOpen={setOpenDisable}/>
       
     </>
   )
