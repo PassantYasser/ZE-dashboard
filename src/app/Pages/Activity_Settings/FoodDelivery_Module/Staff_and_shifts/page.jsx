@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
 import Boxes from './Boxes'
 import Overtime from './Overtime'
 import AtWork from './AtWork'
+import DetailsPage from './Details/page'
 
 function Staff_and_shiftsPage() {
+  const [openDetails , setOpenDetails] = useState(false)
   return (
     <>
       
@@ -15,14 +17,20 @@ function Staff_and_shiftsPage() {
   
         <div className='p-6 flex flex-col gap-4'>
           <Boxes/>
-          <AtWork/>
-          <Overtime/>
+          <AtWork setOpenDetails={setOpenDetails}/>
+          <Overtime setOpenDetails={setOpenDetails}/>
           
         </div>
   
         
         
       </div>
+
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+      
+      />
     </>
   )
 }
