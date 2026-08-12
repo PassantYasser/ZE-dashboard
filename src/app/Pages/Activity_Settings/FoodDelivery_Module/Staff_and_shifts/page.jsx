@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Header from './Header'
 import Boxes from './Boxes'
 import Overtime from './Overtime'
@@ -7,6 +9,14 @@ import DetailsPage from './Details/page'
 
 function Staff_and_shiftsPage() {
   const [openDetails , setOpenDetails] = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('openDetails') === 'true') {
+      setOpenDetails(true)
+    }
+  }, [searchParams])
+
   return (
     <>
       
@@ -31,6 +41,7 @@ function Staff_and_shiftsPage() {
         setOpen={setOpenDetails}
       
       />
+
     </>
   )
 }

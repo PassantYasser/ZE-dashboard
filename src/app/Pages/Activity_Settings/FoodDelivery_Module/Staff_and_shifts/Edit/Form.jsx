@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import AddRole from './Dialog/AddRole'
+import AddRole from './Dialog/EditRole'
 
 function Form() {
   const {t} = useTranslation()

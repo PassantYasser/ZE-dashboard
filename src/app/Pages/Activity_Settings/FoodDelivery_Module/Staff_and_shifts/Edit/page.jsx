@@ -19,7 +19,7 @@ function EditPage() {
 
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => router.push('/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts?openDetails=true')}
           className=" bg-[var(--color-primary)] rounded-[3px] w-8 h-8 flex justify-center items-center cursor-pointer"
         >
           <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" />

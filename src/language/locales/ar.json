@@ -1579,7 +1579,12 @@
   "Permissions are managed by the 'Permissions and Roles' section.":"الصلاحيات تُدار من قسم 'الصلاحيات والأدوار'",
   "Employee Role Selection":"اختيار الدور للموظف",
   "Employee modification":"تعديل موظف ",
+  "Employee Details":"تفاصيل الموظف" ,
+  "Access Permissions":"صلاحيات الوصول",
+  "Role modification":"تعديل الدور",
+  "Employee suspension":"تعطيل الموظف",
   
+
 
 
 
