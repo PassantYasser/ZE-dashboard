@@ -14,13 +14,12 @@ function RoleData({open , setOpen, roleId}) {
   const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const inputClassName = "w-5 h-5 appearance-none border border-gray-300 rounded-md bg-white cursor-pointer relative checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] after:absolute after:hidden checked:after:block checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:font-bold checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
 
-  console.log('roleId' , roleId);
+  // console.log('roleId' , roleId);
 
   //API
   const dispatch = useDispatch()
   const {getPermissionShow} = useSelector((state)=>state.setting)
 
-  // Initialize selectedIds from API data whenever getPermissionShow changes
   useEffect(() => {
     if (getPermissionShow?.role?.groups) {
       const initialIds = getPermissionShow.role.groups.flatMap((group) =>
@@ -66,7 +65,7 @@ function RoleData({open , setOpen, roleId}) {
     
   },[dispatch , roleId])
 
-  console.log('getPermissionShow' , getPermissionShow);
+  // console.log('getPermissionShow' , getPermissionShow);
   
 
   return (
@@ -89,160 +88,156 @@ function RoleData({open , setOpen, roleId}) {
         </button>
       </div>
       
-          <div className='flex flex-col gap-1 px-6  '>
-          <h1 className='text-[#364152] text-xl font-medium'> {getPermissionShow?.role?.name}</h1>
-          <p className='text-[#697586] text-sm font-normal'>{getPermissionShow?.role?.description}</p>
-          <motion.p
-              className='w-fit px-3 border border-primary bg-[#F9F5E8] rounded-full'
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.4 }}
+      <div className='flex flex-col gap-1 px-6  '>
+      <h1 className='text-[#364152] text-xl font-medium'> {getPermissionShow?.role?.name}</h1>
+      <p className='text-[#697586] text-sm font-normal'>{getPermissionShow?.role?.description}</p>
+      <motion.p
+          className='w-fit px-3 border border-primary bg-[#F9F5E8] rounded-full'
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+        >
+          <span className='text-primary text-xs font-normal'> {selectedIds.length} {t('from')} {getPermissionShow?.role?.permissions_count} {t('Specific validity')}</span>
+      </motion.p>
+      </div>
+
+      <div className='border border-[#CDD5DF] my-4 '></div>
+
+    
+      {getPermissionShow?.role?.groups?.map((group, index) => {
+        const groupId = group?.id ?? group?.group_id ?? group?.group_name ?? index;
+        const isOpen = openGroupId === groupId;
+
+        return (
+          <div key={groupId} className="flex flex-col px-6">
+
+            {/* Group Header */}
+            <div
+              onClick={() =>
+                setOpenGroupId((prev) => (prev === groupId ? null : groupId))
+              }
+              className={`border border-[#CDD5DF] bg-[#F8FAFC] rounded-3px p-3 flex justify-between cursor-pointer ${
+                isOpen ? "rounded-b-none" : "mb-4"
+              }`}
             >
-              <span className='text-primary text-xs font-normal'> {selectedIds.length} {t('from')} {getPermissionShow?.role?.permissions_count} {t('Specific validity')}</span>
-          </motion.p>
-          </div>
+              <div className="flex gap-2">
 
-          <div className='border border-[#CDD5DF] my-4 '></div>
-
-        
-          {getPermissionShow?.role?.groups?.map((group, index) => {
-            const groupId = group?.id ?? group?.group_id ?? group?.group_name ?? index;
-            const isOpen = openGroupId === groupId;
-
-            return (
-              <div key={groupId} className="flex flex-col px-6">
-
-                {/* Group Header */}
-                <div
-                  onClick={() =>
-                    setOpenGroupId((prev) => (prev === groupId ? null : groupId))
-                  }
-                  className={`border border-[#CDD5DF] bg-[#F8FAFC] rounded-3px p-3 flex justify-between cursor-pointer ${
-                    isOpen ? "rounded-b-none" : "mb-4"
-                  }`}
-                >
-                  <div className="flex gap-2">
-
-                    <div className="w-7 h-7 rounded-full border border-primary flex items-center justify-center">
-                      <div className="w-5.5 h-5.5 rounded-full bg-primary flex items-center justify-center">
-                        <img
-                          src="/images/icons/Terms and Policies_White.svg"
-                          alt=""
-                          className="w-4 h-4"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[#364152] text-sm font-medium">
-                        {group?.group_name}
-                      </p>
-
-                      <p className="text-[#4B5565] text-xs font-normal">
-                        {group?.selected_count} من {group?.total_count} محدد
-                      </p>
-                    </div>
-
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenGroupId((prev) => (prev === groupId ? null : groupId));
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <motion.img
-                      src="/images/icons/ArrowDown.svg"
-                      alt="arrow"
-                      className="w-5 h-5"
-                      animate={{
-                        rotate: isOpen ? 180 : 0,
-                      }}
-                      transition={{
-                        duration: 0.3,
-                        ease: "easeInOut",
-                      }}
+                <div className="w-7 h-7 rounded-full border border-primary flex items-center justify-center">
+                  <div className="w-5.5 h-5.5 rounded-full bg-primary flex items-center justify-center">
+                    <img
+                      src="/images/icons/Terms and Policies_White.svg"
+                      alt=""
+                      className="w-4 h-4"
                     />
-                  </button>
+                  </div>
                 </div>
 
-                {/* Permissions */}
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{
-                        duration: 0.3,
-                        ease: "easeInOut",
-                      }}
-                      className="overflow-hidden mb-10"
-                    >
-                      <div className="p-4 bg-white border border-t-0 border-[#CDD5DF]">
+                <div className="flex flex-col gap-1">
+                  <p className="text-[#364152] text-sm font-medium">
+                    {group?.group_name}
+                  </p>
 
-                        {group?.permissions?.map((permission, pIndex) => {
-                          const isChecked = selectedIds.includes(permission?.id);
-                          return (
-                            <motion.div
-                              key={permission?.id || pIndex}
-                              animate={{
-                                borderColor: isChecked
-                                  ? "var(--color-primary)"
-                                  : "#CDD5DF",
-
-                                backgroundColor: isChecked
-                                  ? "#F9F5E8"
-                                  : "#FFFFFF",
-
-                                scale: isChecked ? 1.01 : 1,
-                              }}
-                              transition={{
-                                duration: 0.25,
-                                ease: "easeOut",
-                              }}
-                              className="p-2 border rounded-3px mb-2"
-                            >
-                              <div className="py-2 px-3 flex gap-3">
-
-                                <div className="flex items-center">
-                                  <input
-                                    type="checkbox"
-                                    className={inputClassName}
-                                    checked={!!isChecked}
-                                    onChange={() => togglePermission(permission?.id)}
-                                  />
-                                </div>
-
-                                <div>
-                                  <p className="text-[#364152] text-sm font-medium">
-                                    {permission?.name}
-                                  </p>
-
-                                  <p className="text-[#4B5565] text-xs font-normal">
-                                    {permission?.description}
-                                  </p>
-                                </div>
-
-                              </div>
-                            </motion.div>
-                          );
-                        })}
-
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                  <p className="text-[#4B5565] text-xs font-normal">
+                    {group?.selected_count} من {group?.total_count} محدد
+                  </p>
+                </div>
 
               </div>
-            );
-          })}
 
-          
-        
-      
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenGroupId((prev) => (prev === groupId ? null : groupId));
+                }}
+                className="cursor-pointer"
+              >
+                <motion.img
+                  src="/images/icons/ArrowDown.svg"
+                  alt="arrow"
+                  className="w-5 h-5"
+                  animate={{
+                    rotate: isOpen ? 180 : 0,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeInOut",
+                  }}
+                />
+              </button>
+            </div>
+
+            {/* Permissions */}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    ease: "easeInOut",
+                  }}
+                  className="overflow-hidden mb-10"
+                >
+                  <div className="p-4 bg-white border border-t-0 border-[#CDD5DF]">
+
+                    {group?.permissions?.map((permission, pIndex) => {
+                      const isChecked = selectedIds.includes(permission?.id);
+                      return (
+                        <motion.div
+                          key={permission?.id || pIndex}
+                          animate={{
+                            borderColor: isChecked
+                              ? "var(--color-primary)"
+                              : "#CDD5DF",
+
+                            backgroundColor: isChecked
+                              ? "#F9F5E8"
+                              : "#FFFFFF",
+
+                            scale: isChecked ? 1.01 : 1,
+                          }}
+                          transition={{
+                            duration: 0.25,
+                            ease: "easeOut",
+                          }}
+                          className="p-2 border rounded-3px mb-2"
+                        >
+                          <div className="py-2 px-3 flex gap-3">
+
+                            <div className="flex items-center">
+                              <input
+                                type="checkbox"
+                                className={inputClassName}
+                                checked={!!isChecked}
+                                onChange={() => togglePermission(permission?.id)}
+                              />
+                            </div>
+
+                            <div>
+                              <p className="text-[#364152] text-sm font-medium">
+                                {permission?.name}
+                              </p>
+
+                              <p className="text-[#4B5565] text-xs font-normal">
+                                {permission?.description}
+                              </p>
+                            </div>
+
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+          </div>
+        );
+      })}
 
     
       {/* Success / Error Toast */}
@@ -339,7 +334,8 @@ function RoleData({open , setOpen, roleId}) {
           </AnimatePresence>
         </motion.button>
       </div>
-      </Dialog>
+
+    </Dialog>
       
     </>
   )
