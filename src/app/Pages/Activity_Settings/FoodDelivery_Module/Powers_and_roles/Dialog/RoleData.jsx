@@ -4,14 +4,15 @@ import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPermissionShowThunk } from '@/redux/slice/Setting/SettingSlice';
+import { getPermissionShowThunk, EditPermissionThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function RoleData({open , setOpen, roleId}) {
   const {t} = useTranslation()
 
   const [openGroupId, setOpenGroupId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const inputClassName = "w-5 h-5 appearance-none border border-gray-300 rounded-md bg-white cursor-pointer relative checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] after:absolute after:hidden checked:after:block checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:font-bold checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
-  const [checked, setChecked] = useState(false);
 
   console.log('roleId' , roleId);
 
@@ -19,17 +20,44 @@ function RoleData({open , setOpen, roleId}) {
   const dispatch = useDispatch()
   const {getPermissionShow} = useSelector((state)=>state.setting)
 
-  const selectedPermissionsCount =
-    getPermissionShow?.role?.selected_permissions_count ??
-    getPermissionShow?.role?.groups?.reduce((total, group) => {
-      if (typeof group?.selected_count === "number") {
-        return total + group.selected_count;
+  // Initialize selectedIds from API data whenever getPermissionShow changes
+  useEffect(() => {
+    if (getPermissionShow?.role?.groups) {
+      const initialIds = getPermissionShow.role.groups.flatMap((group) =>
+        group?.permissions
+          ?.filter((p) => p?.selected || p?.checked)
+          ?.map((p) => p?.id) || []
+      );
+      setSelectedIds(initialIds);
+    }
+  }, [getPermissionShow]);
+
+  const togglePermission = (permissionId) => {
+    setSelectedIds((prev) =>
+      prev.includes(permissionId)
+        ? prev.filter((id) => id !== permissionId)
+        : [...prev, permissionId]
+    );
+  };
+
+  const handleSave = () => {
+    setSaveStatus('loading');
+    dispatch(
+      EditPermissionThunk({
+        groupId: roleId,
+        formData: { permission_ids: selectedIds },
+      })
+    ).then((result) => {
+      if (result.meta.requestStatus === 'fulfilled') {
+        setSaveStatus('success');
+        dispatch(getPermissionShowThunk(roleId));
+        setTimeout(() => setSaveStatus('idle'), 2500);
+      } else {
+        setSaveStatus('error');
+        setTimeout(() => setSaveStatus('idle'), 2500);
       }
-      const countInGroup =
-        group?.permissions?.filter((p) => p?.selected || p?.checked)?.length || 0;
-      return total + countInGroup;
-    }, 0) ??
-    0;
+    });
+  };
 
   useEffect(()=>{
     if(roleId){
@@ -70,7 +98,7 @@ function RoleData({open , setOpen, roleId}) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.4 }}
             >
-              <span className='text-primary text-xs font-normal'> {selectedPermissionsCount} {t('from')} {getPermissionShow?.role?.permissions_count} {t('Specific validity')}</span>
+              <span className='text-primary text-xs font-normal'> {selectedIds.length} {t('from')} {getPermissionShow?.role?.permissions_count} {t('Specific validity')}</span>
           </motion.p>
           </div>
 
@@ -156,7 +184,7 @@ function RoleData({open , setOpen, roleId}) {
                       <div className="p-4 bg-white border border-t-0 border-[#CDD5DF]">
 
                         {group?.permissions?.map((permission, pIndex) => {
-                          const isChecked = permission?.selected || permission?.checked;
+                          const isChecked = selectedIds.includes(permission?.id);
                           return (
                             <motion.div
                               key={permission?.id || pIndex}
@@ -184,9 +212,7 @@ function RoleData({open , setOpen, roleId}) {
                                     type="checkbox"
                                     className={inputClassName}
                                     checked={!!isChecked}
-                                    onChange={(e) => {
-                                      // handle permission change
-                                    }}
+                                    onChange={() => togglePermission(permission?.id)}
                                   />
                                 </div>
 
@@ -219,15 +245,98 @@ function RoleData({open , setOpen, roleId}) {
       
 
     
-      {/*  */}
+      {/* Success / Error Toast */}
+      <AnimatePresence>
+        {(saveStatus === 'success' || saveStatus === 'error') && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-5 py-3 rounded-2xl shadow-lg ${
+              saveStatus === 'success'
+                ? 'bg-green-50 border border-green-200'
+                : 'bg-red-50 border border-red-200'
+            }`}
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 15, delay: 0.1 }}
+              className={`w-7 h-7 rounded-full flex items-center justify-center ${
+                saveStatus === 'success' ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            >
+              {saveStatus === 'success' ? (
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              )}
+            </motion.div>
+            <span className={`text-sm font-medium ${
+              saveStatus === 'success' ? 'text-green-700' : 'text-red-700'
+            }`}>
+              {saveStatus === 'success' ? t('Saved successfully') : t('Save failed')}
+            </span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Save Button */}
       <div className='px-6 mb-4'>
         <motion.button
-          className="bg-primary h-15 w-full rounded-3px text-white text-base font-normal cursor-pointer"
-          whileHover={{ y: -1  }}
-          whileTap={{ scale: 0.98 }}
+          onClick={handleSave}
+          disabled={saveStatus === 'loading'}
+          className="bg-primary h-15 w-full rounded-3px text-white text-base font-normal cursor-pointer flex items-center justify-center gap-2 disabled:opacity-70"
+          whileHover={saveStatus !== 'loading' ? { y: -1 } : {}}
+          whileTap={saveStatus !== 'loading' ? { scale: 0.98 } : {}}
           transition={{ duration: 0.2 }}
         >
-          {t('Preserving privileges')} ({selectedPermissionsCount})
+          <AnimatePresence mode="wait">
+            {saveStatus === 'loading' ? (
+              <motion.svg
+                key="spinner"
+                initial={{ opacity: 0, rotate: 0 }}
+                animate={{ opacity: 1, rotate: 360 }}
+                exit={{ opacity: 0 }}
+                transition={{ rotate: { duration: 0.8, repeat: Infinity, ease: 'linear' }, opacity: { duration: 0.2 } }}
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </motion.svg>
+            ) : saveStatus === 'success' ? (
+              <motion.svg
+                key="check"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </motion.svg>
+            ) : (
+              <motion.span
+                key="text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                {t('Preserving privileges')} ({selectedIds.length})
+              </motion.span>
+            )}
+          </AnimatePresence>
         </motion.button>
       </div>
       </Dialog>

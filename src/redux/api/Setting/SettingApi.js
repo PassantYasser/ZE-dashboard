@@ -365,3 +365,9 @@ export const getPermissionShow = async(RoleId)=>{
   const response = await API.get(`/restaurant-permission/show/${RoleId}`)
   return response.data
 }
+
+
+export const EditPermission = async(groupId , formData)=>{
+  const response = await API.post(`/restaurant-permission/update/${groupId}` , formData)
+  return response.data
+}
