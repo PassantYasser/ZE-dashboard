@@ -359,3 +359,9 @@ export const getRoleAndPermissionConfig = async()=>{
   const response = await API.get('/restaurant-roles-permission')
   return response.data
 }
+
+
+export const getPermissionShow = async(RoleId)=>{
+  const response = await API.get(`/restaurant-permission/show/${RoleId}`)
+  return response.data
+}
