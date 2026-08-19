@@ -48,7 +48,7 @@ function DetailsPage({open , setOpen , selectedId}) {
         <p className='text-[#364152] text-xl font-semibold'>{t('Employee Details')}</p>
         <button onClick={()=>{
           setOpen(false)
-          router.push(`/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts/Edit`)
+          router.push(`/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts/Edit?id=${selectedId}`)
           }}
         className='cursor-pointer'
         >

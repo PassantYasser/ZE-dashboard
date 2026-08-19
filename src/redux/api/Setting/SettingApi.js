@@ -391,3 +391,13 @@ export const addStaff = async(formData)=>{
   const response = await API.post(`/provider/restaurant/staff` , formData)
   return response.data
 }
+
+export const getShowForEdit = async(id)=>{
+  const response = await API.get(`/provider/restaurant/staff/showForEdit/${id}`)
+  return response.data
+}
+
+export const EditStaff = async(id , formData)=>{
+  const response = await API.post(`/provider/restaurant/staff/${id}` , formData)
+  return response.data
+}
