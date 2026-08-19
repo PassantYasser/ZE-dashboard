@@ -401,3 +401,8 @@ export const EditStaff = async(id , formData)=>{
   const response = await API.post(`/provider/restaurant/staff/${id}` , formData)
   return response.data
 }
+
+export const toggleStaffStatus = async(id)=>{
+  const response = await API.post(`/provider/restaurant/staff/toggleStatus/${id}` )
+  return response.data
+}

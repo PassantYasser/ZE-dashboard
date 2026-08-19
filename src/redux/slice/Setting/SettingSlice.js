@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -816,6 +816,17 @@ export const EditStaffThunk = createAsyncThunk('setting/EditStaff',
     try{
       const response = await EditStaff(id , formData)
       return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const toggleStaffStatusThunk = createAsyncThunk('setting/toggleStaffStatus',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await toggleStaffStatus(id)
+      return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);  
     }
@@ -1853,6 +1864,18 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(EditStaffThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //toggleStaffStatusThunk
+      .addCase(toggleStaffStatusThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(toggleStaffStatusThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(toggleStaffStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
