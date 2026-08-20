@@ -49,8 +49,7 @@ function RatingSettingPage() {
   
   const handleSubmit = async () => {
     try {
-      dispatch(EditReviewSettingThunk(formData))
-
+      await dispatch(EditReviewSettingThunk(formData))
       setAlert({
         open: true,
         severity: 'success',
