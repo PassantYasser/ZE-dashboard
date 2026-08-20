@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import GeneralAssessments from './GeneralAssessments'
 import LowRatingAlerts from './LowRatingAlerts'
