@@ -12,9 +12,9 @@ function ReviewPage() {
     dispatch(getRatingConfigThunk())
   },[dispatch])
   
-  console.log('getRatingConfig' , getRatingConfig)
-  
 
+  // console.log('getRatingConfig' , getRatingConfig)
+  
 
 
 

@@ -1,14 +1,18 @@
 'use client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { addReplyThunk, getRatingConfigThunk } from '@/redux/slice/Setting/SettingSlice';
 
 import Pagination from './Pagination';
 
 function CommentItem({ rate }) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const [showReply, setShowReply] = useState(false);
   const [replyInput, setReplyInput] = useState('');
   const [reply, setReply] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const existingReply =
     reply ||
@@ -19,10 +23,23 @@ function CommentItem({ rate }) {
   const rating = Number(rate?.rating ?? rate?.stars ?? 1);
 
   const handleSendReply = () => {
-    if (replyInput.trim() && !existingReply) {
-      setReply(replyInput.trim());
-      setReplyInput('');
-      setShowReply(false);
+    if (replyInput.trim() && !existingReply && !isSubmitting) {
+      const text = replyInput.trim();
+      setIsSubmitting(true);
+      dispatch(addReplyThunk({ id: rate?.id, formData: { reply: text } }))
+        .unwrap()
+        .then(() => {
+          setReply(text);
+          setReplyInput('');
+          setShowReply(false);
+          dispatch(getRatingConfigThunk());
+        })
+        .catch((err) => {
+          console.error('Failed to send reply:', err);
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
     }
   };
 
@@ -73,16 +90,18 @@ function CommentItem({ rate }) {
             <input 
               type="text" 
               value={replyInput}
+              disabled={isSubmitting}
               onChange={(e) => setReplyInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendReply()}
-              className='border border-primary w-[90%] h-12 rounded-3px outline-0 px-3'
+              className='border border-primary w-[90%] h-12 rounded-3px outline-0 px-3 disabled:opacity-60'
             />
             
             <div className='w-[10%] flex justify-end'>
               <button 
                 type="button"
                 onClick={handleSendReply}
-                className='bg-[#CDD5DF] w-13.5 h-12 rounded-3px flex items-center justify-center cursor-pointer'
+                disabled={isSubmitting || !replyInput.trim()}
+                className='bg-[#CDD5DF] w-13.5 h-12 rounded-3px flex items-center justify-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
               >
                 <img src="/images/icons/telegram-gray.svg" alt="" />
               </button>
