@@ -1,30 +1,37 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { getReportThunk } from "@/redux/slice/Setting/SettingSlice";
 
 function Filter() {
-    const [activeTab, setActiveTab] = useState('day');
+  const [activeTab, setActiveTab] = useState('day');
+  const dispatch = useDispatch();
   
   const { t } = useTranslation();
 
-const tabs = [
-  {
-    id: "day",
-    label: t("day"),
-  },
-  {
-    id: "week",
-    label: t("week"),
-  },
-  {
-    id: "month",
-    label: t("month"),
-  },
-  {
-    id: "year",
-    label: t("year"),
-  },
-];
+  const tabs = [
+    {
+      id: "day",
+      label: t("day"),
+    },
+    {
+      id: "week",
+      label: t("week"),
+    },
+    {
+      id: "month",
+      label: t("month"),
+    },
+    {
+      id: "year",
+      label: t("year"),
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(getReportThunk(activeTab));
+  }, [dispatch, activeTab]);
 
   return (
     <div className="w-full border border-[#E3E8EF] bg-[#EEF2F6] grid grid-cols-4 gap-3 p-3 rounded-[3px]">
