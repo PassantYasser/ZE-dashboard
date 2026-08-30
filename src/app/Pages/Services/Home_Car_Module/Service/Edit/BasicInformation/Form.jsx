@@ -65,24 +65,32 @@ function Form({ service, formData, handleChange }) {
   const dropdownRef3 = useRef(null);
   const optionSubService = selected2?.children || [];
 
-  // Step 1: GET / Edit initialization for Main Classification & form state
+  // Step 1: Initialize module_id from localStorage user data or service & fetch categories
   useEffect(() => {
-    if (!service) return;
+    const userData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || '{}') : {};
+    const activeModuleKey = userData?.current_module_key;
 
-    if (service?.module_id) {
-      handleChange("module_id", service.module_id);
+    let targetModule = null;
+    if (getmodules?.length > 0 && activeModuleKey) {
+      targetModule = getmodules.find(m => m.module_key === activeModuleKey);
     }
+
+    const targetModuleId = targetModule?.id || service?.module_id || service?.module?.id;
+
     if (service?.category_id) {
       handleChange("category_id", service.category_id);
     }
 
-    if (service?.module) {
-      setSelected1(service.module);
-      dispatch(getCategoriesThunk(service.module.id));
-    } else if (service?.module_id) {
-      dispatch(getCategoriesThunk(service.module_id));
+    if (targetModuleId) {
+      handleChange("module_id", targetModuleId);
+      if (service?.module) {
+        setSelected1(service.module);
+      } else if (targetModule) {
+        setSelected1(targetModule);
+      }
+      dispatch(getCategoriesThunk(targetModuleId));
     }
-  }, [service, dispatch]);
+  }, [service, getmodules, dispatch]);
 
   // Sync selected1 with getmodules when getmodules loads if not set
   useEffect(() => {
@@ -225,79 +233,7 @@ function Form({ service, formData, handleChange }) {
         <form className="mt-8">
         <section className="grid lg768:grid-cols-2 lg1:grid-cols-2 gap-6">
 
-          {/* Main classification 1 */}
-          <div className="flex flex-col">
-            <label className="text-[#364152] text-base font-normal mb-3">
-              {t("Main classification")}
-            </label>
 
-            <div className="relative w-full" ref={dropdownRef1}>
-              <div
-                className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
-                onClick={() => setOpen1(!open1)}
-              >
-                <input
-                  type="text"
-                  placeholder={t("Select the main category")}
-                  value={searchValue1 || selected1?.name || ""}
-                  onChange={(e) => {
-                    setSearchValue1(e.target.value);
-                    setOpen1(true);
-                    setSelected1(null);
-                    setHasManuallyChanged(true); // Mark as manually changed
-
-                    // Reset subcategory and service title when main classification input changes
-                    setSelected2(null);
-                    setSearchValue2("");
-                    setSelected3(null);
-                    setSearchValue3("");
-                  }}
-                  className="h-15 p-3 w-full text-[#364152] focus:outline-none"
-                />
-
-                <span className="absolute left-3 cursor-pointer">
-                  {open1 ? (
-                    <img src="/images/icons/ArrowUp.svg" alt="up" />
-                  ) : (
-                    <img src="/images/icons/ArrowDown.svg" alt="down" />
-                  )}
-                </span>
-              </div>
-
-              {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
-                  {optionMainClassification
-                    .filter((option) =>
-                      option.name
-                        ?.toLowerCase()
-                        .includes(searchValue1.toLowerCase())
-                    )
-                    .map((option, index) => (
-                      <li
-                        key={option.id || index}
-                        onClick={() => {
-                          setSelected1(option);
-                          setSearchValue1("");
-                          setOpen1(false);
-                          setHasManuallyChanged(true); // Mark as manually changed
-
-                          // Reset subcategory and service title when main classification changes
-                          setSelected2(null);
-                          setSearchValue2("");
-                          setSelected3(null);
-                          setSearchValue3("");
-
-                          handleChange("module_id", option.id);
-                        }}
-                        className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                      >
-                        {option.name}
-                      </li>
-                    ))}
-                </ul>
-              )}
-            </div>
-          </div>
 
           {/* Subcategory 2 */}
           <div className="flex flex-col">
