@@ -233,7 +233,7 @@ function Form({ service, formData, handleChange }) {
 
             <div className="relative w-full" ref={dropdownRef1}>
               <div
-                className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                 onClick={() => setOpen1(!open1)}
               >
                 <input
@@ -265,7 +265,7 @@ function Form({ service, formData, handleChange }) {
               </div>
 
               {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionMainClassification
                     .filter((option) =>
                       option.name
@@ -371,7 +371,7 @@ function Form({ service, formData, handleChange }) {
 
             <div className="relative w-full" ref={dropdownRef3}>
               <div
-                className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                 onClick={() => setOpen3(!open3)}
               >
                 <input
@@ -395,7 +395,7 @@ function Form({ service, formData, handleChange }) {
               </div>
 
               {open3 && (
-                <ul className="absolute left-0 right-0 border bg-white border-[#C8C8C8] rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                <ul className="absolute left-0 right-0 border bg-white border-[#C8C8C8] rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionSubService
                     .filter((option) =>
                       option?.title
@@ -434,7 +434,7 @@ function Form({ service, formData, handleChange }) {
             <div className="relative w-full" ref={dropdownRef4}>
               <div
                 onClick={() => setOpen4(!open4)}
-                className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+                className="p-2 min-h-15 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center flex-wrap gap-2"
               >
                 {/* Selected tags / placeholder */}
                 {optionServiceActivityLocation.map((option, index) => (
@@ -474,7 +474,7 @@ function Form({ service, formData, handleChange }) {
 
               {/* Dropdown options */}
               {open4 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionServiceActivityLocation.map((option, index) => (
                     <li
                       key={option.id}
@@ -482,7 +482,7 @@ function Form({ service, formData, handleChange }) {
                         if (!selected4.includes(option.id)) {
                           const updated = [...selected4, option.id];
                           setSelected4(updated);
-                          handleChange("provider_areas_id", updated);  //✨ اضيف الـ IDs للـ formData 
+                          handleChange("provider_areas_id", updated); 
                         }
                         setOpen4(false);
                       }}
@@ -505,7 +505,7 @@ function Form({ service, formData, handleChange }) {
             {/* Clickable box */}
             <div
               onClick={() => setOpen5(true)}
-              className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+              className="h-15 p-3 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
             >
               <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
                 {formattedTime || t("Average length of service")}
@@ -540,7 +540,7 @@ function Form({ service, formData, handleChange }) {
               onChange={(e) => handleChange("long_description", e.target.value)}
               placeholder={t("Write a description of the service.")}
               maxLength={5000}
-              className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
+              className="w-full h-41.5 border border-[#C8C8C8] rounded-3px p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-primary"
             />
             <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
               5000/{formData?.long_description.length}
