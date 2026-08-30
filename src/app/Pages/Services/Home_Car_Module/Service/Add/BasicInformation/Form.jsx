@@ -129,7 +129,7 @@ function Form({ formData, handleChange }) {
 
           <div className="relative w-full" ref={dropdownRef2}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
               onClick={() => setOpen2(!open2)}
             >
               <input
@@ -155,7 +155,7 @@ function Form({ formData, handleChange }) {
             </div>
 
             {open2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionSubcategory
                   .filter((option) =>
                     getCategoryName(option)
@@ -191,7 +191,7 @@ function Form({ formData, handleChange }) {
 
           <div className="relative w-full" ref={dropdownRef3}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
               onClick={() => {
                 if (!selected2) return;
                 setOpen3(!open3);
@@ -224,7 +224,7 @@ function Form({ formData, handleChange }) {
             </div>
 
             {open3 && selected2 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionSubService
                   .filter((opt) =>
                     getCategoryName(opt)
@@ -259,7 +259,7 @@ function Form({ formData, handleChange }) {
           <div className="relative w-full" ref={dropdownRef4}>
             <div
               onClick={() => setOpen4(!open4)}
-              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2"
+              className="p-2 min-h-15 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center flex-wrap gap-2"
             >
               {/* Selected tags */}
               {formData?.provider_areas_id?.length > 0 ? (
@@ -297,7 +297,7 @@ function Form({ formData, handleChange }) {
 
             {/* Dropdown options */}
             {open4 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionServiceActivityLocation.map((option, index) => (
                   <li
                     key={index}
@@ -321,7 +321,7 @@ function Form({ formData, handleChange }) {
           {/* Clickable box */}
           <div
             onClick={() => setOpen5(true)}
-            className="h-15 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+            className="h-15 p-3 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
           >
             <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
               {formattedTime || t("Average length of service")}
@@ -351,7 +351,7 @@ function Form({ formData, handleChange }) {
               <div className="flex justify-end mt-4">
                 <button
                   onClick={handleOkClick}
-                  className="bg-[var(--color-primary)] text-white px-4 py-1 rounded-[3px] cursor-pointer"
+                  className="bg-primary text-white px-4 py-1 rounded-3px cursor-pointer"
                 >
                   {t("Add")}
                 </button>
@@ -373,7 +373,7 @@ function Form({ formData, handleChange }) {
             onChange={(e) => handleChange("long_description", e.target.value)} 
             placeholder={t("Write a description of the service.")}
             maxLength={5000}
-            className="w-full h-41.5 border border-[#C8C8C8] rounded-[3px] p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-[#C69815]"
+            className="w-full h-41.5 border border-[#C8C8C8] rounded-3px p-3 text-[#364152] placeholder-[#9A9A9A] resize-none focus:outline-none focus:ring-1 focus:ring-primary"
           />
           <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
             5000/{formData?.long_description?.length || 0}

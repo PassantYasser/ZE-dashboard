@@ -69,11 +69,11 @@ function Image({ formData, handleChange }) {
         ) : (
           <div className="grid grid-cols-7 gap-4">
             {previewImages.map((src, idx) => (
-              <div key={idx} className="relative w-32.5 h-27.5 border border-[#C8C8C8] rounded-[6px] overflow-hidden flex items-center justify-center">
+              <div key={idx} className="relative w-32.5 h-27.5 border border-[#C8C8C8] rounded-md overflow-hidden flex items-center justify-center">
                 <img src={src} alt={`uploaded-${idx}`} className="w-full h-full object-cover" />
                 <button
                   onClick={(e) => { e.stopPropagation(); handleDelete(idx); }}
-                  className="absolute top-2 left-2 bg-[#FEE4E2] border border-[#F04438] rounded-[3px] p-1"
+                  className="absolute top-2 left-2 bg-[#FEE4E2] border border-[#F04438] rounded-3px p-1"
                 >
                   <img src="/images/icons/delete Red.svg" alt="delete" />
                 </button>
@@ -83,7 +83,7 @@ function Image({ formData, handleChange }) {
             {previewImages.length < MAX_IMAGES && (
               <button
                 onClick={(e) => { e.stopPropagation(); fileInputRef.current.click(); }}
-                className="w-28 h-28 border border-[#CDD5DF] bg-[#F8FAFC] rounded-[6px] flex items-center justify-center"
+                className="w-28 h-28 border border-[#CDD5DF] bg-[#F8FAFC] rounded-md flex items-center justify-center"
               >
                 <img src="/images/icons/AddGrayIcon.svg" alt="add" />
               </button>
