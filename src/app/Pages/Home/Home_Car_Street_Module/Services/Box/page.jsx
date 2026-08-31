@@ -37,7 +37,7 @@ function BoxPage({current_module_key}) {
 
   return (
     <>
-      <section className='grid grid-cols-1  lg1:grid-cols-4 gap-4'>
+      <section className='grid grid-cols-2  lg1:grid-cols-4 gap-4'>
 
         {/* New orders */}
         <motion.div 
