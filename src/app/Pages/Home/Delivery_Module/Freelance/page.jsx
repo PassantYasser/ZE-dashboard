@@ -9,8 +9,9 @@ function FreelancePage() {
     <div>
       <TitlePage/>
       <BoxPage/>
-      {/* <Card/> */}
-      <NoCards/>
+      
+      <Card/>
+      {/* <NoCards/> */}
     </div>
   )
 }
