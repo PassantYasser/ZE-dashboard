@@ -1,8 +1,13 @@
 import React from 'react'
+import BoxPage from './Box/page'
+import TitlePage from './Title/page'
 
 function FreelancePage() {
   return (
-    <div>FreelancePage</div>
+    <div>
+      <TitlePage/>
+      <BoxPage/>
+    </div>
   )
 }
 
