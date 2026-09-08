@@ -5,34 +5,36 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
-function Card() {
+function Card({getParcelHome}) {
   const { t } = useTranslation()
 
-  const status = 'scheduled' // instant, scheduled
+  const handleStatus = (deliveryType) => {
+    switch (deliveryType) {
+      case 'instant':
+        return (
+          <motion.p
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="w-fit px-2 py-1 bg-[#FAEFD1] text-primary rounded-full text-xs font-normal"
+          >
+            {t('Breaking news now')}
+          </motion.p>
+        )
+      case 'scheduled':
+        return (
+          <motion.p
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="w-fit px-2 py-1 bg-[#E4E4E4] text-[#666] rounded-full text-xs font-normal"
+          >
+            {t('tabular')}
+          </motion.p>
+        )
 
-  const handleStatus = () => {
-    if (status === 'instant') {
-      return (
-        <motion.p
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className='w-fit px-2 py-1 bg-[#FAEFD1] text-primary rounded-full text-xs font-normal'
-        >
-          {t('Breaking news now')}
-        </motion.p>
-      )
-    } else if (status === 'scheduled') {
-      return (
-        <motion.p
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className='w-fit px-2 py-1 bg-[#E4E4E4] text-[#666] rounded-full text-xs font-normal'
-        >
-          {t('tabular')}
-        </motion.p>
-      )
+      default:
+        return null
     }
   }
 
@@ -45,154 +47,157 @@ function Card() {
     >
       {/* Cards*** */}
       <div className='grid grid-cols-2 gap-6'>
-
-        {/* card */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          whileHover={{
-            y: -4,
-            boxShadow: '0 6px 15px rgba(0,0,0,0.12)',
-          }}
-          className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 rounded-3px flex flex-col gap-3'
-        >
-
-          {/* status */}
+        {getParcelHome?.new_requests?.map((request, index) => (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className='flex justify-between'
-          >
-            {handleStatus()}
-
-            <p className='text-[#A5A5A5] text-sm font-normal'>
-              الان
-            </p>
-          </motion.div>
-
-          {/* Route */}
-          <div className='w-full text-sm text-gray-700'>
-            <div className='relative'>
-
-              {/* line */}
-              <motion.div
-                initial={{ height: 0 }}
-                animate={{ height: '1.125rem' }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className='absolute right-1 top-5 w-px bg-gray-300'
-              />
-
-              {/* first step */}
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.5 }}
-                className='flex items-center gap-1.5 w-full'
-              >
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.55 }}
-                  className='h-2 w-2 shrink-0 rounded-full border-2 border-emerald-500 bg-white'
-                />
-
-                <span>
-                  وسط المدينة، شارع 123، شارع فاين
-                </span>
-              </motion.div>
-
-              {/* second step */}
-              <motion.div
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.7 }}
-                className='mt-4 flex items-center gap-1.5'
-              >
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.75 }}
-                  className='h-2 w-2 shrink-0 rounded-full bg-amber-400'
-                />
-
-                <span>
-                  321 شارع بابن، جناح 200
-                </span>
-              </motion.div>
-
-            </div>
-          </div>
-
-          {/* Divider */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.4, delay: 0.8 }}
-            className='border border-[#E3E8EF] origin-right'
-          />
-
-          {/* Bottom info */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.9 }}
-            className='flex justify-between'
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            whileHover={{
+              y: -4,
+              boxShadow: '0 6px 15px rgba(0,0,0,0.12)',
+            }}
+            className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 rounded-3px flex flex-col gap-3'
+            key={index}
           >
 
-            <div className='flex items-center gap-6'>
-
-              {/* Distance */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className='flex gap-1'
-              >
-                <p>
-                  <img
-                    src='/images/icons/pin-location-yellow.svg'
-                    alt=''
-                  />
-                </p>
-
-                <p className='text-sm text-[#5E5E5E] font-normal'>
-                  5.7 كم
-                </p>
-              </motion.div>
-
-              {/* Time */}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className='flex gap-1'
-              >
-                <p>
-                  <img src='/images/icons/clock-yellow.svg' />
-                </p>
-
-                <p className='text-sm text-[#5E5E5E] font-normal'>
-                  23 دقيقة
-                </p>
-              </motion.div>
-
-            </div>
-
-            {/* Wage */}
+            {/* status */}
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className='flex justify-between'
             >
-              <p className='text-[#3B3B3B] text-sm font-normal'>
-                {t('Wage estimate')}
-              </p>
+              {handleStatus(request?.delivery_type)}
 
-              <p className='text-primary text-base font-medium'>
-                20.99 ج
+              <p className='text-[#A5A5A5] text-sm font-normal'>
+                الان
               </p>
             </motion.div>
 
+            {/* Route */}
+            <div className='w-full text-sm text-gray-700'>
+              <div className='relative'>
+
+                {/* line */}
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: '1.125rem' }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className='absolute right-1 top-5 w-px bg-gray-300'
+                />
+
+                {/* first step */}
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.5 }}
+                  className='flex items-center gap-1.5 w-full'
+                >
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.55 }}
+                    className='h-2 w-2 shrink-0 rounded-full border-2 border-emerald-500 bg-white'
+                  />
+
+                  <span>
+                  {request?.pickup?.address}
+                  </span>
+                </motion.div>
+
+                {/* second step */}
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.7 }}
+                  className='mt-4 flex items-center gap-1.5'
+                >
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.75 }}
+                    className='h-2 w-2 shrink-0 rounded-full bg-amber-400'
+                  />
+
+                  <span>
+                    {request?.dropoff?.address}
+                  </span>
+                </motion.div>
+
+              </div>
+            </div>
+
+            {/* Divider */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
+              className='border border-[#E3E8EF] origin-right'
+            />
+
+            {/* Bottom info */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.9 }}
+              className='flex justify-between'
+            >
+
+              <div className='flex items-center gap-6'>
+
+                {/* Distance */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className='flex gap-1'
+                >
+                  <p>
+                    <img
+                      src='/images/icons/pin-location-yellow.svg'
+                      alt=''
+                    />
+                  </p>
+
+                  <p className='text-sm text-[#5E5E5E] font-normal'>
+                    {request?.distance_km} كم
+                  </p>
+                </motion.div>
+
+                {/* Time */}
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className='flex gap-1'
+                >
+                  <p>
+                    <img src='/images/icons/clock-yellow.svg' />
+                  </p>
+
+                  <p className='text-sm text-[#5E5E5E] font-normal'>
+                    {request?.duration_minutes} {t('minute')}
+                  </p>
+                </motion.div>
+
+              </div>
+
+              {/* Wage */}
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 1 }}
+              >
+                <p className='text-[#3B3B3B] text-sm font-normal'>
+                  {t('Wage estimate')}
+                </p>
+
+                <p className='text-primary text-base font-medium'>
+                  {request?.estimated_price} {t('pound')}
+                </p>
+              </motion.div>
+
+            </motion.div>
           </motion.div>
-        </motion.div>
+        ))}
+        {/* card */}
+      
       </div>
 
       {/* Active connection*** */}
@@ -212,8 +217,9 @@ function Card() {
             {t('You have an active connection')}
           </p>
 
-          <p className='text-base text-[#697586] font-normal'>
-            في الطريق للاستلام ZT-PR-1234
+          <p className='text-base text-[#697586]  flex gap-2'>
+            <span className='font-normal'>{t('On the way to pick it up')}</span>
+            <span className='font-medium'>{getParcelHome?.active_delivery?.booking_number}</span>
           </p>
         </div>
 
@@ -229,7 +235,6 @@ function Card() {
             <p className='flex items-center'>
               <img
                 src='/images/icons/chevron-down_right-green.svg'
-                alt=''
               />
             </p>
           </motion.button>
