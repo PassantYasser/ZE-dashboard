@@ -49,7 +49,14 @@ function FreelancePage() {
       <TitlePage getParcelHome={getParcelHome} dispatch={dispatch}/>
       <BoxPage getParcelHome={getParcelHome}/>
       
-      <Card getParcelHome={getParcelHome}/>
+      {getParcelHome?.new_requests?.length === 0 && getParcelHome?.active_delivery === null  
+        ? (
+            <NoCards/>
+          ):(
+            <Card getParcelHome={getParcelHome}/>
+          ) 
+      }
+      
       {/* <NoCards/> */}
     </div>
   )
