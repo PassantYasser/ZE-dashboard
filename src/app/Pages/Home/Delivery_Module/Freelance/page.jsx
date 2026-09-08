@@ -46,7 +46,7 @@ function FreelancePage() {
 
   return (
     <div>
-      <TitlePage getParcelHome={getParcelHome}/>
+      <TitlePage getParcelHome={getParcelHome} dispatch={dispatch}/>
       <BoxPage getParcelHome={getParcelHome}/>
       
       <Card getParcelHome={getParcelHome}/>
