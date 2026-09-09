@@ -36,6 +36,19 @@ function Details_RequestPage({open, setOpen}) {
         <FirstSection/>
         <SecondSection/>
         <ThirdSection/>
+
+
+        {/* btn */}
+        <div className='grid grid-cols-2 gap-4 w-full'>
+          <button className='border border-[#B42318]  w-full h-14 cursor-pointer text-[#B42318] text-base font-semibold rounded-3px'>
+            {t('reject')}
+          </button>
+
+          <button className=' bg-primary  w-full h-14 cursor-pointer text-white text-base font-semibold rounded-3px'>
+            {t('Send an offer')}
+          </button>
+        </div>
+
       </div>
 
     </Dialog>
