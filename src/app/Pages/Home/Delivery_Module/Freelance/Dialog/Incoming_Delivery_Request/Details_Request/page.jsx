@@ -25,18 +25,18 @@ function Details_RequestPage({open, setOpen}) {
         </button>
       </div>
 
-      <div className='px-6 fllex flex-col gap-1'>
+      <div className='px-6 flex flex-col gap-1'>
         <p className='text-[#364152] text-2xl font-medium'>{t('Incoming delivery request')}</p>
         <p className='text-[#666B6D] text-base font-normal'>{t('Review the details and submit your offer.')}</p>
       </div>
       <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
 
-      <div className='flex flex-col gap-3 px-6 pb-6'>
+      <div className='flex flex-col gap-6 px-6 pb-6'>
         <FirstSection/>
         <SecondSection/>
         <ThirdSection/>
       </div>
-      
+
     </Dialog>
     
     </>
