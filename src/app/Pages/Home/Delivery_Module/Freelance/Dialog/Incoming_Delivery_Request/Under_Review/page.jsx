@@ -1,9 +1,10 @@
+"use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import Section from './Section'
-
+import RejectedPage from '../Rejected/page'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,15 +26,24 @@ const itemVariants = {
   },
 }
 
-function Under_ReviewPage({open, setOpen}) { 
+function Under_ReviewPage({ open, setOpen, openRejected: propOpenRejected, setOpenRejected: propSetOpenRejected }) { 
   const { t } = useTranslation()
+  const [internalOpenRejected, setInternalOpenRejected] = useState(false)
+
+  const openRejected = propOpenRejected !== undefined ? propOpenRejected : internalOpenRejected
+  const setOpenRejected = propSetOpenRejected || setInternalOpenRejected
+
+  const handleWithdrawOffer = () => {
+    setOpen(false)
+    setOpenRejected(true)
+  }
+
   return (
     <>
     <Dialog
       open={open}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-    
     >
       <motion.div
         variants={containerVariants}
@@ -70,14 +80,11 @@ function Under_ReviewPage({open, setOpen}) {
             <Section/>
           </motion.div>
 
-          
-
           {/* Action buttons */}
-          <motion.div variants={itemVariants} className=" w-full pt-1">
-
-
+          <motion.div variants={itemVariants} className="w-full pt-1">
             <motion.button
               type="button"
+              onClick={handleWithdrawOffer}
               whileHover={{ scale: 1.015, filter: 'brightness(1.03)' }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.15 }}
@@ -88,10 +95,13 @@ function Under_ReviewPage({open, setOpen}) {
           </motion.div>
         </div>
       </motion.div>
-
-
     </Dialog>
-    
+
+    {/* Rejected Popup */}
+    <RejectedPage
+      open={openRejected}
+      setOpen={setOpenRejected}
+    />
     </>
   )
 }
