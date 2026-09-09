@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import BoxPage from './Box/page'
 import TitlePage from './Title/page'
