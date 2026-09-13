@@ -66,19 +66,19 @@ function TrackingStatus() {
                 <CheckIcon active={step.active} />
               
                 {index < STEPS.length - 1 && (
-                  <div className="w-px flex-1 min-h-6 bg-[#CDD5DF]" />
+                  <div className="w-px flex-1 min-h-10 bg-[#CDD5DF]" />
                 )}
               </div>
 
               {/* Content */}
               <div className="flex flex-col gap-px ">
-                <p className={`text-[13px] font-medium whitespace-nowrap ${
+                <p className={`text-lg font-normal whitespace-nowrap ${
                     step.active ? "text-[#0B0E11]" : "text-[#A3A3A3]"
                   }`}
                 >
                   {step.labelKey}
                 </p>
-                <p className="text-[12px] text-[#9AA1A9] font-normal whitespace-nowrap">
+                <p className="text-lg text-[#9AA1A9] font-light whitespace-nowrap">
                   {step.time}
                 </p>
               </div>
