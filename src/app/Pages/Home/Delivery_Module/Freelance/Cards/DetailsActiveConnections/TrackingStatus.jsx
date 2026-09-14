@@ -1,20 +1,58 @@
+'use client'
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.15,
+    },
+  },
+};
 
+const stepVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
 
 function TrackingStatus() {
   const { t } = useTranslation();
 
   const CheckIcon = ({ active }) => {
     return (
-      <div
-        className={`w-6 h-6 rounded-3px  flex items-center justify-center shrink-0 ${active ? "bg-primary" : "bg-[#CDD5DF]"}`}
+      <motion.div
+        className={`w-6 h-6 rounded-3px flex items-center justify-center shrink-0 ${
+          active ? "bg-primary" : "bg-[#CDD5DF]"
+        }`}
+        initial={{ scale: 0.7, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
       >
         {active && (
-          <img src="/images/icons/true.svg" alt="" />
+          <motion.img
+            src="/images/icons/true_white.svg"
+            alt=""
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.25, delay: 0.1 }}
+          />
         )}
-      </div>
+        {active && (
+          <motion.div
+            className="absolute w-6 h-6 rounded-3px bg-primary opacity-0"
+            animate={{ scale: [1, 1.6], opacity: [0.35, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeOut", delay: 0.4 }}
+            style={{ position: 'absolute' }}
+          />
+        )}
+      </motion.div>
     );
   };
 
@@ -30,7 +68,7 @@ function TrackingStatus() {
       active: false,
     },
     {
-      labelKey:t('in the way'),
+      labelKey: t('in the way'),
       time: "-",
       active: false,
     },
@@ -46,33 +84,58 @@ function TrackingStatus() {
     },
   ];
 
-
   return (
-    <div className="border border-[#CDD5DF] rounded-3px p-6">
+    <motion.div
+      className="border border-[#CDD5DF] rounded-3px p-6"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
       {/* Title */}
-      <p className="text-[#364152] text-xl font-medium mb-6">
+      <motion.p
+        className="text-[#364152] text-xl font-medium mb-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      >
         {t("Tracking status")}
-      </p>
+      </motion.p>
 
       {/* Steps */}
-      <div className="flex flex-col">
+      <motion.div
+        className="flex flex-col"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {STEPS.map((step, index) => (
-          <div key={step.labelKey} className="flex flex-col">
-
-            {/*icon + content side by side */}
-            <div className="flex items-start gap-2">
-
-              <div className="flex flex-col items-center shrink-0">
-                <CheckIcon active={step.active} />
+          <motion.div
+            key={step.labelKey}
+            className="flex flex-col"
+            variants={stepVariants}
+          >
+            {/* icon + content side by side */}
+            <motion.div
+              className="flex items-start gap-2 rounded-md px-1 py-0.5 transition-colors duration-200"
               
+            >
+              <div className="flex flex-col items-center shrink-0 relative">
+                <CheckIcon active={step.active} />
+
                 {index < STEPS.length - 1 && (
-                  <div className="w-px flex-1 min-h-10 bg-[#CDD5DF]" />
+                  <motion.div
+                    className="w-px flex-1 min-h-10 bg-[#CDD5DF]"
+                    initial={{ scaleY: 0, originY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
+                  />
                 )}
               </div>
 
               {/* Content */}
-              <div className="flex flex-col gap-px ">
-                <p className={`text-lg font-normal whitespace-nowrap ${
+              <div className="flex flex-col gap-px">
+                <p
+                  className={`text-lg font-normal whitespace-nowrap ${
                     step.active ? "text-[#0B0E11]" : "text-[#A3A3A3]"
                   }`}
                 >
@@ -82,13 +145,11 @@ function TrackingStatus() {
                   {step.time}
                 </p>
               </div>
-
-            </div>
-
-          </div>
+            </motion.div>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
