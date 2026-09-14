@@ -1,4 +1,4 @@
-import { changeStatus, getActiveDelivery, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getDriverSettings, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId } from "@/redux/api/Home/HomeApi";
+import { changeStatus, ConfirmDelivery, ConfirmPickUp, getActiveDelivery, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getDriverSettings, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId, updateBookingStatus } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -187,6 +187,39 @@ export const getActiveDeliveryThunk = createAsyncThunk('parcel/getActiveDelivery
   }
 ) 
 
+export const updateBookingStatusThunk = createAsyncThunk('parcel/updateBookingStatusThunk',
+  async (BookingID , thunkAPI) => {
+    try {
+      const response = await updateBookingStatus(BookingID)
+      return response
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+) 
+
+
+export const ConfirmPickUpThunk = createAsyncThunk('parcel/ConfirmPickUpThunk',
+  async ({BookingID , formData} , thunkAPI) => {
+    try {
+      const response = await ConfirmPickUp(BookingID , formData)
+      return response
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+) 
+
+export const ConfirmDeliveryThunk = createAsyncThunk('parcel/ConfirmDeliveryThunk',
+  async ({BookingID , formData} , thunkAPI) => {
+    try {
+      const response = await ConfirmDelivery(BookingID , formData)
+      return response
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+) 
 
 
 
@@ -451,6 +484,45 @@ const homeSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })  
+      //updateBookingStatusThunk
+      .addCase(updateBookingStatusThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateBookingStatusThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateBookingStatusThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //ConfirmPickUpThunk
+      .addCase(ConfirmPickUpThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(ConfirmPickUpThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(ConfirmPickUpThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })    
+      //ConfirmDeliveryThunk
+      .addCase(ConfirmDeliveryThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(ConfirmDeliveryThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(ConfirmDeliveryThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })    
   }
 })
 export const {} = homeSlice.actions;

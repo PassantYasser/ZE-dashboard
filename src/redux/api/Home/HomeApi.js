@@ -95,3 +95,20 @@ export const getActiveDelivery = async(id) =>{
   const response = await API.get(`/provider/parcel/bookings/${id}/activeDelivery`)
   return response.data
 }
+
+
+export const updateBookingStatus = async(BookingID) =>{
+  const response = await API.post(`/parcel/bookings/${BookingID}/status`)
+  return response.data
+}
+
+
+export const ConfirmPickUp = async(BookingID , formData) =>{
+  const response = await API.post(`/provider/parcel/bookings/${BookingID}/confirm_Pickup` , formData)
+  return response.data
+}
+
+export const ConfirmDelivery = async(BookingID , formData) =>{
+  const response = await API.post(`/provider/parcel/bookings/${BookingID}/confirm-delivery` , formData)
+  return response.data
+}
