@@ -97,8 +97,8 @@ export const getActiveDelivery = async(id) =>{
 }
 
 
-export const updateBookingStatus = async(BookingID) =>{
-  const response = await API.post(`/parcel/bookings/${BookingID}/status`)
+export const updateBookingStatus = async(BookingID , formData) =>{
+  const response = await API.post(`/parcel/bookings/${BookingID}/status` , formData)
   return response.data
 }
 

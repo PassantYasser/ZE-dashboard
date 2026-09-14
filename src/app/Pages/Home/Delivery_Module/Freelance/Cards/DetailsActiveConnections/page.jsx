@@ -67,7 +67,8 @@ function DetailsActiveConnectionsContent() {
           {t('Return')}
         </motion.button>
 
-        <motion.button
+        {getActiveDelivery?.data?.status === 'offer_accepted'? (
+          <motion.button
           type="button"
           className="bg-primary w-[20%] h-14 cursor-pointer text-white text-base font-semibold rounded-3px"
           whileHover={{
@@ -81,6 +82,22 @@ function DetailsActiveConnectionsContent() {
         >
           {t('Proceed to the pickup point')}
         </motion.button>
+        ):getActiveDelivery?.data?.status === 'offer_accepted'? (
+          <motion.button
+          type="button"
+          className="bg-primary w-[20%] h-14 cursor-pointer text-white text-base font-semibold rounded-3px"
+          whileHover={{
+            scale: 1.02,
+            boxShadow: '0 6px 20px rgba(0,0,0,0.18)',
+            filter: 'brightness(1.06)',
+          }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.18, ease: 'easeOut' }}
+        >
+          {t('Head to the delivery point')}
+        </motion.button>
+        ):null}
+        
       </motion.div>
 
     </MainLayout>

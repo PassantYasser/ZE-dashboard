@@ -188,9 +188,9 @@ export const getActiveDeliveryThunk = createAsyncThunk('parcel/getActiveDelivery
 ) 
 
 export const updateBookingStatusThunk = createAsyncThunk('parcel/updateBookingStatusThunk',
-  async (BookingID , thunkAPI) => {
+  async ({BookingID , formData} , thunkAPI) => {
     try {
-      const response = await updateBookingStatus(BookingID)
+      const response = await updateBookingStatus(BookingID , formData)
       return response
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data)
