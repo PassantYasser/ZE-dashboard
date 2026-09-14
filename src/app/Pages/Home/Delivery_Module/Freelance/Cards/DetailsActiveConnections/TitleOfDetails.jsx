@@ -3,8 +3,31 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
-function TitleOfDetails() {
+function TitleOfDetails({getActiveDelivery}) {
   const { t } = useTranslation()
+  const getActiveDeliveryData = getActiveDelivery?.data
+
+  const status = getActiveDeliveryData?.status ;
+  const statusConfig = {
+    offer_accepted: {
+      label: t("Confirmedd"),
+      className: "bg-[#ECFDF3] text-[#16A34A]",
+    },
+    delivered: {
+      label: t("Expired"),
+      className: "bg-[#F3F4F6] text-[#6B7280]",
+    },
+    cancelled: {
+      label: t("cancelled"),
+      className: "bg-[#FEF2F2] text-[#DC2626]",
+    },
+    default: {
+      label: t("active"),
+      className: "bg-[#EFF6FF] text-[#2563EB]",
+    },
+  };
+
+  const currentStatus = statusConfig[status] || statusConfig.default;
 
   return (
     <motion.div
@@ -16,19 +39,30 @@ function TitleOfDetails() {
       <div className='flex flex-col gap-1'>
         <p className='text-[#364152] text-2xl font-medium'>{t('Active connection')}</p>
         <p className='text-[#697586] text-xl font-normal'>
-          <span>عاجل الان</span> - <span> ZT-PR-1245</span>
+          <span> {getActiveDeliveryData?.delivery_type === 'now' ? t('Breaking news now') : t('tabular')}</span>
+            - 
+          <span>{getActiveDeliveryData?.booking_number} </span>
         </p>
       </div>
 
       <motion.p
-        className='w-fit h-10 px-2 flex items-center bg-[#DBFFE8] rounded-lg text-[#16A34A] text-lg font-normal
-          transition-shadow duration-200 cursor-default select-none'
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.35, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-        whileHover={{ scale: 1.04, boxShadow: '0 2px 10px rgba(22,163,74,0.18)' }}
+        className={`
+          w-fit min-w-[90px] h-9 px-3
+          inline-flex items-center justify-center
+          rounded-md
+          text-sm font-medium
+          whitespace-nowrap
+          select-none
+          ${currentStatus.className}
+        `}
+        initial={{ opacity: 0, y: -4 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
       >
-        تم التأكيد
+        {currentStatus.label}
       </motion.p>
     </motion.div>
   )

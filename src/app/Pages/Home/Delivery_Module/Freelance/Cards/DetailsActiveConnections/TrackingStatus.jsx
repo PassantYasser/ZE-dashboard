@@ -3,28 +3,32 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.15,
-    },
-  },
-};
 
-const stepVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-};
 
-function TrackingStatus() {
+function TrackingStatus({getActiveDelivery}) {
   const { t } = useTranslation();
+  const getActiveDeliveryData = getActiveDelivery?.data
 
+  
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.15,
+      },
+    },
+  };
+
+  const stepVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+    },
+  };
   const CheckIcon = ({ active }) => {
     return (
       <motion.div
@@ -56,31 +60,23 @@ function TrackingStatus() {
     );
   };
 
+  const tracking = getActiveDeliveryData?.tracking;
   const STEPS = [
     {
-      labelKey: t('The order has been confirmed'),
-      time: "1:15م",
-      active: true,
+      key: "confirmed",
+      label: t("The order has been confirmed"),
     },
     {
-      labelKey: t('It was received'),
-      time: "1:15م",
-      active: false,
+      key: "picked_up",
+      label: t("It was received"),
     },
     {
-      labelKey: t('in the way'),
-      time: "-",
-      active: false,
+      key: "on_the_way",
+      label: t("in the way"),
     },
     {
-      labelKey: t('nearby'),
-      time: "-",
-      active: false,
-    },
-    {
-      labelKey: t('Delivery'),
-      time: "-",
-      active: false,
+      key: "delivered",
+      label: t("Delivery"),
     },
   ];
 
@@ -108,46 +104,63 @@ function TrackingStatus() {
         initial="hidden"
         animate="visible"
       >
-        {STEPS.map((step, index) => (
-          <motion.div
-            key={step.labelKey}
-            className="flex flex-col"
-            variants={stepVariants}
-          >
-            {/* icon + content side by side */}
+        {STEPS.map((step, index) => {
+          const trackingData = tracking?.[step.key];
+
+          return (
             <motion.div
-              className="flex items-start gap-2 rounded-md px-1 py-0.5 transition-colors duration-200"
-              
+              key={step.key}
+              className="flex flex-col"
+              variants={stepVariants}
             >
-              <div className="flex flex-col items-center shrink-0 relative">
-                <CheckIcon active={step.active} />
+              <motion.div className="flex items-start gap-2 rounded-md px-1 py-0.5">
+                
+                <div className="flex flex-col items-center shrink-0 relative">
+                  
+                  <CheckIcon active={trackingData?.completed} />
 
-                {index < STEPS.length - 1 && (
-                  <motion.div
-                    className="w-px flex-1 min-h-10 bg-[#CDD5DF]"
-                    initial={{ scaleY: 0, originY: 0 }}
-                    animate={{ scaleY: 1 }}
-                    transition={{ duration: 0.4, delay: 0.2 + index * 0.08 }}
-                  />
-                )}
-              </div>
+                  {index < STEPS.length - 1 && (
+                    <motion.div
+                      className={`w-px flex-1 min-h-10 ${
+                        trackingData?.completed
+                          ? "bg-primary"
+                          : "bg-[#CDD5DF]"
+                      }`}
+                      initial={{ scaleY: 0, originY: 0 }}
+                      animate={{ scaleY: 1 }}
+                      transition={{
+                        duration: 0.4,
+                        delay: 0.2 + index * 0.08,
+                      }}
+                    />
+                  )}
 
-              {/* Content */}
-              <div className="flex flex-col gap-px">
-                <p
-                  className={`text-lg font-normal whitespace-nowrap ${
-                    step.active ? "text-[#0B0E11]" : "text-[#A3A3A3]"
-                  }`}
-                >
-                  {step.labelKey}
-                </p>
-                <p className="text-lg text-[#9AA1A9] font-light whitespace-nowrap">
-                  {step.time}
-                </p>
-              </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col gap-px">
+                  
+                  <p
+                    className={`text-lg font-normal whitespace-nowrap ${
+                      trackingData?.completed
+                        ? "text-[#0B0E11]"
+                        : "text-[#A3A3A3]"
+                    }`}
+                  >
+                    {step.label}
+                  </p>
+
+                  <p className="text-lg text-[#9AA1A9] font-light whitespace-nowrap">
+                    {trackingData?.completed
+                      ? trackingData?.time
+                      : "-"}
+                  </p>
+
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
+          );
+        })}
       </motion.div>
     </motion.div>
   );

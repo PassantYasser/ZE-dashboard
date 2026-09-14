@@ -90,3 +90,8 @@ export const getDriverSettings = async (formData) => {
   const response = await API.post('/provider/parcel/driver-settings', formData);
   return response.data;
 };
+
+export const getActiveDelivery = async(id) =>{
+  const response = await API.get(`/provider/parcel/bookings/${id}/activeDelivery`)
+  return response.data
+}

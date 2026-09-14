@@ -1,6 +1,6 @@
 'use client'
-import React, { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import React, { Suspense, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import TitleOfDetails from './TitleOfDetails'
 import TrackingStatus from './TrackingStatus'
@@ -8,25 +8,43 @@ import DeliveryPoints from './DeliveryPoints'
 import DriverDetails from './DriverDetails'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux'
+import { getActiveDeliveryThunk } from '@/redux/slice/Home/HomeSlice'
+import Loader from '@/app/Components/Loader/Loader'
 
 function DetailsActiveConnectionsContent() {
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
   const { t } = useTranslation()
+  const router = useRouter()
+
+  //api
+  const dispatch = useDispatch()
+  const { getActiveDelivery, loading } = useSelector((state) => state.Home)
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getActiveDeliveryThunk(id))
+    }
+  }, [dispatch, id])
+
+  console.log('getActiveDelivery', getActiveDelivery)
+
+  if (loading) return <Loader />
 
   return (
     <MainLayout>
 
       {/* DetailsActiveConnectionsPage {id ? `(ID: ${id})` : ''} */}
 
-      <TitleOfDetails />
+      <TitleOfDetails getActiveDelivery={getActiveDelivery} />
       <div className='grid grid-cols-2 gap-6 mt-10'>
-        <TrackingStatus />
-        <DeliveryPoints />
+        <TrackingStatus getActiveDelivery={getActiveDelivery} />
+        <DeliveryPoints getActiveDelivery={getActiveDelivery} />
       </div>
 
-      <DriverDetails />
+      <DriverDetails getActiveDelivery={getActiveDelivery} />
 
       {/* btn */}
       <motion.div
@@ -44,6 +62,7 @@ function DetailsActiveConnectionsContent() {
           }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
+          onClick={()=> router.back()}
         >
           {t('Return')}
         </motion.button>
@@ -75,4 +94,4 @@ function DetailsActiveConnectionsPage() {
   )
 }
 
-export default DetailsActiveConnectionsPage
+export default DetailsActiveConnectionsPage

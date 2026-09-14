@@ -3,8 +3,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
-function DriverDetails() {
+function DriverDetails({getActiveDelivery}) {
   const { t } = useTranslation()
+  const getActiveDeliveryData = getActiveDelivery?.data
 
   return (
     <>
@@ -33,8 +34,8 @@ function DriverDetails() {
             </div>
 
             <div className='flex flex-col gap-px'>
-              <p className='text-[#364152] text-lg font-normal'>أحمد محمد</p>
-              <p className='text-[#4B5565] text-base font-normal'>+1 (555) 123-4567</p>
+              <p className='text-[#364152] text-lg font-normal'>{getActiveDeliveryData?.contact?.name} </p>
+              <p className='text-[#4B5565] text-base font-normal'>{getActiveDeliveryData?.contact?.phone}</p>
             </div>
           </motion.div>
 
@@ -50,6 +51,9 @@ function DriverDetails() {
             transition={{ duration: 0.18, ease: 'easeOut' }}
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
+            onClick={() =>
+              window.location.href = `tel:${getActiveDeliveryData?.contact?.phone}`
+            }
           >
             <p className='text-primary text-lg font-medium'>{t('communication')}</p>
             <motion.p
@@ -73,11 +77,11 @@ function DriverDetails() {
           }}
         >
           <p className='text-[#364152] text-lg font-normal'>{t('Delivery fee')}</p>
-          <p className='text-primary text-xl font-semibold'>200 {t('pound')}</p>
+          <p className='text-primary text-xl font-semibold'>{getActiveDeliveryData?.earnings?.amount} {getActiveDeliveryData?.earnings?.currency} </p>
         </motion.div>
       </motion.div>
     </>
   )
 }
 
-export default DriverDetails
+export default DriverDetails
