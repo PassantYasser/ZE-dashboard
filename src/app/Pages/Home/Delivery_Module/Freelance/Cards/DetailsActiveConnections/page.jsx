@@ -77,6 +77,7 @@ function DetailsActiveConnectionsContent() {
           }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
+          onClick={()=>router.push(`/Pages/Home/Delivery_Module/Freelance/Cards/DetailsActiveConnections/Pickup_point?id=${id}`)}
         >
           {t('Proceed to the pickup point')}
         </motion.button>
