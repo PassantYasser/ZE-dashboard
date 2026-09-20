@@ -3,36 +3,41 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
-function ActiveConnectionPage({
-  id = 'ZT-PR-1234',
-  driver = 'أحمد محمد',
-  status = 'arrived_at_pickup',
-}) {
+function ActiveConnectionPage({getCompanyDashboard}) {
   const { t } = useTranslation()
+
 
   const getProgressPercentage = (status) => {
     switch (status) {
       case 'offer_accepted':
-        return 18
+        return 30
+      case 'pending':
+        return 10
+      case 'broadcasting':
+        return 20
       case 'on_way_to_pickup':
-        return 38
+        return 45
       case 'arrived_at_pickup':
-        return 58
+        return 60
       case 'picked_up':
-        return 75
+        return 70
       case 'arrived_at_dropoff':
-        return 90
+        return 10
       case 'delivered':
-        return 100
+        return 80
       case 'cancelled':
-        return 14
+        return 100
       default:
-        return 18
+        return 0
     }
   }
 
   const StatusRender = (status) => {
     switch (status) {
+      case 'pending': 
+      case 'broadcasting':
+        return null
+
       case 'offer_accepted':
         return (
           <div className="bg-[#ECFDF3] border border-[#ABEFC6] text-[#067647] h-7 rounded-3xl transition-transform duration-150 hover:scale-[1.02]">
@@ -171,37 +176,41 @@ function ActiveConnectionPage({
           {t('Active connections')}
         </p>
 
-        <div className="border border-[#DFDFDF] p-3.5 mt-4 rounded-3px bg-white">
-          <div className="flex justify-between items-center">
-            <h3 className="text-[#364152] text-base font-medium">{id}</h3>
-            <div>{StatusRender(status)}</div>
-          </div>
+        {getCompanyDashboard?.active_deliveries?.map((order)=>(
+          <div key={order?.id} className="border border-[#DFDFDF] p-3.5 mt-4 rounded-3px bg-white">
+            <div className="flex justify-between items-center">
+              <h3 className="text-[#364152] text-base font-medium">{order?.booking_number}</h3>
+              <div>{StatusRender(order?.status)}</div>
+            </div>
 
-          <div>
-            <p className="flex gap-1 items-center mt-2">
-              <span className="flex items-center">
-                <img
-                  src="/images/icons/user-full-view-black.svg"
-                  alt=""
-                  className="w-4 h-4"
+            <div>
+              <p className="flex gap-1 items-center mt-2">
+                <span className="flex items-center">
+                  <img
+                    src="/images/icons/user-full-view-black.svg"
+                    alt=""
+                    className="w-4 h-4"
+                  />
+                </span>
+                <span className="text-[#6E6E6E] text-base font-normal">
+                  {order?.driver?.name}
+                </span>
+              </p>
+
+              {/* progress bar */}
+              <div className="w-full bg-[#EAECF0] h-1 rounded-full overflow-hidden mt-3">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${getProgressPercentage(order?.status)}%` }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  className="bg-[#1570EF] h-full rounded-full ms-0"
                 />
-              </span>
-              <span className="text-[#6E6E6E] text-base font-normal">
-                {driver}
-              </span>
-            </p>
-
-            {/* progress bar */}
-            <div className="w-full bg-[#EAECF0] h-[5px] rounded-full overflow-hidden mt-3">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${getProgressPercentage(status)}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-                className="bg-[#1570EF] h-full rounded-full ms-0"
-              />
+              </div>
             </div>
           </div>
-        </div>
+        ))}
+
+        
       </div>
     </>
   )
