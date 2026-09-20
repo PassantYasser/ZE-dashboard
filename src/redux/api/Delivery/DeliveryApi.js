@@ -23,5 +23,10 @@ export const getMyDeliveries = async (filter) => {
   return response.data
 }
 
+export const getActiveDeliveryID = async(id)=>{
+  const response = await API.get(`/provider/parcel/Company/bookings/${id}/activeDelivery`)
+  return response.data
+}
+
 
 

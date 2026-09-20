@@ -1,4 +1,4 @@
-import { getDeliveryMap, getMyDeliveries, getOrders } from "@/redux/api/Delivery/DeliveryApi";
+import { getActiveDeliveryID, getDeliveryMap, getMyDeliveries, getOrders } from "@/redux/api/Delivery/DeliveryApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /** Food delivery*********************************************************** */
@@ -28,8 +28,7 @@ export const getDeliveryMapThunk = createAsyncThunk('Delivery/getDeliveryMap',
 /** Delivery*********************************************************** */
 //---------------------------------------------------------------------------
 
-export const getMyDeliveriesThunk = createAsyncThunk(
-  'parcel/getMyDeliveriesThunk',
+export const getMyDeliveriesThunk = createAsyncThunk('parcel/getMyDeliveriesThunk',
   async (filter, thunkAPI) => {
     try {
       const data = await getMyDeliveries(filter)
@@ -41,13 +40,25 @@ export const getMyDeliveriesThunk = createAsyncThunk(
 )
 
 
+export const getActiveDeliveryIDThunk = createAsyncThunk('parcel/getActiveDeliveryID',
+  async (id, thunkAPI) => {
+    try {
+      const data = await getActiveDeliveryID(id)
+      return data.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
   error: null,
   getOrders:[],
   getDeliveryMap:[],
-  getMyDeliveries:[]
+  getMyDeliveries:[],
+  getActiveDeliveryID:null
 }
 
 const DeliverySlice = createSlice({
@@ -98,6 +109,20 @@ const DeliverySlice = createSlice({
         state.error = null;
       })
       .addCase(getMyDeliveriesThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getActiveDeliveryIDThunk
+      .addCase(getActiveDeliveryIDThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getActiveDeliveryIDThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getActiveDeliveryID = action.payload; 
+        state.error = null;
+      })
+      .addCase(getActiveDeliveryIDThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

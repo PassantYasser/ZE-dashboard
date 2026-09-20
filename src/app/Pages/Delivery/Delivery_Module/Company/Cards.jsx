@@ -229,7 +229,7 @@ function Cards({ activeTab = 'all', getMyDeliveries, loading }) {
               <div className='flex justify-between items-center gap-2'>
                 <button
                   type="button"
-                  onClick={() => router.push('/Pages/Connections/Delivery_Module/Company/Details')}
+                  onClick={() => router.push(`/Pages/Delivery/Delivery_Module/Company/Details?id=${delivery?.id}`)}
                   className='text-[#364152] text-lg font-medium transition-colors duration-200 group-hover:text-primary cursor-pointer hover:underline underline-offset-2'
                 >
                   {delivery?.booking_number}
