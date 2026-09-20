@@ -12,7 +12,7 @@ function CompanyPage() {
     dispatch(getCompanyDashboardThunk())
   },[dispatch])
 
-  console.log('getCompanyDashboard' , getCompanyDashboard);
+  // console.log('getCompanyDashboard' , getCompanyDashboard);
   return (
     <div>
       <TitlePage getCompanyDashboard={getCompanyDashboard}/>
