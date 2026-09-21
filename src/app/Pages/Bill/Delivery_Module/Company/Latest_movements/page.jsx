@@ -17,8 +17,8 @@ function Latest_movementsPage({getEarnings}) {
   }
   return (
     <> 
-    {getEarnings?.recent_transactions?.map((item)=>(
-      <div key={item?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px p-3 my-6'>
+    {getEarnings?.recent_transactions?.map((item , index)=>(
+      <div key={index} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px p-3 my-6'>
         <p className='text-[#161616] text-xl font-medium mb-6'>{t('Latest movements')}</p>
 
         <div className='flex justify-between '>

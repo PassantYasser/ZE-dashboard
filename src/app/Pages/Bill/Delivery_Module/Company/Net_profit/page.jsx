@@ -29,6 +29,7 @@ function Net_profitPage({getEarnings}) {
     <Bank_Transfer_Request
       open={openBank}
       setOpen={setOpenBank}
+      getEarnings={getEarnings}
     />
       
     </>
