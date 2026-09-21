@@ -1,7 +1,8 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
+import Supported_Package_Types from '../Dialogs/Supported_Package_Types'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 14 },
@@ -24,8 +25,11 @@ const containerVariants = {
 
 function PricingAndProfitSettingsPage() {
   const { t } = useTranslation()
+  const [open , setOpen] = useState(false)
+  
 
   return (
+    <>
     <motion.div
       className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px p-4 transition-shadow duration-300 hover:shadow-[0_4px_16px_0_rgba(0,0,0,0.12)]'
       variants={fadeInUp}
@@ -55,6 +59,7 @@ function PricingAndProfitSettingsPage() {
         </motion.p>
 
         <motion.button
+          onClick={()=>setOpen(true)}
           className='flex gap-3 cursor-pointer group'
           variants={rowVariants}
           whileHover={{ scale: 1.03 }}
@@ -70,6 +75,13 @@ function PricingAndProfitSettingsPage() {
         </motion.button>
       </motion.div>
     </motion.div>
+    
+    <Supported_Package_Types 
+      open={open}
+      setOpen={setOpen}
+    />
+    </>
+    
   )
 }
 
