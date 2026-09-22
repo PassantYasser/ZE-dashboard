@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import No_WorkPlaces from './No_WorkPlaces'
+import Delete from './Dialog/Delete'
 
 function Locations() {
   const { t } = useTranslation()
   const router = useRouter()
   const [workplaces, setWorkplaces] = useState([])
+  const [pendingDeleteId, setPendingDeleteId] = useState(null)
 
   /* قراءة العناوين من localStorage */
   useEffect(() => {
@@ -25,6 +27,7 @@ function Locations() {
     const updated = workplaces.filter((w) => w.id !== id)
     localStorage.setItem('workplaces', JSON.stringify(updated))
     setWorkplaces(updated)
+    setPendingDeleteId(null)
   }
 
   if (workplaces.length === 0) {
@@ -70,7 +73,7 @@ function Locations() {
                     className="cursor-pointer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => handleDelete(wp.id)}
+                    onClick={() => setPendingDeleteId(wp.id)}
                   >
                   <img src="/images/icons/xxxx.svg" className="w-6 h-6" />
                   </motion.button>
@@ -100,8 +103,12 @@ function Locations() {
         </button>
       </div>
     
-      
-    
+      {/* Delete confirmation dialog */}
+      <Delete
+        isOpen={pendingDeleteId !== null}
+        onConfirm={() => handleDelete(pendingDeleteId)}
+        onCancel={() => setPendingDeleteId(null)}
+      />
     </>
   )
 }
