@@ -81,7 +81,7 @@ const listVariants = {
   },
 }
 
-function FleetAndPermissionsSettingsPage() {
+function FleetAndPermissionsSettingsPage({getShowSetting}) {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -130,7 +130,9 @@ function FleetAndPermissionsSettingsPage() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
-            <GreenSwitch />
+            <GreenSwitch 
+              
+            />
           </motion.div>
         </motion.div>
 

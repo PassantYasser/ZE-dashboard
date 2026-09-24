@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import Concurrent_Orders_Limit from '../Dialogs/Concurrent_Orders_Limit'
@@ -23,11 +23,13 @@ const containerVariants = {
   },
 }
 
-function OrderLimitSettingsPage() {
+function OrderLimitSettingsPage({getShowSetting}) {
   const { t } = useTranslation()
 
   const [open , setOpen] = useState(false)
 
+  
+  
   return (
     <>
       <motion.div
@@ -79,6 +81,7 @@ function OrderLimitSettingsPage() {
       <Concurrent_Orders_Limit
         open={open}
         setOpen={setOpen}
+        getShowSetting={getShowSetting}
       />
     </>
   )

@@ -1,19 +1,27 @@
 import { Dialog } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
 
-function Concurrent_Orders_Limit({open , setOpen}) {
+function Concurrent_Orders_Limit({open , setOpen , getShowSetting}) {
   const {t} = useTranslation()
   const [selected, setSelected] = useState(null)
 
   const data = [
-    t('Up to 10 deliveries'),
-    t('Up to 20 deliveries'),
-    t('Up to 50 deliveries'),
-    t('without limit'),
+    {id:10 , name:t('Up to 10 deliveries')},
+    {id:20 , name:t('Up to 20 deliveries')},
+    {id:30 , name:t('Up to 30 deliveries')},
+    {id:50 , name:t('Up to 50 deliveries')},
+    {id:80 , name:t('Up to 80 deliveries')},
   ]
+
+  useEffect(()=>{
+    if(getShowSetting?.max_concurrent_orders !== undefined){
+      setSelected(getShowSetting?.max_concurrent_orders)
+    }
+  },[getShowSetting])
+
   return (
     <>
       <Dialog
@@ -40,11 +48,11 @@ function Concurrent_Orders_Limit({open , setOpen}) {
 
           <div className='px-6 flex flex-col gap-2 pb-6'>
             {data.map((item, index) => {
-              const isSelected = selected === index
+              const isSelected = selected === item?.id
               return (
                 <motion.button
-                  key={index}
-                  onClick={() => setSelected(index)}
+                  key={item?.id}
+                  onClick={() => setSelected(item?.id)}
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
@@ -60,7 +68,7 @@ function Concurrent_Orders_Limit({open , setOpen}) {
                       isSelected ? 'text-primary' : 'text-[#364152]'
                     }`}
                   >
-                    {item}
+                    {item?.name}
                   </span>
 
                   <AnimatePresence>

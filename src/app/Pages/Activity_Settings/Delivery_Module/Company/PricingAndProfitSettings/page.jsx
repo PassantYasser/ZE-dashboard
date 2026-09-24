@@ -23,7 +23,7 @@ const containerVariants = {
   },
 }
 
-function PricingAndProfitSettingsPage() {
+function PricingAndProfitSettingsPage({getShowSetting}) {
   const { t } = useTranslation()
   const [open , setOpen] = useState(false)
   
@@ -79,6 +79,7 @@ function PricingAndProfitSettingsPage() {
     <Supported_Package_Types 
       open={open}
       setOpen={setOpen}
+      getShowSetting={getShowSetting}
     />
     </>
     

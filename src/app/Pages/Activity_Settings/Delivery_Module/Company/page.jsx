@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import OrderLimitSettingsPage from './OrderLimitSettings/page'
 import PricingAndProfitSettingsPage from './PricingAndProfitSettings/page'
 import FleetAndPermissionsSettingsPage from './FleetAndPermissionsSettings/page'
+import { getShowSettingThunk } from '@/redux/slice/Setting/SettingSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 16 },
@@ -20,9 +22,20 @@ const containerVariants = {
   },
 }
 
+
+
 function CompanyPage() {
   const { t } = useTranslation()
 
+  //api
+  const dispatch = useDispatch()
+  const {getShowSetting} = useSelector((state)=>state.setting)
+
+  useEffect(()=>{
+    dispatch(getShowSettingThunk())
+  },[dispatch])
+
+  // console.log('getShowSetting' , getShowSetting);
   return (
     <motion.div
       initial="hidden"
@@ -41,10 +54,10 @@ function CompanyPage() {
         variants={fadeInUp}
       >
         <div className='grid grid-cols-2 gap-6'>
-          <OrderLimitSettingsPage />
-          <PricingAndProfitSettingsPage />
+          <OrderLimitSettingsPage getShowSetting={getShowSetting} />
+          <PricingAndProfitSettingsPage getShowSetting={getShowSetting} />
         </div>
-        <FleetAndPermissionsSettingsPage />
+        <FleetAndPermissionsSettingsPage getShowSetting={getShowSetting}/>
       </motion.div>
     </motion.div>
   )

@@ -8,18 +8,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getShowSettingThunk } from '@/redux/slice/Setting/SettingSlice'
 import { useLayoutEffect } from 'react'
 
-function Supported_Package_Types({ open, setOpen }) {
+function Supported_Package_Types({ open, setOpen ,getShowSetting }) {
   const { t } = useTranslation()
 
-  //api
-  const dispatch = useDispatch()
-  const {getShowSetting } = useSelector((state)=>state.setting)
-  useEffect(()=>{
-    dispatch(getShowSettingThunk())
-  },[dispatch])
-
-  console.log('getShowSetting' , getShowSetting);
-
+  
 
   const [selected, setSelected] = useState([])
 
