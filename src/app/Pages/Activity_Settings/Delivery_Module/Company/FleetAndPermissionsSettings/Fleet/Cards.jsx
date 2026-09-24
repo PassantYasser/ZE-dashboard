@@ -1,10 +1,13 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import DetailsPage from './Details/page'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Cards({ onClick , getDriverSetting }) {
+function Cards({  getDriverSetting ,openDetails , setOpenDetails }) {
   const {t} = useTranslation()
+
+
 
   const StatusRender = (status) => {
     switch (status) {
@@ -172,6 +175,8 @@ function Cards({ onClick , getDriverSetting }) {
     }
   }
 
+  const [selectedDriverId, setSelectedDriverId] = useState(null)
+
 
   return (
     <>
@@ -189,14 +194,17 @@ function Cards({ onClick , getDriverSetting }) {
               </p>
               <p
                 className='text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150'
-                onClick={onClick}
+                onClick={() => {
+                        setSelectedDriverId(driver?.id)
+                        setOpenDetails(true)
+                      }}
               >
                 {driver?.name}
               </p>
             </div>
             <>{StatusRender(driver?.curren_status)}</>
           </div>
-          
+
           <div className='flex gap-4'>
             <p className='text-[#364152] text-base font-light'>{driver?.vehicle}</p>
             <p className='flex items-center gap-1'>
@@ -207,6 +215,12 @@ function Cards({ onClick , getDriverSetting }) {
 
         </div>
       ))}
+
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+        driverId={selectedDriverId}
+      />
       
     </>
   )

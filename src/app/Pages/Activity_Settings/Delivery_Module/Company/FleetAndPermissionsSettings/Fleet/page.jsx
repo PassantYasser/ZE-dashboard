@@ -37,7 +37,12 @@ function FleetPage() {
       </div>
 
       <div className='border border-[#CDD5DF] rounded-3px p-6 grid grid-cols-2 gap-6 mt-10'>
-        <Cards onClick={() => setOpenDetails(true)} getDriverSetting={getDriverSetting}/>
+        <Cards 
+          onClick={() => setOpenDetails(true)} 
+          getDriverSetting={getDriverSetting} 
+          openDetails={openDetails} 
+          setOpenDetails={setOpenDetails}
+        />
       </div>
 
       <button
@@ -53,10 +58,7 @@ function FleetPage() {
         setOpen={setOpen}
       />
 
-      <DetailsPage
-        open={openDetails}
-        setOpen={setOpenDetails}
-      />
+    
 
       
     </MainLayout>
