@@ -510,6 +510,8 @@ export const addCoverageAreas = async(formData)=>{
   })
   return response.data
 }
+
+
 export const DeleteCoverageAreas = async(areaID)=>{
   try {
     const response = await API.delete(`/provider/parcel/coverage-areas/${areaID}`)
@@ -523,3 +525,7 @@ export const DeleteCoverageAreas = async(areaID)=>{
   }
 }
 
+export const getDriverSetting = async()=>{
+  const response = await API.get(`/company/parcel/settings/driver`)
+  return response.data
+}

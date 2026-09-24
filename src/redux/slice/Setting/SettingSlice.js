@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting, getCoverageAreas, addCoverageAreas, DeleteCoverageAreas } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting, getCoverageAreas, addCoverageAreas, DeleteCoverageAreas, getDriverSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -1036,6 +1036,16 @@ export const DeleteCoverageAreasThunk = createAsyncThunk('setting/DeleteCoverage
   }
 )
 
+export const getDriverSettingThunk = createAsyncThunk('setting/getDriverSetting',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getDriverSetting()
+      return response.data 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
 const initialState ={
   success:false,
   loading: false,
@@ -1114,11 +1124,7 @@ const initialState ={
 
   getShowSetting:[],
   getCoverageAreas:null,
-
-  
-  
-
-
+  getDriverSetting:null,
   
 
 }
@@ -2321,6 +2327,20 @@ const settingSlice = createSlice({
         }
       })
       .addCase(DeleteCoverageAreasThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //getDriverSettingThunk
+      .addCase(getDriverSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDriverSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getDriverSetting = action.payload;
+      })
+      .addCase(getDriverSettingThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
