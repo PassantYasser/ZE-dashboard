@@ -147,7 +147,7 @@ function LoginPage() {
                 {t("phone number")}/{t("Email")}
               </label>
               <input
-                className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="w-full h-15 p-3 border border-[#C8C8C8] rounded-3px placeholder-[#9A9A9A] placeholder:text-sm outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"
                 type="text"
                 name="login"
                 id="email"
@@ -170,7 +170,7 @@ function LoginPage() {
 
               <div className="relative">
                 <input
-                  className="w-full h-15 p-3 border border-[#C8C8C8] rounded-[3px] placeholder-[#9A9A9A] placeholder:text-sm outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  className="w-full h-15 p-3 border border-[#C8C8C8] rounded-3px placeholder-[#9A9A9A] placeholder:text-sm outline-none transition disabled:bg-gray-100 disabled:cursor-not-allowed"
                   type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
@@ -203,8 +203,8 @@ function LoginPage() {
 
             {/* Error Message */}
             {error && !isProcessing && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-[4px] text-sm text-center font-medium">
-                {typeof error === "string" ? error : t("Login failed. Please check your credentials.")}
+              <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-3px text-sm text-center font-medium">
+                {typeof error === "string" ? t('Incorrect password') : t("Login failed. Please check your credentials.")}
               </div>
             )}
 
@@ -215,9 +215,9 @@ function LoginPage() {
                 disabled={isProcessing}
                 className={`
                   w-full h-14
-                  bg-[var(--color-primary)]
+                  bg-primary
                   text-white text-base font-medium
-                  rounded-[3px]
+                  rounded-3px
                   flex items-center justify-center gap-3
                   transition-all duration-200 shadow-sm
                   ${isProcessing ? "opacity-75 cursor-not-allowed" : "cursor-pointer hover:opacity-95 active:scale-[0.99]"}
@@ -258,10 +258,10 @@ function LoginPage() {
 
               {/* Dynamic status feedback below button */}
               {isProcessing && (
-                <div className="flex items-center justify-center gap-2 text-[var(--color-primary)] text-sm font-medium py-1 animate-pulse">
+                <div className="flex items-center justify-center gap-2 text-primary text-sm font-medium py-1 animate-pulse">
                   <span className="relative flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--color-primary)]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
                   </span>
                   <span>
                     {isRedirecting

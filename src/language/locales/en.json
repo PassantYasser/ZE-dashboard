@@ -1784,5 +1784,11 @@
   "All types":"All types",
   "Settings updated successfully.":"Settings updated successfully.",
   "Failed to update settings.":"Failed to update settings.",
+  "Login failed. Please check your credentials.":"Login failed. Please check your credentials.",
+  "Incorrect password":"Incorrect password",
+  
+
+
+
   "":"" 
 }

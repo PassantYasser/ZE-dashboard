@@ -1785,5 +1785,12 @@
   "All types":"جميع الأنواع",
   "Settings updated successfully.":"تم تحديث الإعدادات بنجاح.",
   "Failed to update settings.":"فشل تحديث الإعدادات.",
+  "Login failed. Please check your credentials.":"فشل تسجيل الدخول. يرجى التحقق من بيانات اعتمادك.",
+  "Incorrect password":"كلمه السر غير صحيحه",
+  
+
+
+
+
 "d":"d"
 }
