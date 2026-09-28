@@ -23,7 +23,7 @@ function FleetPage() {
     dispatch(getDriverSettingThunk())
   }, [dispatch])
 
-  console.log('getDriverSetting' , getDriverSetting);
+  // console.log('getDriverSetting' , getDriverSetting);
 
   return (
     <MainLayout>
