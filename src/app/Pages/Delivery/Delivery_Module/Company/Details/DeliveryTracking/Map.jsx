@@ -56,7 +56,7 @@ function Map({ lat, lng }) {
 
   return (
     <motion.div
-      className="relative w-full rounded-lg overflow-hidden border border-[#E7E7E7]"
+      className="relative z-0 isolate w-full rounded-lg overflow-hidden border border-[#E7E7E7]"
       style={{ height: '500px' }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -75,6 +75,7 @@ function Map({ lat, lng }) {
         <MapContainer
           center={position}
           zoom={14}
+          className="z-0"
           style={{ height: '100%', width: '100%' }}
           zoomControl={true}
           scrollWheelZoom={true}
