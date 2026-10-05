@@ -9,7 +9,7 @@ export default function ChatLayout() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   return (
-    <div className="flex w-full gap-6">
+    <div className="flex w-full gap-6 mb-4">
       <div className="w-[40%]">
         <UsersListPage
           selectedUser={selectedUser}

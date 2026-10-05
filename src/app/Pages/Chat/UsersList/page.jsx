@@ -46,7 +46,7 @@ export default function UsersListPage({ selectedUser, setSelectedUser }) {
   });
 
   return (
-    <div className="rounded-3px bg-white py-6 border border-[#d1d1d1]">
+    <div className="rounded-3px bg-white py-6 border border-[#d1d1d1] h-screen">
       <h2 className="text-[#28292A] text-xl px-4 font-normal mb-6">
         {t("All conversations")}
       </h2>
@@ -62,8 +62,8 @@ export default function UsersListPage({ selectedUser, setSelectedUser }) {
               onClick={() => setActiveFilter(tab.id)}
               className={`h-[45px] px-4 flex items-center justify-center text-base cursor-pointer transition-colors duration-200 border-b-[3px] -mb-[1px] ${
                 isActive
-                  ? "text-[#C69815] border-[#C69815] font-normal"
-                  : "text-[#666B6D] border-transparent hover:text-[#C69815] font-normal"
+                  ? "text-primary border-primary font-normal"
+                  : "text-[#666B6D] border-transparent hover:text-primary font-normal"
               }`}
             >
               {tab.label}
