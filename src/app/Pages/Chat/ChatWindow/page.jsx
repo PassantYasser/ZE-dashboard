@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
 
 function DoubleCheckIcon({ className = "size-4 text-[#079455]" }) {
   return (
@@ -26,7 +27,7 @@ function DoubleCheckIcon({ className = "size-4 text-[#079455]" }) {
 
 function UserAvatar({ avatar, name }) {
   return (
-    <div className="bg-white border-[#697586] border-[0.531px] border-solid rounded-full shrink-0 size-[34px] flex items-center justify-center overflow-hidden">
+    <div className="bg-white border-[#697586] border-[0.531px] border-solid rounded-full shrink-0 size-[34px] flex items-center justify-center overflow-hidden transition-transform duration-200 hover:scale-105 shadow-xs">
       {avatar ? (
         <img src={avatar} alt="" className="size-full object-cover" />
       ) : name ? (
@@ -112,20 +113,35 @@ export default function ChatWindowPage({ selectedUser }) {
 
   if (!selectedUser) {
     return (
-      <div className="flex h-full items-center justify-center rounded-xl bg-white">
-        <p className="text-gray-500">
-          Select a person to start chatting
-        </p>
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="flex h-screen items-center justify-center rounded-3px bg-white border border-[#d1d1d1]"
+      >
+        <div className="flex flex-col items-center gap-3 text-center px-4">
+          <div className="w-14 h-14 rounded-full bg-gray-50 border border-[#eef2f6] flex items-center justify-center">
+            <img src="/images/icons/chat.svg" alt="" className="w-6 h-6 opacity-40" />
+          </div>
+          <p className="text-gray-500 text-base font-normal">
+            Select a person to start chatting
+          </p>
+        </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className="flex  flex-col rounded-3px bg-white border border-[#d1d1d1] h-screen">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.25 }}
+      className="flex flex-col rounded-3px bg-white border border-[#d1d1d1] h-screen"
+    >
       {/* Header */}
       <div className="border-b border-[#d1d1d1] p-4">
         <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white text-base">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white text-base shadow-xs transition-transform duration-200 hover:scale-105">
             {selectedUser.name?.charAt(0) || "U"}
           </div>
           <div className="flex flex-col gap-1">
@@ -133,57 +149,74 @@ export default function ChatWindowPage({ selectedUser }) {
               {selectedUser.name}
             </h2>
 
-            <p className="text-[#d2d2d2] text-base font-medium">
-              Online
-            </p>
+            <div className="flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block shrink-0" />
+              <p className="text-[#d2d2d2] text-base font-medium">
+                Online
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Messages */}
       <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-[16px]">
-        {messages.map((message) => {
-          const isMe = message.sender === "me";
+        <AnimatePresence initial={false}>
+          {messages.map((message) => {
+            const isMe = message.sender === "me";
 
-          return isMe ? (
-            /* Sender (Me) - Right Aligned with white bubble & double green checkmarks */
-            <div key={message.id} className="flex flex-col items-end w-full">
-              <div className="flex gap-[8px] items-start justify-end max-w-[85%]">
-                <div className="bg-white shadow-[0px_0px_10px_rgba(74,87,84,0.1)] flex flex-col gap-[8px] items-end justify-center pt-[16px] pb-[8px] pl-[24px] pr-[16px] rounded-[3px]">
-                  <p
-                    className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
-                    dir="auto"
-                  >
-                    {message.text}
-                  </p>
-                  <div className="flex items-center justify-end gap-[6px] text-[#4b5565] text-[11px] tracking-[0.11px]">
-                    <span dir="auto">{message.time}</span>
-                    <DoubleCheckIcon className="size-[16px] text-[#079455] shrink-0" />
+            return isMe ? (
+              /* Sender (Me) - Right Aligned with white bubble & double green checkmarks */
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="flex flex-col items-end w-full"
+              >
+                <div className="flex gap-[8px] items-start justify-end max-w-[85%]">
+                  <div className="bg-white shadow-[0px_0px_10px_rgba(74,87,84,0.1)] hover:shadow-[0px_2px_14px_rgba(74,87,84,0.14)] transition-shadow duration-200 flex flex-col gap-[8px] items-end justify-center pt-[16px] pb-[8px] pl-[24px] pr-[16px] rounded-[3px]">
+                    <p
+                      className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
+                      dir="auto"
+                    >
+                      {message.text}
+                    </p>
+                    <div className="flex items-center justify-end gap-[6px] text-[#4b5565] text-[11px] tracking-[0.11px]">
+                      <span dir="auto">{message.time}</span>
+                      <DoubleCheckIcon className="size-[16px] text-[#079455] shrink-0" />
+                    </div>
+                  </div>
+                  <UserAvatar />
+                </div>
+              </motion.div>
+            ) : (
+              /* Receiver (Worker / Support) - Left Aligned with lavender bubble */
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="flex flex-col items-start w-full"
+              >
+                <div className="flex gap-[8px] items-start justify-start max-w-[85%]">
+                  <UserAvatar avatar={selectedUser?.avatar} />
+                  <div className="bg-[#ede7fd] shadow-[4px_4px_10px_rgba(0,0,77,0.04)] hover:shadow-[4px_6px_14px_rgba(0,0,77,0.08)] transition-shadow duration-200 flex flex-col gap-[8px] items-start justify-center pt-[16px] pb-[8px] pl-[16px] pr-[24px] rounded-[3px]">
+                    <p
+                      className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
+                      dir="auto"
+                    >
+                      {message.text}
+                    </p>
+                    <div className="flex items-center justify-start text-[#4b5565] text-[11px] tracking-[0.11px]">
+                      <span dir="auto">{message.time}</span>
+                    </div>
                   </div>
                 </div>
-                <UserAvatar />
-              </div>
-            </div>
-          ) : (
-            /* Receiver (Worker / Support) - Left Aligned with lavender bubble */
-            <div key={message.id} className="flex flex-col items-start w-full">
-              <div className="flex gap-[8px] items-start justify-start max-w-[85%]">
-                <UserAvatar avatar={selectedUser?.avatar} />
-                <div className="bg-[#ede7fd] shadow-[4px_4px_10px_rgba(0,0,77,0.04)] flex flex-col gap-[8px] items-start justify-center pt-[16px] pb-[8px] pl-[16px] pr-[24px] rounded-[3px]">
-                  <p
-                    className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
-                    dir="auto"
-                  >
-                    {message.text}
-                  </p>
-                  <div className="flex items-center justify-start text-[#4b5565] text-[11px] tracking-[0.11px]">
-                    <span dir="auto">{message.time}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
         <div ref={messagesEndRef} />
       </div>
 
@@ -195,17 +228,20 @@ export default function ChatWindowPage({ selectedUser }) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder={t("Write your message here...")}
-            className="flex-1 rounded-3px border border-[#666B6D3D] p-5 outline-none"
+            className="flex-1 rounded-3px border border-[#666B6D3D] p-5 outline-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20"
           />
 
-          <button
+          <motion.button
             type="submit"
-            className="rounded-3px bg-primary px-5 text-white cursor-pointer hover:opacity-90 transition-opacity"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            className="rounded-3px bg-primary px-5 text-white cursor-pointer transition-colors duration-200 hover:brightness-105 shadow-xs flex items-center justify-center"
           >
-            <img src="/images/icons/sendLogo.svg" alt="" />
-          </button>
+            <img src="/images/icons/sendLogo.svg" alt="" className="transition-transform duration-200 group-hover:scale-105" />
+          </motion.button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
