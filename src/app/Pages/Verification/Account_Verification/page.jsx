@@ -33,41 +33,41 @@ function Account_VerificationPage() {
 
           <div className="relative grid grid-cols-3">
           
-{steps.map((step) => {
-  const isActive = currentStep === step.id;
-  const isCompleted = currentStep > step.id;
+            {steps.map((step) => {
+              const isActive = currentStep === step.id;
+              const isCompleted = currentStep > step.id;
 
-  return (
-    <div
-      key={step.id}
-      className="flex flex-col items-center gap-3"
-    >
-      <div
-        className={`z-10 flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold transition-all duration-300 ${
-          isCompleted
-            ? "border-primary bg-primary text-white"
-            : isActive
-              ? "border-primary bg-white text-primary"
-              : "border-gray-200 bg-gray-100 text-gray-400"
-        }`}
-      >
-        {isCompleted ? "✓" : step.id}
-      </div>
+              return (
+                <div
+                  key={step.id}
+                  className="flex flex-col items-center gap-3"
+                >
+                  <div
+                    className={`z-10 flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold transition-all duration-300 ${
+                      isCompleted
+                        ? "border-primary bg-primary text-white"
+                        : isActive
+                          ? "border-primary bg-white text-primary"
+                          : "border-gray-200 bg-gray-100 text-gray-400"
+                    }`}
+                  >
+                    {isCompleted ? "✓" : step.id}
+                  </div>
 
-      <span
-        className={`text-center text-xs transition-colors sm:text-sm ${
-          isActive
-            ? "font-semibold text-primary"
-            : isCompleted
-              ? "text-primary"
-              : "text-gray-400"
-        }`}
-      >
-        {step.title}
-      </span>
-    </div>
-  );
-})}
+                  <span
+                    className={`text-center text-xs transition-colors sm:text-sm ${
+                      isActive
+                        ? "font-semibold text-primary"
+                        : isCompleted
+                          ? "text-primary"
+                          : "text-gray-400"
+                    }`}
+                  >
+                    {step.title}
+                  </span>
+                </div>
+              );
+            })}
 
           </div>
         </div>
