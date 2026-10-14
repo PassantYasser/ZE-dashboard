@@ -3,13 +3,14 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useTranslation } from 'react-i18next'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 function ModulesPage() {
   const { t } = useTranslation('')
   const [selectedModule, setSelectedModule] = useState(null)
+  const router = useRouter()
 
-  const inputClassName =
-    "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+  const inputClassName ="w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
 
   const moduleStyle = [
     {
@@ -118,23 +119,25 @@ function ModulesPage() {
         })}
       </div>
 
-      {/* Navigation */}
-          <div className="mt-8 flex gap-4  pt-6">
-            <button
-              type="button"
-              className="rounded-3px  w-[20%] h-14  bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
-            >
-              التالي
-            </button>
-            <button
-              type="button"
-              className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
-            >
-              الرجوع
-            </button>
+      {/* btn */}
+      <div className="mt-8 flex gap-4  pt-6">
+        <button
+          type="button"
+          onClick={() => router.push('/Pages/Verification/Account_Verification')}
+          className="rounded-3px  w-[20%] h-14  bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
+        >
+          التالي
+        </button>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
+        >
+          الرجوع
+        </button>
 
-            
-          </div>
+        
+      </div>
     </MainLayout>
   )
 }
