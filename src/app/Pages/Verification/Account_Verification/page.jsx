@@ -84,22 +84,20 @@ function Account_VerificationPage() {
           {currentStep === 3 && <ReviewAndSend />}
 
           {/* Navigation */}
-          <div className="mt-8 flex gap-4 pt-6">
+          <div className="mt-8 flex gap-4 py-6">
             
             {currentStep < steps.length ? (
               <button
                 type="button"
                 onClick={nextStep}
-                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F]"
+                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
               >
                 التالي
               </button>
             ) : (
               <button
                 type="button"
-                onClick={() => {
-                }}
-                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F]"
+                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
               >
                 إرسال الطلب
               </button>
@@ -109,7 +107,7 @@ function Account_VerificationPage() {
               type="button"
               onClick={previousStep}
               disabled={currentStep === 1}
-              className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
             >
               الرجوع
             </button>
