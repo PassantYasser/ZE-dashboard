@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Data from './Data'
 import Documents from './Documents'
 
-function ReviewAndSendPage() {
+function ReviewAndSendPage({ onGoToFirstStage }) {
   const { t } = useTranslation()
 
 
@@ -21,7 +21,7 @@ function ReviewAndSendPage() {
       </header>
 
       {/* Data */}
-      <Data />
+      <Data onGoToFirstStage={onGoToFirstStage} />
 
       {/* Documents */}
       <Documents />

@@ -1846,12 +1846,8 @@
   "I acknowledge the accuracy of all data and documents entered and I bear full legal responsibility for this.":"أقر بصحة جميع البيانات والمستندات المدخلة وأتحمل المسؤولية القانونية الكاملة حيال ذلك.",
   "The application is reviewed and approved by the relevant authority.":"يتم مراجعة واعتماد الطلب من قبل الجهة المختصة",
   "Your order will be processed after payment is completed.":"سيتم رفع طلبك بعد استكمال عملية الدفع",
-  
-
-  
-
-
-
+  "Submit the request for review": "إرسال الطلب للمراجعة",
+  "Edit previous data": "تعديل البيانات السابقة",
 
   "":""
 }

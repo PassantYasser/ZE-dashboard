@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Data() {
+function Data({ onGoToFirstStage }) {
   const { t } = useTranslation()
   return (
     <div className='border border-[#E7E5E4E5] rounded-3px p-3'>
@@ -12,7 +12,13 @@ function Data() {
           <span className='text-[#1C1917] text-base font-semibold'>{t('Business establishment data')}</span>
         </p>
 
-        <button className='text-primary text-sm font-bold cursor-pointer'>{t('modification')}</button>
+        <button 
+          type="button"
+          onClick={onGoToFirstStage}
+          className='text-primary text-sm font-bold cursor-pointer'
+        >
+          {t('modification')}
+        </button>
       </div>
       
 
