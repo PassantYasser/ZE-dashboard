@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBusinessModuleRequirements, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
@@ -273,6 +273,18 @@ export const getBussinessModuleThunk = createAsyncThunk('/getBussinessModule',
   }
 )
 
+export const getBusinessModuleRequirementsThunk = createAsyncThunk(
+  'auth/getBusinessModuleRequirements',
+  async (module_key, { rejectWithValue }) => {
+    try {
+      const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key;
+      const response = await getBusinessModuleRequirements(key);
+      return response.data || response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+);
   
 
 
@@ -298,6 +310,8 @@ const initialState = {
 
   //verification
   getBussinessModule:null,
+  getBusinessModuleRequirements:null,
+
 
 
 };
@@ -578,6 +592,19 @@ const authSlice = createSlice({
       state.error = action.payload;
     })
 
+    //getBusinessModuleRequirementsThunk
+    .addCase(getBusinessModuleRequirementsThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getBusinessModuleRequirementsThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.getBusinessModuleRequirements = action.payload;
+    })
+    .addCase(getBusinessModuleRequirementsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
 
 

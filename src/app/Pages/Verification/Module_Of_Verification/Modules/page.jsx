@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getBussinessModuleThunk } from '@/redux/slice/Auth/AuthSlice'
+import { getBussinessModuleThunk, getBusinessModuleRequirementsThunk } from '@/redux/slice/Auth/AuthSlice'
 import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
 
 function ModulesPage() {
@@ -70,9 +70,28 @@ function ModulesPage() {
     },
   ]
 
-  const handleModuleChange = (id) => {
-    setSelectedModule((prev) => (prev === id ? null : id))
-  }
+  const handleModuleChange = (item) => {
+    const isCurrentlySelected = selectedModule === item.id;
+    const newSelected = isCurrentlySelected ? null : item.id;
+    setSelectedModule(newSelected);
+
+    if (!isCurrentlySelected && item?.module_key) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('selected_module_key', item.module_key);
+      }
+      dispatch(getBusinessModuleRequirementsThunk(item.module_key));
+    }
+  };
+
+  const handleNext = () => {
+    const selectedItem = getBussinessModule?.find((item) => item.id === selectedModule);
+    const key = selectedItem?.module_key || (typeof window !== 'undefined' ? localStorage.getItem('selected_module_key') : null);
+    if (key) {
+      router.push(`/Pages/Verification/Account_Verification?module_key=${key}`);
+    } else {
+      router.push('/Pages/Verification/Account_Verification');
+    }
+  };
 
   return (
     <HiddenItemsLayout>
@@ -101,7 +120,8 @@ function ModulesPage() {
           return (
             <div
               key={item.id}
-              className={`border rounded-3px p-3.5 flex justify-between transition-colors duration-200 ${
+              onClick={() => handleModuleChange(item)}
+              className={`border rounded-3px p-3.5 flex justify-between transition-colors duration-200 cursor-pointer ${
                 isChecked ? "border-primary" : "border-[#E5E5E5]"
               }`}
             >
@@ -129,7 +149,8 @@ function ModulesPage() {
                 <input
                   type="checkbox"
                   checked={isChecked}
-                  onChange={() => handleModuleChange(item.id)}
+                  onChange={() => handleModuleChange(item)}
+                  onClick={(e) => e.stopPropagation()}
                   className={inputClassName}
                 />
               </div>
@@ -142,7 +163,7 @@ function ModulesPage() {
       <div className="mt-8 flex gap-4  pt-6">
         <button
           type="button"
-          onClick={() => router.push('/Pages/Verification/Account_Verification')}
+          onClick={handleNext}
           className="rounded-3px  w-[20%] h-14  bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
         >
           التالي
@@ -154,8 +175,6 @@ function ModulesPage() {
         >
           الرجوع
         </button>
-
-        
       </div>
     </HiddenItemsLayout>
   )
