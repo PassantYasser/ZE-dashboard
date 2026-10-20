@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
@@ -254,6 +254,25 @@ export const UpdateInSignupThunk = createAsyncThunk('auth/UpdateInSignupThunk',
     }
   )
 
+
+
+
+
+/**===================verification ================================ */
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+export const getBussinessModuleThunk = createAsyncThunk('/getBussinessModule',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getBussinessModule()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+)
+
   
 
 
@@ -276,6 +295,10 @@ const initialState = {
   emailExists: null,
   registerationData:null,
   role: "", // Add role here
+
+  //verification
+  getBussinessModule:null,
+
 
 };
 
@@ -305,253 +328,255 @@ const authSlice = createSlice({
 
 /* ========== Login ========== */
     // loginThunk
-      .addCase(loginThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(loginThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.provider; 
-        state.isAuthenticated = true;
-        state.error = null;
-      })
-      .addCase(loginThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload; 
-        state.isAuthenticated = false;
-      })
+    .addCase(loginThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(loginThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload.provider; 
+      state.isAuthenticated = true;
+      state.error = null;
+    })
+    .addCase(loginThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload; 
+      state.isAuthenticated = false;
+    })
 
-    // getCurrentLoginThunk
-      .addCase(getCurrentLoginThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getCurrentLoginThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.provider;
-        state.isAuthenticated = true;
-      })
-      .addCase(getCurrentLoginThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        state.user = null;
-        state.isAuthenticated = false;
-      })
+  // getCurrentLoginThunk
+    .addCase(getCurrentLoginThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(getCurrentLoginThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload.provider;
+      state.isAuthenticated = true;
+    })
+    .addCase(getCurrentLoginThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.user = null;
+      state.isAuthenticated = false;
+    })
 
 /* ========== FORGET PASSWORD APIs ========== */
-    // forgetPassEnterEmailThunk
-      .addCase(forgetPassEnterEmailThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(forgetPassEnterEmailThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-        state.method = "email";
-      })
-      .addCase(forgetPassEnterEmailThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+  // forgetPassEnterEmailThunk
+    .addCase(forgetPassEnterEmailThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(forgetPassEnterEmailThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.otpSent = true;
+      state.method = "email";
+    })
+    .addCase(forgetPassEnterEmailThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      //forgetPassEnterPhoneThunk
-      .addCase(forgetPassEnterPhoneThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(forgetPassEnterPhoneThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-        state.method = "phone";
-      })
-      .addCase(forgetPassEnterPhoneThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    //forgetPassEnterPhoneThunk
+    .addCase(forgetPassEnterPhoneThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(forgetPassEnterPhoneThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.otpSent = true;
+      state.method = "phone";
+    })
+    .addCase(forgetPassEnterPhoneThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      // // forgetPassVerifyEmailOtpThunk
-      .addCase(forgetPassVerifyEmailOtpThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(forgetPassVerifyEmailOtpThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.verified = true;
-      })
-      .addCase(forgetPassVerifyEmailOtpThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })  
-      
-      // // forgetPassVerifyPhoneOtpThunk
-      .addCase(forgetPassVerifyPhoneOtpThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      } )
-      .addCase(forgetPassVerifyPhoneOtpThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.verified = true;
-      })
-      .addCase(forgetPassVerifyPhoneOtpThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    // // forgetPassVerifyEmailOtpThunk
+    .addCase(forgetPassVerifyEmailOtpThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(forgetPassVerifyEmailOtpThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.verified = true;
+    })
+    .addCase(forgetPassVerifyEmailOtpThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })  
+    
+    // // forgetPassVerifyPhoneOtpThunk
+    .addCase(forgetPassVerifyPhoneOtpThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    } )
+    .addCase(forgetPassVerifyPhoneOtpThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.verified = true;
+    })
+    .addCase(forgetPassVerifyPhoneOtpThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      // Reset password
-      .addCase(resetPasswordThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = null;
-      })
-      .addCase(resetPasswordThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = action.payload.message;
-      })
-      .addCase(resetPasswordThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    // Reset password
+    .addCase(resetPasswordThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.success = null;
+    })
+    .addCase(resetPasswordThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload.message;
+    })
+    .addCase(resetPasswordThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 /* ==========  ❌old SIGNUP APIs ========== */
-      // signupThunk
-      .addCase(signupThunk.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-      .addCase(signupThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(signupThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // checkEmailThunk
-      .addCase(checkEmailThunk.pending, (state) => {
+    // signupThunk
+    .addCase(signupThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(checkEmailThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.emailExists = action.payload.exists;
-      })
-      .addCase(checkEmailThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        state.emailExists = null;
-      })
+    .addCase(signupThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    })
+    .addCase(signupThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      //forgetPassEnterPhoneThunk
-      .addCase(checkEnterPhoneThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(checkEnterPhoneThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-        state.method = "phone";
-      })
-      .addCase(checkEnterPhoneThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    // checkEmailThunk
+    .addCase(checkEmailThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(checkEmailThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.emailExists = action.payload.exists;
+    })
+    .addCase(checkEmailThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.emailExists = null;
+    })
 
-      //VerifyPhoneOtpThunk
-      .addCase(VerifyPhoneOtpThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(VerifyPhoneOtpThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-        state.method = "phone";
-      })
-      .addCase(VerifyPhoneOtpThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    //forgetPassEnterPhoneThunk
+    .addCase(checkEnterPhoneThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(checkEnterPhoneThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.otpSent = true;
+      state.method = "phone";
+    })
+    .addCase(checkEnterPhoneThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      // sendEmailThunk
-      .addCase(sendEmailThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(sendEmailThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otpSent = true;
-        state.method = "email";
-      })
-      .addCase(sendEmailThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    //VerifyPhoneOtpThunk
+    .addCase(VerifyPhoneOtpThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(VerifyPhoneOtpThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.otpSent = true;
+      state.method = "phone";
+    })
+    .addCase(VerifyPhoneOtpThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      // VerifyEmailOtpThunk
-      .addCase(VerifyEmailOtpThunk.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(VerifyEmailOtpThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.verified = true;
-      })
-      .addCase(VerifyEmailOtpThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })  
+    // sendEmailThunk
+    .addCase(sendEmailThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(sendEmailThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.otpSent = true;
+      state.method = "email";
+    })
+    .addCase(sendEmailThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    // VerifyEmailOtpThunk
+    .addCase(VerifyEmailOtpThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(VerifyEmailOtpThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.verified = true;
+    })
+    .addCase(VerifyEmailOtpThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })  
 /* ==========  ✔️NEW SIGNUP APIs ========== */
-      // FirstRegistrationThunk
-      .addCase(FirstRegistrationThunk.pending, (state) => {
+    // FirstRegistrationThunk
+    .addCase(FirstRegistrationThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(FirstRegistrationThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.registerationData = action.payload;
+    })
+    .addCase(FirstRegistrationThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    // SecondRegistrationThunk
+    .addCase(SecondRegistrationThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(SecondRegistrationThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.registerationData = action.payload;
+    })
+    .addCase(SecondRegistrationThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+      // UpdateInSignupThunk
+    .addCase(UpdateInSignupThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(FirstRegistrationThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.registerationData = action.payload;
-      })
-      .addCase(FirstRegistrationThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      // SecondRegistrationThunk
-      .addCase(SecondRegistrationThunk.pending, (state) => {
+    .addCase(UpdateInSignupThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+    })
+    .addCase(UpdateInSignupThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+
+    //getBussinessModuleThunk
+    .addCase(getBussinessModuleThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(SecondRegistrationThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.registerationData = action.payload;
-      })
-      .addCase(SecondRegistrationThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // UpdateInSignupThunk
-      .addCase(UpdateInSignupThunk.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-      .addCase(UpdateInSignupThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-      })
-      .addCase(UpdateInSignupThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    .addCase(getBussinessModuleThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.getBussinessModule = action.payload;
+    })
+    .addCase(getBussinessModuleThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
 
 

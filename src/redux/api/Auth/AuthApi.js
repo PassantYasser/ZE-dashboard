@@ -139,3 +139,12 @@ export const UpdateInSignup = async (FormData) => {
 
 
 
+/**===================verification ================================ */
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+
+export const getBussinessModule = async()=>{
+  const response = await API.get('/provider/business-modules')
+  return response.data
+}

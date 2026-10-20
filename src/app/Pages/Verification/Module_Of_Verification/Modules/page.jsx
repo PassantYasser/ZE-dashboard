@@ -2,11 +2,24 @@
 
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useTranslation } from 'react-i18next'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBussinessModuleThunk } from '@/redux/slice/Auth/AuthSlice'
+import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
 
 function ModulesPage() {
   const { t } = useTranslation('')
+  //api
+  const dispatch = useDispatch()
+  const {getBussinessModule} = useSelector((state)=>state.auth)
+  useEffect(()=>{
+    dispatch(getBussinessModuleThunk())
+  },[dispatch])
+
+  // console.log('getBussinessModule' , getBussinessModule);
+
+
   const [selectedModule, setSelectedModule] = useState(null)
   const router = useRouter()
 
@@ -62,7 +75,7 @@ function ModulesPage() {
   }
 
   return (
-    <MainLayout>
+    <HiddenItemsLayout>
       <div className="flex flex-col gap-1">
         <h1 className="text-[#171717] text-2xl font-semibold">
           {t('Choose your business')}
@@ -76,14 +89,20 @@ function ModulesPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mt-15">
-        {moduleStyle.map((module) => {
-          const isChecked = selectedModule === module.id
+        {getBussinessModule?.map((item) => {
+          const module = moduleStyle.find(
+            (module) => module.id === item.id
+          );
+
+          if (!module) return null;
+
+          const isChecked = selectedModule === item.id;
 
           return (
             <div
-              key={module.id}
+              key={item.id}
               className={`border rounded-3px p-3.5 flex justify-between transition-colors duration-200 ${
-                isChecked ? 'border-primary' : 'border-[#E5E5E5]'
+                isChecked ? "border-primary" : "border-[#E5E5E5]"
               }`}
             >
               <div className="flex gap-4">
@@ -97,11 +116,11 @@ function ModulesPage() {
 
                 <div className="flex flex-col">
                   <h1 className="text-[#171717] text-lg font-normal">
-                    {module.name}
+                    {item.name}
                   </h1>
 
                   <p className="text-[#737373] text-base font-medium">
-                    {t('amount')} : {module.price}$
+                    {t("amount")} : {module.price}$
                   </p>
                 </div>
               </div>
@@ -110,12 +129,12 @@ function ModulesPage() {
                 <input
                   type="checkbox"
                   checked={isChecked}
-                  onChange={() => handleModuleChange(module.id)}
+                  onChange={() => handleModuleChange(item.id)}
                   className={inputClassName}
                 />
               </div>
             </div>
-          )
+          );
         })}
       </div>
 
@@ -138,7 +157,7 @@ function ModulesPage() {
 
         
       </div>
-    </MainLayout>
+    </HiddenItemsLayout>
   )
 }
 
