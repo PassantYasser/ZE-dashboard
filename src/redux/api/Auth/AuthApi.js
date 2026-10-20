@@ -68,11 +68,12 @@ export const signup = async (formData) => {
   return response.data;
 };
 
-//❌ check email if exists
-export const checkEmail = async(email)=>{
-  const response = await  API.post('/provider/check-email',{email})
-  return response.data
-}
+// check email if exists
+export const checkEmail = async(data)=>{
+  const email = typeof data === 'object' && data !== null ? data.email : data;
+  const response = await API.post('/provider/check-email', { email });
+  return response.data;
+};
 
 //✔️Enter phone to send otp type: new
 export const checkEnterPhone = async({phone})=>{
@@ -86,9 +87,11 @@ export const VerifyPhoneOtp = async(payload)=>{
   return response.data;
 }
 
-//✔️Enter email to send otp type: forgot
-export const sendEmail = async({email})=>{
-  const response = await API.post('/provider/send-email-otp',{email,'type':'new'});
+//✔️Enter email to send otp type: new
+export const sendEmail = async(data)=>{
+  const email = typeof data === 'object' && data !== null ? data.email : data;
+  const type = (typeof data === 'object' && data !== null && data.type) ? data.type : 'new';
+  const response = await API.post('/provider/send-email-otp', { email, type });
   return response.data;
 };
 

@@ -185,9 +185,9 @@ export const VerifyPhoneOtpThunk= createAsyncThunk('auth/VerifyPhoneOtpThunk',
 
 //✔️ send email to send otp for new email
 export const sendEmailThunk= createAsyncThunk('auth/sendEmailThunk',
-  async({email} , thunkAPI)=>{
+  async(payload , thunkAPI)=>{
     try{
-      const data = await sendEmail({email})
+      const data = await sendEmail(payload)
       return data
     }catch(error){
       return thunkAPI.rejectWithValue(
