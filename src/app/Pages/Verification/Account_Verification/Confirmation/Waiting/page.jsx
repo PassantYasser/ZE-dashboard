@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
+import { routerServerGlobal } from 'next/dist/server/lib/router-utils/router-server-context'
 
 function WaitingContent() {
   const { t } = useTranslation()
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [copied, setCopied] = useState(false)
   const [formattedDate, setFormattedDate] = useState('12 سبتمبر 2025 - 10:24 ص')
 
@@ -149,6 +151,10 @@ function WaitingContent() {
           </div>
         </div>
       </div>
+
+
+      {/* btn rejected */}
+      <button onClick={()=>{router.push('/Pages/Verification/Account_Verification/Confirmation/Rejected')}} className='border'>reject</button>
     </HiddenItemsLayout>
   )
 }
