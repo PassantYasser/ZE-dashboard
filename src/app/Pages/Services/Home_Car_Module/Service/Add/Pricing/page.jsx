@@ -1,31 +1,65 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-function PricingPage({handlePrev , handleGoBack ,formData,handleChange ,handleSubmit,setFormData ,loadingDetails }) {
+function PricingPage({
+  handlePrev, 
+  handleGoBack, 
+  formData, 
+  handleChange, 
+  handleSubmit, 
+  setFormData, 
+  loadingDetails,
+  isPricingValid: propIsValid,
+}) {
   const { t } = useTranslation();
-  const [isPriceOnInspection, setIsPriceOnInspection] = useState(false);
-  
+  const [isPriceOnInspection, setIsPriceOnInspection] = useState(
+    Boolean(formData?.price_on_inspection)
+  );
 
-const [open1, setOpen1] = useState(false);
-const [selected1, setSelected1] = useState("");
-const dropdownRef1 = useRef(null);
-const [selectedValue1, setSelectedValue1] = useState(""); 
-const options = [
-  { label: t("constant value"), value: "flat" },
-  { label: t("By the hour"), value: "hour" },
-  { label: t("in kilograms"), value: "kilo" },
-  { label: t("per meter"), value: "meter" },
-];
+  useEffect(() => {
+    setIsPriceOnInspection(Boolean(formData?.price_on_inspection));
+  }, [formData?.price_on_inspection]);
 
-const [open2, setOpen2] = useState(false);
-const [selected2, setSelected2] = useState("");
-const dropdownRef2 = useRef(null);
-const optionRates = [
-  {label:t("percentage") ,  value:"percent"},
-  {label:t("constant value") , value:"flat"}
-];
-const [selectedValue2, setSelectedValue2] = useState(""); 
+  const [open1, setOpen1] = useState(false);
+  const [selected1, setSelected1] = useState("");
+  const dropdownRef1 = useRef(null);
+  const options = [
+    { label: t("constant value"), value: "flat" },
+    { label: t("By the hour"), value: "hour" },
+    { label: t("in kilograms"), value: "kilo" },
+    { label: t("per meter"), value: "meter" },
+  ];
+
+  const [open2, setOpen2] = useState(false);
+  const [selected2, setSelected2] = useState("");
+  const dropdownRef2 = useRef(null);
+  const optionRates = [
+    { label: t("percentage"), value: "percent" },
+    { label: t("constant value"), value: "flat" }
+  ];
+
+  useEffect(() => {
+    if (formData?.pricing_type) {
+      const match = options.find((o) => o.value === formData.pricing_type);
+      if (match) setSelected1(match.label);
+    }
+    if (formData?.discount_type) {
+      const match = optionRates.find((o) => o.value === formData.discount_type);
+      if (match) setSelected2(match.label);
+    }
+  }, [formData?.pricing_type, formData?.discount_type]);
+
+  const isPricingValid = propIsValid !== undefined ? propIsValid : Boolean(
+    formData?.inspection_price?.toString().trim() &&
+    (
+      formData?.price_on_inspection ||
+      (
+        formData?.pricing_type &&
+        (!formData?.discount?.toString().trim() || formData?.discount_type)
+      )
+    )
+  );
 
   return (
     <>
@@ -102,7 +136,6 @@ const [selectedValue2, setSelectedValue2] = useState("");
                         key={index}
                         onClick={() => {
                           setSelected1(option.label);      
-                          setSelectedValue1(option.value); 
                           setOpen1(false);
                           handleChange("pricing_type", option.value);
                         }}
@@ -162,7 +195,6 @@ const [selectedValue2, setSelectedValue2] = useState("");
                         key={index}
                         onClick={() => {
                           setSelected2(option.label);
-                          setSelectedValue2(option.value); 
                           setOpen2(false);
                           handleChange("discount_type", option.value);
                         }}
@@ -187,23 +219,26 @@ const [selectedValue2, setSelectedValue2] = useState("");
       </div>
 
       <div className="my-12 flex gap-3">
-      <button 
-        onClick={handlePrev} 
-        className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer"
-      >
-        {t('the previous')}
-      </button>
-    
-      <button
-        onClick={handleSubmit}
-        disabled={loadingDetails}
-        className={`border w-58 h-13.5 py-2.5 px-4 rounded-3px ${
-          loadingDetails ? "bg-gray-400 cursor-not-allowed" : "bg-primary cursor-pointer"
-        } text-white text-base font-medium`}
-      >
-        {loadingDetails ? t("Saving...") : t("save")}
-      </button>
-
+        <button 
+          type="button"
+          onClick={handlePrev} 
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer transition hover:bg-yellow-50"
+        >
+          {t('Return')}
+        </button>
+      
+        <button
+          type="button"
+          onClick={handleSubmit}
+          disabled={loadingDetails || !isPricingValid}
+          className={`border w-58 h-13.5 py-2.5 px-4 rounded-3px text-white text-base font-medium transition ${
+            loadingDetails || !isPricingValid
+              ? "bg-gray-400 border-gray-400 opacity-60 cursor-not-allowed"
+              : "bg-primary border-primary cursor-pointer hover:bg-[#AD850F]"
+          }`}
+        >
+          {loadingDetails ? t("Saving...") : t("save")}
+        </button>
       </div>
   
     </>

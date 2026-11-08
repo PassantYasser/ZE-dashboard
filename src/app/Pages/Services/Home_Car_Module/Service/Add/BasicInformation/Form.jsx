@@ -69,6 +69,26 @@ function Form({ formData, handleChange }) {
   // ⭐ ONLY children of selected category
   const optionSubService = selected2?.children || [];
 
+  // Sync selected2 and selected3 from formData if already present
+  useEffect(() => {
+    if (formData?.category_id && getCategories?.length > 0 && !selected2) {
+      for (const cat of getCategories) {
+        if (cat.id === formData.category_id) {
+          setSelected2(cat);
+          break;
+        }
+        if (cat.children?.length > 0) {
+          const matchedChild = cat.children.find((c) => c.id === formData.category_id);
+          if (matchedChild) {
+            setSelected2(cat);
+            setSelected3(matchedChild);
+            break;
+          }
+        }
+      }
+    }
+  }, [formData?.category_id, getCategories, selected2]);
+
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
   const dropdownRef4 = useRef(null);
@@ -100,10 +120,16 @@ function Form({ formData, handleChange }) {
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
 
+  const handleOpenDuration = () => {
+    setTempTime(confirmedTime || dayjs().hour(1).minute(0));
+    setOpen5(true);
+  };
+
   const handleOkClick = () => {
-    setConfirmedTime(tempTime);
+    const timeToSet = tempTime || confirmedTime || dayjs().hour(1).minute(0);
+    setConfirmedTime(timeToSet);
     setOpen5(false);
-    const formatted = dayjs(tempTime).format("HH:mm");
+    const formatted = dayjs(timeToSet).format("HH:mm");
     handleChange("duration", formatted);
   };
 
@@ -171,7 +197,11 @@ function Form({ formData, handleChange }) {
                         setOpen2(false);
                         setSelected3(null);
                         setSearchValue3("");
-                        handleChange("category_id", option.id);
+                        if (option.children && option.children.length > 0) {
+                          handleChange("category_id", "");
+                        } else {
+                          handleChange("category_id", option.id);
+                        }
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -210,6 +240,7 @@ function Form({ formData, handleChange }) {
                   setSearchValue3(e.target.value);
                   setOpen3(true);
                   setSelected3(null);
+                  handleChange("category_id", "");
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
@@ -320,7 +351,7 @@ function Form({ formData, handleChange }) {
 
           {/* Clickable box */}
           <div
-            onClick={() => setOpen5(true)}
+            onClick={handleOpenDuration}
             className="h-15 p-3 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
           >
             <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
@@ -350,6 +381,7 @@ function Form({ formData, handleChange }) {
 
               <div className="flex justify-end mt-4">
                 <button
+                  type="button"
                   onClick={handleOkClick}
                   className="bg-primary text-white px-4 py-1 rounded-3px cursor-pointer"
                 >
