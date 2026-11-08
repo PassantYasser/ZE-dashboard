@@ -1875,7 +1875,11 @@
   "required":"مطلوب",
   "Hour":"ساعة",
   "Minute":"دقيقة",
-
+  "Processing...":"جارٍ المعالجة...",
+  "Failed to reject booking":"فشل رفض الحجز",
+  "Failed to accept booking":"فشل قبول الحجز",
+  "Booking accepted successfully":"تم قبول الحجز بنجاح",
+  "Booking rejected successfully":"تم رفض الطلب بنجاح",
 
 
   "":""

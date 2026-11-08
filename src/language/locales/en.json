@@ -1873,6 +1873,12 @@
   "required":"required",
   "Hour":"Hour",
   "Minute":"Minute",
+  "Processing...":"Processing...",
+  "Failed to reject booking":"Failed to reject booking",
+  "Failed to accept booking":"Failed to accept booking",
+  "Booking accepted successfully":"Booking accepted successfully",
+  "Booking rejected successfully":"Booking rejected successfully",
+  
   
 
 
