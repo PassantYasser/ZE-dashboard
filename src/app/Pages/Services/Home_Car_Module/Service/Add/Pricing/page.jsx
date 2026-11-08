@@ -40,6 +40,16 @@ function PricingPage({
   ];
 
   useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
+
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+  useEffect(() => {
     if (formData?.pricing_type) {
       const match = options.find((o) => o.value === formData.pricing_type);
       if (match) setSelected1(match.label);
@@ -163,14 +173,14 @@ function PricingPage({
                 value={formData?.discount}
                 onChange={(e)=>handleChange('discount',e.target.value)}
                 placeholder={t("Enter the discount price")}
-                className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-3px focus:outline-none"
+                className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-3px rounded-l-none focus:outline-none"
               />
       
               {/* Dropdown sale */}
               <div className="relative w-[15%]" ref={dropdownRef2}>
                 <div
                   onClick={() => setOpen2(!open2)}
-                  className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
+                  className="bg-[#EEF2F6] p-3 h-13.5 border border-r-0 border-[#C8C8C8] rounded-3px rounded-r-none cursor-pointer flex items-center justify-between"
                 >
                   <span
                     className={
@@ -189,8 +199,7 @@ function PricingPage({
                 </div>
       
                 {open2 && (
-                  <ul className="border border-[#4B5565] bg-white rounded-3px shadow-md z-10">
-                    {optionRates.map((option, index) => (
+                    <ul className="absolute left-0 right-0 top-full border border-t-0 border-[#cbcdcf] bg-white shadow-md z-10">                    {optionRates.map((option, index) => (
                       <li
                         key={index}
                         onClick={() => {
