@@ -210,6 +210,9 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange, isSchedu
                               textAlign: "left",
                               paddingRight: "8px",
                             },
+                            "& .MuiPickersSectionList-root": {
+                              direction: "ltr !important",
+                            },
                             "& .MuiInputAdornment-root": {
                               order: -1,
                               marginLeft: "12px",
@@ -259,6 +262,9 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange, isSchedu
                             "& input": {
                               textAlign: "left",
                               paddingRight: "8px",
+                            },
+                            "& .MuiPickersSectionList-root": {
+                              direction: "ltr !important",
                             },
                             "& .MuiInputAdornment-root": {
                               order: -1,
