@@ -365,27 +365,63 @@ function Form({ formData, handleChange }) {
           {/* Calendar Popup (Dialog) */}
           <Dialog open={open5} onClose={() => setOpen5(false)}>
             <div className="bg-[#eef2f6] p-4 w-[320px]">
+              {/* Column Headers: Hour on the Left, Minutes on the Right */}
+              <div className="flex border-b border-[#CDD5DF] pb-2 mb-3" dir="ltr">
+                <div className="flex-1 text-center font-medium text-sm text-[#364152]">
+                  {t("Hour") }
+                </div>
+                <div className="flex-1 text-center font-medium text-sm text-[#364152]">
+                  {t("minutes") }
+                </div>
+              </div>
+
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MultiSectionDigitalClock
-                  value={tempTime}
-                  onChange={(newValue) => setTempTime(newValue)}
-                  ampm={false}
-                  timeSteps={{ minutes: 15 }}
-                  sx={{
-                    width: "100%",
-                    "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                    "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                  }}
-                />
+                <div dir="ltr" className="w-full">
+                  <MultiSectionDigitalClock
+                    value={tempTime}
+                    onChange={(newValue) => setTempTime(newValue)}
+                    ampm={false}
+                    timeSteps={{ minutes: 15 }}
+                    sx={{
+                      width: "100%",
+                      direction: "ltr",
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      border: "1px solid #CDD5DF",
+                      "& .MuiMultiSectionDigitalClock-root": { 
+                        width: "100%",
+                        direction: "ltr",
+                      },
+                      "& .MuiMultiSectionDigitalClockSection-root": { 
+                        flex: 1,
+                        textAlign: "center",
+                        "& .MuiMenuItem-root": {
+                          justifyContent: "center",
+                        },
+                      },
+                      "& .Mui-selected": {
+                        backgroundColor: "var(--color-primary, #C69815) !important",
+                        color: "white !important",
+                      },
+                    }}
+                  />
+                </div>
               </LocalizationProvider>
 
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  type="button"
+                  onClick={() => setOpen5(false)}
+                  className="px-4 py-1 text-sm border border-gray-300 rounded-3px text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
+                >
+                  {t("cancel") || "إلغاء"}
+                </button>
                 <button
                   type="button"
                   onClick={handleOkClick}
-                  className="bg-primary text-white px-4 py-1 rounded-3px cursor-pointer"
+                  className="bg-primary hover:bg-[#AD850F] text-white text-sm px-4 py-1 rounded-3px cursor-pointer transition"
                 >
-                  {t("Add")}
+                  {t("Add") || "إضافة"}
                 </button>
               </div>
             </div>

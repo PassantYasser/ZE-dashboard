@@ -1871,7 +1871,8 @@
   "ID number must not exceed 16 digits":"ID number must not exceed 16 digits",
   "National ID/Residence Permit Copy":"National ID/Residence Permit Copy",
   "required":"required",
-  
+  "Hour":"Hour",
+  "Minute":"Minute",
   
 
 
