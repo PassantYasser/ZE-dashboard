@@ -8,14 +8,25 @@ import Add_CategoryPage from './Category/Add_Category/page'
 import Item_Of_CategoryPage from './Items/Item_Of_Category/page'
 import Add_ItemsPage from './Items/Add_Items/page'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { getItemsThunk, getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function MenusPage() {
   const {t} = useTranslation()
+  const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('Category')
   const [openAdd , setOpenAdd]= useState(false)
   const [openAddItem , setOpenAddItem]= useState(false)
 
   const [selectedCategory, setSelectedCategory] = useState(null)
+
+  const handleItemAdded = () => {
+    dispatch(getItemsThunk())
+  }
+
+  const handleCategoryAdded = () => {
+    dispatch(getCategoriesThunk())
+  }
 
   return (
     <MainLayout>
@@ -166,11 +177,13 @@ function MenusPage() {
       <Add_CategoryPage 
         open={openAdd}
         setOpen={setOpenAdd}
+        onSuccess={handleCategoryAdded}
       />
 
       <Add_ItemsPage 
         open={openAddItem}
         setOpen={setOpenAddItem}
+        onSuccess={handleItemAdded}
       />
     </MainLayout>
   )
